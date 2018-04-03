@@ -1,0 +1,6 @@
+framework module QNRTCKit {
+  umbrella header "QNRTCKit.h"
+
+  export *
+  module * { export * }
+}

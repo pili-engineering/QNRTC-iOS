@@ -1,0 +1,23 @@
+PODS:
+  - Bugsnag (5.15.4)
+  - QNRTCKit (0.1.0):
+    - QNRTCKit/iphoneos (= 0.1.0)
+    - QNRTCKit/universal (= 0.1.0)
+  - QNRTCKit/iphoneos (0.1.0)
+  - QNRTCKit/universal (0.1.0)
+
+DEPENDENCIES:
+  - Bugsnag (= 5.15.4)
+  - QNRTCKit (from `../`)
+
+EXTERNAL SOURCES:
+  QNRTCKit:
+    :path: ../
+
+SPEC CHECKSUMS:
+  Bugsnag: df1d395695ddf795aa35c23ef4eaef4a04ddcffd
+  QNRTCKit: 36ecb180cd92346547dde49947224e33b86d6a47
+
+PODFILE CHECKSUM: 543c705bba7ab13d24f6d8412cad892f8a6e829f
+
+COCOAPODS: 1.4.0

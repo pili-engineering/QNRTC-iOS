@@ -1,0 +1,588 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5029EC5434AD3A66D8A128FD /* libPods-QNRTCKitDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D8BB45036542B95EF652274E /* libPods-QNRTCKitDemo.a */; };
+		B0769C6F1FBA97100051F9C2 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0769C6E1FBA97090051F9C2 /* VideoToolbox.framework */; };
+		B0769C751FBADAFD0051F9C2 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0769C741FBADAF70051F9C2 /* GLKit.framework */; };
+		B07BB0C72064E61D009218C1 /* user_agreement.html in Resources */ = {isa = PBXBuildFile; fileRef = B07BB0C62064E61C009218C1 /* user_agreement.html */; };
+		B07BB0CB2064E670009218C1 /* QRDAgreementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B07BB0C82064E670009218C1 /* QRDAgreementViewController.m */; };
+		B07BB0CC2064E670009218C1 /* QRDAgreementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B07BB0C92064E670009218C1 /* QRDAgreementViewController.xib */; };
+		B0C660591F94F98300999C9F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B0C660581F94F98300999C9F /* AppDelegate.m */; };
+		B0C660621F94F98300999C9F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B0C660601F94F98300999C9F /* Main.storyboard */; };
+		B0C660641F94F98300999C9F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0C660631F94F98300999C9F /* Assets.xcassets */; };
+		B0C660671F94F98300999C9F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B0C660651F94F98300999C9F /* LaunchScreen.storyboard */; };
+		B0C6606A1F94F98300999C9F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B0C660691F94F98300999C9F /* main.m */; };
+		C30F0F83200F416500A2A1CA /* QRDSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C30F0F82200F416500A2A1CA /* QRDSettingViewController.m */; };
+		C30F0F8D200F58EF00A2A1CA /* QRDJoinRoomView.m in Sources */ = {isa = PBXBuildFile; fileRef = C30F0F8A200F58EF00A2A1CA /* QRDJoinRoomView.m */; };
+		C30F0F8E200F58EF00A2A1CA /* QRDUserNameView.m in Sources */ = {isa = PBXBuildFile; fileRef = C30F0F8C200F58EF00A2A1CA /* QRDUserNameView.m */; };
+		C30F0F91200F590C00A2A1CA /* QRDSettingView.m in Sources */ = {isa = PBXBuildFile; fileRef = C30F0F90200F590C00A2A1CA /* QRDSettingView.m */; };
+		C30F0F98201033BD00A2A1CA /* QRDRTCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C30F0F97201033BD00A2A1CA /* QRDRTCViewController.m */; };
+		C390D397206E2801006BCA55 /* set_back@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C390D396206E2801006BCA55 /* set_back@3x.png */; };
+		C390D399206E28E2006BCA55 /* noChoose@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C390D398206E28E2006BCA55 /* noChoose@3x.png */; };
+		C390D39B206E293D006BCA55 /* up_down@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C390D39A206E293D006BCA55 /* up_down@3x.png */; };
+		C390D39D206E2946006BCA55 /* down_up@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C390D39C206E2946006BCA55 /* down_up@3x.png */; };
+		C3AB77112062355F00A90770 /* launchImage@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C3AB77102062355F00A90770 /* launchImage@2x.jpg */; };
+		C3F800C8200E012A00ECDDC9 /* QRDLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3F800C7200E012A00ECDDC9 /* QRDLoginViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B04AF0921F9652FB009BAFEF /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		474E520E8ACB91CC17307E39 /* Pods-QNRTCKitDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QNRTCKitDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-QNRTCKitDemo/Pods-QNRTCKitDemo.release.xcconfig"; sourceTree = "<group>"; };
+		B04AF08A1F9652A6009BAFEF /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
+		B04AF08C1F9652C7009BAFEF /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
+		B0769C6A1FBA96930051F9C2 /* libc++.1.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.1.tbd"; path = "usr/lib/libc++.1.tbd"; sourceTree = SDKROOT; };
+		B0769C6C1FBA96C10051F9C2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		B0769C6E1FBA97090051F9C2 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
+		B0769C741FBADAF70051F9C2 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		B07BB0C62064E61C009218C1 /* user_agreement.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = user_agreement.html; sourceTree = "<group>"; };
+		B07BB0C82064E670009218C1 /* QRDAgreementViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRDAgreementViewController.m; sourceTree = "<group>"; };
+		B07BB0C92064E670009218C1 /* QRDAgreementViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QRDAgreementViewController.xib; sourceTree = "<group>"; };
+		B07BB0CA2064E670009218C1 /* QRDAgreementViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRDAgreementViewController.h; sourceTree = "<group>"; };
+		B0B4BA491FD31A3D00A5ACA0 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		B0C660541F94F98300999C9F /* QNRTCKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QNRTCKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0C660571F94F98300999C9F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		B0C660581F94F98300999C9F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		B0C660611F94F98300999C9F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		B0C660631F94F98300999C9F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B0C660661F94F98300999C9F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		B0C660681F94F98300999C9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B0C660691F94F98300999C9F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C30F0F81200F416500A2A1CA /* QRDSettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QRDSettingViewController.h; sourceTree = "<group>"; };
+		C30F0F82200F416500A2A1CA /* QRDSettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QRDSettingViewController.m; sourceTree = "<group>"; };
+		C30F0F89200F58EF00A2A1CA /* QRDJoinRoomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRDJoinRoomView.h; sourceTree = "<group>"; };
+		C30F0F8A200F58EF00A2A1CA /* QRDJoinRoomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRDJoinRoomView.m; sourceTree = "<group>"; };
+		C30F0F8B200F58EF00A2A1CA /* QRDUserNameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRDUserNameView.h; sourceTree = "<group>"; };
+		C30F0F8C200F58EF00A2A1CA /* QRDUserNameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRDUserNameView.m; sourceTree = "<group>"; };
+		C30F0F8F200F590C00A2A1CA /* QRDSettingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QRDSettingView.h; sourceTree = "<group>"; };
+		C30F0F90200F590C00A2A1CA /* QRDSettingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QRDSettingView.m; sourceTree = "<group>"; };
+		C30F0F96201033BD00A2A1CA /* QRDRTCViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QRDRTCViewController.h; sourceTree = "<group>"; };
+		C30F0F97201033BD00A2A1CA /* QRDRTCViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QRDRTCViewController.m; sourceTree = "<group>"; };
+		C390D396206E2801006BCA55 /* set_back@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "set_back@3x.png"; path = "Assets.xcassets/set_back.imageset/set_back@3x.png"; sourceTree = "<group>"; };
+		C390D398206E28E2006BCA55 /* noChoose@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "noChoose@3x.png"; path = "Assets.xcassets/noChoose.imageset/noChoose@3x.png"; sourceTree = "<group>"; };
+		C390D39A206E293D006BCA55 /* up_down@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "up_down@3x.png"; path = "Assets.xcassets/up_down.imageset/up_down@3x.png"; sourceTree = "<group>"; };
+		C390D39C206E2946006BCA55 /* down_up@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "down_up@3x.png"; path = "Assets.xcassets/down_up.imageset/down_up@3x.png"; sourceTree = "<group>"; };
+		C3AB77102062355F00A90770 /* launchImage@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "launchImage@2x.jpg"; sourceTree = "<group>"; };
+		C3F800A9200CB41600ECDDC9 /* QRDPublicHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QRDPublicHeader.h; sourceTree = "<group>"; };
+		C3F800C6200E012A00ECDDC9 /* QRDLoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QRDLoginViewController.h; sourceTree = "<group>"; };
+		C3F800C7200E012A00ECDDC9 /* QRDLoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QRDLoginViewController.m; sourceTree = "<group>"; };
+		D687BBCC4CE164F6C9657FE3 /* Pods-QNRTCKitDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QNRTCKitDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QNRTCKitDemo/Pods-QNRTCKitDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		D8BB45036542B95EF652274E /* libPods-QNRTCKitDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-QNRTCKitDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B0C660511F94F98300999C9F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0769C751FBADAFD0051F9C2 /* GLKit.framework in Frameworks */,
+				B0769C6F1FBA97100051F9C2 /* VideoToolbox.framework in Frameworks */,
+				5029EC5434AD3A66D8A128FD /* libPods-QNRTCKitDemo.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7886852D1C10E85A71462359 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D687BBCC4CE164F6C9657FE3 /* Pods-QNRTCKitDemo.debug.xcconfig */,
+				474E520E8ACB91CC17307E39 /* Pods-QNRTCKitDemo.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		B04AF0891F9652A6009BAFEF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B0B4BA491FD31A3D00A5ACA0 /* libz.tbd */,
+				B0769C741FBADAF70051F9C2 /* GLKit.framework */,
+				B0769C6E1FBA97090051F9C2 /* VideoToolbox.framework */,
+				B0769C6C1FBA96C10051F9C2 /* Foundation.framework */,
+				B0769C6A1FBA96930051F9C2 /* libc++.1.tbd */,
+				B04AF08C1F9652C7009BAFEF /* libicucore.tbd */,
+				B04AF08A1F9652A6009BAFEF /* libiconv.tbd */,
+				D8BB45036542B95EF652274E /* libPods-QNRTCKitDemo.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B0C6604B1F94F98200999C9F = {
+			isa = PBXGroup;
+			children = (
+				B0C660561F94F98300999C9F /* QNRTCKitDemo */,
+				B0C660551F94F98300999C9F /* Products */,
+				B04AF0891F9652A6009BAFEF /* Frameworks */,
+				7886852D1C10E85A71462359 /* Pods */,
+			);
+			sourceTree = "<group>";
+		};
+		B0C660551F94F98300999C9F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B0C660541F94F98300999C9F /* QNRTCKitDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B0C660561F94F98300999C9F /* QNRTCKitDemo */ = {
+			isa = PBXGroup;
+			children = (
+				B0C660571F94F98300999C9F /* AppDelegate.h */,
+				B0C660581F94F98300999C9F /* AppDelegate.m */,
+				C30F0F96201033BD00A2A1CA /* QRDRTCViewController.h */,
+				C30F0F97201033BD00A2A1CA /* QRDRTCViewController.m */,
+				C3F800C6200E012A00ECDDC9 /* QRDLoginViewController.h */,
+				C3F800C7200E012A00ECDDC9 /* QRDLoginViewController.m */,
+				C30F0F81200F416500A2A1CA /* QRDSettingViewController.h */,
+				C30F0F82200F416500A2A1CA /* QRDSettingViewController.m */,
+				B07BB0CA2064E670009218C1 /* QRDAgreementViewController.h */,
+				B07BB0C82064E670009218C1 /* QRDAgreementViewController.m */,
+				B07BB0C92064E670009218C1 /* QRDAgreementViewController.xib */,
+				C30F0F88200F58EF00A2A1CA /* ViewTools */,
+				C3F800A9200CB41600ECDDC9 /* QRDPublicHeader.h */,
+				C3AB77102062355F00A90770 /* launchImage@2x.jpg */,
+				C390D396206E2801006BCA55 /* set_back@3x.png */,
+				C390D398206E28E2006BCA55 /* noChoose@3x.png */,
+				C390D39A206E293D006BCA55 /* up_down@3x.png */,
+				C390D39C206E2946006BCA55 /* down_up@3x.png */,
+				B0C660601F94F98300999C9F /* Main.storyboard */,
+				B07BB0C62064E61C009218C1 /* user_agreement.html */,
+				B0C660631F94F98300999C9F /* Assets.xcassets */,
+				B0C660651F94F98300999C9F /* LaunchScreen.storyboard */,
+				B0C660681F94F98300999C9F /* Info.plist */,
+				B0C660691F94F98300999C9F /* main.m */,
+			);
+			path = QNRTCKitDemo;
+			sourceTree = "<group>";
+		};
+		C30F0F88200F58EF00A2A1CA /* ViewTools */ = {
+			isa = PBXGroup;
+			children = (
+				C30F0F8B200F58EF00A2A1CA /* QRDUserNameView.h */,
+				C30F0F8C200F58EF00A2A1CA /* QRDUserNameView.m */,
+				C30F0F89200F58EF00A2A1CA /* QRDJoinRoomView.h */,
+				C30F0F8A200F58EF00A2A1CA /* QRDJoinRoomView.m */,
+				C30F0F8F200F590C00A2A1CA /* QRDSettingView.h */,
+				C30F0F90200F590C00A2A1CA /* QRDSettingView.m */,
+			);
+			path = ViewTools;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B0C660531F94F98300999C9F /* QNRTCKitDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B0C6606D1F94F98300999C9F /* Build configuration list for PBXNativeTarget "QNRTCKitDemo" */;
+			buildPhases = (
+				FFF9D04D8766618C173CF452 /* [CP] Check Pods Manifest.lock */,
+				B0C660501F94F98300999C9F /* Sources */,
+				B0C660511F94F98300999C9F /* Frameworks */,
+				B0C660521F94F98300999C9F /* Resources */,
+				B04AF0921F9652FB009BAFEF /* Embed Frameworks */,
+				45FBCD51C47E0F48596AE5CC /* [CP] Embed Pods Frameworks */,
+				5C8B6A591DB6EF1DC73526AA /* [CP] Copy Pods Resources */,
+				942A63FB5AAA43E9BE0ADEF9 /* Upload Bugsnag dSYM */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = QNRTCKitDemo;
+			productName = PLRTCKitDemo;
+			productReference = B0C660541F94F98300999C9F /* QNRTCKitDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B0C6604C1F94F98200999C9F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0900;
+				ORGANIZATIONNAME = PILI;
+				TargetAttributes = {
+					B0C660531F94F98300999C9F = {
+						CreatedOnToolsVersion = 9.0;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = B0C6604F1F94F98200999C9F /* Build configuration list for PBXProject "QNRTCKitDemo" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = B0C6604B1F94F98200999C9F;
+			productRefGroup = B0C660551F94F98300999C9F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B0C660531F94F98300999C9F /* QNRTCKitDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B0C660521F94F98300999C9F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C390D39D206E2946006BCA55 /* down_up@3x.png in Resources */,
+				B0C660671F94F98300999C9F /* LaunchScreen.storyboard in Resources */,
+				B07BB0C72064E61D009218C1 /* user_agreement.html in Resources */,
+				C390D39B206E293D006BCA55 /* up_down@3x.png in Resources */,
+				C3AB77112062355F00A90770 /* launchImage@2x.jpg in Resources */,
+				C390D399206E28E2006BCA55 /* noChoose@3x.png in Resources */,
+				B07BB0CC2064E670009218C1 /* QRDAgreementViewController.xib in Resources */,
+				B0C660641F94F98300999C9F /* Assets.xcassets in Resources */,
+				C390D397206E2801006BCA55 /* set_back@3x.png in Resources */,
+				B0C660621F94F98300999C9F /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		45FBCD51C47E0F48596AE5CC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-QNRTCKitDemo/Pods-QNRTCKitDemo-frameworks.sh",
+				"${PODS_ROOT}/../../Pod/iphoneos/QNRTCKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/QNRTCKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QNRTCKitDemo/Pods-QNRTCKitDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5C8B6A591DB6EF1DC73526AA /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QNRTCKitDemo/Pods-QNRTCKitDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		942A63FB5AAA43E9BE0ADEF9 /* Upload Bugsnag dSYM */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Upload Bugsnag dSYM";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = "/usr/bin/env ruby";
+			shellScript = "fork do\n  Process.setsid\n  STDIN.reopen(\"/dev/null\")\n  STDOUT.reopen(\"/dev/null\", \"a\")\n  STDERR.reopen(\"/dev/null\", \"a\")\n\n  require 'shellwords'\n\n  Dir[\"#{ENV[\"DWARF_DSYM_FOLDER_PATH\"]}/*/Contents/Resources/DWARF/*\"].each do |dsym|\n    system(\"curl -F dsym=@#{Shellwords.escape(dsym)} -F projectRoot=#{Shellwords.escape(ENV[\"PROJECT_DIR\"])} https://upload.bugsnag.com/\")\n  end\nend\n";
+			showEnvVarsInLog = 0;
+		};
+		FFF9D04D8766618C173CF452 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-QNRTCKitDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B0C660501F94F98300999C9F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C30F0F8E200F58EF00A2A1CA /* QRDUserNameView.m in Sources */,
+				C3F800C8200E012A00ECDDC9 /* QRDLoginViewController.m in Sources */,
+				C30F0F8D200F58EF00A2A1CA /* QRDJoinRoomView.m in Sources */,
+				C30F0F83200F416500A2A1CA /* QRDSettingViewController.m in Sources */,
+				B0C660591F94F98300999C9F /* AppDelegate.m in Sources */,
+				B0C6606A1F94F98300999C9F /* main.m in Sources */,
+				C30F0F98201033BD00A2A1CA /* QRDRTCViewController.m in Sources */,
+				B07BB0CB2064E670009218C1 /* QRDAgreementViewController.m in Sources */,
+				C30F0F91200F590C00A2A1CA /* QRDSettingView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		B0C660601F94F98300999C9F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B0C660611F94F98300999C9F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		B0C660651F94F98300999C9F /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B0C660661F94F98300999C9F /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		B0C6606B1F94F98300999C9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		B0C6606C1F94F98300999C9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B0C6606E1F94F98300999C9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D687BBCC4CE164F6C9657FE3 /* Pods-QNRTCKitDemo.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = GDFHW66V92;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_PREFIX_HEADER = QNRTCKitDemo/QRDPublicHeader.h;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/Crashlytics\"",
+					"\"${PODS_ROOT}/Headers/Public/Fabric\"",
+					"$(PROJECT_DIR)/../QNRTCKit/**",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/QNRTCKitDemo/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../QNRTCKit/**",
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = (
+					"$(OTHER_LDFLAGS)",
+					"-ObjC",
+					"$(inherited)",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.qbox.QNRTCKitDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = Debug;
+		};
+		B0C6606F1F94F98300999C9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 474E520E8ACB91CC17307E39 /* Pods-QNRTCKitDemo.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GDFHW66V92;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_PREFIX_HEADER = QNRTCKitDemo/QRDPublicHeader.h;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/Crashlytics\"",
+					"\"${PODS_ROOT}/Headers/Public/Fabric\"",
+					"$(PROJECT_DIR)/../QNRTCKit/**",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/QNRTCKitDemo/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../QNRTCKit/**",
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = (
+					"$(OTHER_LDFLAGS)",
+					"-ObjC",
+					"$(inherited)",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.qbox.QNRTCKitDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B0C6604F1F94F98200999C9F /* Build configuration list for PBXProject "QNRTCKitDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B0C6606B1F94F98300999C9F /* Debug */,
+				B0C6606C1F94F98300999C9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B0C6606D1F94F98300999C9F /* Build configuration list for PBXNativeTarget "QNRTCKitDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B0C6606E1F94F98300999C9F /* Debug */,
+				B0C6606F1F94F98300999C9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B0C6604C1F94F98200999C9F /* Project object */;
+}

@@ -1,0 +1,47 @@
+{
+  "name": "QNRTCKit",
+  "version": "0.1.0",
+  "summary": "A short description of QNRTCKit.",
+  "homepage": "https://github.com/pili-engineering/QNRTC-iOS",
+  "license": "Apache License, Version 2.0",
+  "authors": {
+    "pili": "pili-coresdk@qiniu.com"
+  },
+  "source": {
+    "git": "https://github.com/pili-engineering/QNRTC-iOS.git",
+    "tag": "v0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "requires_arc": true,
+  "frameworks": [
+    "UIKit",
+    "AVFoundation",
+    "CoreGraphics",
+    "CFNetwork",
+    "AudioToolbox",
+    "CoreMedia",
+    "VideoToolbox"
+  ],
+  "libraries": [
+    "z",
+    "c++",
+    "icucore",
+    "sqlite3"
+  ],
+  "subspecs": [
+    {
+      "name": "iphoneos",
+      "vendored_frameworks": [
+        "Pod/iphoneos/QNRTCKit.framework"
+      ]
+    },
+    {
+      "name": "universal",
+      "vendored_frameworks": [
+        "Pod/universal/QNRTCKit.framework"
+      ]
+    }
+  ]
+}

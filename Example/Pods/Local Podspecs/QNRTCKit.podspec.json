@@ -15,6 +15,9 @@
     "ios": "8.0"
   },
   "requires_arc": true,
+  "vendored_frameworks": [
+    "Pod/iphoneos/QNRTCKit.framework"
+  ],
   "frameworks": [
     "UIKit",
     "AVFoundation",
@@ -23,25 +26,5 @@
     "AudioToolbox",
     "CoreMedia",
     "VideoToolbox"
-  ],
-  "libraries": [
-    "z",
-    "c++",
-    "icucore",
-    "sqlite3"
-  ],
-  "subspecs": [
-    {
-      "name": "iphoneos",
-      "vendored_frameworks": [
-        "Pod/iphoneos/QNRTCKit.framework"
-      ]
-    },
-    {
-      "name": "universal",
-      "vendored_frameworks": [
-        "Pod/universal/QNRTCKit.framework"
-      ]
-    }
   ]
 }

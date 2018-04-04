@@ -279,10 +279,12 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-QNRTCKitDemo/Pods-QNRTCKitDemo-frameworks.sh",
 				"${PODS_ROOT}/../../Pod/iphoneos/QNRTCKit.framework",
+				"${PODS_ROOT}/../../Pod/iphoneos/QNRTCKit.framework.dSYM",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/QNRTCKit.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/QNRTCKit.framework.dSYM",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

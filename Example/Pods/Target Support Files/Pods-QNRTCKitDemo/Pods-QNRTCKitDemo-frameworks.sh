@@ -135,9 +135,11 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${PODS_ROOT}/../../Pod/iphoneos/QNRTCKit.framework"
+  install_dsym "${PODS_ROOT}/../../Pod/iphoneos/QNRTCKit.framework.dSYM"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${PODS_ROOT}/../../Pod/iphoneos/QNRTCKit.framework"
+  install_dsym "${PODS_ROOT}/../../Pod/iphoneos/QNRTCKit.framework.dSYM"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

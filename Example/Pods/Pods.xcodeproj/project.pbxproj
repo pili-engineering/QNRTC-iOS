@@ -156,6 +156,7 @@
 /* Begin PBXFileReference section */
 		00D7B4BBC4BB4D303F4ECADD4C374F8D /* BugsnagHandledState.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = BugsnagHandledState.m; path = Source/BugsnagHandledState.m; sourceTree = "<group>"; };
 		018581D283E447FB641D20F8881BE03A /* NSDictionary+BSG_Merge.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+BSG_Merge.h"; path = "Source/KSCrash/Source/KSCrash/Recording/Tools/NSDictionary+BSG_Merge.h"; sourceTree = "<group>"; };
+		01E58C1AFEB7D10C013B0841571DE667 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
 		0335C732261A317378ED05AAD23BBC12 /* BSG_KSCrashType.c */ = {isa = PBXFileReference; includeInIndex = 1; name = BSG_KSCrashType.c; path = Source/KSCrash/Source/KSCrash/Recording/BSG_KSCrashType.c; sourceTree = "<group>"; };
 		050189691573DD7627294DE3CD8FB680 /* BSG_KSJSONCodec.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BSG_KSJSONCodec.h; path = Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSJSONCodec.h; sourceTree = "<group>"; };
 		0596F69C794B91C8E136B85CB285EECE /* BugsnagSessionTracker.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = BugsnagSessionTracker.m; path = Source/BugsnagSessionTracker.m; sourceTree = "<group>"; };
@@ -191,11 +192,9 @@
 		387C34497B3E8804BC0D4DCF1D11F8D5 /* BugsnagApiClient.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BugsnagApiClient.h; path = Source/BugsnagApiClient.h; sourceTree = "<group>"; };
 		3AC226EDADA7CA030E9F2A71E035AF82 /* libPods-QNRTCKitDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-QNRTCKitDemo.a"; path = "libPods-QNRTCKitDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BE532C97B8F11098D6D3319E83C37C7 /* BSG_KSCrashSentry_Deadlock.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BSG_KSCrashSentry_Deadlock.h; path = Source/KSCrash/Source/KSCrash/Recording/Sentry/BSG_KSCrashSentry_Deadlock.h; sourceTree = "<group>"; };
-		3FD2F9F55075325CEB4EED75BFE8573F /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
 		4330495F17232BB1D2344675DA67C89F /* Pods-QNRTCKitDemo-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-QNRTCKitDemo-acknowledgements.markdown"; sourceTree = "<group>"; };
 		466C56E56B0B8E6BC5063DABDDDAC864 /* BSGConnectivity.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = BSGConnectivity.m; path = Source/BSGConnectivity.m; sourceTree = "<group>"; };
 		482F0E813F66BA7CDA89BE287681C0E9 /* BSG_KSMach_Arm64.c */ = {isa = PBXFileReference; includeInIndex = 1; name = BSG_KSMach_Arm64.c; path = Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSMach_Arm64.c; sourceTree = "<group>"; };
-		48CCAE62D8448DE2C33F8E7464DE3D97 /* QNRTCKit.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; path = QNRTCKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		4B03877F1B1467EE8B098317F3B53632 /* BugsnagApiClient.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = BugsnagApiClient.m; path = Source/BugsnagApiClient.m; sourceTree = "<group>"; };
 		4DB4F9433A03FF5EB608E6E78A8FC57D /* BugsnagCrashSentry.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BugsnagCrashSentry.h; path = Source/BugsnagCrashSentry.h; sourceTree = "<group>"; };
 		4E608A69060EB421F2E02A43D02359A7 /* NSError+BSG_SimpleConstructor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSError+BSG_SimpleConstructor.m"; path = "Source/KSCrash/Source/KSCrash/Recording/Tools/NSError+BSG_SimpleConstructor.m"; sourceTree = "<group>"; };
@@ -258,7 +257,6 @@
 		B28C425FC6D473A17B3DE26125F66483 /* BSG_KSCrashSentry_Deadlock.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = BSG_KSCrashSentry_Deadlock.m; path = Source/KSCrash/Source/KSCrash/Recording/Sentry/BSG_KSCrashSentry_Deadlock.m; sourceTree = "<group>"; };
 		B29A05AB8DA63E0CD8D3574FBC17068C /* BugsnagErrorReportApiClient.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BugsnagErrorReportApiClient.h; path = Source/BugsnagErrorReportApiClient.h; sourceTree = "<group>"; };
 		B366585BC9752FE285596D3FCCB73BC7 /* BSG_KSCrashSentry_MachException.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BSG_KSCrashSentry_MachException.h; path = Source/KSCrash/Source/KSCrash/Recording/Sentry/BSG_KSCrashSentry_MachException.h; sourceTree = "<group>"; };
-		B3997F47A60938E39163E94D92E5C014 /* QNRTCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QNRTCKit.framework; path = Pod/iphoneos/QNRTCKit.framework; sourceTree = "<group>"; };
 		B3CD6F69056C06EF82695C70C2F1AE81 /* BugsnagLogger.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BugsnagLogger.h; path = Source/BugsnagLogger.h; sourceTree = "<group>"; };
 		B4C74AAAAFEC3EEA419E4761A103478A /* BSG_KSCrashReportVersion.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BSG_KSCrashReportVersion.h; path = Source/KSCrash/Source/KSCrash/Recording/BSG_KSCrashReportVersion.h; sourceTree = "<group>"; };
 		B55130739D47EB4AF47A452179366BF7 /* BSGSerialization.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = BSGSerialization.m; path = Source/BSGSerialization.m; sourceTree = "<group>"; };
@@ -271,6 +269,7 @@
 		CFB8A545B01F84C5358A3B9B245D5AAD /* BSG_KSSafeCollections.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BSG_KSSafeCollections.h; path = Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSSafeCollections.h; sourceTree = "<group>"; };
 		D24AD31C906FD319BCCC506883E070AF /* BugsnagSink.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BugsnagSink.h; path = Source/BugsnagSink.h; sourceTree = "<group>"; };
 		D41BAFDFAF6D4AE79451F3169B259D36 /* BSG_KSCrashState.c */ = {isa = PBXFileReference; includeInIndex = 1; name = BSG_KSCrashState.c; path = Source/KSCrash/Source/KSCrash/Recording/BSG_KSCrashState.c; sourceTree = "<group>"; };
+		D4B5400158FF1713D540A20556DC676C /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
 		D5278DB595F367CA2E5527644CE0AD0C /* BugsnagSessionTrackingApiClient.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BugsnagSessionTrackingApiClient.h; path = Source/BugsnagSessionTrackingApiClient.h; sourceTree = "<group>"; };
 		D759D0226947AA9C39F7537B8DBC5D63 /* BSG_KSBacktrace_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BSG_KSBacktrace_Private.h; path = Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSBacktrace_Private.h; sourceTree = "<group>"; };
 		D82D0E20955C5ED8B1DB4C6CB5C3CABC /* BSG_KSCrashReportStore.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BSG_KSCrashReportStore.h; path = Source/KSCrash/Source/KSCrash/Recording/BSG_KSCrashReportStore.h; sourceTree = "<group>"; };
@@ -287,10 +286,11 @@
 		ED8A474EBCF663242239D4598B5DC5DE /* BSG_KSSafeCollections.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = BSG_KSSafeCollections.m; path = Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSSafeCollections.m; sourceTree = "<group>"; };
 		EE35AB7C7D3EBA5F832A578171B16119 /* BugsnagSessionTracker.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BugsnagSessionTracker.h; path = Source/BugsnagSessionTracker.h; sourceTree = "<group>"; };
 		EF97F3D34AF78E4E6CB818CACD17873D /* libBugsnag.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libBugsnag.a; path = libBugsnag.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFC8FFD203582F90651ECF858E5E893D /* QNRTCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QNRTCKit.framework; path = Pod/iphoneos/QNRTCKit.framework; sourceTree = "<group>"; };
 		EFCD494903B1B5475D0BADF80F7F6705 /* BSG_KSCrashC.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BSG_KSCrashC.h; path = Source/KSCrash/Source/KSCrash/Recording/BSG_KSCrashC.h; sourceTree = "<group>"; };
 		F012525F9CF8C65AD8317809220583E4 /* BSG_KSMach.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BSG_KSMach.h; path = Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSMach.h; sourceTree = "<group>"; };
 		F18D2CD64D883593C539CC147441935B /* BSG_KSCrashReportFilterCompletion.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BSG_KSCrashReportFilterCompletion.h; path = Source/KSCrash/Source/KSCrash/Reporting/Filters/BSG_KSCrashReportFilterCompletion.h; sourceTree = "<group>"; };
-		F282125CC1F876930DC701D2511049B9 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		F294F2B4444F584EBB5189C4D7807DE1 /* QNRTCKit.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; path = QNRTCKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		F2AF9EC704AAD470CAC8FE0D05A5430B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
 		F2D513FEF2F78AF5242DBBFED989567C /* Bugsnag-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Bugsnag-dummy.m"; sourceTree = "<group>"; };
 		F39FA5607760F5C0E5DB2CBFAE4D01D9 /* BSG_KSCrashC.c */ = {isa = PBXFileReference; includeInIndex = 1; name = BSG_KSCrashC.c; path = Source/KSCrash/Source/KSCrash/Recording/BSG_KSCrashC.c; sourceTree = "<group>"; };
@@ -325,20 +325,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		02DE19029170FB633571C3CE23E62E42 /* iphoneos */ = {
-			isa = PBXGroup;
-			children = (
-				78D9A6B2A6F63B72FB7D4AD4D8D1979F /* Frameworks */,
-			);
-			name = iphoneos;
-			sourceTree = "<group>";
-		};
 		031B26B736C4558EF96DC60BAF6EC141 /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
 				3977F66D83B7F526DFB95C61A4DF23B4 /* Pods-QNRTCKitDemo */,
 			);
 			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		30FA4E3DE4325E227A0497B8BA0D6EF4 /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				01E58C1AFEB7D10C013B0841571DE667 /* LICENSE */,
+				F294F2B4444F584EBB5189C4D7807DE1 /* QNRTCKit.podspec */,
+				D4B5400158FF1713D540A20556DC676C /* README.md */,
+			);
+			name = Pod;
 			sourceTree = "<group>";
 		};
 		33E09569D377FE8BC36951BCB93D6943 /* Products */ = {
@@ -392,28 +394,10 @@
 			path = "../Target Support Files/Bugsnag";
 			sourceTree = "<group>";
 		};
-		556406F882BA1BAC46EF7DF7880005B5 /* Pod */ = {
-			isa = PBXGroup;
-			children = (
-				3FD2F9F55075325CEB4EED75BFE8573F /* LICENSE */,
-				48CCAE62D8448DE2C33F8E7464DE3D97 /* QNRTCKit.podspec */,
-				F282125CC1F876930DC701D2511049B9 /* README.md */,
-			);
-			name = Pod;
-			sourceTree = "<group>";
-		};
-		78D9A6B2A6F63B72FB7D4AD4D8D1979F /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				B3997F47A60938E39163E94D92E5C014 /* QNRTCKit.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		7AF3964E0100954333786AE3E5322A24 /* Development Pods */ = {
 			isa = PBXGroup;
 			children = (
-				D141A6D1554C63FD12C99C2570A9AD1D /* QNRTCKit */,
+				874248EF49BB8018F87BE65314BE26F3 /* QNRTCKit */,
 			);
 			name = "Development Pods";
 			sourceTree = "<group>";
@@ -568,14 +552,22 @@
 			path = Bugsnag;
 			sourceTree = "<group>";
 		};
-		D141A6D1554C63FD12C99C2570A9AD1D /* QNRTCKit */ = {
+		874248EF49BB8018F87BE65314BE26F3 /* QNRTCKit */ = {
 			isa = PBXGroup;
 			children = (
-				02DE19029170FB633571C3CE23E62E42 /* iphoneos */,
-				556406F882BA1BAC46EF7DF7880005B5 /* Pod */,
+				D1EEA91892FCC3258AEC501A5A91E648 /* Frameworks */,
+				30FA4E3DE4325E227A0497B8BA0D6EF4 /* Pod */,
 			);
 			name = QNRTCKit;
 			path = ../..;
+			sourceTree = "<group>";
+		};
+		D1EEA91892FCC3258AEC501A5A91E648 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EFC8FFD203582F90651ECF858E5E893D /* QNRTCKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		E7E283C74B7E79D37D9BAAFF277942F5 /* iOS */ = {

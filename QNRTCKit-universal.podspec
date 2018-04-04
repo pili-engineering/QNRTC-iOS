@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
     s.ios.deployment_target   = '8.0'
     s.requires_arc            = true
 
-    s.vendored_frameworks = ['Pod/iphoneos/QNRTCKit.framework']
+    s.vendored_frameworks = ['Pod/universal/QNRTCKit.framework']
 
     s.frameworks = ['UIKit', 'AVFoundation', 'CoreGraphics', 'CFNetwork', 'AudioToolbox', 'CoreMedia', 'VideoToolbox']
 end

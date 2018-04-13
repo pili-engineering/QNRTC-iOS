@@ -287,7 +287,6 @@ QNRTCSessionDelegate
         if (state == 2) {
             [self.durationTimer invalidate];
             self.durationTimer = nil;
-            [self.session leaveRoom];
             [self.session stopCapture];
             self.session.delegate = nil;
             self.session = nil;

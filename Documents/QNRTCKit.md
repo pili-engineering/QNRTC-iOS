@@ -4,7 +4,7 @@ QNRTCKit 是七牛推出的一款适用于 iOS 平台的音视频通话 SDK，�
 
 <a id="1.1"></a>
 ## 1.1 下载地址
-- [iOS Demo 以及 SDK 下载地址](https://github.com/pili-engineering/QNRTCKit)
+- [iOS Demo 以及 SDK 下载地址](https://github.com/pili-engineering/QNRTC-iOS)
 
 <a id="2"></a>
 # 2 功能列表

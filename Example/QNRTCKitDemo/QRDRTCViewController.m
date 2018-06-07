@@ -13,6 +13,8 @@
 
 static NSString * const kQNRTCDemoAppId = @"d8lk7l4ed";
 
+static CGSize backgroundSize = {480, 848};
+
 @interface QRDRTCViewController ()
 <
 QNRTCSessionDelegate
@@ -49,6 +51,7 @@ QNRTCSessionDelegate
 
 @property (nonatomic, assign) BOOL reconnecting;
 
+@property (nonatomic, strong) NSMutableArray *mergePositionArray;
 
 @end
 
@@ -68,6 +71,10 @@ QNRTCSessionDelegate
     
     self.renderArray = [NSMutableArray array];
     self.muteDicArray = [NSMutableArray array];
+    self.mergePositionArray = [NSMutableArray array];
+    for (NSInteger i = 0; i < 9; i++) {
+        self.mergePositionArray[i] = @"";
+    }
     self.totalDuration = 0;
     self.logString = [NSString stringWithFormat:@"version: %@\n", [QNRTCSession versionInfo]];
     self.hiddenEnable = YES;
@@ -261,6 +268,9 @@ QNRTCSessionDelegate
         if (_durationTimer) {
             [self.durationTimer invalidate];
             self.durationTimer = nil;
+            if ([self isAdmin]) {
+                [self.session stopMergeStream];
+            }
             [self.session leaveRoom];
             [self.session stopCapture];
             self.session.delegate = nil;
@@ -315,7 +325,7 @@ QNRTCSessionDelegate
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:requestUrl];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     request.HTTPMethod = @"GET";
-    request.timeoutInterval = 5;
+    request.timeoutInterval = 10;
     
     NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
@@ -385,7 +395,7 @@ QNRTCSessionDelegate
                 self.reconnecting = NO;
                 return ;
             }
-            
+
             self.videoButton.enabled = YES;
             self.videoButton.selected = YES;
             self.microphoneButton.selected = YES;
@@ -411,6 +421,10 @@ QNRTCSessionDelegate
 - (void)sessionDidPublishLocalMedia:(QNRTCSession *)session {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.videoButton.enabled = YES;
+
+        if ([self isAdmin]) {
+            [self.session setMergeStreamLayoutWithUserId:self.userId frame:CGRectMake(0, 0, backgroundSize.width, backgroundSize.height) zIndex:0];
+        }
     });
 }
 
@@ -427,6 +441,10 @@ QNRTCSessionDelegate
     dispatch_async(dispatch_get_main_queue(), ^{
         _logString = [_logString stringByAppendingString:[NSString stringWithFormat:@"userId: %@ leave room \n", userId]];
         _logTextView.text = _logString;
+
+        if ([self isAdmin]) {
+            [self releaseMergePositionForUserId:userId];
+        }
     });
 }
 
@@ -437,6 +455,16 @@ QNRTCSessionDelegate
         _logString = [_logString stringByAppendingString:[NSString stringWithFormat:@"userId: %@ subscribe \n", userId]];
         _logTextView.text = _logString;
         [self showUserStateWithUserId:userId];
+
+        if ([self isAdmin]) {
+            NSInteger position = [self availableMergePositionForUserId:userId];
+            if (position < 0) {
+                return ;
+            }
+
+            CGRect rect = CGRectMake((2 - position / 3) * backgroundSize.width / 3, (2 - position % 3) * backgroundSize.height / 3, backgroundSize.width / 3, backgroundSize.height / 3);
+            [self.session setMergeStreamLayoutWithUserId:userId frame:rect zIndex:1];
+        }
     });
 }
 
@@ -462,6 +490,10 @@ QNRTCSessionDelegate
             }
         }
         [_muteDicArray removeObject:removeDic];
+
+        if ([self isAdmin]) {
+            [self releaseMergePositionForUserId:userId];
+        }
     });
 }
 
@@ -522,8 +554,10 @@ QNRTCSessionDelegate
     });
 }
 
-- (CMSampleBufferRef)RTCSession:(QNRTCSession *)session cameraSourceDidGetSmapleBuffer:(CMSampleBufferRef)sampleBuffer {
-    return sampleBuffer;
+- (void)RTCSession:(QNRTCSession *)session cameraSourceDidGetSampleBuffer:(CMSampleBufferRef)sampleBuffer {
+    //可以对 sampleBuffer 做美颜/滤镜等操作
+
+    return;
 }
 
 - (void)RTCSession:(QNRTCSession *)session didGetStatistic:(NSDictionary *)statistic ofUserId:(NSString *)userId {
@@ -569,6 +603,39 @@ QNRTCSessionDelegate
     if (!hasContain) {
         [_muteDicArray addObject:@{userId:@{keyString:muteNumber}}];
     }
+}
+
+#pragma mark - 合流相关
+
+- (NSInteger)availableMergePositionForUserId:(NSString *)userId {
+    for (NSInteger i = 0; i < 9; i++) {
+        NSString *item = self.mergePositionArray[i];
+
+        //出现各种重连时，同个 userId 还是放在原来的合流位置
+        if (item && [item isEqualToString:userId]) {
+            return i;
+        }
+
+        if (!item || [item isEqualToString:@""]) {
+            self.mergePositionArray[i] = userId;
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+- (void)releaseMergePositionForUserId:(NSString *)userId {
+    for (NSInteger i = 0; i < 9; i++) {
+        NSString *item = self.mergePositionArray[i];
+        if ([item isEqualToString:userId]) {
+            self.mergePositionArray[i] = @"";
+        }
+    }
+}
+
+- (BOOL)isAdmin {
+    return [self.userId.lowercaseString containsString:@"admin"];
 }
 
 #pragma mark - 是否音视频状态展示
@@ -767,6 +834,10 @@ QNRTCSessionDelegate
 }
 
 - (void)longPressViewAction:(UILongPressGestureRecognizer *)longPressGest {
+    if (![self isAdmin]) {
+        return;
+    }
+    
     QNVideoView *videoView = (QNVideoView *)longPressGest.view;
     for (NSDictionary *dic in _renderArray) {
         if (dic.allValues[0] == videoView) {

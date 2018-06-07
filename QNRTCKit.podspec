@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name      = 'QNRTCKit'
-    s.version   = '0.1.0'
+    s.version   = '0.2.0'
     s.summary   = 'Qiniu RTC SDK for iOS.'
     s.homepage  = 'https://github.com/pili-engineering/QNRTC-iOS'
     s.license   = 'Apache License, Version 2.0'

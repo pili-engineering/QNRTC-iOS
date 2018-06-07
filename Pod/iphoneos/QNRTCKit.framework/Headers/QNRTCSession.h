@@ -85,9 +85,32 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)RTCSession:(QNRTCSession *)session didDetachRenderView:(UIView *)renderView ofRemoteUserId:(NSString *)userId;
 
 /**
- * 获取到摄像头原数据时的回调, 便于开发者做滤镜等处理，需要注意的是这个回调在 camera 数据的输出线程，请不要做过于耗时的操作，否则可能会导致推流帧率下降
+ * 远端用户视频数据的回调
+ *
+ * 注意：回调远端用户视频数据会带来一定的性能消耗，如果没有相关需求，请不要实现该回调
  */
-- (CMSampleBufferRef)RTCSession:(QNRTCSession *)session cameraSourceDidGetSmapleBuffer:(CMSampleBufferRef)sampleBuffer;
+- (void)RTCSession:(QNRTCSession *)session didGetPixelBuffer:(CVPixelBufferRef)pixelBuffer ofRemoteUserId:(NSString *)userId;
+
+/**
+ * 远端用户音频数据的回调
+ *
+ * 注意：回调远端用户音频数据会带来一定的性能消耗，如果没有相关需求，请不要实现该回调
+ */
+- (void)RTCSession:(QNRTCSession *)session
+ didGetAudioBuffer:(AudioBuffer *)audioBuffer
+     bitsPerSample:(NSUInteger)bitsPerSample
+        sampleRate:(NSUInteger)sampleRate
+    ofRemoteUserId:(NSString *)userId;
+
+/**
+ * 获取到摄像头原数据时的回调, 便于开发者做滤镜等处理，需要注意的是这个回调在 camera 数据的输出线程，请不要做过于耗时的操作，否则可能会导致编码帧率下降
+ */
+- (void)RTCSession:(QNRTCSession *)session cameraSourceDidGetSampleBuffer:(CMSampleBufferRef)sampleBuffer;
+
+/**
+ * 获取到麦克风原数据时的回调，需要注意的是这个回调在 AU Remote IO 线程，请不要做过于耗时的操作，否则可能阻塞该线程影响音频输出或其他未知问题
+ */
+- (void)RTCSession:(QNRTCSession *)session microphoneSourceDidGetAudioBuffer:(AudioBuffer *)audioBuffer;
 
 /**
  *统计信息回调，回调的时间间隔由 statisticInterval 参数决定，statisticInterval 默认为 0，即不回调统计信息
@@ -189,6 +212,21 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setMinBitrateBps:(NSUInteger)minBitrateBps
            maxBitrateBps:(NSUInteger)maxBitrateBps;
 
+/**
+ *  设置服务端合流参数
+ *  userId: 本次设置所对应的 userId
+ *  frame: 在合流画面中的大小和位置，需为整数；如果想取消合流，将 frame.size.width 或 frame.size.height 置为 0 即可。
+ *  zIndex: 在合流画面中的层次，0 在最底层
+ */
+- (void)setMergeStreamLayoutWithUserId:(NSString *)userId
+                                 frame:(CGRect)frame
+                                zIndex:(NSUInteger)zIndex;
+
+/**
+ *  停止合流
+ */
+- (void)stopMergeStream;
+
 @end
 
 
@@ -270,6 +308,17 @@ NS_ASSUME_NONNULL_BEGIN
  @brief 后置预览是否开启镜像，默认为 NO
  */
 @property (nonatomic, assign) BOOL previewMirrorRearFacing;
+
+/**
+ *  前置摄像头，对方观看时是否开启镜像，默认 NO
+ */
+@property (nonatomic, assign) BOOL encodeMirrorFrontFacing;
+
+/**
+ *  后置摄像头，对方观看时是否开启镜像，默认 NO
+ */
+@property (nonatomic, assign) BOOL encodeMirrorRearFacing;
+
 
 
 /**

@@ -12,6 +12,7 @@
 #import "QRDAgreementViewController.h"
 #import "QRDUserNameView.h"
 #import "QRDJoinRoomView.h"
+#import "QRDScreenRecorderViewController.h"
 
 #define QRD_LOGIN_TOP_SPACE (QRD_iPhoneX ? 140: 100)
 
@@ -52,7 +53,7 @@ UITextFieldDelegate
     
     self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(95, QRD_LOGIN_TOP_SPACE + 192, QRD_SCREEN_WIDTH - 198, QRD_SCREEN_HEIGHT - QRD_LOGIN_TOP_SPACE - 340)];
     self.imageView.image = [UIImage imageNamed:@"qn_niu"];
-    [self.view addSubview:_imageView];
+    [self.view insertSubview:_imageView atIndex:0];
 }
 
 - (void)setupLoginViewWithStorage:(BOOL)storage {
@@ -72,7 +73,12 @@ UITextFieldDelegate
 - (void)setupJoinRoomView {
     _joinRoomView = [[QRDJoinRoomView alloc] initWithFrame:CGRectMake(QRD_SCREEN_WIDTH/2 - 150, QRD_LOGIN_TOP_SPACE, 308, 185)];
     _joinRoomView.roomTextField.delegate = self;
+    NSString *roomName = [[NSUserDefaults standardUserDefaults] objectForKey:@"QN_ROOM_NAME"];
+    _joinRoomView.roomTextField.text = roomName;
     [_joinRoomView.joinButton addTarget:self action:@selector(joinAction:) forControlEvents:UIControlEventTouchUpInside];
+    _joinRoomView.confButton.selected = YES;
+    [_joinRoomView.confButton addTarget:self action:@selector(confButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [_joinRoomView.screenButton addTarget:self action:@selector(screenButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_joinRoomView];
     
     _setButton = [[UIButton alloc] initWithFrame:CGRectMake(QRD_SCREEN_WIDTH - 36, QRD_LOGIN_TOP_SPACE - 68, 24, 24)];
@@ -127,11 +133,11 @@ UITextFieldDelegate
 - (void)joinAction:(UIButton *)join {
     [self.view endEditing:YES];
     
-    NSString *roomId;
+    NSString *roomName;
     if (_joinRoomView.roomTextField.text.length != 0) {
         _joinRoomView.roomTextField.text = [_joinRoomView.roomTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
         if ([self checkRoomName:_joinRoomView.roomTextField.text]) {
-            roomId = _joinRoomView.roomTextField.text;
+            roomName = _joinRoomView.roomTextField.text;
         } else{
             [self showAlertWithMessage:@"请按要求正确填写房间名称！"];
             return;
@@ -140,17 +146,29 @@ UITextFieldDelegate
         [self showAlertWithMessage:@"请填写房间名称！"];
         return;
     }
-    QRDRTCViewController *rtcVC = [[QRDRTCViewController alloc] init];
-    rtcVC.roomId = roomId;
-    rtcVC.userId = [[NSUserDefaults standardUserDefaults] objectForKey:@"QN_USER_ID"];
-    
+
+    NSString *userId = [[NSUserDefaults standardUserDefaults] objectForKey:@"QN_USER_ID"];
     NSDictionary *configDic = [[NSUserDefaults standardUserDefaults] objectForKey:@"QN_SET_CONFIG"];
-    if (configDic) {
-        rtcVC.configDic = configDic;
-    } else{
-        rtcVC.configDic = @{@"VideoSize":NSStringFromCGSize(CGSizeMake(480, 640)), @"FrameRate":@20, @"Bitrate":@600};
+    if (!configDic) {
+        configDic = @{@"VideoSize":NSStringFromCGSize(CGSizeMake(480, 640)), @"FrameRate":@20, @"Bitrate":@600};
     }
-    [self.navigationController pushViewController:rtcVC animated:YES];
+
+    [[NSUserDefaults standardUserDefaults] setObject:roomName forKey:@"QN_ROOM_NAME"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    if (_joinRoomView.confButton.selected) {
+        QRDRTCViewController *rtcVC = [[QRDRTCViewController alloc] init];
+        rtcVC.roomName = roomName;
+        rtcVC.userId = userId;
+        rtcVC.configDic = configDic;
+        [self.navigationController pushViewController:rtcVC animated:YES];
+    }
+    else {
+        QRDScreenRecorderViewController *recorderViewController = [[QRDScreenRecorderViewController alloc] init];
+        recorderViewController.roomName = roomName;
+        recorderViewController.userId = userId;
+        recorderViewController.configDic = configDic;
+        [self.navigationController pushViewController:recorderViewController animated:YES];
+    }
 }
 
 - (void)settingAction:(UIButton *)setting {
@@ -161,6 +179,25 @@ UITextFieldDelegate
 - (void)agreementButtonClick:(id)sender {
     UIButton *button = (UIButton *)sender;
     button.selected = !button.isSelected;
+}
+
+- (void)confButtonClick:(id)sender {
+    if (_joinRoomView.screenButton.isSelected) {
+        _joinRoomView.confButton.selected = YES;
+        _joinRoomView.screenButton.selected = NO;
+    }
+}
+
+- (void)screenButtonClick:(id)sender {
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 11.0) {
+        [self showAlertWithMessage:@"录屏分享仅支持 iOS 11 及以上系统"];
+        return;
+    }
+
+    if (_joinRoomView.confButton.isSelected) {
+        _joinRoomView.screenButton.selected = YES;
+        _joinRoomView.confButton.selected = NO;
+    }
 }
 
 - (void)agreementLabelTapped:(id)sender {

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		5029EC5434AD3A66D8A128FD /* libPods-QNRTCKitDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D8BB45036542B95EF652274E /* libPods-QNRTCKitDemo.a */; };
+		B003EE9320E6130A009FC2C5 /* QRDMicrophoneSource.m in Sources */ = {isa = PBXBuildFile; fileRef = B003EE9020E61309009FC2C5 /* QRDMicrophoneSource.m */; };
+		B003EE9420E6130A009FC2C5 /* QRDScreenRecorderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B003EE9220E61309009FC2C5 /* QRDScreenRecorderViewController.m */; };
 		B0769C6F1FBA97100051F9C2 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0769C6E1FBA97090051F9C2 /* VideoToolbox.framework */; };
 		B0769C751FBADAFD0051F9C2 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0769C741FBADAF70051F9C2 /* GLKit.framework */; };
 		B07BB0C72064E61D009218C1 /* user_agreement.html in Resources */ = {isa = PBXBuildFile; fileRef = B07BB0C62064E61C009218C1 /* user_agreement.html */; };
@@ -46,6 +48,10 @@
 
 /* Begin PBXFileReference section */
 		474E520E8ACB91CC17307E39 /* Pods-QNRTCKitDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QNRTCKitDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-QNRTCKitDemo/Pods-QNRTCKitDemo.release.xcconfig"; sourceTree = "<group>"; };
+		B003EE8F20E61309009FC2C5 /* QRDScreenRecorderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRDScreenRecorderViewController.h; sourceTree = "<group>"; };
+		B003EE9020E61309009FC2C5 /* QRDMicrophoneSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRDMicrophoneSource.m; sourceTree = "<group>"; };
+		B003EE9120E61309009FC2C5 /* QRDMicrophoneSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRDMicrophoneSource.h; sourceTree = "<group>"; };
+		B003EE9220E61309009FC2C5 /* QRDScreenRecorderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRDScreenRecorderViewController.m; sourceTree = "<group>"; };
 		B04AF08A1F9652A6009BAFEF /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 		B04AF08C1F9652C7009BAFEF /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		B0769C6A1FBA96930051F9C2 /* libc++.1.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.1.tbd"; path = "usr/lib/libc++.1.tbd"; sourceTree = SDKROOT; };
@@ -148,6 +154,8 @@
 			children = (
 				B0C660571F94F98300999C9F /* AppDelegate.h */,
 				B0C660581F94F98300999C9F /* AppDelegate.m */,
+				B003EE9120E61309009FC2C5 /* QRDMicrophoneSource.h */,
+				B003EE9020E61309009FC2C5 /* QRDMicrophoneSource.m */,
 				C30F0F96201033BD00A2A1CA /* QRDRTCViewController.h */,
 				C30F0F97201033BD00A2A1CA /* QRDRTCViewController.m */,
 				C3F800C6200E012A00ECDDC9 /* QRDLoginViewController.h */,
@@ -157,6 +165,8 @@
 				B07BB0CA2064E670009218C1 /* QRDAgreementViewController.h */,
 				B07BB0C82064E670009218C1 /* QRDAgreementViewController.m */,
 				B07BB0C92064E670009218C1 /* QRDAgreementViewController.xib */,
+				B003EE8F20E61309009FC2C5 /* QRDScreenRecorderViewController.h */,
+				B003EE9220E61309009FC2C5 /* QRDScreenRecorderViewController.m */,
 				C30F0F88200F58EF00A2A1CA /* ViewTools */,
 				C3F800A9200CB41600ECDDC9 /* QRDPublicHeader.h */,
 				C3AB77102062355F00A90770 /* launchImage@2x.jpg */,
@@ -200,7 +210,6 @@
 				B0C660521F94F98300999C9F /* Resources */,
 				B04AF0921F9652FB009BAFEF /* Embed Frameworks */,
 				45FBCD51C47E0F48596AE5CC /* [CP] Embed Pods Frameworks */,
-				5C8B6A591DB6EF1DC73526AA /* [CP] Copy Pods Resources */,
 				942A63FB5AAA43E9BE0ADEF9 /* Upload Bugsnag dSYM */,
 			);
 			buildRules = (
@@ -291,21 +300,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QNRTCKitDemo/Pods-QNRTCKitDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5C8B6A591DB6EF1DC73526AA /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QNRTCKitDemo/Pods-QNRTCKitDemo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		942A63FB5AAA43E9BE0ADEF9 /* Upload Bugsnag dSYM */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -352,7 +346,9 @@
 				C30F0F83200F416500A2A1CA /* QRDSettingViewController.m in Sources */,
 				B0C660591F94F98300999C9F /* AppDelegate.m in Sources */,
 				B0C6606A1F94F98300999C9F /* main.m in Sources */,
+				B003EE9320E6130A009FC2C5 /* QRDMicrophoneSource.m in Sources */,
 				C30F0F98201033BD00A2A1CA /* QRDRTCViewController.m in Sources */,
+				B003EE9420E6130A009FC2C5 /* QRDScreenRecorderViewController.m in Sources */,
 				B07BB0CB2064E670009218C1 /* QRDAgreementViewController.m in Sources */,
 				C30F0F91200F590C00A2A1CA /* QRDSettingView.m in Sources */,
 			);

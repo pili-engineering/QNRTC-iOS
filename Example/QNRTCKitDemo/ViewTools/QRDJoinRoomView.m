@@ -46,7 +46,31 @@
     hintLabel.font = QRD_LIGHT_FONT(10);
     [self addSubview:hintLabel];
 
-    self.joinButton = [[UIButton alloc] initWithFrame:CGRectMake(5, 112, viewWidth - 10, 40)];
+    self.confButton = [[UIButton alloc] initWithFrame:CGRectMake(25, 100, 44, 44)];
+    [self.confButton setImage:[UIImage imageNamed:@"noChoose"] forState:UIControlStateNormal];
+    [self.confButton setImage:[UIImage imageNamed:@"choose"] forState:UIControlStateSelected];
+    [self addSubview:self.confButton];
+
+    UILabel *confLabel = [[UILabel alloc] initWithFrame:CGRectMake(69, 100, 48, 44)];
+    confLabel.textColor = [UIColor whiteColor];
+    confLabel.numberOfLines = 0;
+    confLabel.text = @"视频通话";
+    confLabel.font = QRD_LIGHT_FONT(12);
+    [self addSubview:confLabel];
+
+    self.screenButton = [[UIButton alloc] initWithFrame:CGRectMake(viewWidth - 45 - 48 - 44, 100, 44, 44)];
+    [self.screenButton setImage:[UIImage imageNamed:@"noChoose"] forState:UIControlStateNormal];
+    [self.screenButton setImage:[UIImage imageNamed:@"choose"] forState:UIControlStateSelected];
+    [self addSubview:self.screenButton];
+
+    UILabel *screenLabel = [[UILabel alloc] initWithFrame:CGRectMake(viewWidth - 45 - 48, 100, 48, 44)];
+    screenLabel.textColor = [UIColor whiteColor];
+    screenLabel.numberOfLines = 0;
+    screenLabel.text = @"屏幕分享";
+    screenLabel.font = QRD_LIGHT_FONT(12);
+    [self addSubview:screenLabel];
+
+    self.joinButton = [[UIButton alloc] initWithFrame:CGRectMake(5, 156, viewWidth - 10, 40)];
     self.joinButton.backgroundColor = QRD_COLOR_RGBA(52,170,220,1);
     self.joinButton.layer.cornerRadius = 20;
     self.joinButton.titleLabel.font = QRD_REGULAR_FONT(14);

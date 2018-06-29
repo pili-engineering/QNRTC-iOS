@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface QRDRTCViewController : UIViewController
-@property (nonatomic, copy) NSString *roomId;
+@property (nonatomic, copy) NSString *roomName;
 @property (nonatomic, copy) NSString *userId;
 @property (nonatomic, strong) NSDictionary *configDic;
 

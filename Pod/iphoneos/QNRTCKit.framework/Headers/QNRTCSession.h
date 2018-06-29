@@ -171,6 +171,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) NSArray<NSString *> *publishingUserList;
 
 /**
+ *  是否使用 SDK 内部的音视频采集模块，默认为 YES
+ */
+@property (nonatomic, assign, readonly) BOOL captureEnabled;
+
+/**
+ *  初始化 QNRTCSession 实例
+ *  @param captureEnabled 是否使用 SDK 内部的音视频采集模块
+ */
+- (instancetype)initWithCaptureEnabled:(BOOL)captureEnabled;
+
+/**
  *  加入房间，token 中已经包含 appId、roomToken、userId 等信息
  */
 - (void)joinRoomWithToken:(NSString *)token;
@@ -190,6 +201,17 @@ NS_ASSUME_NONNULL_BEGIN
  *  取消发布自己的音/视频
  */
 - (void)unpublish;
+
+/**
+ *  导入视频数据，仅在 captureEnabled 为 NO 时才支持导入视频数据
+ */
+- (void)pushPixelBuffer:(CVPixelBufferRef)pixelBuffer;
+
+/**
+ *  导入音频数据，仅在 captureEnabled 为 NO 时才支持导入音频数据
+ *  支持的音频数据格式为：PCM 格式，48000 采样率，16 位宽，单声道
+ */
+- (void)pushAudioBuffer:(AudioBuffer *)audioBuffer;
 
 /**
  *  订阅 userId 的音/视频

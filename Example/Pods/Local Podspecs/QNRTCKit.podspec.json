@@ -1,6 +1,6 @@
 {
   "name": "QNRTCKit",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "summary": "Qiniu RTC SDK for iOS.",
   "homepage": "https://github.com/pili-engineering/QNRTC-iOS",
   "license": "Apache License, Version 2.0",
@@ -9,7 +9,7 @@
   },
   "source": {
     "git": "https://github.com/pili-engineering/QNRTC-iOS.git",
-    "tag": "v0.2.0"
+    "tag": "v1.0.0"
   },
   "platforms": {
     "ios": "8.0"

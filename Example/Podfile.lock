@@ -1,19 +1,23 @@
 PODS:
   - Bugsnag (5.15.4)
-  - QNRTCKit (0.2.0)
+  - QNRTCKit (1.0.0)
 
 DEPENDENCIES:
   - Bugsnag (= 5.15.4)
   - QNRTCKit (from `../QNRTCKit.podspec`)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Bugsnag
+
 EXTERNAL SOURCES:
   QNRTCKit:
-    :path: ../QNRTCKit.podspec
+    :path: "../QNRTCKit.podspec"
 
 SPEC CHECKSUMS:
   Bugsnag: df1d395695ddf795aa35c23ef4eaef4a04ddcffd
-  QNRTCKit: 00542e4218ead6494bf0f4490e26265171f2ee31
+  QNRTCKit: 28ae27de7fb283715e4c96fa66c93951e867008d
 
 PODFILE CHECKSUM: a3da902c30391294160165266837eb7a0701c1d7
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.3

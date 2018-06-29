@@ -210,7 +210,6 @@
 				B0C660521F94F98300999C9F /* Resources */,
 				B04AF0921F9652FB009BAFEF /* Embed Frameworks */,
 				45FBCD51C47E0F48596AE5CC /* [CP] Embed Pods Frameworks */,
-				5C8B6A591DB6EF1DC73526AA /* [CP] Copy Pods Resources */,
 				942A63FB5AAA43E9BE0ADEF9 /* Upload Bugsnag dSYM */,
 			);
 			buildRules = (
@@ -299,21 +298,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QNRTCKitDemo/Pods-QNRTCKitDemo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5C8B6A591DB6EF1DC73526AA /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QNRTCKitDemo/Pods-QNRTCKitDemo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		942A63FB5AAA43E9BE0ADEF9 /* Upload Bugsnag dSYM */ = {

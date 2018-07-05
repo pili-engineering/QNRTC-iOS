@@ -49,14 +49,14 @@ QRDSettingViewDelegate
 }
 
 - (void)setupSettingView {
-    _configDicArray = @[@{@"VideoSize":NSStringFromCGSize(CGSizeMake(288, 352)), @"FrameRate":@20, @"Bitrate":@500},
-                   @{@"VideoSize":NSStringFromCGSize(CGSizeMake(480, 640)), @"FrameRate":@20, @"Bitrate":@600},
-                   @{@"VideoSize":NSStringFromCGSize(CGSizeMake(544, 960)), @"FrameRate":@20, @"Bitrate":@800},
-                   @{@"VideoSize":NSStringFromCGSize(CGSizeMake(720, 1280)), @"FrameRate":@20, @"Bitrate":@1200}];
-    _configArray = @[@"288x352、20fps、500kbps",
-                     @"480x640、20fps、600kbps",
-                     @"544x960、20fps、800kbps",
-                     @"720x1280、20fps、1200kbps"];
+    _configDicArray = @[@{@"VideoSize":NSStringFromCGSize(CGSizeMake(288, 352)), @"FrameRate":@20},
+                   @{@"VideoSize":NSStringFromCGSize(CGSizeMake(480, 640)), @"FrameRate":@20},
+                   @{@"VideoSize":NSStringFromCGSize(CGSizeMake(544, 960)), @"FrameRate":@20},
+                   @{@"VideoSize":NSStringFromCGSize(CGSizeMake(720, 1280)), @"FrameRate":@20}];
+    _configArray = @[@"288x352、20fps",
+                     @"480x640、20fps",
+                     @"544x960、20fps",
+                     @"720x1280、20fps"];
     NSInteger selectedIndex;
     _configDic = [[NSUserDefaults standardUserDefaults] objectForKey:@"QN_SET_CONFIG"];
     if ([_configDicArray containsObject:_configDic]) {

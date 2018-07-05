@@ -129,8 +129,9 @@ QNRTCSessionDelegate
         self.roomToken = token;
         self.conferenceButton.enabled = YES;
         [self.session joinRoomWithToken:_roomToken];
-        NSInteger bitrate = [_configDic[@"Bitrate"] integerValue];
-        [self.session setMinBitrateBps:bitrate * 1000 maxBitrateBps:2000 * 1000];
+        // 当设置的最低码率，远高于弱网下的常规传输码率值时，会严重影响连麦的画面流畅度
+        // 故建议若非场景带宽需求限制，不设置连麦码率或者设置最低码率值不过高的效果较好
+//        [self.session setMinBitrateBps:200 * 1000 maxBitrateBps:1000 * 1000];
     }];
 }
 

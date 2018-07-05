@@ -150,7 +150,7 @@ UITextFieldDelegate
     NSString *userId = [[NSUserDefaults standardUserDefaults] objectForKey:@"QN_USER_ID"];
     NSDictionary *configDic = [[NSUserDefaults standardUserDefaults] objectForKey:@"QN_SET_CONFIG"];
     if (!configDic) {
-        configDic = @{@"VideoSize":NSStringFromCGSize(CGSizeMake(480, 640)), @"FrameRate":@20, @"Bitrate":@600};
+        configDic = @{@"VideoSize":NSStringFromCGSize(CGSizeMake(480, 640)), @"FrameRate":@20};
     }
 
     [[NSUserDefaults standardUserDefaults] setObject:roomName forKey:@"QN_ROOM_NAME"];

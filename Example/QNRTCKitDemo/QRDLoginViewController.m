@@ -119,7 +119,7 @@ UITextFieldDelegate
         if ([self checkUserId:_userView.userTextField.text]) {
             [_userView.userTextField resignFirstResponder];
             _userString = _userView.userTextField.text;
-            [[NSUserDefaults standardUserDefaults] setObject:_userString forKey:@"QN_USER_ID"];
+            [[NSUserDefaults standardUserDefaults] setObject:_userString forKey:QN_USER_ID_KEY];
             [_userView removeFromSuperview];
             [self setupJoinRoomView];
         } else{
@@ -147,8 +147,12 @@ UITextFieldDelegate
         return;
     }
 
-    NSString *userId = [[NSUserDefaults standardUserDefaults] objectForKey:@"QN_USER_ID"];
-    NSDictionary *configDic = [[NSUserDefaults standardUserDefaults] objectForKey:@"QN_SET_CONFIG"];
+    NSString *userId = [[NSUserDefaults standardUserDefaults] objectForKey:QN_USER_ID_KEY];
+    NSString *appId = [[NSUserDefaults standardUserDefaults] objectForKey:QN_APP_ID_KEY];
+    if (0 == appId.length) {
+        appId = QN_RTC_DEMO_APPID;
+    }
+    NSDictionary *configDic = [[NSUserDefaults standardUserDefaults] objectForKey:QN_SET_CONFIG_KEY];
     if (!configDic) {
         configDic = @{@"VideoSize":NSStringFromCGSize(CGSizeMake(480, 640)), @"FrameRate":@20};
     }
@@ -159,6 +163,7 @@ UITextFieldDelegate
         QRDRTCViewController *rtcVC = [[QRDRTCViewController alloc] init];
         rtcVC.roomName = roomName;
         rtcVC.userId = userId;
+        rtcVC.appId = appId;
         rtcVC.configDic = configDic;
         [self.navigationController pushViewController:rtcVC animated:YES];
     }
@@ -166,6 +171,7 @@ UITextFieldDelegate
         QRDScreenRecorderViewController *recorderViewController = [[QRDScreenRecorderViewController alloc] init];
         recorderViewController.roomName = roomName;
         recorderViewController.userId = userId;
+        recorderViewController.appId = appId;
         recorderViewController.configDic = configDic;
         [self.navigationController pushViewController:recorderViewController animated:YES];
     }

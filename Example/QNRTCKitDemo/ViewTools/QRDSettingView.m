@@ -21,7 +21,7 @@ UIGestureRecognizerDelegate
 @property (nonatomic, assign) BOOL isShow;
 @property (nonatomic, assign) NSInteger selectedIndex;
 @property (nonatomic, copy) NSString *placeholderText;
-
+@property (nonatomic, copy) NSString *appIdText;
 
 @property (nonatomic, strong) NSArray *configArray;
 @property (nonatomic, strong) CALayer *configMenuLayer;
@@ -31,7 +31,7 @@ UIGestureRecognizerDelegate
 @end
 
 @implementation QRDSettingView
-- (id)initWithFrame:(CGRect)frame configArray:(NSArray *)configArray selectedIndex:(NSInteger)selectedIndex placeholderText:(NSString *)placeholderText{
+- (id)initWithFrame:(CGRect)frame configArray:(NSArray *)configArray selectedIndex:(NSInteger)selectedIndex placeholderText:(NSString *)placeholderText appIdText:(NSString *)appIdText{
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
@@ -40,6 +40,7 @@ UIGestureRecognizerDelegate
         _isShow = NO;
         _selectedIndex = selectedIndex;
         _placeholderText = placeholderText;
+        _appIdText = appIdText;
         [self initSettingView];
         [self initSubConfigurationMenu];
     }
@@ -98,7 +99,40 @@ UIGestureRecognizerDelegate
     self.selectImageView.image = [UIImage imageNamed:@"up_down"];
     [_infoBackView addSubview:_selectImageView];
     
-    self.saveButton = [[UIButton alloc] initWithFrame:CGRectMake(5, 152, _viewWidth - 10, 40)];
+    //Appid
+    UIView *appIdBackView = [[UIView alloc] initWithFrame:CGRectMake(5, 164, _viewWidth - 10, 40)];
+    appIdBackView.backgroundColor = QRD_COLOR_RGBA(73,73,75,1);
+    appIdBackView.layer.cornerRadius = 20;
+    [self addSubview:appIdBackView];
+    
+    UILabel *appIdHintLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 40, 40)];
+    appIdHintLabel.textColor = [UIColor whiteColor];
+    appIdHintLabel.font = QRD_LIGHT_FONT(12);
+    appIdHintLabel.textAlignment = NSTextAlignmentLeft;
+    appIdHintLabel.text = @"AppID";
+    appIdHintLabel.backgroundColor =QRD_COLOR_RGBA(73,73,75,1);
+    [appIdBackView addSubview:appIdHintLabel];
+    
+    self.appIdTextField = [[UITextField alloc] initWithFrame:CGRectMake(60, 0, _viewWidth - 110, 40)];
+    self.appIdTextField.backgroundColor = QRD_COLOR_RGBA(73,73,75,1);
+    self.appIdTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    self.appIdTextField.textAlignment = NSTextAlignmentLeft;
+    self.appIdTextField.keyboardType = UIKeyboardTypeASCIICapable;
+    self.appIdTextField.font = QRD_REGULAR_FONT(13);
+    self.appIdTextField.textColor = [UIColor whiteColor];
+    self.appIdTextField.text = _appIdText;
+    
+    [appIdBackView addSubview:_appIdTextField];
+    
+    UILabel *idHintLabel = [[UILabel alloc] initWithFrame:CGRectMake(25, 204, _viewWidth - 50, 27)];
+    idHintLabel.textColor = [UIColor whiteColor];
+    idHintLabel.text = @"请输入您的企业专用AppID";
+    idHintLabel.font = QRD_LIGHT_FONT(10);
+    [self addSubview:idHintLabel];
+    
+    
+    
+    self.saveButton = [[UIButton alloc] initWithFrame:CGRectMake(5, 250, _viewWidth - 10, 40)];
     self.saveButton.backgroundColor = QRD_COLOR_RGBA(52,170,220,1);
     self.saveButton.layer.cornerRadius = 20;
     self.saveButton.titleLabel.font = QRD_REGULAR_FONT(14);

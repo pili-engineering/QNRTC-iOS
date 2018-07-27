@@ -230,6 +230,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  设置连麦的码率
+ *  minBitrateBps: 连麦最低的码率值
+ *  maxBitrateBps: 连麦最高的码率值
+ *  设置最高及最低码率值后，在网络带宽变小导致发送缓冲区数据持续增长时，SDK 内部将适当降低连麦码率直至设置的最低值；反之，当一段时间内网络带宽充裕，SDK 内部将适当增加码率，达到最高值。
+ *  注意：网络较差的情况下，若设置最低码率值过高，将严重影响连麦的质量，故建议适当设置最低码率值
  */
 - (void)setMinBitrateBps:(NSUInteger)minBitrateBps
            maxBitrateBps:(NSUInteger)maxBitrateBps;
@@ -243,6 +247,18 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setMergeStreamLayoutWithUserId:(NSString *)userId
                                  frame:(CGRect)frame
                                 zIndex:(NSUInteger)zIndex;
+
+/**
+ *  设置服务端合流参数
+ *  userId: 本次设置所对应的 userId
+ *  frame: 在合流画面中的大小和位置，需为整数；如果想取消合流，将 frame.size.width 或 frame.size.height 置为 0 即可。
+ *  zIndex: 在合流画面中的层次，0 在最底层
+ *  muted: 音频是否静音
+ */
+- (void)setMergeStreamLayoutWithUserId:(NSString *)userId
+                                 frame:(CGRect)frame
+                                zIndex:(NSUInteger)zIndex
+                                 muted:(BOOL)muted;
 
 /**
  *  停止合流

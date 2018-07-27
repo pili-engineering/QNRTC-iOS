@@ -10,6 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "QRDSettingView.h"
 
+
 @interface QRDSettingViewController ()
 <
 UITextFieldDelegate,
@@ -30,6 +31,7 @@ QRDSettingViewDelegate
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     [UIApplication sharedApplication].statusBarHidden = NO;
 }
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -58,19 +60,25 @@ QRDSettingViewDelegate
                      @"544x960、20fps",
                      @"720x1280、20fps"];
     NSInteger selectedIndex;
-    _configDic = [[NSUserDefaults standardUserDefaults] objectForKey:@"QN_SET_CONFIG"];
+    _configDic = [self getValueForKey:QN_SET_CONFIG_KEY];
     if ([_configDicArray containsObject:_configDic]) {
         selectedIndex = [_configDicArray indexOfObject:_configDic];
     } else{
         selectedIndex = 1;
     }
 
-    NSString *placeholderText = [[NSUserDefaults standardUserDefaults] objectForKey:@"QN_USER_ID"];
-    _setingView = [[QRDSettingView alloc] initWithFrame:CGRectMake(QRD_SCREEN_WIDTH/2 - 150, QRD_LOGIN_TOP_SPACE, 308, 500) configArray:_configArray selectedIndex:selectedIndex  placeholderText:placeholderText];
+    NSString *placeholderText = [self getValueForKey:QN_USER_ID_KEY];
+    NSString *appIdText = [self getValueForKey:QN_APP_ID_KEY];
+    if ([self checkStringLengthZero:appIdText]) {
+        appIdText = QN_RTC_DEMO_APPID;
+    }
+    _setingView = [[QRDSettingView alloc] initWithFrame:CGRectMake(QRD_SCREEN_WIDTH/2 - 150, QRD_LOGIN_TOP_SPACE, 308, 500) configArray:_configArray selectedIndex:selectedIndex  placeholderText:placeholderText appIdText:appIdText];
     _setingView.userTextField.delegate = self;
+    _setingView.appIdTextField.delegate = self;
     _setingView.delegate = self;
     [_setingView.saveButton addTarget:self action:@selector(saveAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview: _setingView];
+    
     
     CGFloat bottomSpace = QRD_SCREEN_HEIGHT - 60;
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(QRD_SCREEN_WIDTH/2 - 1, bottomSpace - 29, 2, 22)];
@@ -87,6 +95,15 @@ QRDSettingViewDelegate
     logoLabel.font = QRD_LIGHT_FONT(16);
     logoLabel.text = @"牛会议";
     [self.view addSubview:logoLabel];
+
+    UILabel *versionLabel = [[UILabel alloc] initWithFrame:CGRectMake(QRD_SCREEN_WIDTH / 2 - 20, bottomSpace + 12, 40, 10)];
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    versionLabel.text = [NSString stringWithFormat:@"v%@", version];
+    versionLabel.font = QRD_LIGHT_FONT(10);
+    versionLabel.textColor = [UIColor whiteColor];
+    versionLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:versionLabel];
+    [self.view bringSubviewToFront:versionLabel];
 }
 
 
@@ -102,17 +119,29 @@ QRDSettingViewDelegate
 }
 
 - (void)saveAction:(UIButton *)save {
-    if (_setingView.userTextField.text.length == 0) {
+    
+    BOOL userIdAvailable = NO;
+    _setingView.userTextField.text = [_setingView.userTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+    if ([self checkStringLengthZero:_setingView.userTextField.text]) {
         [self showAlertWithMessage:@"昵称未填写，无法保存！"];
     } else{
-        _setingView.userTextField.text = [_setingView.userTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
         if ([self checkUserId:_setingView.userTextField.text]) {
-            [[NSUserDefaults standardUserDefaults] setObject:_setingView.userTextField.text forKey:@"QN_USER_ID"];
-            [[NSUserDefaults standardUserDefaults] setObject:_configDic forKey:@"QN_SET_CONFIG"];
-            [self.navigationController popViewControllerAnimated:YES];
+            userIdAvailable = YES;
         } else{
             [self showAlertWithMessage:@"请按要求正确填写昵称！"];
         }
+    }
+    
+    _setingView.appIdTextField.text = [_setingView.appIdTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+    if ([self checkStringLengthZero:_setingView.appIdTextField.text]) {
+        _setingView.appIdTextField.text = QN_RTC_DEMO_APPID;
+    }
+    
+    if (userIdAvailable) {
+        [self saveValue:_setingView.userTextField.text forKey:QN_USER_ID_KEY];
+        [self saveValue:_setingView.appIdTextField.text forKey:QN_APP_ID_KEY];
+        [self saveValue:_configDic forKey:QN_SET_CONFIG_KEY];
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
@@ -121,6 +150,18 @@ QRDSettingViewDelegate
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regString];
     BOOL result = [predicate evaluateWithObject:userId];
     return result;
+}
+
+- (BOOL)checkStringLengthZero:(NSString *)string {
+    return 0 == string.length;
+}
+
+- (id)getValueForKey:(NSString *)key {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:key];
+}
+
+- (void)saveValue:(id)value forKey:(NSString *)key {
+    [[NSUserDefaults standardUserDefaults] setObject:value forKey:key];
 }
 
 #pragma mark --- 点击空白 ---

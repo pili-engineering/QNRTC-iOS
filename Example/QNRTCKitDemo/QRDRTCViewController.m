@@ -11,7 +11,6 @@
 
 #define QRD_BUTTON_SPACE (QRD_SCREEN_WIDTH - 54 * 3)/4
 
-static NSString * const kQNRTCDemoAppId = @"d8lk7l4ed";
 
 static CGSize backgroundSize = {480, 848};
 
@@ -43,7 +42,7 @@ QNRTCSessionDelegate
 @property (nonatomic, copy) NSString *logString;
 
 @property (nonatomic, strong) NSMutableArray *renderArray;
-@property (nonatomic, strong) NSMutableArray *muteDicArray;
+@property (nonatomic, strong) NSMutableDictionary *muteDic;
 
 @property (nonatomic, strong) NSString *roomToken;
 @property (nonatomic, strong) NSArray *colorArray;
@@ -70,13 +69,14 @@ QNRTCSessionDelegate
     
     
     self.renderArray = [NSMutableArray array];
-    self.muteDicArray = [NSMutableArray array];
+    self.muteDic = [NSMutableDictionary new];
     self.mergePositionArray = [NSMutableArray array];
     for (NSInteger i = 0; i < 9; i++) {
         self.mergePositionArray[i] = @"";
     }
     self.totalDuration = 0;
-    self.logString = [NSString stringWithFormat:@"version: %@\n", [QNRTCSession versionInfo]];
+    NSString *bundleId = [[NSBundle mainBundle] bundleIdentifier];
+    self.logString = [NSString stringWithFormat:@"version: %@\nbundle id:\n%@\n", [QNRTCSession versionInfo], bundleId];
     self.hiddenEnable = YES;
     
     self.ownMicroImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -322,7 +322,7 @@ QNRTCSessionDelegate
 此处服务器 URL 仅用于 Demo 测试，随时可能修改/失效，请勿用于 App 线上环境！！
 此处服务器 URL 仅用于 Demo 测试，随时可能修改/失效，请勿用于 App 线上环境！！
 */
-    NSURL *requestUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://api-demo.qnsdk.com/v1/rtc/token/admin/app/%@/room/%@/user/%@?bundleId=%@", kQNRTCDemoAppId, self.roomName, self.userId, [[NSBundle mainBundle] bundleIdentifier]]];
+    NSURL *requestUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://api-demo.qnsdk.com/v1/rtc/token/admin/app/%@/room/%@/user/%@?bundleId=%@", self.appId, self.roomName, self.userId, [[NSBundle mainBundle] bundleIdentifier]]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:requestUrl];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     request.HTTPMethod = @"GET";
@@ -424,7 +424,7 @@ QNRTCSessionDelegate
         self.videoButton.enabled = YES;
 
         if ([self isAdmin]) {
-            [self.session setMergeStreamLayoutWithUserId:self.userId frame:CGRectMake(0, 0, backgroundSize.width, backgroundSize.height) zIndex:0];
+            [self.session setMergeStreamLayoutWithUserId:self.userId frame:CGRectMake(0, 0, backgroundSize.width, backgroundSize.height) zIndex:0 muted:NO];
         }
     });
 }
@@ -439,6 +439,8 @@ QNRTCSessionDelegate
 
 - (void)RTCSession:(QNRTCSession *)session didLeaveOfRemoteUserId:(NSString *)userId {
     NSLog(@"QNRTCKitDemo: userId: %@ leave room", userId);
+    [self.muteDic removeObjectForKey:userId];
+
     dispatch_async(dispatch_get_main_queue(), ^{
         _logString = [_logString stringByAppendingString:[NSString stringWithFormat:@"userId: %@ leave room \n", userId]];
         _logTextView.text = _logString;
@@ -464,7 +466,7 @@ QNRTCSessionDelegate
             }
 
             CGRect rect = CGRectMake((2 - position / 3) * backgroundSize.width / 3, (2 - position % 3) * backgroundSize.height / 3, backgroundSize.width / 3, backgroundSize.height / 3);
-            [self.session setMergeStreamLayoutWithUserId:userId frame:rect zIndex:1];
+            [self.session setMergeStreamLayoutWithUserId:userId frame:rect zIndex:1 muted:NO];
         }
     });
 }
@@ -475,22 +477,16 @@ QNRTCSessionDelegate
         _logString = [_logString stringByAppendingString:[NSString stringWithFormat:@"userId: %@ publish \n", userId]];
         _logTextView.text = _logString;
         [self.session subscribe:userId];
-        [_muteDicArray addObject:@{userId:@{@"video":@0, @"audio":@0}}];
     });
 }
 
 - (void)RTCSession:(QNRTCSession *)session didUnpublishOfRemoteUserId:(NSString *)userId {
     NSLog(@"QNRTCKitDemo: did unpublish of userId: %@", userId);
+    [self.muteDic removeObjectForKey:userId];
+
     dispatch_async(dispatch_get_main_queue(), ^{
         _logString = [_logString stringByAppendingString:[NSString stringWithFormat:@"userId: %@ unpublish \n", userId]];
         _logTextView.text = _logString;
-        NSDictionary *removeDic;
-        for (NSDictionary *dic in _muteDicArray) {
-            if ([dic.allKeys containsObject:userId]) {
-                removeDic = dic;
-            }
-        }
-        [_muteDicArray removeObject:removeDic];
 
         if ([self isAdmin]) {
             [self releaseMergePositionForUserId:userId];
@@ -575,35 +571,23 @@ QNRTCSessionDelegate
 #pragma mark - 记录状态
 
 - (void)recordMuteState:(BOOL)muted userId:(NSString *)userId isAudio:(BOOL)isAudio{
-    BOOL hasContain = NO;
     NSString *keyString = @"video";
     if (isAudio) {
         keyString = @"audio";
     }
-    NSNumber *muteNumber = [NSNumber numberWithBool:muted];
-    if (_muteDicArray.count != 0) {
-        NSArray *currentArray = [_muteDicArray copy];
-        NSMutableArray *mutableArray = [NSMutableArray arrayWithArray:currentArray];
-        for (NSDictionary *dic in currentArray) {
-            if ([dic.allKeys containsObject:userId]) {
-                hasContain = YES;
-                NSInteger arrayIndex = [currentArray indexOfObject:dic];
-                NSMutableDictionary *muteDic = [dic[userId] mutableCopy];
-                if ([muteDic.allKeys containsObject:keyString]) {
-                    muteDic[keyString] = muteNumber;
-                } else{
-                    [muteDic setObject:muteNumber forKey:keyString];
-                }
-                [mutableArray replaceObjectAtIndex:arrayIndex withObject:@{userId:muteDic}];
-            }
-        }
-        if (hasContain) {
-            _muteDicArray = [NSMutableArray arrayWithArray:[mutableArray copy]];
-        }
+
+    NSDictionary *currentDic = self.muteDic[userId];
+    NSDictionary *newDic = nil;
+    if (currentDic) {
+        NSMutableDictionary *mDic = [[NSMutableDictionary alloc] initWithDictionary:currentDic];
+        [mDic setObject:@(muted) forKey:keyString];
+        newDic = [mDic copy];
     }
-    if (!hasContain) {
-        [_muteDicArray addObject:@{userId:@{keyString:muteNumber}}];
+    else {
+        newDic = @{keyString: @(muted)};
     }
+
+    [self.muteDic setObject:newDic forKey:userId];
 }
 
 #pragma mark - 合流相关
@@ -641,19 +625,9 @@ QNRTCSessionDelegate
 
 #pragma mark - 是否音视频状态展示
 - (void)showUserStateWithUserId:(NSString *)userId {
-    BOOL audioMute = NO;
-    BOOL videoMute = NO;
-    for (NSDictionary *dic in _muteDicArray) {
-        if ([dic.allKeys containsObject:userId]) {
-            NSDictionary *muteDic = dic[userId];
-            if ([muteDic.allKeys containsObject:@"audio"]) {
-                audioMute = [muteDic[@"audio"] boolValue];
-            }
-            if ([muteDic.allKeys containsObject:@"video"]) {
-                videoMute = [muteDic[@"video"] boolValue];
-            }
-        }
-    }
+    NSDictionary *currentDic = self.muteDic[userId];
+    BOOL audioMute = [currentDic[@"audio"] boolValue];
+    BOOL videoMute = [currentDic[@"video"] boolValue];
     
     QNVideoView *videoView;
     for (NSDictionary *dic in _renderArray) {

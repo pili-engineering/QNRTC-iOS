@@ -12,6 +12,7 @@
 
 @property (nonatomic, copy) NSString *roomName;
 @property (nonatomic, copy) NSString *userId;
+@property (nonatomic, copy) NSString *appId;
 @property (nonatomic, strong) NSDictionary *configDic;
 
 @end

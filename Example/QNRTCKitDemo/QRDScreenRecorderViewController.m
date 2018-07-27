@@ -12,7 +12,6 @@
 #import "QRDMicrophoneSource.h"
 #import "QRDPublicHeader.h"
 
-static NSString * const kQNRTCDemoAppId = @"d8lk7l4ed";
 
 @interface QRDScreenRecorderViewController ()
 <QNRTCSessionDelegate,
@@ -254,7 +253,13 @@ QRDMicrophoneSourceDelegate>
 
 - (void)requestTokenWithCompletionHandler:(void (^)(NSError *error, NSString *token))completionHandler
 {
-    NSURL *requestUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://api-demo.qnsdk.com/v1/rtc/token/admin/app/%@/room/%@/user/%@?bundleId=%@", kQNRTCDemoAppId, self.roomName, self.userId, [[NSBundle mainBundle] bundleIdentifier]]];
+#warning
+    /*
+     此处服务器 URL 仅用于 Demo 测试，随时可能修改/失效，请勿用于 App 线上环境！！
+     此处服务器 URL 仅用于 Demo 测试，随时可能修改/失效，请勿用于 App 线上环境！！
+     此处服务器 URL 仅用于 Demo 测试，随时可能修改/失效，请勿用于 App 线上环境！！
+     */
+    NSURL *requestUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://api-demo.qnsdk.com/v1/rtc/token/admin/app/%@/room/%@/user/%@?bundleId=%@",self.appId, self.roomName, self.userId, [[NSBundle mainBundle] bundleIdentifier]]];
 
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:requestUrl];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];

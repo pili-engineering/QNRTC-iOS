@@ -10,6 +10,8 @@
 #import <QNRTCKit/QNRTCKit.h>
 
 #define QRD_BUTTON_SPACE (QRD_SCREEN_WIDTH - 54 * 3)/4
+#define DOUBLE_VALUE_IS_ZERO(fValue) (fabs((double)(fValue)) < (1e-6))
+
 
 
 static CGSize backgroundSize = {480, 848};
@@ -51,6 +53,10 @@ QNRTCSessionDelegate
 @property (nonatomic, assign) BOOL reconnecting;
 
 @property (nonatomic, strong) NSMutableArray *mergePositionArray;
+@property (nonatomic, strong) QNVideoView *videoView;
+@property (nonatomic, strong) UITapGestureRecognizer *viewSwitchGesture;
+
+
 
 @end
 
@@ -67,7 +73,7 @@ QNRTCSessionDelegate
     // Do any additional setup after loading the view.
     self.view.backgroundColor = QRD_COLOR_RGBA(20, 20, 20, 1);
     
-    
+    _viewSwitchGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewSwitch:)];
     self.renderArray = [NSMutableArray array];
     self.muteDic = [NSMutableDictionary new];
     self.mergePositionArray = [NSMutableArray array];
@@ -317,11 +323,12 @@ QNRTCSessionDelegate
 - (void)requestTokenWithCompletionHandler:(void (^)(NSError *error, NSString *token))completionHandler
 {
 #warning
-/*
-此处服务器 URL 仅用于 Demo 测试，随时可能修改/失效，请勿用于 App 线上环境！！
-此处服务器 URL 仅用于 Demo 测试，随时可能修改/失效，请勿用于 App 线上环境！！
-此处服务器 URL 仅用于 Demo 测试，随时可能修改/失效，请勿用于 App 线上环境！！
-*/
+    /*
+     此处服务器 URL 仅用于 Demo 测试，随时可能修改/失效，请勿用于 App 线上环境！！
+     此处服务器 URL 仅用于 Demo 测试，随时可能修改/失效，请勿用于 App 线上环境！！
+     此处服务器 URL 仅用于 Demo 测试，随时可能修改/失效，请勿用于 App 线上环境！！
+     */
+
     NSURL *requestUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://api-demo.qnsdk.com/v1/rtc/token/admin/app/%@/room/%@/user/%@?bundleId=%@", self.appId, self.roomName, self.userId, [[NSBundle mainBundle] bundleIdentifier]]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:requestUrl];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -685,6 +692,7 @@ QNRTCSessionDelegate
 
 - (void)layoutRenderViewWithUserId:(NSString *)userId {
     dispatch_async(dispatch_get_main_queue(), ^{
+        [_viewSwitchGesture.view removeGestureRecognizer:_viewSwitchGesture];
         CGFloat topSpace = 0;
         if (QRD_iPhoneX) {
             topSpace = 40;
@@ -740,23 +748,41 @@ QNRTCSessionDelegate
             [self.view insertSubview:self.session.previewView atIndex:0];
             
             if (_renderArray.count == 1) {
-                NSDictionary *dic = _renderArray[0];
-                QNVideoView *videoView = [dic allValues][0];
-                [videoView removeFromSuperview];
-                videoView.frame = CGRectMake(QRD_SCREEN_WIDTH - QRD_SCREEN_WIDTH/3, topSpace, QRD_SCREEN_WIDTH/3, QRD_SCREEN_WIDTH/3/9*16);
-                [self.view insertSubview:videoView belowSubview:_logButton];
                 
-                [self dependsWhetherLoadedWithVideoView:videoView index:0 renderDic:dic];
-                [_renderArray replaceObjectAtIndex:0 withObject:@{[_renderArray[0] allKeys][0]:videoView}];
+                NSDictionary *dic = _renderArray[0];
+                _videoView = [dic allValues][0];
+                [_videoView addGestureRecognizer:_viewSwitchGesture];
+                [_videoView removeFromSuperview];
+                _videoView.frame = CGRectMake(QRD_SCREEN_WIDTH - QRD_SCREEN_WIDTH/3, topSpace, QRD_SCREEN_WIDTH/3,
+                                              QRD_SCREEN_WIDTH/3/9*16);
+                [self.view insertSubview:_videoView belowSubview:_logButton];
+                
+                [self dependsWhetherLoadedWithVideoView:_videoView index:0 renderDic:dic];
+                [_renderArray replaceObjectAtIndex:0 withObject:@{[_renderArray[0] allKeys][0]:_videoView}];
             }
         }
         if (_logButton.selected) {
             [_logView removeFromSuperview];
             [self.view insertSubview:_logView aboveSubview:self.view.subviews.lastObject];
         }
-
+        
         self.userIdLabel.backgroundColor = self.colorArray[_renderArray.count];
     });
+}
+
+- (void)viewSwitch:(UITapGestureRecognizer *)sender {
+    [sender.view removeGestureRecognizer:sender];
+    CGRect previewRect = _session.previewView.frame;
+    CGRect videoViewRect = _videoView.frame;
+    if (DOUBLE_VALUE_IS_ZERO(videoViewRect.size.width - QRD_SCREEN_WIDTH)) {
+        [self.view sendSubviewToBack:_session.previewView];
+        [_videoView addGestureRecognizer:sender];
+    } else {
+        [self.view sendSubviewToBack:_videoView];
+        [_session.previewView addGestureRecognizer:sender];
+    }
+    _session.previewView.frame = videoViewRect;
+    _videoView.frame = previewRect;
 }
 
 #pragma mark --- 点击空白 ---

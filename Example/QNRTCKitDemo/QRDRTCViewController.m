@@ -10,6 +10,8 @@
 #import <QNRTCKit/QNRTCKit.h>
 
 #define QRD_BUTTON_SPACE (QRD_SCREEN_WIDTH - 54 * 3)/4
+#define DOUBLE_VALUE_IS_ZERO(fValue) (fabs((double)(fValue)) < (1e-6))
+
 
 
 static CGSize backgroundSize = {480, 848};
@@ -772,7 +774,7 @@ QNRTCSessionDelegate
     [sender.view removeGestureRecognizer:sender];
     CGRect previewRect = _session.previewView.frame;
     CGRect videoViewRect = _videoView.frame;
-    if (videoViewRect.size.width == QRD_SCREEN_WIDTH) {
+    if (DOUBLE_VALUE_IS_ZERO(videoViewRect.size.width - QRD_SCREEN_WIDTH)) {
         [self.view sendSubviewToBack:_session.previewView];
         [_videoView addGestureRecognizer:sender];
     } else {

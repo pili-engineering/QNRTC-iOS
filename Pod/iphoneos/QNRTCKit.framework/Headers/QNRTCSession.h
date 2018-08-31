@@ -205,6 +205,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  导入视频数据，仅在 captureEnabled 为 NO 时才支持导入视频数据
  */
+- (void)pushVideoSampleBuffer:(CMSampleBufferRef)sampleBuffer;
+
+/**
+ *  导入视频数据，仅在 captureEnabled 为 NO 时才支持导入视频数据
+ */
 - (void)pushPixelBuffer:(CVPixelBufferRef)pixelBuffer;
 
 /**
@@ -217,6 +222,25 @@ NS_ASSUME_NONNULL_BEGIN
  *  订阅 userId 的音/视频
  */
 - (void)subscribe:(NSString *)userId;
+
+/*!
+ @abstract
+ 订阅某一用户的流。
+
+ @param userId
+ 被订阅的用户的 userId。
+
+ @param continuous
+ 是否持续订阅该用户的流。
+
+ @discussion
+ 调用该接口时，要求 userId 对应的用户已经加入到房间中，否则会回调错误。
+ 如果 continuous 为 YES，那么当 userId 发布流时，SDK 会自动订阅流。一直持续到取消订阅或者 userId 取消发布流为止。
+ 另外，本地用户退出房间亦会清空持续订阅的用户列表。
+
+ @since v1.2.0
+ */
+- (void)subscribe:(NSString *)userId continuous:(BOOL)continuous;
 
 /**
  *  取消订阅 userId 的音/视频
@@ -241,8 +265,10 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  设置服务端合流参数
  *  userId: 本次设置所对应的 userId
- *  frame: 在合流画面中的大小和位置，需为整数；如果想取消合流，将 frame.size.width 或 frame.size.height 置为 0 即可。
+ *  frame: 在合流画面中的大小和位置，需为整数；如果合流后想取消视频的合成，重新调用该接口将 frame.size.width 或 frame.size.height 置为 0 即可。
  *  zIndex: 在合流画面中的层次，0 在最底层
+ *  注意：取消视频的合成后，音频仍然会保留，如果希望同时取消音频的合成，可以使用 - (void)setMergeStreamLayoutWithUserId:(NSString *)userId frame:(CGRect)frame zIndex:(NSUInteger)zIndex muted:(BOOL)muted; 接口
+
  */
 - (void)setMergeStreamLayoutWithUserId:(NSString *)userId
                                  frame:(CGRect)frame
@@ -250,10 +276,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  设置服务端合流参数
- *  userId: 本次设置所对应的 userId
- *  frame: 在合流画面中的大小和位置，需为整数；如果想取消合流，将 frame.size.width 或 frame.size.height 置为 0 即可。
- *  zIndex: 在合流画面中的层次，0 在最底层
- *  muted: 音频是否静音
+ *  userId: 本次设置所对应的 userId；
+ *  frame: 在合流画面中的大小和位置，需为整数，若 frame.size.width 或 frame.size.height 为 0，则该用户的视频不会合成到合流画面中；
+ *  zIndex: 在合流画面中的层次，0 在最底层；
+ *  muted: 音频是否静音，若 muted 为 YES，则不会合成该用户的音频；
+ *  说明：设置合流参数后，如果需要更改参数，重新调用该接口并传入修改后的参数即可。
  */
 - (void)setMergeStreamLayoutWithUserId:(NSString *)userId
                                  frame:(CGRect)frame
@@ -261,7 +288,7 @@ NS_ASSUME_NONNULL_BEGIN
                                  muted:(BOOL)muted;
 
 /**
- *  停止合流
+ *  停止整个房间的合流。如果停止合流后需要重新开启合流，重新调用 - (void)setMergeStreamLayoutWithUserId (NSString *)userId frame:(CGRect)frame zIndex:(NSUInteger)zIndex muted:(BOOL)muted 接口设置合流参数即可。
  */
 - (void)stopMergeStream;
 
@@ -284,7 +311,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) UIView *previewView;
 
 /**
- @brief previewView 中视频的填充方式，默认使用 PLVideoFillModePreserveAspectRatioAndFill
+ @brief previewView 中视频的填充方式，默认使用 QNVideoFillModePreserveAspectRatioAndFill
  */
 @property(readwrite, nonatomic) QNVideoFillModeType fillMode;
 

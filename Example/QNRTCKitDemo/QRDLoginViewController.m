@@ -12,7 +12,9 @@
 #import "QRDAgreementViewController.h"
 #import "QRDUserNameView.h"
 #import "QRDJoinRoomView.h"
+#import "QRDLiveView.h"
 #import "QRDScreenRecorderViewController.h"
+#import "QRDLiveViewController.h"
 
 #define QRD_LOGIN_TOP_SPACE (QRD_iPhoneX ? 140: 100)
 
@@ -22,6 +24,7 @@ UITextFieldDelegate
 >
 @property (nonatomic, strong) QRDUserNameView *userView;
 @property (nonatomic, strong) QRDJoinRoomView *joinRoomView;
+@property (nonatomic, strong) QRDLiveView *liveView;
 @property (nonatomic, strong) UIButton *setButton;
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, copy) NSString *userString;
@@ -41,8 +44,8 @@ UITextFieldDelegate
      [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
     self.view.backgroundColor = QRD_GROUND_COLOR;
-
-    _userString = [[NSUserDefaults standardUserDefaults] objectForKey:@"QN_USER_ID"];
+    
+    _userString = [[NSUserDefaults standardUserDefaults] objectForKey:QN_USER_ID_KEY];
     
     BOOL isStorage = NO;
     if (_userString.length != 0) {
@@ -71,14 +74,15 @@ UITextFieldDelegate
 }
 
 - (void)setupJoinRoomView {
-    _joinRoomView = [[QRDJoinRoomView alloc] initWithFrame:CGRectMake(QRD_SCREEN_WIDTH/2 - 150, QRD_LOGIN_TOP_SPACE, 308, 185)];
+    _joinRoomView = [[QRDJoinRoomView alloc] initWithFrame:CGRectMake(QRD_SCREEN_WIDTH/2 - 150, QRD_LOGIN_TOP_SPACE, 308, 246)];
     _joinRoomView.roomTextField.delegate = self;
-    NSString *roomName = [[NSUserDefaults standardUserDefaults] objectForKey:@"QN_ROOM_NAME"];
+    NSString *roomName = [[NSUserDefaults standardUserDefaults] objectForKey:QN_ROOM_NAME_KEY];
     _joinRoomView.roomTextField.text = roomName;
     [_joinRoomView.joinButton addTarget:self action:@selector(joinAction:) forControlEvents:UIControlEventTouchUpInside];
     _joinRoomView.confButton.selected = YES;
     [_joinRoomView.confButton addTarget:self action:@selector(confButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [_joinRoomView.screenButton addTarget:self action:@selector(screenButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [_joinRoomView.liveButton addTarget:self action:@selector(liveButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_joinRoomView];
     
     _setButton = [[UIButton alloc] initWithFrame:CGRectMake(QRD_SCREEN_WIDTH - 36, QRD_LOGIN_TOP_SPACE - 68, 24, 24)];
@@ -157,7 +161,7 @@ UITextFieldDelegate
         configDic = @{@"VideoSize":NSStringFromCGSize(CGSizeMake(480, 640)), @"FrameRate":@20};
     }
 
-    [[NSUserDefaults standardUserDefaults] setObject:roomName forKey:@"QN_ROOM_NAME"];
+    [[NSUserDefaults standardUserDefaults] setObject:roomName forKey:QN_ROOM_NAME_KEY];
     [[NSUserDefaults standardUserDefaults] synchronize];
     if (_joinRoomView.confButton.selected) {
         QRDRTCViewController *rtcVC = [[QRDRTCViewController alloc] init];
@@ -180,6 +184,42 @@ UITextFieldDelegate
 - (void)settingAction:(UIButton *)setting {
     QRDSettingViewController *settingVC = [[QRDSettingViewController alloc] init];
     [self.navigationController pushViewController:settingVC animated:YES];
+}
+
+- (void)liveButtonClick:(UIButton *)liveButton {
+    
+    NSString *roomName;
+    if (_joinRoomView.roomTextField.text.length != 0) {
+        _joinRoomView.roomTextField.text = [_joinRoomView.roomTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+        if ([self checkRoomName:_joinRoomView.roomTextField.text]) {
+            roomName = _joinRoomView.roomTextField.text;
+        } else{
+            [self showAlertWithMessage:@"请按要求正确填写房间名称！"];
+            return;
+        }
+    } else{
+        [self showAlertWithMessage:@"请填写房间名称！"];
+        return;
+    }
+    
+    [self.view endEditing:YES];
+    
+    NSString *userId = [[NSUserDefaults standardUserDefaults] objectForKey:QN_USER_ID_KEY];
+    NSString *appId = [[NSUserDefaults standardUserDefaults] objectForKey:QN_APP_ID_KEY];
+    if (0 == appId.length) {
+        appId = QN_RTC_DEMO_APPID;
+    }
+    
+    [[NSUserDefaults standardUserDefaults] setObject:roomName forKey:QN_ROOM_NAME_KEY];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    NSString * urlString = [NSString stringWithFormat:@"rtmp://pili-rtmp.qnsdk.com/sdk-live/%@",roomName];
+    QRDLiveViewController * liveVC = [[QRDLiveViewController alloc] init];
+    liveVC.url = [NSURL URLWithString:urlString];
+    liveVC.roomName = roomName;
+    liveVC.userId = userId;
+    liveVC.appId = appId;
+    [self.navigationController pushViewController:liveVC animated:YES];
 }
 
 - (void)agreementButtonClick:(id)sender {

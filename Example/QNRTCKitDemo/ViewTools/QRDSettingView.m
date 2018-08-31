@@ -83,6 +83,7 @@ UIGestureRecognizerDelegate
     self.infoBackView.layer.cornerRadius = 20;
     [self addSubview:_infoBackView];
     
+    
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapMenuAction:)];
     tap.delegate = self;
     [_infoBackView addGestureRecognizer:tap];
@@ -129,7 +130,6 @@ UIGestureRecognizerDelegate
     idHintLabel.text = @"请输入您的企业专用AppID";
     idHintLabel.font = QRD_LIGHT_FONT(10);
     [self addSubview:idHintLabel];
-    
     
     
     self.saveButton = [[UIButton alloc] initWithFrame:CGRectMake(5, 250, _viewWidth - 10, 40)];

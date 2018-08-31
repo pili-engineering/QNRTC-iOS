@@ -49,5 +49,6 @@
 #define QN_USER_ID_KEY @"QN_USER_ID"
 #define QN_APP_ID_KEY @"QN_APP_ID"
 #define QN_SET_CONFIG_KEY @"QN_SET_CONFIG"
+#define QN_ROOM_NAME_KEY @"QN_ROOM_NAME"
 #define QN_RTC_DEMO_APPID @"d8lk7l4ed"
 #endif /* QNRTCHeader_h */

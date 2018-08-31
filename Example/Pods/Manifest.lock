@@ -1,14 +1,19 @@
 PODS:
   - Bugsnag (5.15.4)
-  - QNRTCKit (1.1.0)
+  - PLPlayerKit (3.3.2):
+    - PLPlayerKit/iphoneos (= 3.3.2)
+  - PLPlayerKit/iphoneos (3.3.2)
+  - QNRTCKit (1.2.0)
 
 DEPENDENCIES:
   - Bugsnag (= 5.15.4)
+  - PLPlayerKit (= 3.3.2)
   - QNRTCKit (from `../QNRTCKit.podspec`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Bugsnag
+    - PLPlayerKit
 
 EXTERNAL SOURCES:
   QNRTCKit:
@@ -16,8 +21,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Bugsnag: df1d395695ddf795aa35c23ef4eaef4a04ddcffd
-  QNRTCKit: e749de4317a3e12927ce9ee478ca0a77249e07ce
+  PLPlayerKit: 70b3866a615de26030e9c81316f6807b1a8b1808
+  QNRTCKit: 6d78ab860533656ec47dd4c997f1c186650ab2a9
 
-PODFILE CHECKSUM: a3da902c30391294160165266837eb7a0701c1d7
+PODFILE CHECKSUM: 1a7ae61ccd85a1ad97a7822bd162161a76dbe2f9
 
 COCOAPODS: 1.5.3

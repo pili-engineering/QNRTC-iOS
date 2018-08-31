@@ -4,4 +4,5 @@
 target 'QNRTCKitDemo' do
   pod 'QNRTCKit', :path =>'../QNRTCKit.podspec'
   pod 'Bugsnag', '5.15.4'
+  pod 'PLPlayerKit', '3.3.2'
 end

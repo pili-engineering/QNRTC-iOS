@@ -14,4 +14,5 @@
 @property (nonatomic, copy) NSString *appId;
 @property (nonatomic, strong) NSDictionary *configDic;
 
+
 @end

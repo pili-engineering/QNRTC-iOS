@@ -8,12 +8,13 @@
 
 Pod::Spec.new do |s|
     s.name      = 'QNRTCKit'
-    s.version   = '1.1.0'
+    s.version   = '1.2.0'
     s.summary   = 'Qiniu RTC SDK for iOS.'
     s.homepage  = 'https://github.com/pili-engineering/QNRTC-iOS'
     s.license   = 'Apache License, Version 2.0'
     s.author    = { "pili" => "pili-coresdk@qiniu.com" }
-    s.source    = { :git => 'https://github.com/pili-engineering/QNRTC-iOS.git', :tag => "v#{s.version}" }
+    s.source    = { :http => "http://sdk-release.qnsdk.com/QNRTCKit-universal-v1.2.0.zip"}
+
 
     s.platform                = :ios
     s.ios.deployment_target   = '8.0'

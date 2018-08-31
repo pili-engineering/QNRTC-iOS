@@ -45,7 +45,7 @@
     hintLabel.text = @"如果没有该房间，则会自动创建，房间名仅支持 3 ~ 64 位字母、数字、_ 和 - 的组合";
     hintLabel.font = QRD_LIGHT_FONT(10);
     [self addSubview:hintLabel];
-
+    
     self.confButton = [[UIButton alloc] initWithFrame:CGRectMake(25, 100, 44, 44)];
     [self.confButton setImage:[UIImage imageNamed:@"noChoose"] forState:UIControlStateNormal];
     [self.confButton setImage:[UIImage imageNamed:@"choose"] forState:UIControlStateSelected];
@@ -70,13 +70,21 @@
     screenLabel.font = QRD_LIGHT_FONT(12);
     [self addSubview:screenLabel];
 
-    self.joinButton = [[UIButton alloc] initWithFrame:CGRectMake(5, 156, viewWidth - 10, 40)];
+    self.joinButton = [[UIButton alloc] initWithFrame:CGRectMake(5, 146, viewWidth - 10, 40)];
     self.joinButton.backgroundColor = QRD_COLOR_RGBA(52,170,220,1);
     self.joinButton.layer.cornerRadius = 20;
     self.joinButton.titleLabel.font = QRD_REGULAR_FONT(14);
-    [self.joinButton setTitle:@"加入房间" forState:UIControlStateNormal];
+    [self.joinButton setTitle:@"会议房间" forState:UIControlStateNormal];
     [self.joinButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self addSubview:_joinButton];
+    
+    self.liveButton = [[UIButton alloc] initWithFrame:CGRectMake(5, 206, viewWidth - 10, 40)];
+    self.liveButton.backgroundColor = QRD_COLOR_RGBA(52,170,220,1);
+    self.liveButton.layer.cornerRadius = 20;
+    self.liveButton.titleLabel.font = QRD_REGULAR_FONT(14);
+    [self.liveButton setTitle:@"直播房间" forState:UIControlStateNormal];
+    [self.liveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self addSubview:_liveButton];
 }
 
 /*

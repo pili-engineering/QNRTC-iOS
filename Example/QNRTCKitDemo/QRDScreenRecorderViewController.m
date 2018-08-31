@@ -44,6 +44,10 @@ QRDMicrophoneSourceDelegate>
     [self startRecord];
 }
 
+- (void)dealloc {
+    NSLog(@"QRDScreenRecorderViewController dealloc");
+}
+
 - (void)setupUI {
     self.circleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
     CGPoint center = self.view.center;
@@ -96,22 +100,24 @@ QRDMicrophoneSourceDelegate>
 
 - (void)startRecord {
     if (@available(iOS 11.0, *)) {
+        __weak typeof(self) weakSelf = self;
         [self.recorder startCaptureWithHandler:^(CMSampleBufferRef  _Nonnull sampleBuffer, RPSampleBufferType bufferType, NSError * _Nullable error) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
             if (bufferType == RPSampleBufferTypeVideo) {
-                CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-                [self.session pushPixelBuffer:pixelBuffer];
+                [strongSelf.session pushVideoSampleBuffer:sampleBuffer];
             }
         } completionHandler:^(NSError * _Nullable error) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
             if (error) {
                 NSLog(@"startCaptureWithHandler error: %@", error);
-                [self showAlertWithMessage:error.localizedDescription];
+                [strongSelf showAlertWithMessage:error.localizedDescription];
             }
             else {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     //如果用户未授权访问摄像头，cameraPreviewView 将为空
-                    if (self.recorder.cameraPreviewView) {
-                        [self.renderViewArray addObject:self.recorder.cameraPreviewView];
-                        [self layoutRenderViews];
+                    if (strongSelf.recorder.cameraPreviewView) {
+                        [strongSelf.renderViewArray addObject:strongSelf.recorder.cameraPreviewView];
+                        [strongSelf layoutRenderViews];
                     }
                 });
             }
@@ -122,12 +128,25 @@ QRDMicrophoneSourceDelegate>
 }
 
 - (void)stopRecord {
+    if (@available(iOS 10.0, *)) {
+        self.recorder.cameraEnabled = NO;
+    }
+
+    __weak typeof(self) weakSelf = self;
     if (@available(iOS 11.0, *)) {
         [self.recorder stopCaptureWithHandler:^(NSError * _Nullable error) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
             if (error) {
                 NSLog(@"stopCaptureWithHandler error: %@", error);
-                [self showAlertWithMessage:error.localizedDescription];
+                [strongSelf showAlertWithMessage:error.localizedDescription];
             }
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //如果用户未授权访问摄像头，cameraPreviewView 将为空
+                if (strongSelf.recorder.cameraPreviewView) {
+                    [strongSelf.recorder.cameraPreviewView removeFromSuperview];
+                }
+            });
         }];
     } else {
         // Fallback on earlier versions
@@ -142,6 +161,8 @@ QRDMicrophoneSourceDelegate>
         self.session.delegate = nil;
         self.session = nil;
         [self.microhoneSource stopRunning];
+        self.microhoneSource.delegate = nil;
+        self.microhoneSource = nil;
     }
 
     [self stopRecord];

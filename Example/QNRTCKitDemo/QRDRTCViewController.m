@@ -627,7 +627,7 @@ QNRTCSessionDelegate
 }
 
 - (BOOL)isAdmin {
-    return [self.userId.lowercaseString containsString:@"admin"];
+    return [self.userId isEqualToString:@"admin"];
 }
 
 #pragma mark - 是否音视频状态展示
@@ -741,6 +741,7 @@ QNRTCSessionDelegate
             }
             _renderArray = [NSMutableArray arrayWithArray:[renderViewArray copy]];
         } else{
+            
             _hiddenEnable = YES;
             [_session.previewView removeFromSuperview];
             [_ownMicroImageView removeFromSuperview];
@@ -748,15 +749,15 @@ QNRTCSessionDelegate
             [self.view insertSubview:self.session.previewView atIndex:0];
             
             if (_renderArray.count == 1) {
-                
+            
                 NSDictionary *dic = _renderArray[0];
                 _videoView = [dic allValues][0];
                 [_videoView addGestureRecognizer:_viewSwitchGesture];
                 [_videoView removeFromSuperview];
                 _videoView.frame = CGRectMake(QRD_SCREEN_WIDTH - QRD_SCREEN_WIDTH/3, topSpace, QRD_SCREEN_WIDTH/3,
-                                              QRD_SCREEN_WIDTH/3/9*16);
+                QRD_SCREEN_WIDTH/3/9*16);
                 [self.view insertSubview:_videoView belowSubview:_logButton];
-                
+
                 [self dependsWhetherLoadedWithVideoView:_videoView index:0 renderDic:dic];
                 [_renderArray replaceObjectAtIndex:0 withObject:@{[_renderArray[0] allKeys][0]:_videoView}];
             }
@@ -765,7 +766,7 @@ QNRTCSessionDelegate
             [_logView removeFromSuperview];
             [self.view insertSubview:_logView aboveSubview:self.view.subviews.lastObject];
         }
-        
+
         self.userIdLabel.backgroundColor = self.colorArray[_renderArray.count];
     });
 }

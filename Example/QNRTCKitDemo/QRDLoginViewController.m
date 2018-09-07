@@ -74,18 +74,23 @@ UITextFieldDelegate
 }
 
 - (void)setupJoinRoomView {
-    _joinRoomView = [[QRDJoinRoomView alloc] initWithFrame:CGRectMake(QRD_SCREEN_WIDTH/2 - 150, QRD_LOGIN_TOP_SPACE, 308, 246)];
+    _joinRoomView = [[QRDJoinRoomView alloc] initWithFrame:CGRectMake(QRD_SCREEN_WIDTH/2 - 150, QRD_LOGIN_TOP_SPACE, 308, 310)];
     _joinRoomView.roomTextField.delegate = self;
     NSString *roomName = [[NSUserDefaults standardUserDefaults] objectForKey:QN_ROOM_NAME_KEY];
     _joinRoomView.roomTextField.text = roomName;
-    [_joinRoomView.joinButton addTarget:self action:@selector(joinAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_joinRoomView];
+
     _joinRoomView.confButton.selected = YES;
     [_joinRoomView.confButton addTarget:self action:@selector(confButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [_joinRoomView.audioCallButton addTarget:self action:@selector(audioCallButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [_joinRoomView.screenButton addTarget:self action:@selector(screenButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [_joinRoomView.liveButton addTarget:self action:@selector(liveButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_joinRoomView];
     
-    _setButton = [[UIButton alloc] initWithFrame:CGRectMake(QRD_SCREEN_WIDTH - 36, QRD_LOGIN_TOP_SPACE - 68, 24, 24)];
+    [_joinRoomView.joinButton addTarget:self action:@selector(joinAction:) forControlEvents:UIControlEventTouchUpInside];
+
+    [_joinRoomView.liveButton addTarget:self action:@selector(liveButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    
+    _setButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _setButton.frame = CGRectMake(QRD_SCREEN_WIDTH - 36, QRD_LOGIN_TOP_SPACE - 68, 24, 24);
     [_setButton setImage:[UIImage imageNamed:@"setting"] forState:UIControlStateNormal];
     [_setButton addTarget:self action:@selector(settingAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_setButton];
@@ -169,9 +174,19 @@ UITextFieldDelegate
         rtcVC.userId = userId;
         rtcVC.appId = appId;
         rtcVC.configDic = configDic;
+        rtcVC.videoEnabled = YES;
         [self.navigationController pushViewController:rtcVC animated:YES];
     }
-    else {
+    else if (_joinRoomView.audioCallButton.selected) {
+        QRDRTCViewController *rtcVC = [[QRDRTCViewController alloc] init];
+        rtcVC.roomName = roomName;
+        rtcVC.userId = userId;
+        rtcVC.appId = appId;
+        rtcVC.configDic = configDic;
+        rtcVC.videoEnabled = NO;
+        [self.navigationController pushViewController:rtcVC animated:YES];
+    }
+    else if (_joinRoomView.screenButton.selected) {
         QRDScreenRecorderViewController *recorderViewController = [[QRDScreenRecorderViewController alloc] init];
         recorderViewController.roomName = roomName;
         recorderViewController.userId = userId;
@@ -228,10 +243,15 @@ UITextFieldDelegate
 }
 
 - (void)confButtonClick:(id)sender {
-    if (_joinRoomView.screenButton.isSelected) {
-        _joinRoomView.confButton.selected = YES;
-        _joinRoomView.screenButton.selected = NO;
-    }
+    _joinRoomView.confButton.selected = YES;
+    _joinRoomView.audioCallButton.selected = NO;
+    _joinRoomView.screenButton.selected = NO;
+}
+
+- (void)audioCallButtonClick:(id)sender {
+    _joinRoomView.confButton.selected = NO;
+    _joinRoomView.audioCallButton.selected = YES;
+    _joinRoomView.screenButton.selected = NO;
 }
 
 - (void)screenButtonClick:(id)sender {
@@ -240,10 +260,9 @@ UITextFieldDelegate
         return;
     }
 
-    if (_joinRoomView.confButton.isSelected) {
-        _joinRoomView.screenButton.selected = YES;
-        _joinRoomView.confButton.selected = NO;
-    }
+    _joinRoomView.confButton.selected = NO;
+    _joinRoomView.audioCallButton.selected = NO;
+    _joinRoomView.screenButton.selected = YES;
 }
 
 - (void)agreementLabelTapped:(id)sender {

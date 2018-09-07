@@ -13,6 +13,6 @@
 @property (nonatomic, copy) NSString *userId;
 @property (nonatomic, copy) NSString *appId;
 @property (nonatomic, strong) NSDictionary *configDic;
-
+@property (nonatomic, assign) BOOL videoEnabled;
 
 @end

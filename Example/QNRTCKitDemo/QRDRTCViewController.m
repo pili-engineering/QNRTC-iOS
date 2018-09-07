@@ -8,6 +8,7 @@
 
 #import "QRDRTCViewController.h"
 #import <QNRTCKit/QNRTCKit.h>
+#import "QRDUserView.h"
 
 #define QRD_BUTTON_SPACE (QRD_SCREEN_WIDTH - 54 * 3)/4
 #define DOUBLE_VALUE_IS_ZERO(fValue) (fabs((double)(fValue)) < (1e-6))
@@ -18,7 +19,8 @@ static CGSize backgroundSize = {480, 848};
 
 @interface QRDRTCViewController ()
 <
-QNRTCSessionDelegate
+QNRTCSessionDelegate,
+QRDUserViewDelegate
 >
 
 @property (nonatomic, strong) QNRTCSession *session;
@@ -44,7 +46,6 @@ QNRTCSessionDelegate
 @property (nonatomic, copy) NSString *logString;
 
 @property (nonatomic, strong) NSMutableArray *renderArray;
-@property (nonatomic, strong) NSMutableDictionary *muteDic;
 
 @property (nonatomic, strong) NSString *roomToken;
 @property (nonatomic, strong) NSArray *colorArray;
@@ -53,7 +54,7 @@ QNRTCSessionDelegate
 @property (nonatomic, assign) BOOL reconnecting;
 
 @property (nonatomic, strong) NSMutableArray *mergePositionArray;
-@property (nonatomic, strong) QNVideoView *videoView;
+@property (nonatomic, strong) QRDUserView *videoView;
 @property (nonatomic, strong) UITapGestureRecognizer *viewSwitchGesture;
 
 
@@ -75,7 +76,6 @@ QNRTCSessionDelegate
     
     _viewSwitchGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewSwitch:)];
     self.renderArray = [NSMutableArray array];
-    self.muteDic = [NSMutableDictionary new];
     self.mergePositionArray = [NSMutableArray array];
     for (NSInteger i = 0; i < 9; i++) {
         self.mergePositionArray[i] = @"";
@@ -99,21 +99,23 @@ QNRTCSessionDelegate
 - (void)setupRTCSession {
     self.session = [[QNRTCSession alloc] init];
     self.session.delegate = self;
-    self.session.sessionPreset = AVCaptureSessionPreset1280x720;
-    self.session.videoEncodeSize = CGSizeFromString(_configDic[@"VideoSize"]);
-    self.session.videoFrameRate = [_configDic[@"FrameRate"] integerValue];
     self.session.statisticInterval = 3.0;
-    [self.session startCapture];
     [self.view insertSubview:self.session.previewView atIndex:0];
+    if (self.videoEnabled) {
+        self.session.sessionPreset = AVCaptureSessionPreset1280x720;
+        self.session.videoEncodeSize = CGSizeFromString(_configDic[@"VideoSize"]);
+        self.session.videoFrameRate = [_configDic[@"FrameRate"] integerValue];
+        [self.session startCapture];
+    }
 
     self.userIdLabel = [[UILabel alloc] initWithFrame:self.session.previewView.bounds];
     self.userIdLabel.backgroundColor = self.colorArray[0];
     self.userIdLabel.textColor = [UIColor whiteColor];
     self.userIdLabel.textAlignment = NSTextAlignmentCenter;
     self.userIdLabel.text = self.userId;
-    self.userIdLabel.hidden = YES;
     self.userIdLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.session.previewView addSubview:self.userIdLabel];
+    self.userIdLabel.hidden = self.videoEnabled;
     
     [QNRTCSession requestCameraAccessWithCompletionHandler:^(BOOL granted) {
         if ([QNRTCSession cameraAuthorizationStatus] != QNAuthorizationStatusAuthorized) {
@@ -170,12 +172,13 @@ QNRTCSessionDelegate
     [_videoButton addTarget:self action:@selector(videoAction:) forControlEvents:UIControlEventTouchUpInside];
     [_buttonView addSubview:_videoButton];
     _videoButton.enabled = NO;
-
+    
     _beautyButton = [[UIButton alloc] initWithFrame:CGRectMake(QRD_BUTTON_SPACE, 136, 54, 54)];
     [_beautyButton setImage:[UIImage imageNamed:@"face-beauty-open"] forState:UIControlStateSelected];
     [_beautyButton setImage:[UIImage imageNamed:@"face-beauty-close"] forState:UIControlStateNormal];
     [_beautyButton addTarget:self action:@selector(beautyAction:) forControlEvents:UIControlEventTouchUpInside];
     [_buttonView addSubview:_beautyButton];
+    _beautyButton.enabled = self.videoEnabled;
     
     _conferenceButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.center.x - 32, 136, 64, 64)];
     [_conferenceButton setImage:[UIImage imageNamed:@"close-phone"] forState:UIControlStateNormal];
@@ -187,7 +190,8 @@ QNRTCSessionDelegate
     [_toggleButton setImage:[UIImage imageNamed:@"camera-switch-end"] forState:UIControlStateNormal];
     [_toggleButton addTarget:self action:@selector(toggleAction:) forControlEvents:UIControlEventTouchUpInside];
     [_buttonView addSubview:_toggleButton];
-    
+    _toggleButton.enabled = self.videoEnabled;
+
     _logButton = [[UIButton alloc] initWithFrame:CGRectMake(15, 15, 28, 28)];
     [_logButton setImage:[UIImage imageNamed:@"log-btn"] forState:UIControlStateNormal];
     [_logButton addTarget:self action:@selector(logAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -279,7 +283,9 @@ QNRTCSessionDelegate
                 [self.session stopMergeStream];
             }
             [self.session leaveRoom];
-            [self.session stopCapture];
+            if (self.videoEnabled) {
+                [self.session stopCapture];
+            }
             self.session.delegate = nil;
             self.session = nil;
         }
@@ -304,7 +310,9 @@ QNRTCSessionDelegate
         if (state == 2) {
             [self.durationTimer invalidate];
             self.durationTimer = nil;
-            [self.session stopCapture];
+            if (self.videoEnabled) {
+                [self.session stopCapture];
+            }
             self.session.delegate = nil;
             self.session = nil;
             [self.navigationController popViewControllerAnimated:YES];
@@ -328,7 +336,6 @@ QNRTCSessionDelegate
      此处服务器 URL 仅用于 Demo 测试，随时可能修改/失效，请勿用于 App 线上环境！！
      此处服务器 URL 仅用于 Demo 测试，随时可能修改/失效，请勿用于 App 线上环境！！
      */
-
     NSURL *requestUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://api-demo.qnsdk.com/v1/rtc/token/admin/app/%@/room/%@/user/%@?bundleId=%@", self.appId, self.roomName, self.userId, [[NSBundle mainBundle] bundleIdentifier]]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:requestUrl];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -398,17 +405,17 @@ QNRTCSessionDelegate
             if (self.reconnecting) {
                 //重连成功后将时间重置
                 _totalDuration = 0;
-                self.videoButton.enabled = YES;
+                self.videoButton.enabled = self.videoEnabled;
                 self.microphoneButton.enabled = YES;
                 self.reconnecting = NO;
                 return ;
             }
 
-            self.videoButton.enabled = YES;
-            self.videoButton.selected = YES;
+            self.videoButton.enabled = self.videoEnabled;
+            self.videoButton.selected = self.videoEnabled;
             self.microphoneButton.selected = YES;
             self.speakerButton.selected = YES;
-            [self.session publishWithAudioEnabled:YES videoEnabled:YES];
+            [self.session publishWithAudioEnabled:YES videoEnabled:self.videoEnabled];
             self.durationTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onTimer:) userInfo:nil repeats:YES];
         }
         else if (roomState == QNRoomStateIdle) {
@@ -428,7 +435,7 @@ QNRTCSessionDelegate
 
 - (void)sessionDidPublishLocalMedia:(QNRTCSession *)session {
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.videoButton.enabled = YES;
+        self.videoButton.enabled = self.videoEnabled;
 
         if ([self isAdmin]) {
             [self.session setMergeStreamLayoutWithUserId:self.userId frame:CGRectMake(0, 0, backgroundSize.width, backgroundSize.height) zIndex:0 muted:NO];
@@ -438,19 +445,29 @@ QNRTCSessionDelegate
 
 - (void)RTCSession:(QNRTCSession *)session didJoinOfRemoteUserId:(NSString *)userId {
     NSLog(@"QNRTCKitDemo: userId: %@ join room", userId);
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         _logString = [_logString stringByAppendingString:[NSString stringWithFormat:@"userId: %@ join room \n", userId]];
         _logTextView.text = _logString;
+        
+        QRDUserView *userView = [[QRDUserView alloc] initWithFrame:CGRectZero];
+        userView.delegate = self;
+        userView.userId = userId;
+        [self addUserViewInfoToArrayWithUserId:userId userView:userView];
+        [self refreshUserView:userId];
     });
 }
 
 - (void)RTCSession:(QNRTCSession *)session didLeaveOfRemoteUserId:(NSString *)userId {
     NSLog(@"QNRTCKitDemo: userId: %@ leave room", userId);
-    [self.muteDic removeObjectForKey:userId];
 
     dispatch_async(dispatch_get_main_queue(), ^{
         _logString = [_logString stringByAppendingString:[NSString stringWithFormat:@"userId: %@ leave room \n", userId]];
         _logTextView.text = _logString;
+        
+        [self removeUserViewFromSuperview:userId];
+        [self removeUserViewInfoFromArrayWithUserId:userId];
+        [self refreshUserView:userId];
 
         if ([self isAdmin]) {
             [self releaseMergePositionForUserId:userId];
@@ -464,8 +481,12 @@ QNRTCSessionDelegate
     dispatch_async(dispatch_get_main_queue(), ^{
         _logString = [_logString stringByAppendingString:[NSString stringWithFormat:@"userId: %@ subscribe \n", userId]];
         _logTextView.text = _logString;
-        [self showUserStateWithUserId:userId];
-
+        
+        BOOL userViewAddedSuperView = [self checkUserViewAddedSuperViewWithUserId:userId];
+        if (!userViewAddedSuperView) {
+            [self refreshUserView:userId hidden:NO];
+        }
+        
         if ([self isAdmin]) {
             NSInteger position = [self availableMergePositionForUserId:userId];
             if (position < 0) {
@@ -489,11 +510,21 @@ QNRTCSessionDelegate
 
 - (void)RTCSession:(QNRTCSession *)session didUnpublishOfRemoteUserId:(NSString *)userId {
     NSLog(@"QNRTCKitDemo: did unpublish of userId: %@", userId);
-    [self.muteDic removeObjectForKey:userId];
 
     dispatch_async(dispatch_get_main_queue(), ^{
         _logString = [_logString stringByAppendingString:[NSString stringWithFormat:@"userId: %@ unpublish \n", userId]];
         _logTextView.text = _logString;
+        
+        // 重置 audio, video mute 信息
+        QRDUserView *userView = [self getUserViewInfoWithUserId:userId];
+        userView.videoMuted = NO;
+        userView.audioMuted = NO;
+        
+        BOOL userViewAddedSuperView = [self checkUserViewAddedSuperViewWithUserId:userId];
+        if (userViewAddedSuperView) {
+            [self removeUserViewFromSuperview:userId];
+            [self refreshUserView:userId hidden:YES];
+        }
 
         if ([self isAdmin]) {
             [self releaseMergePositionForUserId:userId];
@@ -517,8 +548,10 @@ QNRTCSessionDelegate
     dispatch_async(dispatch_get_main_queue(), ^{
         _logString = [_logString stringByAppendingString:[NSString stringWithFormat:@"userId: %@ audioMuted: %d \n", userId, muted]];
         _logTextView.text = _logString;
-        [self recordMuteState:muted userId:userId isAudio:YES];
-        [self showUserStateWithUserId:userId];
+        
+        QRDUserView *userView = [self getUserViewInfoWithUserId:userId];
+        userView.audioMuted = muted;
+        [self updateUserViewInfoFromArrayWithUserId:userId userView:userView];
     });}
 
 - (void)RTCSession:(QNRTCSession *)session didVideoMuted:(BOOL)muted byRemoteUserId:(NSString *)userId {
@@ -527,8 +560,10 @@ QNRTCSessionDelegate
     dispatch_async(dispatch_get_main_queue(), ^{
         _logString = [_logString stringByAppendingString:[NSString stringWithFormat:@"userId: %@ videoMuted: %d \n", userId, muted]];
         _logTextView.text = _logString;
-        [self recordMuteState:muted userId:userId isAudio:NO];
-        [self showUserStateWithUserId:userId];
+        
+        QRDUserView *userView = [self getUserViewInfoWithUserId:userId];
+        userView.videoMuted = muted;
+        [self updateUserViewInfoFromArrayWithUserId:userId userView:userView];
     });
 }
 
@@ -536,12 +571,14 @@ QNRTCSessionDelegate
     NSLog(@"QNRTCKitDemo: first video frame decoded of userId: %@", userId);
     
     QNVideoRender *render = [[QNVideoRender alloc] init];
-    render.renderView = [self addRenderViewWithUserId:userId];
-    render.renderView.contentMode = UIViewContentModeScaleAspectFit;
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         _logString = [_logString stringByAppendingString:[NSString stringWithFormat:@"userId: %@ first video frame \n", userId]];
         _logTextView.text = _logString;
-        [self showUserStateWithUserId:userId];
+        
+        QRDUserView *userView = [self getUserViewInfoWithUserId:userId];
+        userView.videoMuted = userView.videoMuted; // 这么写的目的就是刷新下 UI。
+        render.renderView = userView;
     });
     return render;
 }
@@ -552,9 +589,8 @@ QNRTCSessionDelegate
     dispatch_async(dispatch_get_main_queue(), ^{
         _logString = [_logString stringByAppendingString:[NSString stringWithFormat:@"userId: %@ detach remote view \n", userId]];
         _logTextView.text = _logString;
+        
         [renderView removeFromSuperview];
-        [self removeRenderView:renderView userId:userId];
-        [self showUserStateWithUserId:userId];
     });
 }
 
@@ -572,29 +608,6 @@ QNRTCSessionDelegate
     dispatch_async(dispatch_get_main_queue(), ^{
         [self updateLogInfomationWithStatistic:statistic];
     });
-}
-
-
-#pragma mark - 记录状态
-
-- (void)recordMuteState:(BOOL)muted userId:(NSString *)userId isAudio:(BOOL)isAudio{
-    NSString *keyString = @"video";
-    if (isAudio) {
-        keyString = @"audio";
-    }
-
-    NSDictionary *currentDic = self.muteDic[userId];
-    NSDictionary *newDic = nil;
-    if (currentDic) {
-        NSMutableDictionary *mDic = [[NSMutableDictionary alloc] initWithDictionary:currentDic];
-        [mDic setObject:@(muted) forKey:keyString];
-        newDic = [mDic copy];
-    }
-    else {
-        newDic = @{keyString: @(muted)};
-    }
-
-    [self.muteDic setObject:newDic forKey:userId];
 }
 
 #pragma mark - 合流相关
@@ -630,147 +643,7 @@ QNRTCSessionDelegate
     return [self.userId isEqualToString:@"admin"];
 }
 
-#pragma mark - 是否音视频状态展示
-- (void)showUserStateWithUserId:(NSString *)userId {
-    NSDictionary *currentDic = self.muteDic[userId];
-    BOOL audioMute = [currentDic[@"audio"] boolValue];
-    BOOL videoMute = [currentDic[@"video"] boolValue];
-    
-    QNVideoView *videoView;
-    for (NSDictionary *dic in _renderArray) {
-        if ([dic.allKeys containsObject:userId]) {
-            videoView = dic[userId];
-            UIImageView *imageView;
-            UILabel *label;
-            for (id subId in videoView.subviews) {
-                if ([subId isKindOfClass:[UIImageView class]]) {
-                    imageView = (UIImageView *)subId;
-                }
-                if ([subId isKindOfClass:[UILabel class]]) {
-                    label = (UILabel *)subId;
-                }
-            }
-            
-            if (videoMute) {
-                label.frame = CGRectMake(0, 0, CGRectGetWidth(videoView.frame),  CGRectGetHeight(videoView.frame));
-                label.hidden = NO;
-            } else {
-                label.hidden = YES;
-            }
-            
-            imageView.frame = CGRectMake(CGRectGetWidth(videoView.frame) - 26, CGRectGetHeight(videoView.frame) - 34, 20, 26);
-            if (audioMute) {
-                imageView.image = [UIImage imageNamed:@"microphone-disable"];
-            } else {
-                imageView.image = [UIImage imageNamed:@"un_mute_audio"];
-            }
-        }
-    }
-}
-
-#pragma mark - 布局房间人数变化时的视图
-
-- (QNVideoView *)addRenderViewWithUserId:(NSString *)userId {
-    QNVideoView *videoView = [[QNVideoView alloc] initWithFrame:CGRectZero];
-    [_renderArray addObject:@{userId:videoView}];
-    [self layoutRenderViewWithUserId:userId];
-    NSDictionary *dic = _renderArray.lastObject;
-    videoView = dic[userId];
-    return videoView;
-}
-
-- (void)removeRenderView:(UIView *)remoteView userId:(NSString *)userId{
-    NSDictionary *removeDic;
-    for (NSDictionary *dic in _renderArray) {
-        if ([dic.allKeys containsObject:userId]) {
-            removeDic = dic;
-        }
-    }
-    [_renderArray removeObject:removeDic];
-    [self layoutRenderViewWithUserId:userId];
-}
-
-- (void)layoutRenderViewWithUserId:(NSString *)userId {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [_viewSwitchGesture.view removeGestureRecognizer:_viewSwitchGesture];
-        CGFloat topSpace = 0;
-        if (QRD_iPhoneX) {
-            topSpace = 40;
-        }
-        if (_renderArray.count > 1) {
-            _hiddenEnable = NO;
-            _buttonView.hidden = NO;
-            NSInteger renderWidth = 0.0;
-            NSInteger columns = 0;
-            NSInteger renderCount = _renderArray.count + 1;
-            if (renderCount <= 4) {
-                renderWidth = QRD_SCREEN_WIDTH/2;
-                columns = 2;
-            }
-            if (renderCount > 4 && renderCount <= 9) {
-                renderWidth = QRD_SCREEN_WIDTH/3;
-                columns = 3;
-            }
-            NSMutableArray *renderViewArray = [NSMutableArray array];
-            for (NSInteger i = 0; i < renderCount; i++) {
-                NSInteger row = i / columns;
-                NSInteger column = i % columns;
-                if (i == renderCount - 1) {
-                    [_session.previewView removeFromSuperview];
-                    if (renderCount == 3) {
-                        _session.previewView.frame = CGRectMake(renderWidth / 2, topSpace + row * renderWidth, renderWidth, renderWidth);
-                    } else{
-                        _session.previewView.frame = CGRectMake(column * renderWidth, topSpace + row * renderWidth, renderWidth, renderWidth);
-                    }
-                    if (![_session.previewView.subviews containsObject:_ownMicroImageView]) {
-                        [_session.previewView addSubview:_ownMicroImageView];
-                        _ownMicroImageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-                    }
-                    _ownMicroImageView.frame = CGRectMake(renderWidth - 26, renderWidth - 34, 20, 26);
-                    [self.view addSubview:_session.previewView];
-                } else{
-                    NSDictionary *dic = _renderArray[i];
-                    QNVideoView *videoView = [dic allValues][0];
-                    [videoView removeFromSuperview];
-                    videoView.frame = CGRectMake(column * renderWidth, topSpace + row * renderWidth, renderWidth, renderWidth);
-                    [self.view insertSubview:videoView belowSubview:_logButton];
-                    
-                    [self dependsWhetherLoadedWithVideoView:videoView index:i renderDic:dic];
-                    [renderViewArray addObject:@{dic.allKeys[0]:videoView}];
-                }
-            }
-            _renderArray = [NSMutableArray arrayWithArray:[renderViewArray copy]];
-        } else{
-            
-            _hiddenEnable = YES;
-            [_session.previewView removeFromSuperview];
-            [_ownMicroImageView removeFromSuperview];
-            _session.previewView.frame = CGRectMake(0, 0, QRD_SCREEN_WIDTH, QRD_SCREEN_HEIGHT);
-            [self.view insertSubview:self.session.previewView atIndex:0];
-            
-            if (_renderArray.count == 1) {
-            
-                NSDictionary *dic = _renderArray[0];
-                _videoView = [dic allValues][0];
-                [_videoView addGestureRecognizer:_viewSwitchGesture];
-                [_videoView removeFromSuperview];
-                _videoView.frame = CGRectMake(QRD_SCREEN_WIDTH - QRD_SCREEN_WIDTH/3, topSpace, QRD_SCREEN_WIDTH/3,
-                QRD_SCREEN_WIDTH/3/9*16);
-                [self.view insertSubview:_videoView belowSubview:_logButton];
-
-                [self dependsWhetherLoadedWithVideoView:_videoView index:0 renderDic:dic];
-                [_renderArray replaceObjectAtIndex:0 withObject:@{[_renderArray[0] allKeys][0]:_videoView}];
-            }
-        }
-        if (_logButton.selected) {
-            [_logView removeFromSuperview];
-            [self.view insertSubview:_logView aboveSubview:self.view.subviews.lastObject];
-        }
-
-        self.userIdLabel.backgroundColor = self.colorArray[_renderArray.count];
-    });
-}
-
+#pragma mark - 切换
 - (void)viewSwitch:(UITapGestureRecognizer *)sender {
     [sender.view removeGestureRecognizer:sender];
     CGRect previewRect = _session.previewView.frame;
@@ -793,71 +666,6 @@ QNRTCSessionDelegate
     }
 }
 
-- (QNVideoView *)dependsWhetherLoadedWithVideoView:(QNVideoView *)videoView index:(NSUInteger)index renderDic:(NSDictionary *)renderDic {
-    BOOL isHave = [self judgeArealdyHaveWithVideoView:videoView];
-    if (!isHave) {
-        CGFloat videoWidth = CGRectGetWidth(videoView.frame);
-        CGFloat videoHeight = CGRectGetHeight(videoView.frame);
-        
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, videoWidth, videoHeight)];
-        label.userInteractionEnabled = YES;
-        label.backgroundColor = _colorArray[index % 9];
-        label.textColor = [UIColor whiteColor];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.text = [renderDic allKeys][0];
-        label.hidden = YES;
-        label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        [videoView insertSubview:label aboveSubview:videoView.subviews.lastObject];
-        
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(videoWidth - 26, videoHeight - 34, 20, 26)];
-        imageView.userInteractionEnabled = YES;
-        imageView.image = [UIImage imageNamed:@"microphone-disable"];
-        imageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-        [videoView insertSubview:imageView aboveSubview:videoView.subviews.lastObject];
-        
-        UILongPressGestureRecognizer *longPressGest = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressViewAction:)];
-        longPressGest.minimumPressDuration = 3;
-        longPressGest.allowableMovement = 20;
-        [videoView addGestureRecognizer:longPressGest];
-    
-    } else{
-        UILabel *label;
-        for (id subId in videoView.subviews) {
-            if ([subId isKindOfClass:[UILabel class]]) {
-                label = (UILabel *)subId;
-            }
-        }
-        
-        if (label) {
-            label.backgroundColor = _colorArray[index % 9];
-        }
-    }
-    return videoView;
-}
-
-- (void)longPressViewAction:(UILongPressGestureRecognizer *)longPressGest {
-    if (![self isAdmin]) {
-        return;
-    }
-    
-    QNVideoView *videoView = (QNVideoView *)longPressGest.view;
-    for (NSDictionary *dic in _renderArray) {
-        if (dic.allValues[0] == videoView) {
-            _kickUserString = dic.allKeys[0];
-            [self showAlertWithMessage:[NSString stringWithFormat:@"是否要将用户 %@ 踢出房间 ？",_kickUserString] state:1];
-        }
-    }
-}
-
-- (BOOL)judgeArealdyHaveWithVideoView:(QNVideoView *)videoView {
-    for (id subId in videoView.subviews) {
-        if ([subId isKindOfClass:[UIImageView class]]) {
-            return YES;
-        }
-    }
-    return NO;
-}
-
 - (void)updateLogInfomationWithStatistic:(NSDictionary *)statistic{
     CGFloat audioBitrate = [statistic[@"QNStatisticAudioBitrateKey"] floatValue]/1000;
     CGFloat audioPacketLossRate = [statistic[@"QNStatisticAudioPacketLossRateKey"] floatValue] * 100;
@@ -871,20 +679,193 @@ QNRTCSessionDelegate
     [_logView removeFromSuperview];
     [self.view insertSubview:_logView aboveSubview:self.view.subviews.lastObject];
 }
+
+#pragma mark - 更新 user UI
+- (void)addUserViewInfoToArrayWithUserId:(NSString *)userId userView:(QRDUserView *)userView {
+    NSDictionary *userDic = @{userId : userView};
+    [_renderArray addObject:userDic];
+}
+
+- (void)updateUserViewInfoFromArrayWithUserId:(NSString *)userId userView:(QRDUserView *)userView {
+    NSDictionary *userDic = @{userId : userView};
+    for (int i = 0; i < _renderArray.count; i++) {
+        NSDictionary *dic = _renderArray[i];
+        if ([dic.allKeys containsObject:userId]) {
+            [_renderArray replaceObjectAtIndex:i withObject:userDic];
+        }
+    }
+}
+
+- (void)removeUserViewInfoFromArrayWithUserId:(NSString *)userId {
+    for (int i = 0; i < _renderArray.count; i++) {
+        NSDictionary *dic = _renderArray[i];
+        if ([dic.allKeys containsObject:userId]) {
+            [_renderArray removeObject:dic];
+        }
+    }
+}
+
+- (QRDUserView *)getUserViewInfoWithUserId:(NSString *)userId {
+    QRDUserView *userView = nil;
+    for (int i = 0; i < _renderArray.count; i++) {
+        NSDictionary *dic = _renderArray[i];
+        if ([dic.allKeys containsObject:userId]) {
+            userView = dic[userId];
+        }
+    }
+    return userView;
+}
+
+- (void)refreshUserView:(NSString *)userId {
+    [self refreshUserView:userId hidden:NO];
+}
+
+- (void)refreshUserView:(NSString *)userId hidden:(BOOL)hidden {
+    [_viewSwitchGesture.view removeGestureRecognizer:_viewSwitchGesture];
+    
+    NSMutableArray *userIdInfoArray = _renderArray;
+    if (hidden) {
+        userIdInfoArray = [NSMutableArray arrayWithArray:_renderArray];
+        for (int i = 0; i < userIdInfoArray.count; i++) {
+            NSDictionary *dic = userIdInfoArray[i];
+            if ([dic.allKeys containsObject:userId]) {
+                NSDictionary *dicFromRenderArray = [_renderArray objectAtIndex:i];
+                QRDUserView *userView = dicFromRenderArray[userId];
+                userView.hidden = YES;
+                
+                [userIdInfoArray removeObject:dic];
+                
+                break;
+            }
+        }
+    } else {
+        for (int i = 0; i < userIdInfoArray.count; i++) {
+            NSDictionary *dic = userIdInfoArray[i];
+            if ([dic.allKeys containsObject:userId]) {
+                NSDictionary *dicFromRenderArray = [_renderArray objectAtIndex:i];
+                QRDUserView *userView = dicFromRenderArray[userId];
+                userView.hidden = NO;
+                
+                break;
+            }
+        }
+    }
+    
+    CGFloat topSpace = 0;
+    if (QRD_iPhoneX) {
+        topSpace = 40;
+    }
+    if (userIdInfoArray.count > 1) {
+        _hiddenEnable = NO;
+        _buttonView.hidden = NO;
+        NSInteger renderWidth = 0.0;
+        NSInteger columns = 0;
+        NSInteger renderCount = userIdInfoArray.count + 1;
+        if (renderCount <= 4) {
+            renderWidth = QRD_SCREEN_WIDTH/2;
+            columns = 2;
+        }
+        if (renderCount > 4 && renderCount <= 9) {
+            renderWidth = QRD_SCREEN_WIDTH/3;
+            columns = 3;
+        }
+        for (NSInteger i = 0; i < renderCount; i++) {
+            NSInteger row = i / columns;
+            NSInteger column = i % columns;
+            if (i == renderCount - 1) {
+                [_session.previewView removeFromSuperview];
+                if (renderCount == 3) {
+                    _session.previewView.frame = CGRectMake(renderWidth / 2, topSpace + row * renderWidth, renderWidth, renderWidth);
+                } else{
+                    _session.previewView.frame = CGRectMake(column * renderWidth, topSpace + row * renderWidth, renderWidth, renderWidth);
+                }
+                if (![_session.previewView.subviews containsObject:_ownMicroImageView]) {
+                    [_session.previewView addSubview:_ownMicroImageView];
+                    _ownMicroImageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+                }
+                _ownMicroImageView.frame = CGRectMake(renderWidth - 26, renderWidth - 34, 20, 26);
+                [self.view addSubview:_session.previewView];
+            } else{
+                NSDictionary *dic = userIdInfoArray[i];
+                QRDUserView *userView = [dic allValues][0];
+                [userView removeFromSuperview];
+                userView.frame = CGRectMake(column * renderWidth, topSpace + row * renderWidth, renderWidth, renderWidth);
+                [self.view insertSubview:userView belowSubview:_logButton];
+                
+                userView.userIdBackgroundColor = _colorArray[i % 9];
+            }
+        }
+    }
+    else{
+        _hiddenEnable = YES;
+        [_session.previewView removeFromSuperview];
+        [_ownMicroImageView removeFromSuperview];
+        _session.previewView.frame = CGRectMake(0, 0, QRD_SCREEN_WIDTH, QRD_SCREEN_HEIGHT);
+        [self.view insertSubview:self.session.previewView atIndex:0];
+        
+        if (userIdInfoArray.count == 1) {
+            NSDictionary *dic = userIdInfoArray[0];
+            _videoView = [dic allValues][0];
+            [_videoView addGestureRecognizer:_viewSwitchGesture];
+            [_videoView removeFromSuperview];
+            _videoView.frame = CGRectMake(QRD_SCREEN_WIDTH - QRD_SCREEN_WIDTH/3, topSpace, QRD_SCREEN_WIDTH/3, QRD_SCREEN_WIDTH/3/9*16);
+            [self.view insertSubview:_videoView belowSubview:_logButton];
+            
+            _videoView.userIdBackgroundColor = _colorArray[0 % 9];
+        }
+    }
+    if (_logButton.selected) {
+        [_logView removeFromSuperview];
+        [self.view insertSubview:_logView aboveSubview:self.view.subviews.lastObject];
+    }
+    
+    self.userIdLabel.backgroundColor = self.colorArray[userIdInfoArray.count];
+}
+
+- (void)removeUserViewFromSuperview:(NSString *)userId {
+    NSDictionary *removeDic;
+    for (NSDictionary *dic in _renderArray) {
+        if ([dic.allKeys containsObject:userId]) {
+            removeDic = dic;
+        }
+    }
+    
+    UIView *renderView = removeDic[userId];
+    [renderView removeFromSuperview];
+}
+
+- (BOOL)checkUserViewAddedSuperViewWithUserId:(NSString *)userId {
+    BOOL userViewAddedSuperView = NO;
+    for (int i = 0; i < _renderArray.count; i++) {
+        NSDictionary *dic = _renderArray[i];
+        if ([dic.allKeys containsObject:userId]) {
+            QRDUserView *userView = dic[userId];
+            if (!userView.hidden) {
+                userViewAddedSuperView = YES;
+            }
+            break;
+        }
+    }
+    return userViewAddedSuperView;
+}
+
+#pragma mark - 长按用户视图 QRDUserView 的踢人逻辑
+- (void)longPressUserView:(QRDUserView *)userView userId:(NSString *)userId {
+    if (![self isAdmin]) {
+        return;
+    }
+    
+    _kickUserString = userId;
+    [self showAlertWithMessage:[NSString stringWithFormat:@"是否要将用户 %@ 踢出房间 ？",_kickUserString] state:1];
+}
           
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)dealloc {
+    NSLog(@"%s, line: %d", __FUNCTION__, __LINE__);
 }
-*/
 
 @end

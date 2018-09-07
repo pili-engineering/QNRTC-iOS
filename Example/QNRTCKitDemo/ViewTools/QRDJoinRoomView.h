@@ -13,6 +13,7 @@
 @property (nonatomic, strong) UIButton *joinButton;
 @property (nonatomic, strong) UIButton *liveButton;
 @property (nonatomic, strong) UIButton *confButton;
+@property (nonatomic, strong) UIButton *audioCallButton;
 @property (nonatomic, strong) UIButton *screenButton;
 
 @end

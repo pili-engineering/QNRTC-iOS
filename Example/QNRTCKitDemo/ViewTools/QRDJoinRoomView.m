@@ -58,19 +58,34 @@
     confLabel.font = QRD_LIGHT_FONT(12);
     [self addSubview:confLabel];
 
-    self.screenButton = [[UIButton alloc] initWithFrame:CGRectMake(viewWidth - 45 - 48 - 44, 100, 44, 44)];
+    self.audioCallButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.audioCallButton.frame = CGRectMake(viewWidth - 45 - 48 - 44, 100, 44, 44);
+    [self.audioCallButton setImage:[UIImage imageNamed:@"noChoose"] forState:UIControlStateNormal];
+    [self.audioCallButton setImage:[UIImage imageNamed:@"choose"] forState:UIControlStateSelected];
+    [self addSubview:self.audioCallButton];
+    
+    UILabel *audioCallLabel = [[UILabel alloc] initWithFrame:CGRectMake(viewWidth - 45 - 48, 100, 48, 44)];
+    audioCallLabel.textColor = [UIColor whiteColor];
+    audioCallLabel.numberOfLines = 0;
+    audioCallLabel.text = @"音频通话";
+    audioCallLabel.font = QRD_LIGHT_FONT(12);
+    [self addSubview:audioCallLabel];
+    
+    self.screenButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.screenButton.frame = CGRectMake(25, 150, 44, 44);
     [self.screenButton setImage:[UIImage imageNamed:@"noChoose"] forState:UIControlStateNormal];
     [self.screenButton setImage:[UIImage imageNamed:@"choose"] forState:UIControlStateSelected];
     [self addSubview:self.screenButton];
 
-    UILabel *screenLabel = [[UILabel alloc] initWithFrame:CGRectMake(viewWidth - 45 - 48, 100, 48, 44)];
+    UILabel *screenLabel = [[UILabel alloc] initWithFrame:CGRectMake(69, 150, 48, 44)];
     screenLabel.textColor = [UIColor whiteColor];
     screenLabel.numberOfLines = 0;
     screenLabel.text = @"屏幕分享";
     screenLabel.font = QRD_LIGHT_FONT(12);
     [self addSubview:screenLabel];
 
-    self.joinButton = [[UIButton alloc] initWithFrame:CGRectMake(5, 146, viewWidth - 10, 40)];
+    self.joinButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.joinButton.frame = CGRectMake(5, 210, viewWidth - 10, 40);
     self.joinButton.backgroundColor = QRD_COLOR_RGBA(52,170,220,1);
     self.joinButton.layer.cornerRadius = 20;
     self.joinButton.titleLabel.font = QRD_REGULAR_FONT(14);
@@ -78,7 +93,8 @@
     [self.joinButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self addSubview:_joinButton];
     
-    self.liveButton = [[UIButton alloc] initWithFrame:CGRectMake(5, 206, viewWidth - 10, 40)];
+    self.liveButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.liveButton.frame = CGRectMake(5, 270, viewWidth - 10, 40);
     self.liveButton.backgroundColor = QRD_COLOR_RGBA(52,170,220,1);
     self.liveButton.layer.cornerRadius = 20;
     self.liveButton.titleLabel.font = QRD_REGULAR_FONT(14);

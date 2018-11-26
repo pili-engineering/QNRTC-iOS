@@ -57,7 +57,7 @@ QRDUserViewDelegate
 @property (nonatomic, strong) QRDUserView *videoView;
 @property (nonatomic, strong) UITapGestureRecognizer *viewSwitchGesture;
 
-
+@property (nonatomic, strong) NSDate *startTime;
 
 @end
 
@@ -105,6 +105,8 @@ QRDUserViewDelegate
         self.session.sessionPreset = AVCaptureSessionPreset1280x720;
         self.session.videoEncodeSize = CGSizeFromString(_configDic[@"VideoSize"]);
         self.session.videoFrameRate = [_configDic[@"FrameRate"] integerValue];
+        NSInteger bitrate = [_configDic[@"Bitrate"] integerValue];
+        [self.session setMinBitrateBps:bitrate * 0.7  maxBitrateBps:bitrate];
         [self.session startCapture];
     }
 
@@ -136,6 +138,7 @@ QRDUserViewDelegate
         }
         self.roomToken = token;
         self.conferenceButton.enabled = YES;
+        self.startTime = [NSDate date];
         [self.session joinRoomWithToken:_roomToken];
         // 当设置的最低码率，远高于弱网下的常规传输码率值时，会严重影响连麦的画面流畅度
         // 故建议若非场景带宽需求限制，不设置连麦码率或者设置最低码率值不过高的效果较好
@@ -415,6 +418,9 @@ QRDUserViewDelegate
             self.videoButton.selected = self.videoEnabled;
             self.microphoneButton.selected = YES;
             self.speakerButton.selected = YES;
+            NSInteger takeTime = [[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0;
+            _logString = [_logString stringByAppendingString:[NSString stringWithFormat:@"加会耗时：%ldms", (long)takeTime]];
+            _logTextView.text = _logString;
             [self.session publishWithAudioEnabled:YES videoEnabled:self.videoEnabled];
             self.durationTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onTimer:) userInfo:nil repeats:YES];
         }

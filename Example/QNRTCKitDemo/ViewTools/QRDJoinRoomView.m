@@ -46,9 +46,12 @@
     hintLabel.font = QRD_LIGHT_FONT(10);
     [self addSubview:hintLabel];
     
+    UIImage *normalImage = [UIImage imageNamed:@"noChoose"];
+    UIImage *selectedImage = [UIImage imageNamed:@"choose"];
+
     self.confButton = [[UIButton alloc] initWithFrame:CGRectMake(25, 100, 44, 44)];
-    [self.confButton setImage:[UIImage imageNamed:@"noChoose"] forState:UIControlStateNormal];
-    [self.confButton setImage:[UIImage imageNamed:@"choose"] forState:UIControlStateSelected];
+    [self.confButton setImage:normalImage forState:UIControlStateNormal];
+    [self.confButton setImage:selectedImage forState:UIControlStateSelected];
     [self addSubview:self.confButton];
 
     UILabel *confLabel = [[UILabel alloc] initWithFrame:CGRectMake(69, 100, 48, 44)];
@@ -59,12 +62,12 @@
     [self addSubview:confLabel];
 
     self.audioCallButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.audioCallButton.frame = CGRectMake(viewWidth - 45 - 48 - 44, 100, 44, 44);
-    [self.audioCallButton setImage:[UIImage imageNamed:@"noChoose"] forState:UIControlStateNormal];
-    [self.audioCallButton setImage:[UIImage imageNamed:@"choose"] forState:UIControlStateSelected];
+    self.audioCallButton.frame = CGRectMake(viewWidth - 60 - 48 - 44, 100, 44, 44);
+    [self.audioCallButton setImage:normalImage forState:UIControlStateNormal];
+    [self.audioCallButton setImage:selectedImage forState:UIControlStateSelected];
     [self addSubview:self.audioCallButton];
     
-    UILabel *audioCallLabel = [[UILabel alloc] initWithFrame:CGRectMake(viewWidth - 45 - 48, 100, 48, 44)];
+    UILabel *audioCallLabel = [[UILabel alloc] initWithFrame:CGRectMake(viewWidth - 60 - 48, 100, 48, 44)];
     audioCallLabel.textColor = [UIColor whiteColor];
     audioCallLabel.numberOfLines = 0;
     audioCallLabel.text = @"音频通话";
@@ -73,8 +76,8 @@
     
     self.screenButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.screenButton.frame = CGRectMake(25, 150, 44, 44);
-    [self.screenButton setImage:[UIImage imageNamed:@"noChoose"] forState:UIControlStateNormal];
-    [self.screenButton setImage:[UIImage imageNamed:@"choose"] forState:UIControlStateSelected];
+    [self.screenButton setImage:normalImage forState:UIControlStateNormal];
+    [self.screenButton setImage:selectedImage forState:UIControlStateSelected];
     [self addSubview:self.screenButton];
 
     UILabel *screenLabel = [[UILabel alloc] initWithFrame:CGRectMake(69, 150, 48, 44)];
@@ -84,6 +87,19 @@
     screenLabel.font = QRD_LIGHT_FONT(12);
     [self addSubview:screenLabel];
 
+    self.multiTrackButton =  [UIButton buttonWithType:UIButtonTypeCustom];
+    self.multiTrackButton.frame = CGRectMake(viewWidth - 60 - 48 - 44, 150, 44, 44);
+    [self.multiTrackButton setImage:normalImage forState:UIControlStateNormal];
+    [self.multiTrackButton setImage:selectedImage forState:UIControlStateSelected];
+    [self addSubview:self.multiTrackButton];
+    
+    UILabel *multiTrackLabel = [[UILabel alloc] initWithFrame:CGRectMake(viewWidth - 60 - 48, 150, 110, 44)];
+    multiTrackLabel.textColor = [UIColor whiteColor];
+    multiTrackLabel.numberOfLines = 0;
+    multiTrackLabel.text = @"视频通话+屏幕分享";
+    multiTrackLabel.font = QRD_LIGHT_FONT(12);
+    [self addSubview:multiTrackLabel];
+    
     self.joinButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.joinButton.frame = CGRectMake(5, 210, viewWidth - 10, 40);
     self.joinButton.backgroundColor = QRD_COLOR_RGBA(52,170,220,1);
@@ -101,6 +117,7 @@
     [self.liveButton setTitle:@"直播房间" forState:UIControlStateNormal];
     [self.liveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self addSubview:_liveButton];
+    self.liveButton.hidden = YES;
 }
 
 /*

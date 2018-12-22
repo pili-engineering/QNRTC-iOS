@@ -27,7 +27,8 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = navigationController;
     [self.window makeKeyAndVisible];
-    [QNRTCSession enableFileLogging];
+
+    [QNRTCEngine enableFileLogging];
     return YES;
 }
 

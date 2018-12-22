@@ -5,4 +5,7 @@ target 'QNRTCKitDemo' do
   pod 'QNRTCKit', :path =>'../QNRTCKit.podspec'
   pod 'Bugsnag', '5.15.4'
   pod 'PLPlayerKit', '3.3.2'
+  pod 'MMMaterialDesignSpinner', '0.2.5'
+  pod 'JGProgressHUD', '2.0.3'
+  pod 'Masonry', '1.1.0'
 end

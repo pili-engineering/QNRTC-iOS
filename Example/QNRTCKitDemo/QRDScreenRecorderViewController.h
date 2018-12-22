@@ -6,13 +6,10 @@
 //  Copyright © 2018年 PILI. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "QRDRTCViewController.h"
 
-@interface QRDScreenRecorderViewController : UIViewController
+@interface QRDScreenRecorderViewController : QRDRTCViewController
 
-@property (nonatomic, copy) NSString *roomName;
-@property (nonatomic, copy) NSString *userId;
-@property (nonatomic, copy) NSString *appId;
 @property (nonatomic, strong) NSDictionary *configDic;
 
 @end

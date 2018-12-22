@@ -6,13 +6,38 @@
 //  Copyright © 2018年 PILI. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "QRDBaseViewController.h"
 
-@interface QRDRTCViewController : UIViewController
-@property (nonatomic, copy) NSString *roomName;
-@property (nonatomic, copy) NSString *userId;
-@property (nonatomic, copy) NSString *appId;
+static NSString *cameraTag = @"camera";
+static NSString *screenTag = @"screen";
+
+@interface QRDRTCViewController : QRDBaseViewController
+
 @property (nonatomic, strong) NSDictionary *configDic;
-@property (nonatomic, assign) BOOL videoEnabled;
+
+@property (nonatomic, strong) NSString *token;
+
+@property (nonatomic, strong) NSTimer *durationTimer;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, assign) NSInteger duration;
+
+@property (nonatomic, strong) UIView *bottomButtonView;
+@property (nonatomic, strong) UIButton *videoButton;
+@property (nonatomic, strong) UIButton *microphoneButton;
+@property (nonatomic, strong) UIButton *speakerButton;
+@property (nonatomic, strong) UIButton *beautyButton;
+@property (nonatomic, strong) UIButton *togCameraButton;
+@property (nonatomic, strong) UIButton *conferenceButton;
+@property (nonatomic, strong) UIButton *logButton;
+
+@property (nonatomic, assign) BOOL isAudioPublished;
+@property (nonatomic, assign) BOOL isVideoPublished;
+@property (nonatomic, assign) BOOL isScreenPublished;
+@property (nonatomic, strong) QNTrackInfo *screenTrackInfo;
+
+@property (nonatomic, assign) CGSize videoEncodeSize;
+@property (nonatomic, assign) NSInteger bitrate;
+
+- (void)publish;
 
 @end

@@ -15,5 +15,6 @@
 @property (nonatomic, strong) UIButton *confButton;
 @property (nonatomic, strong) UIButton *audioCallButton;
 @property (nonatomic, strong) UIButton *screenButton;
+@property (nonatomic, strong) UIButton *multiTrackButton;
 
 @end

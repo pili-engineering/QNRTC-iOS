@@ -66,6 +66,9 @@ NS_ERROR_ENUM(QNRTCErrorDomain)
     QNRTCErrorPublishFailed                     = 11011,
     //subscribe failed
     QNRTCErrorSubscribeFailed                   = 11012,
+    //merge failed
+    QNRTCErrorUpdateMergeFailed                 = 11013,
+
 };
 
 #pragma mark - RTC Video Size
@@ -88,17 +91,62 @@ typedef NS_ENUM(NSUInteger, QNRTCVideoSizePreset) {
     QNRTCVideoSizePreset720x1280,       //16:9
 };
 
+/*!
+ @typedef    QNTrackKind
+ @abstract   定义 Track 的类型。
+ */
+typedef NS_ENUM(NSUInteger, QNTrackKind) {
+    QNTrackKindAudio = 0,
+    QNTrackKindVideo = 1,
+};
 
-///连麦状态
+/*!
+ * @abstract Track 的数据源
+ *
+ * @since v2.0.0
+ */
+typedef NS_ENUM(NSUInteger, QNRTCSourceType) {
+    QNRTCSourceTypeCamera = 0,
+    QNRTCSourceTypeScreenRecorder = 1,
+    QNRTCSourceTypeExternalVideo = 2,
+
+    QNRTCSourceTypeAudio = 100,
+};
+
+///房间状态
 typedef NS_ENUM(NSUInteger, QNRoomState) {
-    /// 空闲状态，初始状态或者退出房间后都会进入该状态
+    /*!
+     * @abstract 空闲状态，初始状态或者退出房间后都会进入该状态
+     *
+     * @since v1.0.0
+     */
     QNRoomStateIdle = 0,
-    /// 正在加入房间的状态
+    /*!
+     * @abstract 正在加入房间的状态
+     *
+     * @since v1.0.0
+     */
     QNRoomStateConnecting,
-    /// 已加入房间的状态
+    /*!
+     * @abstract 已加入房间的状态
+     *
+     * @since v1.0.0
+     */
     QNRoomStateConnected,
-    /// 正在重连的状态
+    /*!
+     * @abstract 正在重连的状态
+     *
+     * @since v1.0.0
+     */
     QNRoomStateReconnecting,
+    /*!
+     * @abstract 重连成功的状态
+     *
+     * @discussion 重连成功后，QNRTCEngine 会回调该状态。QNRTCSession 则保持原有的逻辑，继续使用 QNRoomStateConnected 状态
+     *
+     * @since v2.0.0
+     */
+    QNRoomStateReconnected
 };
 
 /// 设备授权状态

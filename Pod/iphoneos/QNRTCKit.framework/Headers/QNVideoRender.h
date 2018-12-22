@@ -12,7 +12,7 @@
 @interface QNVideoRender : NSObject
 
 /**
- @brief 对应的 userID，由 SDK 内部设置
+ @brief 对应的 userId，由 SDK 内部设置
  */
 @property (nonatomic, strong, readonly) NSString *userId;
 

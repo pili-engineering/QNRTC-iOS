@@ -21,3 +21,9 @@ FOUNDATION_EXPORT const unsigned char QNRTCKitVersionString[];
 #import <QNRTCKit/QNRTCSession.h>
 #import <QNRTCKit/QNVideoRender.h>
 #import <QNRTCKit/QNVideoView.h>
+#import <QNRTCKit/QNWatermarkInfo.h>
+#import <QNRTCKit/QNMergeStreamConfiguration.h>
+#import <QNRTCKit/QNRTCEngine.h>
+#import <QNRTCKit/QNTrackInfo.h>
+#import <QNRTCKit/QNMergeStreamLayout.h>
+

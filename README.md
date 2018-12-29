@@ -24,6 +24,8 @@ QNRTCKit 是七牛云推出的一款适用于 iOS 平台的实时音视频 SDK�
 - 支持编码镜像功能
 - 支持外部导入音视频数据
 - 支持录屏功能
+- 支持发布多路视频
+- 支持音视频分开发布
 
 
 # 3 方案介绍
@@ -56,10 +58,10 @@ QNRTCKit 是七牛云推出的一款适用于 iOS 平台的实时音视频 SDK�
 - 计算加入房间的 roomToken 并提供给 App，该 roomToken 是结合 userId、roomName 等信息使用七牛的 AccessKey 和 SecretKey 按照一定的规则生成
 - 提供通话的业务逻辑，如：通话请求/应答业务逻辑、服务端房间管理和踢人等
 
-关于 roomToken 的计算方法请查阅[《七牛实时音视频云服务端 API 接口规范》](https://developer.qiniu.com/rtn/sdk/4538/server-api-reference#5)，另外，我们也提供了多种开发语言的 SDK  [服务端开发手册及 SDK 下载](https://developer.qiniu.com/rtn/sdk/4354/the-server-sdk-development-manual)。
+关于 roomToken 的计算方法请查阅[《七牛实时音视频云服务端 API 接口规范》](https://doc.qnsdk.com/rtn/docs/server_overview)，另外，我们也提供了多种开发语言的 SDK  [服务端开发手册及 SDK 下载](https://doc.qnsdk.com/rtn/docs/server_sdk)。
 
 ### 3.3 房间管理
-关于音视频通话房间的 API 主要分为两个部分，一部分在客户端，另一部分在服务端。在客户端 SDK 中，只有加入/离开连麦房间的接口。我们把创建/销毁连麦房间的功能放到了服务端，由 App Server 向七牛的服务器发送请求来完成。关于服务端 API 的详细内容，请查阅[《七牛实时音视频云服务端 API 接口规范》](https://developer.qiniu.com/rtn/sdk/4538/server-api-reference)。
+关于音视频通话房间的 API 主要分为两个部分，一部分在客户端，另一部分在服务端。在客户端 SDK 中，只有加入/离开连麦房间的接口。我们把创建/销毁连麦房间的功能放到了服务端，由 App Server 向七牛的服务器发送请求来完成。关于服务端 API 的详细内容，请查阅[《七牛实时音视频云服务端 API 接口规范》](https://doc.qnsdk.com/rtn/docs/server_overview)。
 
 # 4 方案优势
 - 实时互动对网络的稳定性和连通性要求非常苛刻，所以必须购买数据中心建设基础网络。而使用七牛的实时音视频云服务，不需要投入大量资金做传输网络的基础建设，按量计费灵活方便。
@@ -113,7 +115,7 @@ QNRTCKit 是七牛云推出的一款适用于 iOS 平台的实时音视频 SDK�
 - 提供云端存储空间及海量数据的处理能力，提供高可用的技术和高稳定的平台
 
 # 6 开发文档
-请参考开发文档：[QNRTCKit 开发文档](https://developer.qiniu.com/rtn/sdk/4379/an-overview-of-iOS-SDK)
+请参考开发文档：[QNRTCKit 开发文档](https://doc.qnsdk.com/rtn/ios)
 
 # 7 反馈及意见
 
@@ -138,4 +140,4 @@ QNRTCKit 是七牛云推出的一款适用于 iOS 平台的实时音视频 SDK�
 
 ## 8.4 是否有服务端的 SDK 或者 demo 代码可以参考？
 
-有的，请参考： [QNRTC-Server](https://developer.qiniu.com/rtn/sdk/4354/the-server-sdk-development-manual)
+有的，请参考： [QNRTC-Server](https://doc.qnsdk.com/rtn/docs/server_sdk)

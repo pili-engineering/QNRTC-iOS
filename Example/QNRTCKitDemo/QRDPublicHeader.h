@@ -9,6 +9,13 @@
 #ifndef QNRTCHeader_h
 #define QNRTCHeader_h
 
+#define MAS_SHORTHAND
+#define MAS_SHORTHAND_GLOBALS
+
+#ifndef ARRAY_SIZE
+    #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
+#endif
+
 /*********************  宽高  *********************/
 
 #define QRD_SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
@@ -51,4 +58,31 @@
 #define QN_SET_CONFIG_KEY @"QN_SET_CONFIG"
 #define QN_ROOM_NAME_KEY @"QN_ROOM_NAME"
 #define QN_RTC_DEMO_APPID @"d8lk7l4ed"
+
+#ifndef dispatch_queue_async_safe
+#define dispatch_queue_async_safe(queue, block)\
+if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(queue)) == 0) {\
+block();\
+} else {\
+dispatch_async(queue, block);\
+}
+#endif
+
+#ifndef dispatch_main_async_safe
+#define dispatch_main_async_safe(block) dispatch_queue_async_safe(dispatch_get_main_queue(), block)
+#endif
+
+#ifndef dispatch_queue_sync_safe
+#define dispatch_queue_sync_safe(queue, block)\
+if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(queue)) == 0) {\
+block();\
+} else {\
+dispatch_sync(queue, block);\
+}
+#endif
+
+#ifndef dispatch_main_sync_safe
+#define dispatch_main_sync_safe(block) dispatch_queue_sync_safe(dispatch_get_main_queue(), block)
+#endif
+
 #endif /* QNRTCHeader_h */

@@ -10,8 +10,11 @@
 #import <UIKit/UIKit.h>
 #import "QNTypeDefines.h"
 #import "QNVideoRender.h"
+#import "QNMergeStreamConfiguration.h"
 
 @class QNRTCSession;
+
+/*** DEPRECATED: QNRTCSession 已废弃, 请使用 QNRTCEngine ***/
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -33,6 +36,11 @@ NS_ASSUME_NONNULL_BEGIN
  * 本地音视频发布到服务器的回调
  */
 - (void)sessionDidPublishLocalMedia:(QNRTCSession *)session;
+
+/**
+ * 创建合流转推成功的回调
+ */
+- (void)RTCSession:(QNRTCSession *)session didCreateMergeStreamWithJobId:(NSString *)jobId;
 
 /**
  * 远端用户加入房间的回调
@@ -119,7 +127,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-
+__attribute__((deprecated("QNRTCSession 已废弃, 请使用 QNRTCEngine")))
 @interface QNRTCSession : NSObject
 
 /**
@@ -263,6 +271,12 @@ NS_ASSUME_NONNULL_BEGIN
            maxBitrateBps:(NSUInteger)maxBitrateBps;
 
 /**
+ *  创建 merge stream job
+ *  configuration: 合流的配置信息；
+ */
+- (void)createMergeStreamWithConfiguration:(QNMergeStreamConfiguration *)configuration;
+
+/**
  *  设置服务端合流参数
  *  userId: 本次设置所对应的 userId
  *  frame: 在合流画面中的大小和位置，需为整数；如果合流后想取消视频的合成，重新调用该接口将 frame.size.width 或 frame.size.height 置为 0 即可。
@@ -288,9 +302,30 @@ NS_ASSUME_NONNULL_BEGIN
                                  muted:(BOOL)muted;
 
 /**
- *  停止整个房间的合流。如果停止合流后需要重新开启合流，重新调用 - (void)setMergeStreamLayoutWithUserId (NSString *)userId frame:(CGRect)frame zIndex:(NSUInteger)zIndex muted:(BOOL)muted 接口设置合流参数即可。
+ *  设置服务端合流参数
+ *  userId: 本次设置所对应的 userId；
+ *  frame: 在合流画面中的大小和位置，需为整数，若 frame.size.width 或 frame.size.height 为 0，则该用户的视频不会合成到合流画面中；
+ *  zIndex: 在合流画面中的层次，0 在最底层；
+ *  muted: 音频是否静音，若 muted 为 YES，则不会合成该用户的音频；
+ *  jobId: 合流的 Id；
+ *  说明：设置合流参数后，如果需要更改参数，重新调用该接口并传入修改后的参数即可。
+ */
+- (void)setMergeStreamLayoutWithUserId:(NSString *)userId
+                                 frame:(CGRect)frame
+                                zIndex:(NSUInteger)zIndex
+                                 muted:(BOOL)muted
+                                 jobId:(NSString *)jobId;
+
+/**
+ *  停止整个房间的合流。如果停止合流后需要重新开启合流，重新调用 - (void)setMergeStreamLayoutWithUserId:(NSString *)userId frame:(CGRect)frame zIndex:(NSUInteger)zIndex muted:(BOOL)muted 接口设置合流参数即可。
  */
 - (void)stopMergeStream;
+
+/**
+ *  停止整个房间的合流。如果停止合流后需要重新开启合流，重新调用 - (void)setMergeStreamLayoutWithUserId:(NSString *)userId frame:(CGRect)frame zIndex:(NSUInteger)zIndex muted:(BOOL)muted jobId:(NSString *)jobId 接口设置合流参数即可。
+ *  jobId: 合流的 id
+ */
+- (void)stopMergeStreamWithJobId:(NSString *)jobId;
 
 @end
 
@@ -303,6 +338,18 @@ NS_ASSUME_NONNULL_BEGIN
  * @discussion 与摄像头相关的接口
  */
 @interface QNRTCSession (CameraSource)
+
+/*!
+ @property   captureSession
+ @abstract   视频采集 session，只读变量，给有特殊需求的开发者使用，最好不要修改
+ */
+@property (nonatomic, readonly) AVCaptureSession * _Nullable captureSession;
+
+/*!
+ @property   videoCaptureDeviceInput
+ @abstract   视频采集输入源，只读变量，给有特殊需求的开发者使用，最好不要修改
+ */
+@property (nonatomic, readonly) AVCaptureDeviceInput * _Nullable videoCaptureDeviceInput;
 
 /*!
  * @abstract 摄像头的预览视图，调用 startCapture 后才会有画面

@@ -14,7 +14,8 @@
 #import "QRDJoinRoomView.h"
 #import "QRDLiveView.h"
 #import "QRDScreenRecorderViewController.h"
-#import "QRDLiveViewController.h"
+#import "QRDScreenMainViewController.h"
+#import "QRDPureAudioViewController.h"
 
 #define QRD_LOGIN_TOP_SPACE (QRD_iPhoneX ? 140: 100)
 
@@ -89,6 +90,8 @@ UITextFieldDelegate
 
     [_joinRoomView.liveButton addTarget:self action:@selector(liveButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
+    [_joinRoomView.multiTrackButton addTarget:self action:@selector(multiTrackButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    
     _setButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _setButton.frame = CGRectMake(QRD_SCREEN_WIDTH - 36, QRD_LOGIN_TOP_SPACE - 68, 24, 24);
     [_setButton setImage:[UIImage imageNamed:@"setting"] forState:UIControlStateNormal];
@@ -156,11 +159,6 @@ UITextFieldDelegate
         return;
     }
 
-    NSString *userId = [[NSUserDefaults standardUserDefaults] objectForKey:QN_USER_ID_KEY];
-    NSString *appId = [[NSUserDefaults standardUserDefaults] objectForKey:QN_APP_ID_KEY];
-    if (0 == appId.length) {
-        appId = QN_RTC_DEMO_APPID;
-    }
     NSDictionary *configDic = [[NSUserDefaults standardUserDefaults] objectForKey:QN_SET_CONFIG_KEY];
     if (!configDic) {
         configDic = @{@"VideoSize":NSStringFromCGSize(CGSizeMake(480, 640)), @"FrameRate":@15, @"Bitrate":@(400*1000)};
@@ -174,29 +172,22 @@ UITextFieldDelegate
     [[NSUserDefaults standardUserDefaults] synchronize];
     if (_joinRoomView.confButton.selected) {
         QRDRTCViewController *rtcVC = [[QRDRTCViewController alloc] init];
-        rtcVC.roomName = roomName;
-        rtcVC.userId = userId;
-        rtcVC.appId = appId;
         rtcVC.configDic = configDic;
-        rtcVC.videoEnabled = YES;
-        [self.navigationController pushViewController:rtcVC animated:YES];
+        [self presentViewController:rtcVC animated:YES completion:nil];
     }
     else if (_joinRoomView.audioCallButton.selected) {
-        QRDRTCViewController *rtcVC = [[QRDRTCViewController alloc] init];
-        rtcVC.roomName = roomName;
-        rtcVC.userId = userId;
-        rtcVC.appId = appId;
+        QRDPureAudioViewController *rtcVC = [[QRDPureAudioViewController alloc] init];
         rtcVC.configDic = configDic;
-        rtcVC.videoEnabled = NO;
-        [self.navigationController pushViewController:rtcVC animated:YES];
+        [self presentViewController:rtcVC animated:YES completion:nil];
     }
     else if (_joinRoomView.screenButton.selected) {
         QRDScreenRecorderViewController *recorderViewController = [[QRDScreenRecorderViewController alloc] init];
-        recorderViewController.roomName = roomName;
-        recorderViewController.userId = userId;
-        recorderViewController.appId = appId;
         recorderViewController.configDic = configDic;
-        [self.navigationController pushViewController:recorderViewController animated:YES];
+        [self presentViewController:recorderViewController animated:YES completion:nil];
+    } else if (_joinRoomView.multiTrackButton.selected) {
+        QRDScreenMainViewController *vc = [[QRDScreenMainViewController alloc] init];
+        vc.configDic = configDic;
+        [self presentViewController:vc animated:YES completion:nil];
     }
 }
 
@@ -207,38 +198,6 @@ UITextFieldDelegate
 
 - (void)liveButtonClick:(UIButton *)liveButton {
     
-    NSString *roomName;
-    if (_joinRoomView.roomTextField.text.length != 0) {
-        _joinRoomView.roomTextField.text = [_joinRoomView.roomTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
-        if ([self checkRoomName:_joinRoomView.roomTextField.text]) {
-            roomName = _joinRoomView.roomTextField.text;
-        } else{
-            [self showAlertWithMessage:@"请按要求正确填写房间名称！"];
-            return;
-        }
-    } else{
-        [self showAlertWithMessage:@"请填写房间名称！"];
-        return;
-    }
-    
-    [self.view endEditing:YES];
-    
-    NSString *userId = [[NSUserDefaults standardUserDefaults] objectForKey:QN_USER_ID_KEY];
-    NSString *appId = [[NSUserDefaults standardUserDefaults] objectForKey:QN_APP_ID_KEY];
-    if (0 == appId.length) {
-        appId = QN_RTC_DEMO_APPID;
-    }
-    
-    [[NSUserDefaults standardUserDefaults] setObject:roomName forKey:QN_ROOM_NAME_KEY];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    NSString * urlString = [NSString stringWithFormat:@"rtmp://pili-rtmp.qnsdk.com/sdk-live/%@",roomName];
-    QRDLiveViewController * liveVC = [[QRDLiveViewController alloc] init];
-    liveVC.url = [NSURL URLWithString:urlString];
-    liveVC.roomName = roomName;
-    liveVC.userId = userId;
-    liveVC.appId = appId;
-    [self.navigationController pushViewController:liveVC animated:YES];
 }
 
 - (void)agreementButtonClick:(id)sender {
@@ -250,12 +209,21 @@ UITextFieldDelegate
     _joinRoomView.confButton.selected = YES;
     _joinRoomView.audioCallButton.selected = NO;
     _joinRoomView.screenButton.selected = NO;
+    _joinRoomView.multiTrackButton.selected = NO;
 }
 
 - (void)audioCallButtonClick:(id)sender {
     _joinRoomView.confButton.selected = NO;
     _joinRoomView.audioCallButton.selected = YES;
     _joinRoomView.screenButton.selected = NO;
+    _joinRoomView.multiTrackButton.selected = NO;
+}
+
+- (void)multiTrackButtonClick:(id)sender {
+    _joinRoomView.confButton.selected = NO;
+    _joinRoomView.audioCallButton.selected = NO;
+    _joinRoomView.screenButton.selected = NO;
+    _joinRoomView.multiTrackButton.selected = YES;
 }
 
 - (void)screenButtonClick:(id)sender {
@@ -267,6 +235,7 @@ UITextFieldDelegate
     _joinRoomView.confButton.selected = NO;
     _joinRoomView.audioCallButton.selected = NO;
     _joinRoomView.screenButton.selected = YES;
+    _joinRoomView.multiTrackButton.selected = NO;
 }
 
 - (void)agreementLabelTapped:(id)sender {

@@ -27,7 +27,7 @@
 @property (nonatomic, readonly) QNVideoView *cameraView;
 @property (nonatomic, readonly) QNVideoView *screenView;
 
-@property (nonatomic, strong) UIView *fullScreenSuperView;
+@property (nonatomic, weak) UIView *fullScreenSuperView;
 
 - (QNTrackInfo *)trackInfoWithTrackId:(NSString *)trackId;
 

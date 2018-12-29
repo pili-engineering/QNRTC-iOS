@@ -251,9 +251,18 @@
 
 - (void)videoAction:(UIButton *)videoButton {
     videoButton.selected = !videoButton.isSelected;
-    [self.engine muteVideo:!videoButton.isSelected];
-    self.engine.previewView.hidden = !videoButton.isSelected;
+    NSMutableArray *videoTracks = [[NSMutableArray alloc] init];
+    if (self.screenTrackInfo) {
+        self.screenTrackInfo.muted = !videoButton.isSelected;
+        [videoTracks addObject:self.screenTrackInfo];
+    }
+    if (self.cameraTrackInfo) {
+        [videoTracks addObject:self.cameraTrackInfo];
+        self.cameraTrackInfo.muted = !videoButton.isSelected;
+    }
+    [self.engine muteTracks:videoTracks];
     
+    self.engine.previewView.hidden = !videoButton.isSelected;
     [self checkSelfPreviewGesture];
 }
 
@@ -337,21 +346,21 @@
         [self.view showSuccessTip:@"发布成功了"];
         
         for (QNTrackInfo *trackInfo in tracks) {
-            if ([trackInfo.tag isEqualToString:screenTag]) {
-                self.isScreenPublished = YES;
-                self.screenTrackInfo = trackInfo;
-                continue;
-            }
             if (trackInfo.kind == QNTrackKindAudio) {
                 self.microphoneButton.enabled = YES;
                 self.isAudioPublished = YES;
-                
+                self.audioTrackInfo = trackInfo;
                 continue;
             }
             if (trackInfo.kind == QNTrackKindVideo) {
-                self.videoButton.enabled = YES;
-                self.isVideoPublished = YES;
-                
+                if ([trackInfo.tag isEqualToString:screenTag]) {
+                    self.screenTrackInfo = trackInfo;
+                    self.isScreenPublished = YES;
+                } else {
+                    self.videoButton.enabled = YES;
+                    self.isVideoPublished = YES;
+                    self.cameraTrackInfo = trackInfo;
+                }
                 continue;
             }
         }

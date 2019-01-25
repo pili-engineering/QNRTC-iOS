@@ -149,6 +149,18 @@ typedef NS_ENUM(NSUInteger, QNRoomState) {
     QNRoomStateReconnected
 };
 
+/*!
+ * @abstract 音频设备的类型
+ *
+ * @since v2.1.0
+ */
+typedef NS_ENUM(NSUInteger, QNAudioDeviceType) {
+    QNAudioDeviceTypeSpeaker = 0,
+    QNAudioDeviceTypeReceiver = 1,
+    QNAudioDeviceTypeWiredHeadphone = 2,
+    QNAudioDeviceTypeBluetooth = 3
+};
+
 /// 设备授权状态
 typedef NS_ENUM(NSUInteger, QNAuthorizationStatus) {
     /// 还没有确定是否授权

@@ -169,6 +169,17 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
 - (void)RTCEngine:(QNRTCEngine *)engine microphoneSourceDidGetAudioBuffer:(AudioBuffer *)audioBuffer;
 
 /*!
+ * @abstract 麦克风原数据时的回调。
+ *
+ * @discussion 需要注意的是这个回调在 AU Remote IO 线程，请不要做过于耗时的操作，否则可能阻塞该线程影响音频输出或其他未知问题。
+ *
+ * @warning 注意，当接入蓝牙耳机等外置设备时，采样率可能发生改变，具体值可从 asbd 中获取。
+ *
+ * @since v2.1.0
+ */
+- (void)RTCEngine:(QNRTCEngine *)engine microphoneSourceDidGetAudioBuffer:(AudioBuffer *)audioBuffer asbd:(const AudioStreamBasicDescription *)asbd;
+
+/*!
  * @abstract 统计信息回调。
  *
  * @discussion 回调的时间间隔由 statisticInterval 参数决定，statisticInterval 默认为 0，即不回调统计信息。
@@ -188,6 +199,13 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
  * @since v2.0.0
  */
 - (void)RTCEngine:(QNRTCEngine *)engine didCreateMergeStreamWithJobId:(NSString *)jobId;
+
+/*!
+ * @abstract 音频输出设备变更的回调。主动调用的 `- (void)setSpeakerOn:(BOOL)speakerOn;` 不会有该回调。
+ *
+ * @since v2.1.0
+ */
+- (void)RTCEngine:(QNRTCEngine *)engine didChangeAudioOutputToDevice:(QNAudioDeviceType)deviceType;
 
 @end
 
@@ -216,7 +234,7 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
 @property (nonatomic, assign) BOOL autoSubscribe;
 
 /*!
- * @abstract 是否静音本地扬声器。
+ * @abstract 是否静音远端的声音，设置为 YES 后，本地不会输出远端用户的声音。
  *
  * @discussion 默认为 NO。该值跟房间状态无关，在离开房间后 SDK 并不会重置该值，即会保持您上次设置的值。
  *
@@ -280,7 +298,7 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
 /*!
  * @abstract 是否使用外部导入的音频数据。
  *
- * @discussion 默认为 NO，需要在发布音频 Track 之前设置。
+ * @discussion 默认为 NO，需要在加入房间之前设置。
  *
  * @see - (void)pushAudioBuffer:(AudioBuffer *)audioBuffer;
  *
@@ -481,6 +499,34 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
  * @since v2.0.0
  */
 - (QNVideoView *)renderViewOfLocalTrackWithTrackId:(NSString *)trackId;
+
+/*!
+ * @abstract 是否将音频默认输出设备设为 Speaker。
+ *
+ * @discussion 默认为 YES，即如果不调用该接口，则声音会默认从扬声器输出，设为 NO 时，声音会从听筒输出。
+ * 无论设置何值，当连接上外置音频设备时，声音会优先从外置音频设备输出。当外置音频设备移除时，会使用默认输出设备。
+ *
+ * @warning 需要在加入房间前调用，否则无效。
+ *
+ * @see '- (void)setSpeakerOn:(BOOL)speakOn;'
+ *
+ * @since v2.1.0
+ */
+- (void)setDefaultOutputAudioPortToSpeaker:(BOOL)defaultToSpeaker;
+
+/*!
+ * @abstract 是否将声音从扬声器输出。
+ *
+ * @discussion 传入 YES 时，强制声音从扬声器输出。
+ *
+ * @warning 由于系统原因，在某些设备（如 iPhone XS Max、iPhone 8 Plus）上，连接 AirPods 后无法通过
+ * 该接口将声音强制设为扬声器输出。如有需求，可以通过使用 AVRoutePickerView 来切换。
+ *
+ * @see '- (void)setDefaultOutputAudioPortToSpeaker:(BOOL)defaultToSpeaker;'
+ *
+ * @since v2.1.0
+ */
+- (void)setSpeakerOn:(BOOL)speakerOn;
 
 /*!
  * @abstract 创建合流任务。

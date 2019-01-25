@@ -12,10 +12,10 @@
 #import "QRDAgreementViewController.h"
 #import "QRDUserNameView.h"
 #import "QRDJoinRoomView.h"
-#import "QRDLiveView.h"
 #import "QRDScreenRecorderViewController.h"
 #import "QRDScreenMainViewController.h"
 #import "QRDPureAudioViewController.h"
+#import "QRDMergeViewController.h"
 
 #define QRD_LOGIN_TOP_SPACE (QRD_iPhoneX ? 140: 100)
 
@@ -25,7 +25,6 @@ UITextFieldDelegate
 >
 @property (nonatomic, strong) QRDUserNameView *userView;
 @property (nonatomic, strong) QRDJoinRoomView *joinRoomView;
-@property (nonatomic, strong) QRDLiveView *liveView;
 @property (nonatomic, strong) UIButton *setButton;
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, copy) NSString *userString;
@@ -198,6 +197,24 @@ UITextFieldDelegate
 
 - (void)liveButtonClick:(UIButton *)liveButton {
     
+    NSString *roomName;
+    if (_joinRoomView.roomTextField.text.length != 0) {
+        _joinRoomView.roomTextField.text = [_joinRoomView.roomTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+        if ([self checkRoomName:_joinRoomView.roomTextField.text]) {
+            roomName = _joinRoomView.roomTextField.text;
+        } else{
+            [self showAlertWithMessage:@"请按要求正确填写房间名称！"];
+            return;
+        }
+    } else{
+        [self showAlertWithMessage:@"请填写房间名称！"];
+        return;
+    }
+    [[NSUserDefaults standardUserDefaults] setObject:roomName forKey:QN_ROOM_NAME_KEY];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
+    QRDMergeViewController * mergeController = [[QRDMergeViewController alloc] init];
+    [self presentViewController:mergeController animated:YES completion:nil];
 }
 
 - (void)agreementButtonClick:(id)sender {

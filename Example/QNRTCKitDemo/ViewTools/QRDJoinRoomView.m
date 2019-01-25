@@ -117,7 +117,6 @@
     [self.liveButton setTitle:@"直播房间" forState:UIControlStateNormal];
     [self.liveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self addSubview:_liveButton];
-    self.liveButton.hidden = YES;
 }
 
 /*

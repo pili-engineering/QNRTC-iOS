@@ -288,6 +288,16 @@
     [self.engine publishTracks:@[audioTrack, cameraTrack]];
 }
 
+- (void)showAlertWithMessage:(NSString *)message completionHandler:(void (^)(void))handler
+{
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"错误" message:message preferredStyle:UIAlertControllerStyleAlert];
+    [controller addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        if (handler) {
+            handler();
+        }
+    }]];
+    [self presentViewController:controller animated:YES completion:nil];
+}
 
 #pragma mark - QNRTCEngineDelegate
 
@@ -299,6 +309,14 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.view hiddenLoading];
+
+        NSString *errorMessage = error.localizedDescription;
+        if (error.code == QNRTCErrorReconnectTokenError) {
+            errorMessage = @"重新进入房间超时";
+        }
+        [self showAlertWithMessage:errorMessage completionHandler:^{
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }];
     });
 }
 

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		23749E8A2108272E001E7723 /* QRDLiveView.m in Sources */ = {isa = PBXBuildFile; fileRef = 23749E892108272E001E7723 /* QRDLiveView.m */; };
 		5029EC5434AD3A66D8A128FD /* libPods-QNRTCKitDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D8BB45036542B95EF652274E /* libPods-QNRTCKitDemo.a */; };
 		764940AF212507370025ED41 /* QRDMergeInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 764940AE212507370025ED41 /* QRDMergeInfo.m */; };
 		76EB7FFC2122B624001D6EA5 /* launchImage@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 76EB7FFB2122B624001D6EA5 /* launchImage@2x.jpg */; };
@@ -19,6 +18,7 @@
 		B07BB0CC2064E670009218C1 /* QRDAgreementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B07BB0C92064E670009218C1 /* QRDAgreementViewController.xib */; };
 		B0A335DD20D2CF6F00098E94 /* QRDScreenRecorderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0A335DC20D2CF6F00098E94 /* QRDScreenRecorderViewController.m */; };
 		B0A335E420D2E39600098E94 /* QRDMicrophoneSource.m in Sources */ = {isa = PBXBuildFile; fileRef = B0A335E220D2E39500098E94 /* QRDMicrophoneSource.m */; };
+		B0AEDE1521FB13E40008A943 /* QRDMergeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0AEDE1421FB13E40008A943 /* QRDMergeViewController.m */; };
 		B0C660591F94F98300999C9F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B0C660581F94F98300999C9F /* AppDelegate.m */; };
 		B0C660621F94F98300999C9F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B0C660601F94F98300999C9F /* Main.storyboard */; };
 		B0C660641F94F98300999C9F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0C660631F94F98300999C9F /* Assets.xcassets */; };
@@ -56,8 +56,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		23749E882108272E001E7723 /* QRDLiveView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QRDLiveView.h; sourceTree = "<group>"; };
-		23749E892108272E001E7723 /* QRDLiveView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QRDLiveView.m; sourceTree = "<group>"; };
 		474E520E8ACB91CC17307E39 /* Pods-QNRTCKitDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QNRTCKitDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-QNRTCKitDemo/Pods-QNRTCKitDemo.release.xcconfig"; sourceTree = "<group>"; };
 		764940AD212507370025ED41 /* QRDMergeInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QRDMergeInfo.h; sourceTree = "<group>"; };
 		764940AE212507370025ED41 /* QRDMergeInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QRDMergeInfo.m; sourceTree = "<group>"; };
@@ -77,6 +75,8 @@
 		B0A335DC20D2CF6F00098E94 /* QRDScreenRecorderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QRDScreenRecorderViewController.m; sourceTree = "<group>"; };
 		B0A335E220D2E39500098E94 /* QRDMicrophoneSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRDMicrophoneSource.m; sourceTree = "<group>"; };
 		B0A335E320D2E39600098E94 /* QRDMicrophoneSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRDMicrophoneSource.h; sourceTree = "<group>"; };
+		B0AEDE1321FB13E30008A943 /* QRDMergeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRDMergeViewController.h; sourceTree = "<group>"; };
+		B0AEDE1421FB13E40008A943 /* QRDMergeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRDMergeViewController.m; sourceTree = "<group>"; };
 		B0B4BA491FD31A3D00A5ACA0 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		B0C660541F94F98300999C9F /* QNRTCKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QNRTCKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0C660571F94F98300999C9F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -201,6 +201,8 @@
 				BC0F653D21B7A371006C1A0B /* QRDScreenMainViewController.m */,
 				BC99861F21C8E7D3000E8942 /* QRDPureAudioViewController.h */,
 				BC99862021C8E7D3000E8942 /* QRDPureAudioViewController.m */,
+				B0AEDE1321FB13E30008A943 /* QRDMergeViewController.h */,
+				B0AEDE1421FB13E40008A943 /* QRDMergeViewController.m */,
 				BC0F653F21B7A371006C1A0B /* QRDUserView.h */,
 				BC0F654021B7A371006C1A0B /* QRDUserView.m */,
 				BC0F653621B78257006C1A0B /* QRDNetworkUtil.h */,
@@ -227,8 +229,6 @@
 				C30F0F8A200F58EF00A2A1CA /* QRDJoinRoomView.m */,
 				C30F0F8F200F590C00A2A1CA /* QRDSettingView.h */,
 				C30F0F90200F590C00A2A1CA /* QRDSettingView.m */,
-				23749E882108272E001E7723 /* QRDLiveView.h */,
-				23749E892108272E001E7723 /* QRDLiveView.m */,
 				764940AD212507370025ED41 /* QRDMergeInfo.h */,
 				764940AE212507370025ED41 /* QRDMergeInfo.m */,
 				BC0F652821B7708C006C1A0B /* UIView+Alert.h */,
@@ -414,7 +414,6 @@
 				C30F0F83200F416500A2A1CA /* QRDSettingViewController.m in Sources */,
 				B0A335E420D2E39600098E94 /* QRDMicrophoneSource.m in Sources */,
 				BC0F654321B7A371006C1A0B /* QRDUserView.m in Sources */,
-				23749E8A2108272E001E7723 /* QRDLiveView.m in Sources */,
 				BC0F653A21B78257006C1A0B /* QRDNetworkUtil.m in Sources */,
 				B0C660591F94F98300999C9F /* AppDelegate.m in Sources */,
 				764940AF212507370025ED41 /* QRDMergeInfo.m in Sources */,
@@ -422,6 +421,7 @@
 				BC0F652921B7708C006C1A0B /* UIView+Alert.m in Sources */,
 				C30F0F98201033BD00A2A1CA /* QRDRTCViewController.m in Sources */,
 				B07BB0CB2064E670009218C1 /* QRDAgreementViewController.m in Sources */,
+				B0AEDE1521FB13E40008A943 /* QRDMergeViewController.m in Sources */,
 				BC0F654221B7A371006C1A0B /* QRDScreenMainViewController.m in Sources */,
 				C30F0F91200F590C00A2A1CA /* QRDSettingView.m in Sources */,
 			);

@@ -28,6 +28,11 @@ UITextFieldDelegate
 @property (nonatomic, strong) UIButton *setButton;
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, copy) NSString *userString;
+
+/**
+ 判断是否受英文状态下的自动补全影响（带来了特殊字符）
+ */
+@property (nonatomic, assign) BOOL resultCorrect;
 @end
 
 @implementation QRDLoginViewController
@@ -74,10 +79,14 @@ UITextFieldDelegate
 }
 
 - (void)setupJoinRoomView {
+    _resultCorrect = NO;
+    
     _joinRoomView = [[QRDJoinRoomView alloc] initWithFrame:CGRectMake(QRD_SCREEN_WIDTH/2 - 150, QRD_LOGIN_TOP_SPACE, 308, 310)];
     _joinRoomView.roomTextField.delegate = self;
     NSString *roomName = [[NSUserDefaults standardUserDefaults] objectForKey:QN_ROOM_NAME_KEY];
     _joinRoomView.roomTextField.text = roomName;
+    // 直接使用缓存房间名时，不走 textFieldDidEndEditing 影响判断，故先做校验并返回结果
+    _resultCorrect = [self checkRoomName:roomName];
     [self.view addSubview:_joinRoomView];
 
     _joinRoomView.confButton.selected = YES;
@@ -120,6 +129,7 @@ UITextFieldDelegate
 
 #pragma mark - button action
 - (void)nextAction:(UIButton *)next {
+    [_userView.userTextField resignFirstResponder];
     if (!_userView.agreementButton.selected) {
         [self showAlertWithMessage:@"需要同意用户协议才能继续！"];
         return;
@@ -127,8 +137,7 @@ UITextFieldDelegate
 
     if (_userView.userTextField.text.length != 0) {
         _userView.userTextField.text = [_userView.userTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
-        if ([self checkUserId:_userView.userTextField.text]) {
-            [_userView.userTextField resignFirstResponder];
+        if ([self checkUserId:_userView.userTextField.text] && _resultCorrect) {
             _userString = _userView.userTextField.text;
             [[NSUserDefaults standardUserDefaults] setObject:_userString forKey:QN_USER_ID_KEY];
             [_userView removeFromSuperview];
@@ -147,7 +156,7 @@ UITextFieldDelegate
     NSString *roomName;
     if (_joinRoomView.roomTextField.text.length != 0) {
         _joinRoomView.roomTextField.text = [_joinRoomView.roomTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
-        if ([self checkRoomName:_joinRoomView.roomTextField.text]) {
+        if ([self checkRoomName:_joinRoomView.roomTextField.text] && _resultCorrect) {
             roomName = _joinRoomView.roomTextField.text;
         } else{
             [self showAlertWithMessage:@"请按要求正确填写房间名称！"];
@@ -169,24 +178,30 @@ UITextFieldDelegate
 
     [[NSUserDefaults standardUserDefaults] setObject:roomName forKey:QN_ROOM_NAME_KEY];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    if (_joinRoomView.confButton.selected) {
-        QRDRTCViewController *rtcVC = [[QRDRTCViewController alloc] init];
-        rtcVC.configDic = configDic;
-        [self presentViewController:rtcVC animated:YES completion:nil];
-    }
-    else if (_joinRoomView.audioCallButton.selected) {
-        QRDPureAudioViewController *rtcVC = [[QRDPureAudioViewController alloc] init];
-        rtcVC.configDic = configDic;
-        [self presentViewController:rtcVC animated:YES completion:nil];
-    }
-    else if (_joinRoomView.screenButton.selected) {
-        QRDScreenRecorderViewController *recorderViewController = [[QRDScreenRecorderViewController alloc] init];
-        recorderViewController.configDic = configDic;
-        [self presentViewController:recorderViewController animated:YES completion:nil];
-    } else if (_joinRoomView.multiTrackButton.selected) {
-        QRDScreenMainViewController *vc = [[QRDScreenMainViewController alloc] init];
-        vc.configDic = configDic;
-        [self presentViewController:vc animated:YES completion:nil];
+    
+    // 校验缓存的 userId
+    if (![self checkUserId:_userString]) {
+        [self showAlertWithMessage:@"请点击右上角设置按钮，将昵称修改正确并保存后，再进房间！\n Please click the Settings button in the upper right corner，after the nickname is modified correctly and saved successfully，then enter the room again！"];
+    } else{
+        if (_joinRoomView.confButton.selected) {
+            QRDRTCViewController *rtcVC = [[QRDRTCViewController alloc] init];
+            rtcVC.configDic = configDic;
+            [self presentViewController:rtcVC animated:YES completion:nil];
+        }
+        else if (_joinRoomView.audioCallButton.selected) {
+            QRDPureAudioViewController *rtcVC = [[QRDPureAudioViewController alloc] init];
+            rtcVC.configDic = configDic;
+            [self presentViewController:rtcVC animated:YES completion:nil];
+        }
+        else if (_joinRoomView.screenButton.selected) {
+            QRDScreenRecorderViewController *recorderViewController = [[QRDScreenRecorderViewController alloc] init];
+            recorderViewController.configDic = configDic;
+            [self presentViewController:recorderViewController animated:YES completion:nil];
+        } else if (_joinRoomView.multiTrackButton.selected) {
+            QRDScreenMainViewController *vc = [[QRDScreenMainViewController alloc] init];
+            vc.configDic = configDic;
+            [self presentViewController:vc animated:YES completion:nil];
+        }
     }
 }
 
@@ -196,11 +211,12 @@ UITextFieldDelegate
 }
 
 - (void)liveButtonClick:(UIButton *)liveButton {
-    
+    [self.view endEditing:YES];
+
     NSString *roomName;
     if (_joinRoomView.roomTextField.text.length != 0) {
         _joinRoomView.roomTextField.text = [_joinRoomView.roomTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
-        if ([self checkRoomName:_joinRoomView.roomTextField.text]) {
+        if ([self checkRoomName:_joinRoomView.roomTextField.text] && _resultCorrect) {
             roomName = _joinRoomView.roomTextField.text;
         } else{
             [self showAlertWithMessage:@"请按要求正确填写房间名称！"];
@@ -213,8 +229,13 @@ UITextFieldDelegate
     [[NSUserDefaults standardUserDefaults] setObject:roomName forKey:QN_ROOM_NAME_KEY];
     [[NSUserDefaults standardUserDefaults] synchronize];
 
-    QRDMergeViewController * mergeController = [[QRDMergeViewController alloc] init];
-    [self presentViewController:mergeController animated:YES completion:nil];
+    // 校验缓存的 userId
+    if (![self checkUserId:_userString]) {
+        [self showAlertWithMessage:@"请点击右上角设置按钮，将昵称修改正确并保存后，再进房间！\n Please click the Settings button in the upper right corner，after the nickname is modified correctly and saved successfully，then enter the room again！"];
+    } else{
+        QRDMergeViewController * mergeController = [[QRDMergeViewController alloc] init];
+        [self presentViewController:mergeController animated:YES completion:nil];
+    }
 }
 
 - (void)agreementButtonClick:(id)sender {
@@ -262,6 +283,13 @@ UITextFieldDelegate
 
 #pragma mark - textField delegate
 - (void)textFieldDidEndEditing:(UITextField *)textField {
+    NSString *text = [textField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+    if ([textField isEqual:_userView.userTextField]) {
+        _resultCorrect = [self checkUserId:text];
+    }
+    if ([textField isEqual:_joinRoomView.roomTextField]) {
+        _resultCorrect = [self checkRoomName:text];
+    }
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {

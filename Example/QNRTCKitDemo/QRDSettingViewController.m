@@ -22,6 +22,10 @@ QRDSettingViewDelegate
 @property (nonatomic, strong) NSArray *configDicArray;
 @property (nonatomic, strong) NSDictionary *configDic;
 
+/**
+ 判断是否受英文状态下的自动补全影响（带来了特殊字符）
+ */
+@property (nonatomic, assign) BOOL resultCorrect;
 @end
 
 @implementation QRDSettingViewController
@@ -119,13 +123,14 @@ QRDSettingViewDelegate
 }
 
 - (void)saveAction:(UIButton *)save {
+    [self.view endEditing:YES];
     
     BOOL userIdAvailable = NO;
     _setingView.userTextField.text = [_setingView.userTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
     if ([self checkStringLengthZero:_setingView.userTextField.text]) {
         [self showAlertWithMessage:@"昵称未填写，无法保存！"];
     } else{
-        if ([self checkUserId:_setingView.userTextField.text]) {
+        if ([self checkUserId:_setingView.userTextField.text] && _resultCorrect) {
             userIdAvailable = YES;
         } else{
             [self showAlertWithMessage:@"请按要求正确填写昵称！"];
@@ -162,6 +167,22 @@ QRDSettingViewDelegate
 
 - (void)saveValue:(id)value forKey:(NSString *)key {
     [[NSUserDefaults standardUserDefaults] setObject:value forKey:key];
+}
+
+#pragma mark - textField delegate
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    NSString *text = [textField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+    _resultCorrect = [self checkUserId:text];
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    return YES;
+}
+
+#pragma mark --- 键盘回收 ---
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
 }
 
 #pragma mark --- 点击空白 ---

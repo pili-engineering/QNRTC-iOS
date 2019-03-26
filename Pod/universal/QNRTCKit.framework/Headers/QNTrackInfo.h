@@ -68,6 +68,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *tag;
 
 /*!
+ * @abstract 是否固定分辨率
+ *
+ * @discussion 对于 sourceType 为 QNRTCSourceTypeScreenRecorder 的视频 Track，该选项为 YES，即会使用固定的分辨率。对于其它 sourceType，默认为 NO。
+ *
+ * @warning 需在该 Track 被发布前设置，否则无效。仅对视频 Track 有效，音频 Track 忽略该设置。
+ *
+ * @since v2.1.1
+ */
+- (void)setMaintainResolutionEnabled:(BOOL)enabled;
+
+/*!
  * @abstract 初始化指定 sourceType 的 TrackInfo, master 属性默认为 NO，若为视频 Track，默认码率为 600kbps，若为音频 Track，默认码率为 64kbps
  *
  * @discussion 视频编码尺寸根据输入的视频帧来确定

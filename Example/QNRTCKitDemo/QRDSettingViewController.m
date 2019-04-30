@@ -127,14 +127,22 @@ QRDSettingViewDelegate
     
     BOOL userIdAvailable = NO;
     _setingView.userTextField.text = [_setingView.userTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
-    if ([self checkStringLengthZero:_setingView.userTextField.text]) {
-        [self showAlertWithMessage:@"昵称未填写，无法保存！"];
-    } else{
-        if ([self checkUserId:_setingView.userTextField.text] && _resultCorrect) {
-            userIdAvailable = YES;
+    
+    NSString *userIdText = [self getValueForKey:QN_USER_ID_KEY];
+    
+    // userTextField 内容发生变更，则检验
+    if (![userIdText isEqualToString:_setingView.userTextField.text]) {
+        if ([self checkStringLengthZero:_setingView.userTextField.text]) {
+            [self showAlertWithMessage:@"昵称未填写，无法保存！"];
         } else{
-            [self showAlertWithMessage:@"请按要求正确填写昵称！"];
+            if ([self checkUserId:_setingView.userTextField.text] && _resultCorrect) {
+                userIdAvailable = YES;
+            } else{
+                [self showAlertWithMessage:@"请按要求正确填写昵称！"];
+            }
         }
+    } else{
+        userIdAvailable = YES;
     }
     
     _setingView.appIdTextField.text = [_setingView.appIdTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""];

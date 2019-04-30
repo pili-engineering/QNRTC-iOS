@@ -27,4 +27,5 @@ FOUNDATION_EXPORT const unsigned char QNRTCKitVersionString[];
 #import <QNRTCKit/QNTrackInfo.h>
 #import <QNRTCKit/QNMergeStreamLayout.h>
 #import <QNRTCKit/QNUtil.h>
-
+#import <QNRTCKit/QNAudioEngine.h>
+#import <QNRTCKit/QNRTCConfiguration.h>

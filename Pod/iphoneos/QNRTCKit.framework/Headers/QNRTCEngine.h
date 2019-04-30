@@ -13,8 +13,10 @@
 #import "QNTrackInfo.h"
 #import "QNMergeStreamConfiguration.h"
 #import "QNMergeStreamLayout.h"
+#import "QNAudioEngine.h"
 
 @class QNRTCEngine;
+@class QNRTCConfiguration;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -261,6 +263,29 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
  * @since v2.0.0
  */
 @property (nonatomic, strong, readonly) NSArray<NSString *> *userList;
+
+/*!
+ * @abstract 连麦房间中的音频管理类实例。
+ *
+ * @warning 该值为 QNRTCEngine 的属性，使用方式如下：
+ *          self.engine.audioEngine.audioURL = [NSURL URLWithString:@"http://www.xxx.com/test.mp3"];
+ *          self.engine.audioEngine.delegate = self;
+ *
+ * @discussion 需要配置 audioURL 传入音频地址，调用 startAudioMixing 开始混音，调用 stopAudioMixing 停止混音。
+ *
+ * @since v2.2.0
+ */
+@property (nonatomic, strong, readonly) QNAudioEngine *audioEngine;
+
+/*!
+ * @abstract 用一个 configuration 来初始化 engine。
+ *
+ * @param
+ *    configuration 用于初始化 engine 的配置。
+ *
+ * @since v2.2.0
+ */
+- (instancetype)initWithConfiguration:(QNRTCConfiguration *)configuration;
 
 /*!
  * @abstract 加入房间。

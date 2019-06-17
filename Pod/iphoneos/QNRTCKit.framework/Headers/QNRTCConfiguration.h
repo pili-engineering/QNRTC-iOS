@@ -26,6 +26,20 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) QNRTCPolicy policy;
 
 /*!
+ * @abstract 是否使用立体声
+ *
+ * @since v2.3.0
+ */
+@property (nonatomic, assign, readonly) BOOL isStereo;
+
+/*!
+ * @abstract 带宽估计的策略
+ *
+ * @since v2.3.0
+ */
+@property (nonatomic, assign, readonly) QNRTCBWEPolicy bwePolicy;
+
+/*!
  * @abstract 用默认参数生成一个对象
  *
  * @since v2.2.0
@@ -38,6 +52,20 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v2.2.0
  */
 - (instancetype)initWithPolicy:(QNRTCPolicy)policy;
+
+/*!
+ * @abstract 用指定的参数生成一个对象
+ *
+ * @since v2.3.0
+ */
+- (instancetype)initWithPolicy:(QNRTCPolicy)policy stereo:(BOOL)isStereo;
+
+/*!
+ * @abstract 用指定的参数生成一个对象
+ *
+ * @since v2.3.0
+ */
+- (instancetype)initWithPolicy:(QNRTCPolicy)policy stereo:(BOOL)isStereo bwePolicy:(QNRTCBWEPolicy)bwePolicy;
 
 @end
 

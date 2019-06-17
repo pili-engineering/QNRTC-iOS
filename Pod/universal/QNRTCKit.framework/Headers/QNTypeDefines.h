@@ -72,6 +72,8 @@ NS_ERROR_ENUM(QNRTCErrorDomain)
     QNRTCErrorSubscribeFailed                   = 11012,
     //merge failed
     QNRTCErrorUpdateMergeFailed                 = 11013,
+    //push audioBuffer with asbd convert failed
+    QNRTCErrorPushAudioBufferFailed             = 11014,
 
 };
 
@@ -235,6 +237,18 @@ typedef NS_ENUM(NSUInteger, QNRTCPolicy) {
     QNRTCPolicyForceTCP,
     /// 优先 UDP，不通的话自动改为 TCP
     QNRTCPolicyPreferUDP,
+};
+
+/*!
+ * @abstract 带宽估计的策略
+ *
+ * @since v2.3.0
+ */
+typedef NS_ENUM(NSUInteger, QNRTCBWEPolicy) {
+    /// 使用 TCC
+    QNRTCBWEPolicyTCC = 0,
+    /// 使用 GCC
+    QNRTCBWEPolicyGCC = 1,
 };
 
 //视频填充模式

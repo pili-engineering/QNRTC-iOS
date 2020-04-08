@@ -186,20 +186,24 @@ UITextFieldDelegate
         if (_joinRoomView.confButton.selected) {
             QRDRTCViewController *rtcVC = [[QRDRTCViewController alloc] init];
             rtcVC.configDic = configDic;
+            rtcVC.modalPresentationStyle = UIModalPresentationFullScreen;
             [self presentViewController:rtcVC animated:YES completion:nil];
         }
         else if (_joinRoomView.audioCallButton.selected) {
             QRDPureAudioViewController *rtcVC = [[QRDPureAudioViewController alloc] init];
             rtcVC.configDic = configDic;
+            rtcVC.modalPresentationStyle = UIModalPresentationFullScreen;
             [self presentViewController:rtcVC animated:YES completion:nil];
         }
         else if (_joinRoomView.screenButton.selected) {
             QRDScreenRecorderViewController *recorderViewController = [[QRDScreenRecorderViewController alloc] init];
             recorderViewController.configDic = configDic;
+            recorderViewController.modalPresentationStyle = UIModalPresentationFullScreen;
             [self presentViewController:recorderViewController animated:YES completion:nil];
         } else if (_joinRoomView.multiTrackButton.selected) {
             QRDScreenMainViewController *vc = [[QRDScreenMainViewController alloc] init];
             vc.configDic = configDic;
+            vc.modalPresentationStyle = UIModalPresentationFullScreen;
             [self presentViewController:vc animated:YES completion:nil];
         }
     }
@@ -233,7 +237,8 @@ UITextFieldDelegate
     if (![self checkUserId:_userString]) {
         [self showAlertWithMessage:@"请点击右上角设置按钮，将昵称修改正确并保存后，再进房间！\n Please click the Settings button in the upper right corner，after the nickname is modified correctly and saved successfully，then enter the room again！"];
     } else{
-        QRDMergeViewController * mergeController = [[QRDMergeViewController alloc] init];
+        QRDMergeViewController *mergeController = [[QRDMergeViewController alloc] init];
+        mergeController.modalPresentationStyle = UIModalPresentationFullScreen;
         [self presentViewController:mergeController animated:YES completion:nil];
     }
 }
@@ -278,6 +283,7 @@ UITextFieldDelegate
 
 - (void)agreementLabelTapped:(id)sender {
     QRDAgreementViewController *agreementViewController = [[QRDAgreementViewController alloc] init];
+    agreementViewController.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:agreementViewController animated:YES completion:nil];
 }
 

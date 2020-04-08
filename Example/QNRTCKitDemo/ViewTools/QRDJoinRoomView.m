@@ -31,8 +31,6 @@
     self.roomTextField.backgroundColor = QRD_COLOR_RGBA(73,73,75,1);
     self.roomTextField.placeholder = @"房间名称";
     self.roomTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    [self.roomTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
-    [self.roomTextField setValue:QRD_LIGHT_FONT(11) forKeyPath:@"_placeholderLabel.font"];
     self.roomTextField.textAlignment = NSTextAlignmentLeft;
     self.roomTextField.keyboardType = UIKeyboardTypeASCIICapable;
     self.roomTextField.font = QRD_REGULAR_FONT(13);

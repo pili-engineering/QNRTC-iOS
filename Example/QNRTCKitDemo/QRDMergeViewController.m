@@ -600,7 +600,6 @@ UITableViewDelegate
     }];
     
     self.player.delegateQueue = dispatch_get_main_queue();
-    self.player.playerView.contentMode = UIViewContentModeScaleAspectFit;
     self.player.delegate = self;
 }
 

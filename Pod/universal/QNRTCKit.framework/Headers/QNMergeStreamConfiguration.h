@@ -61,6 +61,11 @@ NSCopying
 @property (nonatomic, strong) NSArray<QNWatermarkInfo *> *watermarks;
 
 /**
+ @brief 背景图片，为可选项
+ */
+@property (nonatomic, strong) QNBackgroundInfo *background;
+
+/**
  @brief 最小码率，为可选项
  */
 @property (nonatomic, assign) NSUInteger minBitrateBps;

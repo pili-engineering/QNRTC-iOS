@@ -31,8 +31,7 @@
     self.userTextField.backgroundColor = QRD_COLOR_RGBA(73,73,75,1);
     self.userTextField.placeholder = @"昵称";
     self.userTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    [self.userTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
-    [self.userTextField setValue:QRD_LIGHT_FONT(11) forKeyPath:@"_placeholderLabel.font"];
+
     self.userTextField.textAlignment = NSTextAlignmentLeft;
     self.userTextField.keyboardType = UIKeyboardTypeASCIICapable;
     self.userTextField.font = QRD_REGULAR_FONT(13);

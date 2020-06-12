@@ -31,6 +31,10 @@
     self.roomTextField.backgroundColor = QRD_COLOR_RGBA(73,73,75,1);
     self.roomTextField.placeholder = @"房间名称";
     self.roomTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    NSMutableAttributedString *placeholderAttributedString = [[NSMutableAttributedString alloc] initWithAttributedString:self.roomTextField.attributedPlaceholder];
+    [placeholderAttributedString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, [placeholderAttributedString length])];
+    [placeholderAttributedString addAttribute:NSFontAttributeName value:QRD_LIGHT_FONT(11) range:NSMakeRange(0, [placeholderAttributedString length])];
+    self.roomTextField.attributedPlaceholder = placeholderAttributedString;
     self.roomTextField.textAlignment = NSTextAlignmentLeft;
     self.roomTextField.keyboardType = UIKeyboardTypeASCIICapable;
     self.roomTextField.font = QRD_REGULAR_FONT(13);
@@ -112,10 +116,16 @@
     self.liveButton.backgroundColor = QRD_COLOR_RGBA(52,170,220,1);
     self.liveButton.layer.cornerRadius = 20;
     self.liveButton.titleLabel.font = QRD_REGULAR_FONT(14);
-    [self.liveButton setTitle:@"直播房间" forState:UIControlStateNormal];
+    [self.liveButton setTitle:@"观看直播" forState:UIControlStateNormal];
     [self.liveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self addSubview:_liveButton];
-}
+    
+    UILabel *mergeLabel = [[UILabel alloc] initWithFrame:CGRectMake(25, 320, viewWidth - 50, 22)];
+    mergeLabel.textColor = [UIColor whiteColor];
+    mergeLabel.text = @"只有 admin 才有合流权限";
+    mergeLabel.font = QRD_LIGHT_FONT(10);
+    mergeLabel.textAlignment = NSTextAlignmentCenter;
+    [self addSubview:mergeLabel];}
 
 /*
 // Only override drawRect: if you perform custom drawing.

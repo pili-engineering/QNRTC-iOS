@@ -36,6 +36,7 @@
 
 - (void)publish {
     QNTrackInfo *audioTrack = [[QNTrackInfo alloc] initWithSourceType:QNRTCSourceTypeAudio master:YES];
+    // 纯音频则只发布音频 track
     [self.engine publishTracks:@[audioTrack]];
 }
 

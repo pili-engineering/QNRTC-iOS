@@ -37,6 +37,8 @@
     }
 
     if (screenTrack) {
+        // cameraTrack 摄像头采集的 track
+        // screenTrack 屏幕录制的 track
         [self.engine publishTracks:@[audioTrack, cameraTrack, screenTrack]];
     } else {
         [self.engine publishTracks:@[audioTrack, cameraTrack]];

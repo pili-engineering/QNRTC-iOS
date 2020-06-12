@@ -15,7 +15,7 @@
 #import "QRDScreenRecorderViewController.h"
 #import "QRDScreenMainViewController.h"
 #import "QRDPureAudioViewController.h"
-#import "QRDMergeViewController.h"
+#import "QRDPlayerViewController.h"
 
 #define QRD_LOGIN_TOP_SPACE (QRD_iPhoneX ? 140: 100)
 
@@ -184,23 +184,27 @@ UITextFieldDelegate
         [self showAlertWithMessage:@"请点击右上角设置按钮，将昵称修改正确并保存后，再进房间！\n Please click the Settings button in the upper right corner，after the nickname is modified correctly and saved successfully，then enter the room again！"];
     } else{
         if (_joinRoomView.confButton.selected) {
+            // 连麦主入口
             QRDRTCViewController *rtcVC = [[QRDRTCViewController alloc] init];
             rtcVC.configDic = configDic;
             rtcVC.modalPresentationStyle = UIModalPresentationFullScreen;
             [self presentViewController:rtcVC animated:YES completion:nil];
         }
         else if (_joinRoomView.audioCallButton.selected) {
+            // 纯音频连麦入口
             QRDPureAudioViewController *rtcVC = [[QRDPureAudioViewController alloc] init];
             rtcVC.configDic = configDic;
             rtcVC.modalPresentationStyle = UIModalPresentationFullScreen;
             [self presentViewController:rtcVC animated:YES completion:nil];
         }
         else if (_joinRoomView.screenButton.selected) {
+            // 录屏入口
             QRDScreenRecorderViewController *recorderViewController = [[QRDScreenRecorderViewController alloc] init];
             recorderViewController.configDic = configDic;
             recorderViewController.modalPresentationStyle = UIModalPresentationFullScreen;
             [self presentViewController:recorderViewController animated:YES completion:nil];
         } else if (_joinRoomView.multiTrackButton.selected) {
+            // 录屏连麦入口
             QRDScreenMainViewController *vc = [[QRDScreenMainViewController alloc] init];
             vc.configDic = configDic;
             vc.modalPresentationStyle = UIModalPresentationFullScreen;
@@ -237,9 +241,9 @@ UITextFieldDelegate
     if (![self checkUserId:_userString]) {
         [self showAlertWithMessage:@"请点击右上角设置按钮，将昵称修改正确并保存后，再进房间！\n Please click the Settings button in the upper right corner，after the nickname is modified correctly and saved successfully，then enter the room again！"];
     } else{
-        QRDMergeViewController *mergeController = [[QRDMergeViewController alloc] init];
-        mergeController.modalPresentationStyle = UIModalPresentationFullScreen;
-        [self presentViewController:mergeController animated:YES completion:nil];
+        QRDPlayerViewController *playerViewController = [[QRDPlayerViewController alloc] init];
+        playerViewController.modalPresentationStyle = UIModalPresentationFullScreen;
+        [self presentViewController:playerViewController animated:YES completion:nil];
     }
 }
 

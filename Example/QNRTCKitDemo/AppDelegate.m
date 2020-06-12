@@ -8,7 +8,10 @@
 
 #import "AppDelegate.h"
 #import "QRDLoginViewController.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 #import <QNRTCKit/QNRTCKit.h>
+
 #import <Bugsnag.h>
 
 @interface AppDelegate () <UISplitViewControllerDelegate>
@@ -27,7 +30,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = navigationController;
     [self.window makeKeyAndVisible];
-
+    [Fabric with:@[[Crashlytics class]]];
     [QNRTCEngine enableFileLogging];
     return YES;
 }

@@ -25,8 +25,11 @@
 }
 
 - (void)setupEngine {
+    // 1.初始化
     self.engine = [[QNRTCEngine alloc] init];
+    // 2.设置回调代理
     self.engine.delegate = self;
+    
     self.engine.statisticInterval = 5;
     
     [self.renderBackgroundView addSubview:self.colorView];
@@ -37,12 +40,15 @@
 }
 
 - (void)publish {
-    
+    // 3.配置音频 track
     QNTrackInfo *audioTrack = [[QNTrackInfo alloc] initWithSourceType:QNRTCSourceTypeAudio master:YES];
     QNTrackInfo *screenTrack = nil;
+    
+    // 判断本机系统是否支持录屏
     if (![QNRTCEngine isScreenRecorderAvailable]) {
         [self addLogString:@"该系统版本不支持录屏"];
     } else {
+        // 支持，则配置录屏 track（视频 track）
         screenTrack = [[QNTrackInfo alloc] initWithSourceType:QNRTCSourceTypeScreenRecorder
                                                           tag:screenTag
                                                        master:YES
@@ -50,6 +56,7 @@
                                               videoEncodeSize:self.videoEncodeSize];
     }
     
+    // 4.发布音视频 track
     if (screenTrack) {
         [self.engine publishTracks:@[audioTrack, screenTrack]];
     } else {

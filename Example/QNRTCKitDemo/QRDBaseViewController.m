@@ -359,7 +359,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     @synchronized(_logStringArray) {
-        return self.logStringArray.count > 0 ? 1 : 0;
+        return 1;
     }
 }
 
@@ -476,6 +476,43 @@ static const int cLabelTag = 10;
 - (void)RTCEngine:(QNRTCEngine *)engine didFailWithError:(NSError *)error {
     NSString *str = [NSString stringWithFormat:@"SDK 运行过程中发生错误会通过该方法回调，具体错误码的含义可以见 QNTypeDefines.h 文件:\nerror: %@",  error];
     [self addLogString:str];
+    switch (error.code) {
+        case QNRTCErrorAuthFailed:
+            NSLog(@"鉴权失败，请检查鉴权");
+            break;
+        case QNRTCErrorRoomIsFull:
+            NSLog(@"房间人数已满");
+            break;
+        case QNRTCErrorTokenError:
+            //关于 token 签算规则, 详情请参考【服务端开发说明.RoomToken 签发服务】https://doc.qnsdk.com/rtn/docs/server_overview#1
+            NSLog(@"roomToken 错误");
+            break;
+        case QNRTCErrorTokenExpired:
+            NSLog(@"roomToken 过期");
+            break;
+        case QNRTCErrorUserAlreadyExist:
+            NSLog(@"用户已存在");
+            break;
+        case QNRTCErrorNoPermission:
+            NSLog(@"请检查用户是否有权限，如:合流");
+            break;
+        case QNRTCErrorReconnectTokenError:
+            NSLog(@"重新进入房间超时，请务必调用 leaveRoom, 重新进入房间");
+            break;
+        case QNRTCErrorPublishFailed:
+            NSLog(@"发布失败，请查看是否加入房间，并确定对于音频/视频 Track，分别最多只能有一路为 master");
+            break;
+        case QNRTCErrorInvalidParameter:
+            NSLog(@"服务交互参数错误，请在开发时注意合流、踢人动作等参数的设置");
+            break;
+        case QNRTCErrorRoomClosed:
+            NSLog(@"房间已被管理员关闭");
+            break;
+            
+        default:
+            break;
+    }
+
 }
 
 /**
@@ -541,6 +578,14 @@ static const int cLabelTag = 10;
  */
 - (void)RTCEngine:(QNRTCEngine *)engine didUnPublishTracks:(NSArray<QNTrackInfo *> *)tracks ofRemoteUserId:(NSString *)userId {
     NSString *str = [NSString stringWithFormat:@"远端用户: %@ 取消发布的回调:\nTracks: %@",  userId, tracks];
+    [self addLogString:str];
+}
+
+/**
+* 创建合流的回调
+*/
+- (void)RTCEngine:(QNRTCEngine *)engine didCreateMergeStreamWithJobId:(NSString *)jobId {
+    NSString *str = [NSString stringWithFormat:@"创建合流的回调:\nJobId: %@",  jobId];
     [self addLogString:str];
 }
 
@@ -656,16 +701,32 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
     if (statistic[QNStatisticAudioBitrateKey] && statistic[QNStatisticAudioPacketLossRateKey]) {
         int audioBitrate = [[statistic objectForKey:QNStatisticAudioBitrateKey] intValue];
         float audioPacketLossRate = [[statistic objectForKey:QNStatisticAudioPacketLossRateKey] floatValue];
-        str = [NSString stringWithFormat:@"音频码率: %dbps\n音频丢包率：%3.1f%%\n", audioBitrate, audioPacketLossRate];
+        int audioRtt = [[statistic objectForKey:QNStatisticRttKey] floatValue];
+        if ([self.userId isEqualToString:userId]) {
+            str = [NSString stringWithFormat:@"音频码率：%dbps\n 音频丢包率：%3.1f%%\n本地 rtt：%d\n", audioBitrate, audioPacketLossRate,audioRtt];
+        }else{
+            int audioRemotePacketLossRate = [[statistic objectForKey:QNStatisticAudioRemotePacketLossRateKey] floatValue];
+            str = [NSString stringWithFormat:@"音频码率：%dbps\n 远端服务器音频丢包率：%3.1f%%\n远端user音频丢包率：%3.1f%%\n远端 rtt：%d\n", audioBitrate, audioPacketLossRate,audioRemotePacketLossRate,audioRtt];
+        }
     }
     else {
         int videoBitrate = [[statistic objectForKey:QNStatisticVideoBitrateKey] intValue];
         float videoPacketLossRate = [[statistic objectForKey:QNStatisticVideoPacketLossRateKey] floatValue];
         int videoFrameRateKey = [[statistic objectForKey:QNStatisticVideoFrameRateKey] intValue];
-        str = [NSString stringWithFormat:@"视频码率：%dbps\n视频丢包率：%3.1f%%\n视频帧率：%d", videoBitrate, videoPacketLossRate, videoFrameRateKey];
+        int videoRtt = [[statistic objectForKey:QNStatisticRttKey] floatValue];
+        if ([self.userId isEqualToString:userId]) {
+            str = [NSString stringWithFormat:@"视频码率：%dbps\n 本地视频丢包率：%3.1f%%\n视频帧率：%d\n本地 rtt：%d\n", videoBitrate, videoPacketLossRate, videoFrameRateKey,videoRtt];
+        }else{
+            int videoRemotePacketLossRate = [[statistic objectForKey:QNStatisticVideoRemotePacketLossRateKey] floatValue];
+            str = [NSString stringWithFormat:@"视频码率：%dbps\n 远端服务器视频丢包率：%3.1f%%\n视频帧率：%d\n远端user视频丢包率：%3.1f%%\n远端 rtt：%d\n", videoBitrate, videoPacketLossRate, videoFrameRateKey,videoRemotePacketLossRate,videoRtt];
+        }
     }
     NSString *logStr = [NSString stringWithFormat:@"统计信息回调:userId: %@ trackId: %@\n%@", userId, trackId, str];
     [self addLogString:logStr];
+}
+
+- (void)RTCEngine:(QNRTCEngine *)engine didLeaveOfLocalSuccess:(BOOL)success {
+    
 }
 
 @end

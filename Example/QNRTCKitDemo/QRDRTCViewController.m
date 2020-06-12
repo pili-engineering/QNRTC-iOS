@@ -10,23 +10,49 @@
 #import <ReplayKit/ReplayKit.h>
 #import "UIView+Alert.h"
 #import <QNRTCKit/QNRTCKit.h>
-
+#import "QRDMergeSettingView.h"
 
 @interface QRDRTCViewController ()
+<
+QRDMergeSettingViewDelegate,
+UITextFieldDelegate
+>
+@property (nonatomic, strong) QRDMergeSettingView *mergeSettingView;
+@property (nonatomic, assign) CGFloat keyboardHeight;
+@property (nonatomic, strong) NSString *mergeJobId;
+@property (nonatomic, strong) NSArray<QNMergeStreamLayout *> *layouts;
+
+@property (nonatomic, strong) UIScrollView *mergeScrollView;
+@property (nonatomic, strong) UIView *buttonView;
 
 @end
 
 @implementation QRDRTCViewController
+
+- (void)dealloc {
+    [self removeNotification];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.view.backgroundColor = QRD_COLOR_RGBA(20, 20, 20, 1);
     
+   
     self.videoEncodeSize = CGSizeFromString(_configDic[@"VideoSize"]);
     self.bitrate = [_configDic[@"Bitrate"] integerValue];
+    
+    // 配置核心类 QNRTCEngine
     [self setupEngine];
+    
     [self setupBottomButtons];
+    
+    // 添加配置合流的交互界面
+    if ([self isAdminUser:self.userId]) {
+        [self setupMergeSettingView];
+    }
+    
+    // 发送请求获取进入房间的 Token
     [self requestToken];
     
     self.logButton = [[UIButton alloc] init];
@@ -37,6 +63,17 @@
     
     [self.logButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view).offset(0);
+        make.top.equalTo(self.mas_topLayoutGuide);
+        make.size.equalTo(CGSizeMake(50, 50));
+    }];
+    
+    self.mergeButton = [[UIButton alloc] init];
+    [self.mergeButton setImage:[UIImage imageNamed:@"stream_merge"] forState:UIControlStateNormal];
+    [self.mergeButton addTarget:self action:@selector(mergeAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.mergeButton];
+    
+    [self.mergeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.view).offset(0);
         make.top.equalTo(self.mas_topLayoutGuide);
         make.size.equalTo(CGSizeMake(50, 50));
     }];
@@ -60,6 +97,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [self stoptimer];
+    // 离开房间
     [self.engine leaveRoom];
     
     [super viewDidDisappear:animated];
@@ -85,12 +123,18 @@
 
 - (void)joinRTCRoom {
     [self.view showNormalLoadingWithTip:@"加入房间中..."];
+    // 将获取生成的 token 传入 sdk
+    // 6.使用有效的 token 加入房间
     [self.engine joinRoomWithToken:self.token];
 }
 
 - (void)requestToken {
     [self.view showFullLoadingWithTip:@"请求 token..."];
     __weak typeof(self) wself = self;
+    // 获取 Token 必须要有 3个信息
+    // 1. roomName 房间名
+    // 2. userId 用户名
+    // 3. appId id标识（相同的房间、相同的用户名，不同的 appId 将无法进入同一个房间）
     [QRDNetworkUtil requestTokenWithRoomName:self.roomName appId:self.appId userId:self.userId completionHandler:^(NSError *error, NSString *token) {
         
         [wself.view hideFullLoading];
@@ -104,22 +148,32 @@
             [wself addLogString:str];
             
             wself.token = token;
+            // 加入房间
             [wself joinRTCRoom];
         }
     }];
 }
 
 - (void)setupEngine {
+    [QNRTCEngine enableFileLogging];
     
+    // 1.初始化 RTC 核心类 QNRTCEngine
     self.engine = [[QNRTCEngine alloc] init];
+    // 2.设置 QNRTCEngineDelegate 状态回调的代理
     self.engine.delegate = self;
+    
+    // 3.设置相关配置
+    // 视频帧率
     self.engine.videoFrameRate = [_configDic[@"FrameRate"] integerValue];;
+    // 设置统计信息回调的时间间隔，不设置的话，默认不会回调统计信息
     self.engine.statisticInterval = 5;
+    // 打开 sdk 自带的美颜效果
     [self.engine setBeautifyModeOn:YES];
     
     [self.colorView addSubview:self.engine.previewView];
     [self.renderBackgroundView addSubview:self.colorView];
     
+    // 4.设置摄像头采集的预览视频位置
     [self.engine.previewView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.colorView);
     }];
@@ -128,6 +182,13 @@
         make.edges.equalTo(self.renderBackgroundView);
     }];
     
+    [self.renderBackgroundView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
+    
+    // 5.启动摄像头采集
+    // 注意：记得在 Info.list 中添加摄像头、麦克风的相关权限
+    // NSCameraUsageDescription、NSMicrophoneUsageDescription
     [self.engine startCapture];
 }
 
@@ -206,6 +267,231 @@
     }];
 }
 
+- (void)setupMergeSettingView {
+    self.keyboardHeight = 0;
+    
+    self.mergeScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, UIScreen.mainScreen.bounds.size.height, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height > 667 ? 420 : 400)];
+    self.mergeScrollView.scrollEnabled = YES;
+    self.mergeScrollView.showsVerticalScrollIndicator = YES;
+    self.mergeScrollView.showsHorizontalScrollIndicator = NO;
+    self.mergeScrollView.bounces = NO;
+    [self.view addSubview:_mergeScrollView];
+
+    self.mergeSettingView = [[QRDMergeSettingView alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height > 667 ? 420 : 400) userId:self.userId roomName:self.roomName];
+    self.mergeSettingView.delegate = self;
+    self.mergeSettingView.mergeStreamSize = CGSizeMake(480, 848);
+    
+    self.buttonView = [[UIView alloc] initWithFrame:CGRectMake(0, UIScreen.mainScreen.bounds.size.height, UIScreen.mainScreen.bounds.size.width, 80)];
+    self.buttonView.backgroundColor = [UIColor colorWithWhite:0.2 alpha:1.0];
+    [self.view addSubview:_buttonView];
+    _mergeSettingView.saveButton.frame = CGRectMake(20, 10, UIScreen.mainScreen.bounds.size.width - 40, 40);
+    [self.buttonView addSubview:_mergeSettingView.saveButton];
+    
+    self.mergeSettingView.frame = CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, self.mergeSettingView.totalHeight);
+    [self.mergeScrollView addSubview:_mergeSettingView];
+
+    self.mergeScrollView.contentSize = CGSizeMake(UIScreen.mainScreen.bounds.size.width, self.mergeSettingView.totalHeight);
+    
+    UISwipeGestureRecognizer *downSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(downSwipe:)];
+       downSwipe.direction = UISwipeGestureRecognizerDirectionDown;
+    [self.view addGestureRecognizer:downSwipe];
+    
+    [self addNotification];
+}
+
+- (void)showSettingView {
+    CGRect rc = self.mergeScrollView.frame;
+    [UIView animateWithDuration:.3 animations:^{
+        self.mergeScrollView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height - rc.size.height, rc.size.width, rc.size.height);
+        _buttonView.frame = CGRectMake(0, UIScreen.mainScreen.bounds.size.height - 80, UIScreen.mainScreen.bounds.size.width , 80);
+
+    }];
+}
+
+- (void)hideSettingView {
+    CGRect rc = self.mergeScrollView.frame;
+    [UIView animateWithDuration:.3 animations:^{
+        self.mergeScrollView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height, rc.size.width, rc.size.height);
+        _buttonView.frame = CGRectMake(0, UIScreen.mainScreen.bounds.size.height, UIScreen.mainScreen.bounds.size.width, 80);
+    }];
+}
+
+- (void)requestRoomUserList {
+    [self.view showFullLoadingWithTip:@"请求房间用户列表..."];
+    __weak typeof(self) wself = self;
+    
+    [QRDNetworkUtil requestRoomUserListWithRoomName:self.roomName appId:self.appId completionHandler:^(NSError *error, NSDictionary *userListDic) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [wself.view hideFullLoading];
+            
+            if (error) {
+                [wself.view showFailTip:error.description];
+                [wself addLogString:@"请求用户列表出错，请检查网络😂"];
+            } else {
+                [wself dealRoomUsers:userListDic];
+            }
+        });
+    }];
+}
+
+- (void)dealRoomUsers:(NSDictionary *)usersDic {
+    NSArray * userArray = [usersDic objectForKey:@"users"];
+    if (0 == userArray.count) {
+        [self.view showTip:@"房间中暂时没有其他用户"];
+        [self addLogString:@"房间中暂时没有其他用户"];
+    }
+    if ([self isAdminUser:self.userId]) {
+        [self.mergeSettingView resetMergeFrame];
+        [self.mergeSettingView resetUserList];
+    } else{
+        [self.view showTip:@"你不是 admin，无法操作合流"];
+        [self addLogString:@"你不是 admin，无法操作合流"];
+    }
+}
+
+- (BOOL)isAdmin {
+    return [self.userId.lowercaseString isEqualToString:@"admin"];
+}
+
+- (BOOL)isAdminUser:(NSString *)userId {
+    return [userId.lowercaseString isEqualToString:@"admin"];
+}
+
+#pragma mark - Notification
+
+- (void)addNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
+}
+
+- (void)removeNotification {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
+}
+
+- (void)keyboardWillShow:(NSNotification *)aNotification {
+    NSDictionary *userInfo = [aNotification userInfo];
+    NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGFloat duration = [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    CGRect keyboardRect = [aValue CGRectValue];
+    _keyboardHeight = keyboardRect.size.height;
+    
+    CGRect rc = self.mergeScrollView.frame;
+    [UIView animateWithDuration:duration animations:^{
+        self.mergeScrollView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height - rc.size.height - _keyboardHeight - 20, rc.size.width, rc.size.height);
+        _buttonView.frame = CGRectMake(0, UIScreen.mainScreen.bounds.size.height - 60 - _keyboardHeight, UIScreen.mainScreen.bounds.size.width, 80);
+    }];
+}
+
+- (void)keyboardWillHide:(NSNotification *)aNotification {
+    _keyboardHeight = 0;
+    NSDictionary *userInfo = [aNotification userInfo];
+    CGFloat duration = [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    
+    CGRect rc = self.mergeScrollView.frame;
+    [UIView animateWithDuration:duration animations:^{
+        self.mergeScrollView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height - rc.size.height, rc.size.width, rc.size.height);
+        _buttonView.frame = CGRectMake(0, UIScreen.mainScreen.bounds.size.height - 80, UIScreen.mainScreen.bounds.size.width, 80);
+    }];
+}
+
+- (void)keyboardWillChange:(NSNotification *)aNotification {
+    NSDictionary *userInfo = [aNotification userInfo];
+    NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGFloat duration = [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    CGRect keyboardRect = [aValue CGRectValue];
+    _keyboardHeight = keyboardRect.size.height;
+    
+    CGRect rc = self.mergeScrollView.frame;
+    [UIView animateWithDuration:duration animations:^{
+        self.mergeScrollView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height - rc.size.height - _keyboardHeight - 20, rc.size.width, rc.size.height);
+        _buttonView.frame = CGRectMake(0, UIScreen.mainScreen.bounds.size.height - 60 - _keyboardHeight, UIScreen.mainScreen.bounds.size.width, 80);
+    }];
+}
+
+- (void)downSwipe:(UISwipeGestureRecognizer *)swipe {
+    // 如果处于编辑状态，先关掉键盘，否则如果 settingView 处于显示状态，执行隐藏操作
+    if (self.mergeSettingView.firstTrackXTextField.isFirstResponder) {
+        [self.mergeSettingView.firstTrackXTextField resignFirstResponder];
+    } else if (self.mergeSettingView.firstTrackYTextField.isFirstResponder) {
+        [self.mergeSettingView.firstTrackYTextField resignFirstResponder];
+    } else if (self.mergeSettingView.firstTrackZTextField.isFirstResponder) {
+        [self.mergeSettingView.firstTrackZTextField resignFirstResponder];
+    } else if (self.mergeSettingView.firstTrackWidthTextField.isFirstResponder) {
+        [self.mergeSettingView.firstTrackWidthTextField resignFirstResponder];
+    } else if (self.mergeSettingView.firstTrackHeightTextField.isFirstResponder) {
+        [self.mergeSettingView.firstTrackHeightTextField resignFirstResponder];
+    } else if (self.mergeSettingView.secondTrackXTextField.isFirstResponder) {
+        [self.mergeSettingView.secondTrackXTextField resignFirstResponder];
+    } else if (self.mergeSettingView.secondTrackYTextField.isFirstResponder) {
+        [self.mergeSettingView.secondTrackYTextField resignFirstResponder];
+    } else if (self.mergeSettingView.secondTrackZTextField.isFirstResponder) {
+        [self.mergeSettingView.secondTrackZTextField resignFirstResponder];
+    } else if (self.mergeSettingView.secondTrackWidthTextField.isFirstResponder) {
+        [self.mergeSettingView.secondTrackWidthTextField resignFirstResponder];
+    } else if (self.mergeSettingView.secondTrackHeightTextField.isFirstResponder) {
+        [self.mergeSettingView.secondTrackHeightTextField resignFirstResponder];
+        
+    } else if (self.mergeSettingView.widthTextField.isFirstResponder) {
+        [self.mergeSettingView.widthTextField resignFirstResponder];
+    } else if (self.mergeSettingView.heightTextField.isFirstResponder) {
+        [self.mergeSettingView.heightTextField resignFirstResponder];
+    } else if (self.mergeSettingView.fpsTextField.isFirstResponder) {
+        [self.mergeSettingView.fpsTextField resignFirstResponder];
+        
+    } else if (self.mergeSettingView.bitrateTextField.isFirstResponder) {
+        [self.mergeSettingView.bitrateTextField resignFirstResponder];
+    } else if (self.mergeSettingView.mergeIdTextField.isFirstResponder) {
+        [self.mergeSettingView.mergeIdTextField resignFirstResponder];
+    } else if (self.mergeSettingView.minbitrateTextField.isFirstResponder) {
+        [self.mergeSettingView.minbitrateTextField resignFirstResponder];
+    } else if (self.mergeSettingView.maxbitrateTextField.isFirstResponder) {
+        [self.mergeSettingView.maxbitrateTextField resignFirstResponder];
+    } else if (self.mergeSettingView.frame.origin.y < self.view.bounds.size.height) {
+        [self hideSettingView];
+        self.mergeButton.selected = NO;
+    }
+}
+
+#pragma mark - QRDMergeSettingView
+
+- (void)mergeSettingView:(QRDMergeSettingView *)settingView didSetMergeLayouts:(NSArray<QNMergeStreamLayout *> *)layouts jobId:(NSString *)jobId {
+    // 默认合流时，jobId 为 nil
+    [self.engine setMergeStreamLayouts:layouts jobId:jobId];
+}
+
+- (void)mergeSettingView:(QRDMergeSettingView *)settingView didRemoveMergeLayouts:(NSArray<QNMergeStreamLayout *> *)layouts jobId:(NSString *)jobId {
+    [self.engine removeMergeStreamLayouts:layouts jobId:jobId];
+}
+
+- (void)mergeSettingView:(QRDMergeSettingView *)settingView didGetMessage:(NSString *)message {
+    if ([message isEqualToString:@"设置成功"] || [message isEqualToString:@"关闭合流成功"] ) {
+        [self.view endEditing:YES];
+        [self hideSettingView];
+    }
+    [self.view showFailTip:message];
+}
+
+- (void)mergeSettingView:(QRDMergeSettingView *)settingView didUpdateTotalHeight:(CGFloat)totalHeight {
+    self.mergeSettingView.frame = CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, totalHeight);
+    self.mergeScrollView.contentSize = CGSizeMake(UIScreen.mainScreen.bounds.size.width, totalHeight);
+}
+
+- (void)mergeSettingView:(QRDMergeSettingView *)settingView didUpdateMergeConfiguration:(QNMergeStreamConfiguration *)streamConfiguration layouts:(nonnull NSArray<QNMergeStreamLayout *> *)layouts jobId:(nonnull NSString *)jobId {
+    // 自定义 merge 需要先停止默认的合流
+    // 然后配置相应的流信息 QNMergeStreamConfiguration，根据 jobId 以区分
+    // 注意调用后有相应回调才能 setMergeStreamLayouts，否则会报错
+    [self.engine createMergeStreamJobWithConfiguration:streamConfiguration];
+    _layouts = layouts;
+    _mergeJobId = jobId;
+}
+
+- (void)mergeSettingView:(QRDMergeSettingView *)settingView didCloseMerge:(NSString *)jobId {
+    [self.engine stopMergeStreamWithJobId:jobId];
+}
+
 #pragma mark - 连麦时长计算
 
 - (void)startTimer {
@@ -236,15 +522,18 @@
 }
 
 - (void)toggleButtonClick:(UIButton *)button {
+    // 切换摄像头（前置/后置）
     [self.engine toggleCamera];
 }
 
 - (void)microphoneAction:(UIButton *)microphoneButton {
     self.microphoneButton.selected = !self.microphoneButton.isSelected;
+    // 打开/关闭音频
     [self.engine muteAudio:!self.microphoneButton.isSelected];
 }
 
 - (void)loudspeakerAction:(UIButton *)loudspeakerButton {
+    // 打开/关闭扬声器
     self.engine.muteSpeaker = !self.engine.isMuteSpeaker;
     loudspeakerButton.selected = !self.engine.isMuteSpeaker;
 }
@@ -260,8 +549,11 @@
         [videoTracks addObject:self.cameraTrackInfo];
         self.cameraTrackInfo.muted = !videoButton.isSelected;
     }
+    // 打开/关闭视频画面
     [self.engine muteTracks:videoTracks];
     
+    // 对应实际关闭连麦视频画面的场景
+    // 可根据需求显示或隐藏摄像头采集的预览视图
     self.engine.previewView.hidden = !videoButton.isSelected;
     [self checkSelfPreviewGesture];
 }
@@ -276,6 +568,19 @@
     self.tableView.hidden = !button.selected;
 }
 
+- (void)mergeAction:(UIButton *)button {
+    if (![self isAdminUser:self.userId]) {
+        [self.view showTip:@"你不是 admin，无法操作合流"];
+        return;
+    }
+    button.selected = !button.isSelected;
+    if (button.selected) {
+        [self showSettingView];
+    } else {
+        [self hideSettingView];
+    }
+}
+
 - (void)publish {
     
     QNTrackInfo *audioTrack = [[QNTrackInfo alloc] initWithSourceType:QNRTCSourceTypeAudio master:YES];
@@ -284,7 +589,8 @@
                                                                  master:YES
                                                              bitrateBps:self.bitrate
                                                         videoEncodeSize:self.videoEncodeSize];
-    
+    // 7.发布音频、视频 track
+    // track 可通过 QNTrackInfo 配置
     [self.engine publishTracks:@[audioTrack, cameraTrack]];
 }
 
@@ -336,6 +642,9 @@
         }
         
         if (QNRoomStateConnected == roomState) {
+            // 获取房间内用户
+            [self requestRoomUserList];
+            
             [self.view showSuccessTip:@"加入房间成功"];
             self.videoButton.selected = YES;
             self.microphoneButton.selected = YES;
@@ -356,6 +665,9 @@
     });
 }
 
+/**
+* 调用 publish 发布本地音视频 tracks 后收到的回调
+*/
 - (void)RTCEngine:(QNRTCEngine *)engine didPublishLocalTracks:(NSArray<QNTrackInfo *> *)tracks {
     [super RTCEngine:engine didPublishLocalTracks:tracks];
     
@@ -382,6 +694,23 @@
                 continue;
             }
         }
+        
+        [self.mergeSettingView addMergeInfoWithTracks:tracks userId:self.userId];
+        [self.mergeSettingView resetMergeFrame];
+        [self.mergeSettingView resetUserList];
+    });
+}
+
+/**
+* 远端用户发布音/视频的回调
+*/
+- (void)RTCEngine:(QNRTCEngine *)engine didPublishTracks:(NSArray<QNTrackInfo *> *)tracks ofRemoteUserId:(NSString *)userId {
+    [super RTCEngine:engine didPublishTracks:tracks ofRemoteUserId:userId];
+    
+    dispatch_main_async_safe(^{
+        [self.mergeSettingView addMergeInfoWithTracks:tracks userId:userId];
+        [self.mergeSettingView resetMergeFrame];
+        [self.mergeSettingView resetUserList];
     });
 }
 
@@ -413,6 +742,31 @@
                 }
             }
         }
+        
+        [self.mergeSettingView removeMergeInfoWithTracks:tracks userId:userId];
+        [self.mergeSettingView resetMergeFrame];
+        [self.mergeSettingView resetUserList];
+    });
+}
+
+/**
+* 远端用户离开房间的回调
+*/
+- (void)RTCEngine:(QNRTCEngine *)engine didLeaveOfRemoteUserId:(NSString *)userId {
+    [super RTCEngine:engine didLeaveOfRemoteUserId:userId];
+    dispatch_main_async_safe(^{
+        [self.mergeSettingView removeMergeInfoWithUserId:userId];
+        [self.mergeSettingView resetMergeFrame];
+        [self.mergeSettingView resetUserList];
+    })
+}
+
+- (void)RTCEngine:(QNRTCEngine *)engine didCreateMergeStreamWithJobId:(NSString *)jobId {
+    dispatch_main_async_safe(^{
+        [self.engine setMergeStreamLayouts:_layouts jobId:_mergeJobId];
+        [self.view endEditing:YES];
+        [self hideSettingView];
+        [self.view showFailTip:@"创建自定义合流成功"];
     });
 }
 
@@ -436,6 +790,9 @@
     });
 }
 
+/**
+* 调用 subscribe 订阅 userId 成功后收到的回调
+*/
 - (void)RTCEngine:(QNRTCEngine *)engine didSubscribeTracks:(NSArray<QNTrackInfo *> *)tracks ofRemoteUserId:(NSString *)userId {
     [super RTCEngine:engine didSubscribeTracks:tracks ofRemoteUserId:userId];
     
@@ -548,6 +905,11 @@
             [userView showCameraView];
         }
     }
+}
+
+- (void)RTCEngine:(QNRTCEngine *)engine didLeaveOfLocalSuccess:(BOOL)success {
+    [super RTCEngine:engine didLeaveOfLocalSuccess:success];
+    [self.view showSuccessTip:@"离开房间成功"];
 }
 
 

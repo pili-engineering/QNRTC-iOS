@@ -55,14 +55,27 @@ QRDSettingViewDelegate
 }
 
 - (void)setupSettingView {
-    _configDicArray = @[@{@"VideoSize":NSStringFromCGSize(CGSizeMake(288, 352)), @"FrameRate":@15, @"Bitrate":@(300*1000)},
-                   @{@"VideoSize":NSStringFromCGSize(CGSizeMake(480, 640)), @"FrameRate":@15, @"Bitrate":@(400*1000) },
-                   @{@"VideoSize":NSStringFromCGSize(CGSizeMake(544, 960)), @"FrameRate":@15, @"Bitrate":@(700*1000)},
-                   @{@"VideoSize":NSStringFromCGSize(CGSizeMake(720, 1280)), @"FrameRate":@20, @"Bitrate":@(1000*1000)}];
-    _configArray = @[@"288x352、15fps、300kbps",
-                     @"480x640、15fps、400kbps",
-                     @"544x960、15fps、700kbps",
-                     @"720x1280、20fps、1000kbps"];
+    /**
+    * 视频的分辨率，码率和帧率设置会影响到连麦质量；更高的分辨率和帧率也就意味着需要更大的码率和更好的网络环境。
+    *
+    * 首先，建议您根据实际产品情况选择分辨率，在不超过视频源分辨率的情况下更高的分辨率对应着更好的质量，
+    * 在具体数值上，建议您根据下表或者常见的视频分辨率来做设置；
+    * 然后，可以根据您的实际情况来选择帧率，帧率越高更能表现运动画面效果；通常设置为25或者30即可；
+    * 最后，选择合适的码率设置，如果实际场景中有运动情况较多，可以参考下表中选择上限值。
+    *
+    * 如果您需要的分辨率或者帧率不在下表中，可以按比例来推算出一个合适的码率值，如:
+    * A 分辨率 x B 帧率  =  2000kbps
+    * 则：
+    * A / 2 分辨率 x B 帧率 = 1000kbps
+    */
+    _configDicArray = @[@{@"VideoSize":NSStringFromCGSize(CGSizeMake(288, 352)), @"FrameRate":@15, @"Bitrate":@(400*1000)},
+                   @{@"VideoSize":NSStringFromCGSize(CGSizeMake(480, 640)), @"FrameRate":@20, @"Bitrate":@(800*1000) },
+                   @{@"VideoSize":NSStringFromCGSize(CGSizeMake(544, 960)), @"FrameRate":@25, @"Bitrate":@(1200*1000)},
+                   @{@"VideoSize":NSStringFromCGSize(CGSizeMake(720, 1280)), @"FrameRate":@30, @"Bitrate":@(2000*1000)}];
+    _configArray = @[@"288x352、15fps、400kbps",
+                     @"480x640、20fps、800kbps",
+                     @"544x960、25fps、1200kbps",
+                     @"720x1280、30fps、2000kbps"];
     NSInteger selectedIndex;
     _configDic = [self getValueForKey:QN_SET_CONFIG_KEY];
     if ([_configDicArray containsObject:_configDic]) {

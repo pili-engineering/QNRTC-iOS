@@ -332,6 +332,10 @@ extern NSString *QNStatisticVideoBitrateKey;
 extern NSString *QNStatisticVideoFrameRateKey;
 extern NSString *QNStatisticAudioPacketLossRateKey;
 extern NSString *QNStatisticVideoPacketLossRateKey;
+extern NSString *QNStatisticRttKey;
+extern NSString *QNStatisticNetworkGrade;
+extern NSString *QNStatisticAudioRemotePacketLossRateKey;
+extern NSString *QNStatisticVideoRemotePacketLossRateKey;
 
 
 

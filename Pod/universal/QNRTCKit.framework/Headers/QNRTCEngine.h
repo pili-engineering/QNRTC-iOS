@@ -226,6 +226,14 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
  */
 - (void)RTCEngine:(QNRTCEngine *)engine didReceiveMessage:(QNMessageInfo *)message;
 
+/*!
+ * @abstract 本地用户离开房间成功的回调。
+ *
+ * @discussion 调用 leaveRoom 离开房间成功的回调
+ *
+ * @since v2.4.0
+ */
+- (void)RTCEngine:(QNRTCEngine *)engine didLeaveOfLocalSuccess:(BOOL)success;
 @end
 
 

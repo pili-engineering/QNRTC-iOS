@@ -29,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)mergeSettingView:(QRDMergeSettingView *)settingView didCloseMerge:(nullable NSString *)jobId;
 
+- (void)mergeSettingView:(QRDMergeSettingView *)settingView didUseDefaultMerge:(BOOL)isDefault;
+
 @end
 
 @interface QRDMergeSettingView : UIView
@@ -88,6 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign, readonly) CGFloat totalHeight;
 @property (nonatomic, strong) UIButton *saveButton;
+@property (nonatomic, assign) BOOL saveEnable;
 
 
 - (id)initWithFrame:(CGRect)frame userId:(NSString *)userId roomName:(NSString *)roomName;
@@ -101,6 +104,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)resetMergeFrame;
 
 - (void)resetUserList;
+
+- (void)updateSwitch;
 
 @end
 

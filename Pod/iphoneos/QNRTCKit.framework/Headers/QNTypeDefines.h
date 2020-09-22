@@ -327,6 +327,40 @@ typedef NS_ENUM(NSUInteger, QNAudioPlayState) {
     QNAudioPlayStateUnknow,
 };
 
+///网络质量等级
+typedef NS_ENUM(NSUInteger, QNNetworkGrade) {
+    /*!
+     * @abstract 初始状态
+     *
+     * @since v3.0.0
+     */
+    QNNetworkGradeInvalid = 0,
+    /*!
+     * @abstract 网络优
+     *
+     * @since v3.0.0
+     */
+    QNNetworkGradeExcellent,
+    /*!
+     * @abstract 网络良
+     *
+     * @since v3.0.0
+     */
+    QNNetworkGradeGood,
+    /*!
+     * @abstract 网络一般
+     *
+     * @since v3.0.0
+     */
+    QNNetworkGradeGeneral,
+    /*!
+     * @abstract 网络差
+     *
+     * @since v3.0.0
+     */
+    QNNetworkGradePoor,
+};
+
 extern NSString *QNStatisticAudioBitrateKey;
 extern NSString *QNStatisticVideoBitrateKey;
 extern NSString *QNStatisticVideoFrameRateKey;

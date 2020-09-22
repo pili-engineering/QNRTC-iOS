@@ -725,8 +725,36 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
     [self addLogString:logStr];
 }
 
+/**
+ *本地用户离开房间的回调
+ */
 - (void)RTCEngine:(QNRTCEngine *)engine didLeaveOfLocalSuccess:(BOOL)success {
-    
+    NSString *logStr = [NSString stringWithFormat:@"本地用户离开房间 success %d", success];
+    [self addLogString:logStr];
+}
+
+/**
+ *单路转推创建成功的回调
+ */
+- (void)RTCEngine:(QNRTCEngine *)engine didCreateForwardJobWithJobId:(nonnull NSString *)jobId {
+    NSString *logStr = [NSString stringWithFormat:@"单路转推任务 jobId: %@", jobId];
+    [self addLogString:logStr];
+}
+
+/**
+* 远端用户发生重连
+*/
+- (void)RTCEngine:(QNRTCEngine *)engine didReconnectingRemoteUserId:(NSString *)userId {
+    NSString *logStr = [NSString stringWithFormat:@"userId 为 %@ 的远端用户发生了重连！", userId];
+    [self addLogString:logStr];
+}
+
+/**
+* 远端用户重连成功
+*/
+- (void)RTCEngine:(QNRTCEngine *)engine didReconnectedRemoteUserId:(NSString *)userId {
+    NSString *logStr = [NSString stringWithFormat:@"userId 为 %@ 的远端用户重连成功了！", userId];
+    [self addLogString:logStr];
 }
 
 @end

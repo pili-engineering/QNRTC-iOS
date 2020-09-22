@@ -251,6 +251,112 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
  */
 - (void)RTCEngine:(QNRTCEngine *)engine didCreateForwardJobWithJobId:(NSString *)jobId;
 
+/*!
+* @abstract 远端用户发生重连的回调。
+*
+* @since v3.0.0
+*/
+- (void)RTCEngine:(QNRTCEngine *)engine didReconnectingRemoteUserId:(NSString *)userId;
+
+/*!
+* @abstract 远端用户重连成功的回调。
+*
+* @since v3.0.0
+*/
+- (void)RTCEngine:(QNRTCEngine *)engine didReconnectedRemoteUserId:(NSString *)userId;
+
+@end
+
+@protocol QNRTCEngineEncodeDataDelegate <NSObject>
+
+@optional
+
+/*!
+* @abstract 编码数据自定义加密的回调（目前只支持音频）
+*
+* @discussion 调用此函数，需要把对应的加密数据设置给 encryptedData，并且返回     encryptedData 的实际对应长度
+*
+* @since v3.0.0
+*/
+- (size_t)RTCEngine:(QNRTCEngine *)engine
+   didSendFrameData:(uint8_t *)frameData
+    frameDataLength:(size_t)frameDataLength
+      encryptedData:(uint8_t*)encryptedData
+          ofTrackId:(NSString *)trackId;
+
+/*!
+* @abstract 编码数据自定义拓展的回调 （目前只支持音频）
+*
+* @warning 最多 1000 个字节
+*
+* @since v3.0.0
+*/
+- (size_t)RTCEngine:(QNRTCEngine *)engine
+     didSendExtData:(uint8_t *)extData
+   extMaxDataLength:(size_t)extMaxDataLength
+          ofTrackId:(NSString *)trackId;
+
+/*!
+* @abstract 本地编码数据自定义加密最大长度的回调 （目前只支持音频）
+*
+* @discussion 评估加密数据的最大值，必须设置
+*
+* @see - (size_t)RTCEngine:(QNRTCEngine *)engine
+*         didSendFrameData:(uint8_t *)frameData
+*          frameDataLength:(size_t)frameDataLength
+*            encryptedData:(uint8_t*)encryptedData
+*                ofTrackId:(NSString *)trackId;
+*
+* @since v3.0.0
+*/
+- (size_t)RTCEngine:(QNRTCEngine *)engine
+  didSendDataLength:(size_t)frameDataLength
+          oftrackId:(NSString *)trackId;
+
+/*!
+* @abstract 远端加密自定义数据解密的回调 （目前只支持音频）
+*
+* @discussion 调用此函数，需要把对应的解密数据设置给 decryptedData，并且返回     decryptedData 的实际对应长度
+*
+* @since v3.0.0
+*/
+- (size_t)RTCEngine:(QNRTCEngine *)engine
+    didGetFrameData:(uint8_t *)frameData
+    frameDataLength:(size_t)frameDataLength
+      decryptedData:(uint8_t*)decryptedData
+          ofTrackId:(NSString *)trackId
+           ofUserId:(NSString *)userId;
+
+/*!
+* @abstract 远端用户自定义拓展数据的回调 （目前只支持音频）
+*
+* @since v3.0.0
+*/
+- (void)RTCEngine:(QNRTCEngine *)engine
+    didGetExtData:(uint8_t *)extData
+    extDataLength:(size_t)extDataLength
+        ofTrackId:(NSString *)trackId
+         ofUserId:(NSString *)userId;
+
+/*!
+* @abstract 远端数据自定义解密最大长度的回调 （目前只支持音频）
+*
+* @discussion 评估解密数据的最大值，必须设置
+*
+* @see - (size_t)RTCEngine:(QNRTCEngine *)engine
+*         didGetFrameData:(uint8_t *)frameData
+*          frameDataLength:(size_t)frameDataLength
+*            decryptedData:(uint8_t*)decryptedData
+*                ofTrackId:(NSString *)trackId;
+*                 ofUserId:(NSString *)userId;
+*
+* @since v3.0.0
+*/
+- (size_t)RTCEngine:(QNRTCEngine *)engine
+   didGetDataLength:(size_t)frameDataLength
+          oftrackId:(NSString *)trackId
+           ofUserId:(NSString *)userId;
+
 @end
 
 
@@ -269,6 +375,13 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
  * @since v2.0.0
  */
 @property (nonatomic, weak) id<QNRTCEngineDelegate> delegate;
+
+/*!
+* @abstract 编码数据回调的 delegate。
+*
+* @since v3.0.0
+*/
+@property (nonatomic, weak) id<QNRTCEngineEncodeDataDelegate> encodeDataDelegate;
 
 /*!
  * @abstract 是否自动订阅远端的流，默认为 YES。
@@ -485,6 +598,17 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
  * @since v2.0.0
  */
 - (void)muteTracks:(NSArray<QNTrackInfo *> *)tracks;
+
+/*!
+* @abstract 设置远端音频 Track 播放音量。范围从 0 ~ 10，10 为最大
+*
+* @discussion 需要发布成功后才可以执行 setRemote 操作。本次操作仅对远端音频播放音量做调整，远端音量回调为远端音频数据的原始音量，不会基于本设置做相应调整。
+*
+* @warning 部分机型调整音量放大会出现低频噪音
+*
+* @since v3.0.0
+*/
+- (void)setRemoteTrackId:(NSString *)trackId outputVolume:(double)volume;
 
 /*!
  * @abstract 导入视频数据。

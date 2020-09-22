@@ -336,6 +336,7 @@ extern NSString *QNStatisticRttKey;
 extern NSString *QNStatisticNetworkGrade;
 extern NSString *QNStatisticAudioRemotePacketLossRateKey;
 extern NSString *QNStatisticVideoRemotePacketLossRateKey;
+extern NSString *QNStatisticProfileKey;
 
 
 

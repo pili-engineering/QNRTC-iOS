@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "QNTypeDefines.h"
+#import "QNTrackSubConfiguration.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -68,11 +69,28 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *tag;
 
 /*!
+ * @abstract 订阅大小流的 QNTrackSubConfiguration 配置
+ *
+ * @since v2.5.0
+ */
+@property (nonatomic, strong) NSMutableArray<QNTrackSubConfiguration *> *subConfigurations;
+
+/*!
+ * @abstract 发布是否开启大小流，默认关闭
+ *
+ * @warning 目前版本，开启大小流将默认三路流，暂未支持自定义流数
+ *
+ * @since v2.5.0
+ */
+@property (nonatomic, assign) BOOL multiStreamEnable;
+
+/*!
  * @abstract 是否固定分辨率
  *
  * @discussion 对于 sourceType 为 QNRTCSourceTypeScreenRecorder 的视频 Track，该选项为 YES，即会使用固定的分辨率。对于其它 sourceType，默认为 NO。
  *
  * @warning 需在该 Track 被发布前设置，否则无效。仅对视频 Track 有效，音频 Track 忽略该设置。
+ *          开启大小流时，请关闭固定分辨率，否则大小流将失效。开启单路转推时，请打开固定分辨率，否则单路转推将无法保证。
  *
  * @since v2.1.1
  */

@@ -15,6 +15,8 @@
 #import "QNMergeStreamLayout.h"
 #import "QNAudioEngine.h"
 #import "QNMessageInfo.h"
+#import "QNForwardStreamConfiguration.h"
+#import <HappyDNS/HappyDNS.h>
 
 @class QNRTCEngine;
 @class QNRTCConfiguration;
@@ -78,6 +80,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v2.0.0
  */
 - (void)RTCEngine:(QNRTCEngine *)engine didSubscribeTracks:(NSArray<QNTrackInfo *> *)tracks ofRemoteUserId:(NSString *)userId;
+
+/*!
+ * @abstract 订阅远端用户 profile 发生改变的回调
+ *
+ * @since v2.5.0
+ */
+- (void)RTCEngine:(QNRTCEngine *)engine didSubscribeProfileChanged:(NSArray<QNTrackInfo *> *)tracks ofRemoteUserId:(NSString *)userId;
 
 /*!
  * @abstract 远端用户发布音/视频的回调。
@@ -234,6 +243,14 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
  * @since v2.4.0
  */
 - (void)RTCEngine:(QNRTCEngine *)engine didLeaveOfLocalSuccess:(BOOL)success;
+
+/*!
+ * @abstract 成功创建单路转推任务的回调。
+ *
+ * @since v2.5.0
+ */
+- (void)RTCEngine:(QNRTCEngine *)engine didCreateForwardJobWithJobId:(NSString *)jobId;
+
 @end
 
 
@@ -311,6 +328,17 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
  * @since v2.2.0
  */
 - (instancetype)initWithConfiguration:(QNRTCConfiguration *)configuration;
+
+/*!
+ * @abstract 用一个 configuration 来初始化 engine。
+ *
+ * @param configuration 用于初始化 engine 的配置。
+ *
+ * @param dnsManager 自定义 DNS 解析
+ *
+ * @since v2.5.0
+ */
+- (instancetype)initWithConfiguration:(QNRTCConfiguration *)configuration dnsManager:(nullable QNDnsManager *)dnsManager;
 
 /*!
  * @abstract 加入房间。
@@ -543,6 +571,15 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
 - (void)unsubscribeTracks:(NSArray<QNTrackInfo *> *)tracks;
 
 /*!
+* @abstract 更新订阅由 QNTrackInfo 中的 trackId 指定的一组 Track。
+*
+* @discussion 用于订阅大小流。
+*
+* @since v2.5.0
+*/
+- (void)updateSubscribeTracks:(NSArray<QNTrackInfo *> *)tracks;
+
+/*!
  * @abstract 将 userId 的踢出房间。
  *
  * @since v2.0.0
@@ -601,6 +638,8 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
  * @discussion 创建合流任务不是必需的。合流时，如果未提前创建合流任务，那么会使用对应的应用的合流参数创建一个默认的合流任务。
  * 异步接口，创建成功后，会通过 - (void)RTCEngine:(QNRTCEngine *)engine didCreateMergeStreamWithJobId:(NSString *)jobId; 接口回调通知。
  *
+ * @warning 当有合流及单路转推切换需求时，合流必须使用自定义合流，流地址一样切换会有抢流现象，故流地址尾部需要拼接 "?serialnum=xxx" 决定流的优先级，serialnum 值越大，优先级越高，切换成功后务必关闭之前的任务，否则会出现一路任务持续计费的情况。
+ *
  * @since v2.0.0
  */
 - (void)createMergeStreamJobWithConfiguration:(QNMergeStreamConfiguration *)configuration;
@@ -634,6 +673,26 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
  * @since v2.0.0
  */
 - (void)stopMergeStreamWithJobId:(nullable NSString *)jobId;
+
+/*!
+* @abstract 创建单路转推任务。
+*
+* @discussion 创建单路转推任务时，只支持一路音频以及一路视频。创建成功后，会通过 - (void)RTCEngine:(QNRTCEngine *)engine didCreateForwardJobWithJobId:(NSString *)jobId; 接口回调通知。
+*
+* @warning 当有合流及单路转推切换需求时，合流必须使用自定义合流，流地址一样切换会有抢流现象，故流地址尾部需要拼接 "?serialnum=xxx" 决定流的优先级，serialnum 值越大，优先级越高，切换成功后务必关闭之前的任务，否则会出现一路任务持续计费的情况。另外，使用的视频 Track 是保持固定分辨率的，即 setMaintainResolutionEnabled 为 YES，且仅支持一路视频、一路音频。
+*
+* @since v2.5.0
+*/
+- (void)createForwardJobWithConfiguration:(QNForwardStreamConfiguration *)configuration;
+
+/*!
+* @abstract 停止单路转推任务。
+*
+* @param jobId 单路转推任务 id
+*
+* @since v2.5.0
+*/
+- (void)stopForwardJobWithJobId:(NSString *)jobId;
 
 @end
 

@@ -25,6 +25,24 @@ UITextFieldDelegate
 @property (nonatomic, strong) UIScrollView *mergeScrollView;
 @property (nonatomic, strong) UIView *buttonView;
 
+@property (nonatomic, strong) UILabel *forwardLabel;
+
+/**
+* 如果您的场景包括合流转推和单路转推的切换，那么需要维护一个 serialNum 的参数，代表流的优先级，
+* 使其不断自增来实现 rtmp 流的无缝切换。
+*
+* QNMergeJob 以及 QNForwardJob 中 publishUrl 的格式为：rtmp://domain/app/stream?serialnum=xxx
+*
+* 切换流程推荐为：
+* 1. 单路转推 -> 创建合流任务（以创建成功的回调为准） -> 停止单路转推
+* 2. 合流转推 -> 创建单路转推任务（以创建成功的回调为准） -> 停止合流转推
+*
+* 注意：
+* 1. 两种合流任务，推流地址应该保持一致，只有 serialnum 存在差异
+* 2. 在两种推流任务切换的场景下，合流任务务必使用自定义合流任务，并指定推流地址的 serialnum
+*/
+@property (nonatomic, assign) NSInteger serialNum;
+
 @end
 
 @implementation QRDRTCViewController
@@ -38,7 +56,7 @@ UITextFieldDelegate
     
     self.view.backgroundColor = QRD_COLOR_RGBA(20, 20, 20, 1);
     
-   
+    self.serialNum = 0;
     self.videoEncodeSize = CGSizeFromString(_configDic[@"VideoSize"]);
     self.bitrate = [_configDic[@"Bitrate"] integerValue];
     
@@ -71,11 +89,46 @@ UITextFieldDelegate
     [self.mergeButton setImage:[UIImage imageNamed:@"stream_merge"] forState:UIControlStateNormal];
     [self.mergeButton addTarget:self action:@selector(mergeAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.mergeButton];
+
+    UILabel *mergeLabel = [[UILabel alloc] init];
+    mergeLabel.font = [UIFont systemFontOfSize:14];
+    mergeLabel.textAlignment = NSTextAlignmentCenter;
+    mergeLabel.textColor = [UIColor whiteColor];
+    mergeLabel.text = @"合流转推";
+    [self.view addSubview:mergeLabel];
+    
+    self.forwardButton = [[UIButton alloc] init];
+    [self.forwardButton setImage:[UIImage imageNamed:@"signal_stream"] forState:UIControlStateNormal];
+    [self.forwardButton addTarget:self action:@selector(forwardAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_forwardButton];
+    
+    self.forwardLabel = [[UILabel alloc] init];
+    self.forwardLabel.font = [UIFont systemFontOfSize:14];
+    self.forwardLabel.textAlignment = NSTextAlignmentCenter;
+    self.forwardLabel.textColor = [UIColor whiteColor];
+    self.forwardLabel.text = @"单路转推";
+    [self.view addSubview:_forwardLabel];
     
     [self.mergeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.view).offset(0);
+        make.right.equalTo(self.view).offset(-12);
         make.top.equalTo(self.mas_topLayoutGuide);
-        make.size.equalTo(CGSizeMake(50, 50));
+        make.size.equalTo(CGSizeMake(55, 55));
+    }];
+    
+    [mergeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.mergeButton);
+        make.top.equalTo(self.mergeButton.mas_bottom).offset(2);
+    }];
+    
+    [self.forwardButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.view).offset(-12);
+        make.top.equalTo(self.mergeButton).offset(80);
+        make.size.equalTo(CGSizeMake(55, 50));
+    }];
+    
+    [self.forwardLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.forwardButton);
+        make.top.equalTo(self.forwardButton.mas_bottom).offset(2);
     }];
     
     [self.tableView mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -309,6 +362,7 @@ UITextFieldDelegate
 }
 
 - (void)hideSettingView {
+    self.mergeButton.selected = NO;
     CGRect rc = self.mergeScrollView.frame;
     [UIView animateWithDuration:.3 animations:^{
         self.mergeScrollView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height, rc.size.width, rc.size.height);
@@ -483,6 +537,8 @@ UITextFieldDelegate
     // 自定义 merge 需要先停止默认的合流
     // 然后配置相应的流信息 QNMergeStreamConfiguration，根据 jobId 以区分
     // 注意调用后有相应回调才能 setMergeStreamLayouts，否则会报错
+    self.serialNum++;
+    streamConfiguration.publishUrl = [NSString stringWithFormat:@"rtmp://pili-publish.qnsdk.com/sdk-live/%@?serialnum=%@", self.roomName, @(self.serialNum)];
     [self.engine createMergeStreamJobWithConfiguration:streamConfiguration];
     _layouts = layouts;
     _mergeJobId = jobId;
@@ -490,6 +546,19 @@ UITextFieldDelegate
 
 - (void)mergeSettingView:(QRDMergeSettingView *)settingView didCloseMerge:(NSString *)jobId {
     [self.engine stopMergeStreamWithJobId:jobId];
+}
+
+- (void)mergeSettingView:(QRDMergeSettingView *)settingView didUseDefaultMerge:(BOOL)isDefault {
+    if (isDefault) {
+        if (_forwardButton.selected) {
+            _mergeSettingView.saveEnable = NO;
+            [self showAlertWithMessage:@"由于目前已开启单路转推，若需切换到合流任务，请关闭单路转推或开启自定义合流任务！" title:@"提示" completionHandler:nil];
+        } else{
+            _mergeSettingView.saveEnable = YES;
+        }
+    } else{
+        _mergeSettingView.saveEnable = YES;
+    }
 }
 
 #pragma mark - 连麦时长计算
@@ -570,7 +639,7 @@ UITextFieldDelegate
 
 - (void)mergeAction:(UIButton *)button {
     if (![self isAdminUser:self.userId]) {
-        [self.view showTip:@"你不是 admin，无法操作合流"];
+        [self.view showTip:@"你不是 admin，无法操作合流！"];
         return;
     }
     button.selected = !button.isSelected;
@@ -578,6 +647,32 @@ UITextFieldDelegate
         [self showSettingView];
     } else {
         [self hideSettingView];
+    }
+}
+
+- (void)forwardAction:(UIButton *)button {
+    if (![self isAdminUser:self.userId]) {
+        [self.view showTip:@"你不是 admin，无法开启单路转推！"];
+        return;
+    }
+    if ((_mergeSettingView.customMergeSwitch.isOn && _mergeSettingView.mergeSwitch.isOn) ||
+        !_mergeSettingView.mergeSwitch.isOn) {
+        button.selected = !button.isSelected;
+        if (button.selected) {
+            self.serialNum++;
+            QNForwardStreamConfiguration *forwardConfig = [[QNForwardStreamConfiguration alloc] init];
+            forwardConfig.audioOnly = NO;
+            forwardConfig.jobId = self.roomName;
+            forwardConfig.publishUrl = [NSString stringWithFormat:@"rtmp://pili-publish.qnsdk.com/sdk-live/%@?serialnum=%@", self.roomName, @(self.serialNum)];
+            forwardConfig.audioTrackInfo = self.audioTrackInfo;
+            forwardConfig.videoTrackInfo = self.cameraTrackInfo;
+            [self.engine createForwardJobWithConfiguration:forwardConfig];
+        } else {
+            [self.engine stopForwardJobWithJobId:self.roomName];
+            self.forwardLabel.text = @"单路转推";
+        }
+    } else{
+        [self showAlertWithMessage:@"在开始启动单路转推前，请主动关闭合流任务或打开自定义合流任务以保证正常切换！" title:@"提示" completionHandler:nil];
     }
 }
 
@@ -594,9 +689,9 @@ UITextFieldDelegate
     [self.engine publishTracks:@[audioTrack, cameraTrack]];
 }
 
-- (void)showAlertWithMessage:(NSString *)message completionHandler:(void (^)(void))handler
+- (void)showAlertWithMessage:(NSString *)message title:(NSString *)title completionHandler:(void (^)(void))handler
 {
-    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"错误" message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     [controller addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         if (handler) {
             handler();
@@ -620,7 +715,7 @@ UITextFieldDelegate
         if (error.code == QNRTCErrorReconnectTokenError) {
             errorMessage = @"重新进入房间超时";
         }
-        [self showAlertWithMessage:errorMessage completionHandler:^{
+        [self showAlertWithMessage:errorMessage title:@"错误" completionHandler:^{
             [self dismissViewControllerAnimated:YES completion:nil];
         }];
     });
@@ -767,6 +862,10 @@ UITextFieldDelegate
         [self.view endEditing:YES];
         [self hideSettingView];
         [self.view showFailTip:@"创建自定义合流成功"];
+        
+        [self.engine stopForwardJobWithJobId:jobId];
+        self.forwardButton.selected = NO;
+        self.forwardLabel.text = @"单路转推";
     });
 }
 
@@ -907,10 +1006,50 @@ UITextFieldDelegate
     }
 }
 
+/**
+ * 本地用户离开房间的回调
+ */
 - (void)RTCEngine:(QNRTCEngine *)engine didLeaveOfLocalSuccess:(BOOL)success {
     [super RTCEngine:engine didLeaveOfLocalSuccess:success];
-    [self.view showSuccessTip:@"离开房间成功"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.view showSuccessTip:@"离开房间成功"];
+    });
 }
 
+/**
+ * 单路转推创建成功的回调
+ */
+- (void)RTCEngine:(QNRTCEngine *)engine didCreateForwardJobWithJobId:(NSString *)jobId {
+    [super RTCEngine:engine didCreateForwardJobWithJobId:jobId];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.forwardLabel.text = @"停止转推";
+        [self.view showSuccessTip:[NSString stringWithFormat:@"JobId 为 %@ 的单路转推，创建成功！", jobId]];
+        
+        [self.engine stopMergeStreamWithJobId:jobId];
+        self.mergeButton.selected = NO;
+        self.mergeSettingView.mergeSwitch.on = NO;
+        self.mergeSettingView.customMergeSwitch.on = NO;
+        [self.mergeSettingView updateSwitch];
+    });
+}
 
+/**
+* 远端用户发生重连
+*/
+- (void)RTCEngine:(QNRTCEngine *)engine didReconnectingRemoteUserId:(NSString *)userId {
+   [super RTCEngine:engine didReconnectingRemoteUserId:userId];
+   dispatch_async(dispatch_get_main_queue(), ^{
+       [self.view showSuccessTip:[NSString stringWithFormat:@"远端用户 %@，发生了重连！", userId]];
+   });
+}
+
+/**
+* 远端用户重连成功
+*/
+- (void)RTCEngine:(QNRTCEngine *)engine didReconnectedRemoteUserId:(NSString *)userId {
+   [super RTCEngine:engine didReconnectedRemoteUserId:userId];
+   dispatch_async(dispatch_get_main_queue(), ^{
+       [self.view showSuccessTip:[NSString stringWithFormat:@"远端用户 %@，重连成功了！", userId]];
+   });
+}
 @end

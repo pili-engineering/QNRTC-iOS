@@ -28,6 +28,9 @@ static NSString *screenTag = @"screen";
 @property (nonatomic, strong) QNMergeStreamConfiguration *customConfiguration;
 @property (nonatomic, assign) QNVideoFillModeType videoFillMode;
 
+@property (nonatomic, assign) BOOL mergeOpenChanged;
+@property (nonatomic, assign) BOOL customChanged;
+
 @end
 
 @implementation QRDMergeSettingView
@@ -35,6 +38,7 @@ static NSString *screenTag = @"screen";
 - (id)initWithFrame:(CGRect)frame userId:(NSString *)userId roomName:(NSString *)roomName{
     if ([super initWithFrame:frame]) {
         
+        self.saveEnable = NO;
         self.mergeUserId = userId;
         self.roomName = roomName;
         self.mergeJobId = nil;
@@ -510,6 +514,15 @@ static NSString *screenTag = @"screen";
         return;
     }
     
+    if (self.mergeSwitch.isOn) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(mergeSettingView:didUseDefaultMerge:)]) {
+            [self.delegate mergeSettingView:self didUseDefaultMerge:!self.customMergeSwitch.isOn];
+        }
+        if (!self.saveEnable) {
+            return;
+        }
+    }
+    
     NSInteger firstTrackXValue = [self.firstTrackXTextField.text integerValue];
     NSInteger firstTrackYValue = [self.firstTrackYTextField.text integerValue];
     NSInteger firstTrackZValue = [self.firstTrackZTextField.text integerValue];
@@ -574,9 +587,6 @@ static NSString *screenTag = @"screen";
     BOOL secondTrackChanged = NO;
     BOOL audioTrackChanged = NO;
     
-    BOOL mergeOpenChanged = NO;
-    BOOL customChanged = NO;
-    
     CGRect firstTrackFrame = CGRectMake(firstTrackXValue, firstTrackYValue, firstTrackWValue, firstTrackHValue);
     CGRect secondTrackFrame = CGRectMake(secondTrackXValue, secondTrackYValue, secondTrackWValue, secondTrackHValue);
     
@@ -603,11 +613,11 @@ static NSString *screenTag = @"screen";
     }
     
     if (self.beforeCustom != self.customMergeSwitch.isOn) {
-        customChanged = YES;
+        _customChanged = YES;
     }
     
     if (self.beforeMerge != self.mergeSwitch.isOn) {
-        mergeOpenChanged = YES;
+        _mergeOpenChanged = YES;
     }
     
     if (self.mergeSwitch.isOn == NO) {
@@ -649,7 +659,7 @@ static NSString *screenTag = @"screen";
             minBitrateValue != _customConfiguration.minBitrateBps ||
             maxBitrateValue != _customConfiguration.maxBitrateBps ||
             _videoFillMode != _customConfiguration.fillMode) {
-            customChanged = YES;
+            _customChanged = YES;
             
             _customConfiguration.width = (int)widthValue;
             _customConfiguration.height = (int)heightValue;
@@ -664,7 +674,7 @@ static NSString *screenTag = @"screen";
         _mergeJobId = nil;
     }
     
-    if (!(firstTrackChanged || audioTrackChanged || secondTrackChanged || mergeOpenChanged || customChanged)) {
+    if (!(firstTrackChanged || audioTrackChanged || secondTrackChanged || _mergeOpenChanged || _customChanged)) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(mergeSettingView:didGetMessage:)]) {
             [self.delegate mergeSettingView:self didGetMessage:@"没做任何改变"];
         }
@@ -826,6 +836,16 @@ static NSString *screenTag = @"screen";
         if ([info.trackId isEqualToString:trackId]) {
             [self.mergeInfoArray removeObject:info];
         }
+    }
+}
+
+- (void)updateSwitch {
+    if (self.beforeCustom != self.customMergeSwitch.isOn) {
+        _customChanged = YES;
+    }
+    
+    if (self.beforeMerge != self.mergeSwitch.isOn) {
+        _mergeOpenChanged = YES;
     }
 }
 

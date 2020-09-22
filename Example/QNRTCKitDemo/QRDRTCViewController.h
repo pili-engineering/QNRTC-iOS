@@ -30,6 +30,7 @@ static NSString *screenTag = @"screen";
 @property (nonatomic, strong) UIButton *conferenceButton;
 @property (nonatomic, strong) UIButton *logButton;
 @property (nonatomic, strong) UIButton *mergeButton;
+@property (nonatomic, strong) UIButton *forwardButton;
 
 @property (nonatomic, assign) BOOL isAudioPublished;
 @property (nonatomic, assign) BOOL isVideoPublished;

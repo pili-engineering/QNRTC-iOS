@@ -42,6 +42,11 @@ NSCopying
  */
 @property (nonatomic, strong) QNTrackInfo *videoTrackInfo;
 
+/**
+ @brief 七牛内部转推标志，默认为 true
+ */
+@property (nonatomic, assign) BOOL internalForward;
+
 @end
 
 NS_ASSUME_NONNULL_END

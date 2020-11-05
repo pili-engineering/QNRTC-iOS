@@ -20,7 +20,16 @@ Pod::Spec.new do |s|
     s.ios.deployment_target   = '8.0'
     s.requires_arc            = true
 
-    s.vendored_frameworks = ['Pod/iphoneos/*.framework']
-
     s.frameworks = ['UIKit', 'AVFoundation', 'CoreGraphics', 'CFNetwork', 'AudioToolbox', 'CoreMedia', 'VideoToolbox']
+    
+    s.default_subspec = "Core"
+
+    s.subspec "Core" do |core|
+        core.vendored_framework = ['Pod/iphoneos/*.framework']
+    end
+    
+    s.subspec "ex-HappyDNS" do |core|
+        core.vendored_framework = ['Pod/iphoneos/QNRTCKit.framework']
+    end
+
 end

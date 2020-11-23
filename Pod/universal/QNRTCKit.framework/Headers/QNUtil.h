@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreVideo/CoreVideo.h>
 #import <UIKit/UIKit.h>
+#import <CoreAudioTypes/CoreAudioTypes.h>
 
 @interface QNUtil : NSObject
 
@@ -18,5 +19,7 @@
  * @since v2.1.0
  */
 + (UIImage *)convertFrame:(CVPixelBufferRef)pixelBuffer;
+
++ (void)scaleWithSat:(AudioBuffer *)audioBuffer scale:(double)scale max:(float)max min:(float) min;
 
 @end

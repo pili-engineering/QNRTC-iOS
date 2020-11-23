@@ -8,19 +8,28 @@
 
 Pod::Spec.new do |s|
     s.name      = 'QNRTCKit'
-    s.version   = '3.0.0'
+    s.version   = '3.0.1'
     s.summary   = 'Qiniu RTC SDK for iOS.'
     s.homepage  = 'https://github.com/pili-engineering/QNRTC-iOS'
     s.license   = 'Apache License, Version 2.0'
     s.author    = { "pili" => "pili-coresdk@qiniu.com" }
-    s.source    = { :http => "https://sdk-release.qnsdk.com/QNRTCKit-iphoneos-v3.0.0.zip"}
+    s.source    = { :http => "https://sdk-release.qnsdk.com/QNRTCKit-iphoneos-v3.0.1.zip"}
 
 
     s.platform                = :ios
-    s.ios.deployment_target   = '8.0'
+    s.ios.deployment_target   = '9.0'
     s.requires_arc            = true
 
-    s.vendored_frameworks = ['Pod/iphoneos/*.framework']
-
     s.frameworks = ['UIKit', 'AVFoundation', 'CoreGraphics', 'CFNetwork', 'AudioToolbox', 'CoreMedia', 'VideoToolbox']
+    
+    s.default_subspec = "Core"
+
+    s.subspec "Core" do |core|
+        core.vendored_framework = ['Pod/iphoneos/*.framework']
+    end
+    
+    s.subspec "ex-HappyDNS" do |core|
+        core.vendored_framework = ['Pod/iphoneos/QNRTCKit.framework']
+    end
+
 end

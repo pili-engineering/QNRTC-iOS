@@ -157,6 +157,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) float musicInputVolume;
 
 /*!
+ * @abstract 音乐音频播放音量大小。
+ *
+ * @discussion 取值范围 0 ～ 1.0。注意：当设置音乐音频输入音量为 0 时，则音乐播放静音。
+ *
+ * @since v3.0.1
+ */
+@property (nonatomic, assign) float musicOutputVolume;
+
+/*!
  * @abstract 播放的当前时间。
  *
  * @since v2.2.0

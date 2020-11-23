@@ -431,7 +431,6 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
  * @since v2.2.0
  */
 @property (nonatomic, strong, readonly) QNAudioEngine *audioEngine;
-
 /*!
  * @abstract 用一个 configuration 来初始化 engine。
  *
@@ -799,6 +798,19 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
 - (void)stopMergeStreamWithJobId:(nullable NSString *)jobId;
 
 /*!
+ * @abstract 停止合流任务。
+ *
+ * @param
+ *    jobId 合流任务 id，如果使用的是默认的合流任务，则传入 nil 即可。
+ *
+ * @param
+ *    delayMillisecond 延迟时间，单位毫秒
+ *
+ * @since v3.0.1
+ */
+- (void)stopMergeStreamWithJobId:(nullable NSString *)jobId delayMillisecond:(NSUInteger)delayMillisecond;
+
+/*!
 * @abstract 创建单路转推任务。
 *
 * @discussion 创建单路转推任务时，只支持一路音频以及一路视频。创建成功后，会通过 - (void)RTCEngine:(QNRTCEngine *)engine didCreateForwardJobWithJobId:(NSString *)jobId; 接口回调通知。
@@ -817,6 +829,43 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
 * @since v2.5.0
 */
 - (void)stopForwardJobWithJobId:(NSString *)jobId;
+
+/*!
+* @abstract 停止单路转推任务。
+*
+* @param jobId 单路转推任务 id
+*
+* @param delayMillisecond 延迟时间，单位毫秒
+*
+* @since v3.0.1
+*/
+- (void)stopForwardJobWithJobId:(NSString *)jobId delayMillisecond:(NSUInteger)delayMillisecond;
+
+/*!
+ * @abstract 麦克风输入音量
+ *
+ * @discussion 设置范围为 0~10，默认为 1
+ *
+ * @warning 当麦克风输入音量增益调大之后，部分机型会出现噪音
+ *
+ * @since v3.0.1
+ */
+- (void)setMicrophoneInputGain:(float) inputGain;
+
+/*!
+ * @abstract 本地视频 Track 添加 SEI
+ *
+ * @param videoSEI SEI 内容
+ *
+ * @param repeatNumber SEI 重复发送次数，-1 为永久发送
+ *
+ * @param tracks 需要添加 SEI 的视频 track
+ *
+ * @discussion 需要停止发送 SEI，可以设置 videoSEI 为 nil，repeatNumber 为 0 即可
+ *
+ * @since v3.0.1
+ */
+- (void)setLocalVideoSEI:(NSString *)videoSEI repeatNmuber:(NSNumber *)repeatNumber withTracks:(NSArray<QNTrackInfo *> *)tracks;
 
 @end
 
@@ -1029,6 +1078,19 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
  * @since v2.0.0
  */
 -(void)clearWaterMark;
+
+/*!
+ * @abstract 设置摄像头 track 发送图片数据
+ *
+ * @param image 推流的图片
+ *
+ * @discussion 由于某些特殊原因不想使用摄像头采集的数据作为发送视频数据时，可以使用该接口设置一张图片来替代。传入 nil 则关闭该功能。
+
+ * @warning    请确保传入的 image 的宽和高是 16 的整数倍。请勿在 applicationState 为 UIApplicationStateBackground 时调用该接口，否则将出错。
+ *
+ * @since v3.0.1
+ */
+- (void)pushCameraTrackWithImage:(nullable UIImage *)image;
 
 /*!
  * @abstract 开启摄像头采集。

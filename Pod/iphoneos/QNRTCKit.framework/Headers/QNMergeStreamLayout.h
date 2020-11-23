@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
+#import "QNTypeDefines.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,6 +28,11 @@ NS_ASSUME_NONNULL_BEGIN
  @brief 该 Track 在合流画面中的层次，0 为最底层。该属性仅对视频 Track 有效。
  */
 @property (nonatomic, assign) NSUInteger zIndex;
+
+/**
+ @brief 图像的填充模式, 默认设置填充模式将继承 QNMergeStreamConfiguration 中数值
+ */
+@property (nonatomic, assign) QNVideoFillModeType fillMode;
 
 @end
 

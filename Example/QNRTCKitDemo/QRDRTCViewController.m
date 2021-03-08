@@ -12,6 +12,8 @@
 #import <QNRTCKit/QNRTCKit.h>
 #import "QRDMergeSettingView.h"
 
+#define QN_DELAY_MS 5000
+
 @interface QRDRTCViewController ()
 <
 QRDMergeSettingViewDelegate,
@@ -863,7 +865,13 @@ UITextFieldDelegate
         [self hideSettingView];
         [self.view showFailTip:@"创建自定义合流成功"];
         
-        [self.engine stopForwardJobWithJobId:jobId];
+        // 注意：
+        // 1. A 房间中创建的转推任务，只能在 A 房间中进行销毁，无法在其他房间中销毁
+        // 2. delayMillisecond 代表转推任务延迟关闭的时间，如果您的场景涉及到房间的切换以及不同转推任务
+        // 的切换，为了保证切换场景下播放的连续性，建议您务必添加延迟关闭时间；
+        // 3. 如果您的业务场景不涉及到跨房间的转推任务切换，可以不用设置延迟关闭时间，直接调用
+        // - (void)stopForwardJobWithJobId:(NSString *)jobId; 即可，SDK 默认会立即停止转推任务
+        [self.engine stopForwardJobWithJobId:jobId delayMillisecond:QN_DELAY_MS];
         self.forwardButton.selected = NO;
         self.forwardLabel.text = @"单路转推";
     });
@@ -1025,7 +1033,13 @@ UITextFieldDelegate
         self.forwardLabel.text = @"停止转推";
         [self.view showSuccessTip:[NSString stringWithFormat:@"JobId 为 %@ 的单路转推，创建成功！", jobId]];
         
-        [self.engine stopMergeStreamWithJobId:jobId];
+        // 注意：
+        // 1. A 房间中创建的转推任务，只能在 A 房间中进行销毁，无法在其他房间中销毁
+        // 2. delayMillisecond 代表转推任务延迟关闭的时间，如果您的场景涉及到房间的切换以及不同转推任务
+        // 的切换，为了保证切换场景下播放的连续性，建议您务必添加延迟关闭时间；
+        // 3. 如果您的业务场景不涉及到跨房间的转推任务切换，可以不用设置延迟关闭时间，直接调用
+        // - (void)stopMergeStreamWithJobId:(NSString *)jobId; 即可，SDK 默认会立即停止转推任务
+        [self.engine stopMergeStreamWithJobId:jobId delayMillisecond:QN_DELAY_MS];
         self.mergeButton.selected = NO;
         self.mergeSettingView.mergeSwitch.on = NO;
         self.mergeSettingView.customMergeSwitch.on = NO;

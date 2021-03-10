@@ -24,55 +24,193 @@ extern NSString *QNAudioFileErrorDomain;
 
 NS_ERROR_ENUM(QNRTCErrorDomain)
 {
-    //token error
+    /*!
+     * @abstract token error
+     *
+     * @discussion 鉴权失败，建议用户收到此错误代码时尝试重新获取 RoomToken 后再次加入房间。
+     */
     QNRTCErrorTokenError                        = 10001,
-    //token expired
+    
+    /*!
+     * @abstract token expired
+     *
+     * @discussion RoomToken 过期，建议用户收到此错误代码时尝试重新获取 RoomToken 后再次加入房间。
+     */
     QNRTCErrorTokenExpired                      = 10002,
-    //room instance closed
+    
+    /*!
+     * @abstract room instance closed
+     *
+     * @discussion 房间实例关闭，用户无需处理。
+     */
     QNRTCErrorRoomInstanceClosed                = 10003,
-    //reconnect token error
+    
+    /*!
+     * @abstract reconnect token error
+     *
+     * @discussion 重连时 RoomToken 错误，建议用户收到此错误代码时尝试重新获取 RoomToken 后再次加入房间。
+     */
     QNRTCErrorReconnectTokenError               = 10004,
-    //room closed
+    
+    /*!
+     * @abstract room closed
+     *
+     * @discussion 房间被管理员关闭。
+     */
     QNRTCErrorRoomClosed                        = 10005,
-    //room is full
+    
+    /*!
+     * @abstract room is full
+     *
+     * @discussion 房间人数已超过限制。
+     */
     QNRTCErrorRoomIsFull                        = 10011,
-    //room not exist
+    
+    /*!
+     * @abstract room not exist
+     *
+     * @discussion 房间不存在。
+     */
     QNRTCErrorRoomNotExist                      = 10012,
-    //user not exist
+    
+    /*!
+     * @abstract user not exist
+     *
+     * @discussion 用户不存在。
+     */
     QNRTCErrorUserNotExist                      = 10021,
-    //user already exist
+    
+    /*!
+     * @abstract user already exist
+     *
+     * @discussion 用户已存在，该用户可能已使用其他设备进入房间。
+     */
     QNRTCErrorUserAlreadyExist                  = 10022,
-    //publish stream not exist
+    
+    /*!
+     * @abstract publish stream not exist
+     *
+     * @discussion 流不存在。
+     */
     QNRTCErrorPublishStreamNotExist             = 10031,
-    //publish stream info not match
+    
+    /*!
+     * @abstract publish stream info not match
+     *
+     * @discussion 流信息不匹配。
+     */
     QNRTCErrorPublishStreamInfoNotMatch         = 10032,
-    //publish stream already exist
+    
+    /*!
+     * @abstract publish stream already exist
+     *
+     * @discussion 流已存在。
+     */
     QNRTCErrorPublishStreamAlreadyExist         = 10033,
-    //publish stream not ready
+    
+    /*!
+     * @abstract publish stream not ready
+     *
+     * @discussion 流未完成。
+     */
     QNRTCErrorPublishStreamNotReady             = 10034,
-    //subscribe stream not exist
+    
+    /*!
+     * @abstract subscribe stream not exist
+     *
+     * @discussion 订阅不存在的流。
+     */
     QNRTCErrorSubscribeStreamNotExist           = 10041,
-    //subscribe stream info not match
+    
+    /*!
+     * @abstract subscribe stream info not match
+     *
+     * @discussion 订阅不匹配信息流。
+     */
     QNRTCErrorSubscribeStreamInfoNotMatch       = 10042,
-    //subscribe stream already exist
+    
+    /*!
+     * @abstract subscribe stream already exist
+     *
+     * @discussion 订阅已存在流。
+     */
     QNRTCErrorSubscribeStreamAlreadyExist       = 10043,
-    //can't subscribe self
+    
+    /*!
+     * @abstract can't subscribe self
+     *
+     * @discussion 不能订阅自己。
+     */
     QNRTCErrorSubscribeSelf                     = 10044,
-    //no permission
+    
+    /*!
+     * @abstract no permission
+     *
+     * @discussion 当用户在进行踢人等操作没有权限时会返回此错误代码。
+     */
     QNRTCErrorNoPermission                      = 10051,
-    //server unavailable
+    
+    /*!
+     * @abstract server unavailable
+     *
+     * @discussion 服务不可用，SDK 内部错误。用户无需处理。
+     */
     QNRTCErrorServerUnavailable                 = 10052,
-    //invalid parameter
+
+    /*!
+     * @abstract Publisher Disconnected, or not exist
+     *
+     * @discussion 发布失败，或不存在，用户无需处理。
+     */
+    QNRTCErrorPublishDisconnected               = 10061,
+    
+    /*!
+     * @abstract Subscriber Disconnected, or not exist
+     *
+     * @discussion 订阅失败，或订阅不存在，用户无需处理。
+     */
+    QNRTCErrorSubscribeDisconnected             = 10062,
+    
+    /*!
+     * @abstract invalid parameter
+     *
+     * @discussion 参数错误，当用户在进行踢人、合流等操作传入错误的参数时会返回此错误代码。
+     */
     QNRTCErrorInvalidParameter                  = 11001,
-    //auth failed
+    
+    /*!
+     * @abstract auth failed
+     *
+     * @discussion 鉴权失败，建议用户收到此错误代码时检查网络并尝试重新获取 RoomToken 后再次加入房间。
+     */
     QNRTCErrorAuthFailed                        = 11002,
-    //publish failed
+    
+    /*!
+     * @abstract publish failed
+     *
+     * @discussion 发布失败。
+     */
     QNRTCErrorPublishFailed                     = 11011,
-    //subscribe failed
+    
+    /*!
+     * @abstract subscribe failed
+     *
+     * @discussion 订阅失败。
+     */
     QNRTCErrorSubscribeFailed                   = 11012,
-    //merge failed
+    
+    /*!
+     * @abstract merge failed
+     *
+     * @discussion 更新合流失败。
+     */
     QNRTCErrorUpdateMergeFailed                 = 11013,
-    //push audioBuffer with asbd convert failed
+    
+    /*!
+     * @abstract push audioBuffer with asbd convert failed
+     *
+     * @discussion 音频转码失败。
+     */
     QNRTCErrorPushAudioBufferFailed             = 11014,
 
 };
@@ -253,6 +391,12 @@ typedef NS_ENUM(NSUInteger, QNRTCBWEPolicy) {
 
 //视频填充模式
 typedef enum {
+    
+    /**
+     @brief default
+     */
+    QNVideoFillModeNone,
+    
     /**
      @brief Stretch to fill the full view, which may distort the image outside of its normal aspect ratio
      */

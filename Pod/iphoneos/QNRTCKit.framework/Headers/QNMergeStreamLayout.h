@@ -34,6 +34,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign) QNVideoFillModeType fillMode;
 
+/**
+ @brief 是否在合流中添加视频 Track 的 SEI 内容，针对所有合流视频 Track，默认只能设置一路 SEI
+ */
+@property (nonatomic, assign) BOOL supportSEI;
+
 @end
 
 NS_ASSUME_NONNULL_END

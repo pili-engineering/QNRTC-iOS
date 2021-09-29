@@ -22,10 +22,11 @@
     // Do any additional setup after loading the view.
 }
 
-- (void)setupEngine {
-    self.engine = [[QNRTCEngine alloc] init];
-    self.engine.delegate = self;
-    self.engine.statisticInterval = 5;
+- (void)setupClient {
+    [QNRTC configRTC:[QNRTCConfiguration defaultConfiguration]];
+    // 1.创建初始化 RTC 核心类 QNRTCClient
+    self.client = [QNRTC createRTCClient];
+    self.client.delegate = self;
     
     [self.renderBackgroundView addSubview:self.colorView];
     
@@ -35,16 +36,21 @@
 }
 
 - (void)publish {
-    QNTrackInfo *audioTrack = [[QNTrackInfo alloc] initWithSourceType:QNRTCSourceTypeAudio master:YES];
+    self.audioTrack = [QNRTC createMicrophoneAudioTrack];
     // 纯音频则只发布音频 track
-    [self.engine publishTracks:@[audioTrack]];
+    [self.client publish:@[self.audioTrack] completeCallback:^(BOOL onPublished, NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.microphoneButton.enabled = YES;
+            self.isAudioPublished = YES;
+        });
+    }];
 }
 
 /**
- * 房间状态变更的回调。当状态变为 QNRoomStateReconnecting 时，SDK 会为您自动重连，如果希望退出，直接调用 leaveRoom 即可
+ * 房间状态变更的回调。当状态变为 QNConnectionStateReconnecting 时，SDK 会为您自动重连，如果希望退出，直接调用 leave 即可
  */
-- (void)RTCEngine:(QNRTCEngine *)engine roomStateDidChange:(QNRoomState)roomState {
-    [super RTCEngine:engine roomStateDidChange:roomState];
+- (void)RTCClient:(QNRTCClient *)client didConnectionStateChanged:(QNConnectionState)state disconnectedInfo:(QNConnectionDisconnectedInfo *)info {
+    [super RTCClient:client didConnectionStateChanged:state disconnectedInfo:info];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         self.videoButton.enabled = NO;

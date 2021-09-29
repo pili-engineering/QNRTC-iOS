@@ -29,7 +29,7 @@
 
 @property (nonatomic, weak) UIView *fullScreenSuperView;
 
-- (QNTrackInfo *)trackInfoWithTrackId:(NSString *)trackId;
+- (QNTrack *)trackInfoWithTrackId:(NSString *)trackId;
 
 - (void)showCameraView;
 

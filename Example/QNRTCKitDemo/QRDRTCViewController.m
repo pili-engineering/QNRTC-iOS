@@ -10,24 +10,26 @@
 #import <ReplayKit/ReplayKit.h>
 #import "UIView+Alert.h"
 #import <QNRTCKit/QNRTCKit.h>
-#import "QRDMergeSettingView.h"
+#import "QRDTranscodingStreamingSettingView.h"
 
 #define QN_DELAY_MS 5000
 
 @interface QRDRTCViewController ()
 <
-QRDMergeSettingViewDelegate,
+QRDTranscodingStreamingSettingViewDelegate,
 UITextFieldDelegate
 >
-@property (nonatomic, strong) QRDMergeSettingView *mergeSettingView;
+@property (nonatomic, strong) QRDTranscodingStreamingSettingView *transcodingStreamingSettingView;
 @property (nonatomic, assign) CGFloat keyboardHeight;
-@property (nonatomic, strong) NSString *mergeJobId;
-@property (nonatomic, strong) NSArray<QNMergeStreamLayout *> *layouts;
+@property (nonatomic, strong) NSString *transcodingStreamingStreamID;
+@property (nonatomic, strong) NSArray<QNTranscodingLiveStreamingTrack *> *layouts;
 
 @property (nonatomic, strong) UIScrollView *mergeScrollView;
 @property (nonatomic, strong) UIView *buttonView;
 
 @property (nonatomic, strong) UILabel *forwardLabel;
+
+@property (nonatomic, strong) QNDirectLiveStreamingConfig *directConfig;
 
 /**
 * 如果您的场景包括合流转推和单路转推的切换，那么需要维护一个 serialNum 的参数，代表流的优先级，
@@ -62,14 +64,14 @@ UITextFieldDelegate
     self.videoEncodeSize = CGSizeFromString(_configDic[@"VideoSize"]);
     self.bitrate = [_configDic[@"Bitrate"] integerValue];
     
-    // 配置核心类 QNRTCEngine
-    [self setupEngine];
+    // 配置核心类 QNRTCClient
+    [self setupClient];
     
     [self setupBottomButtons];
     
     // 添加配置合流的交互界面
     if ([self isAdminUser:self.userId]) {
-        [self setupMergeSettingView];
+        [self setuptranscodingStreamingSettingView];
     }
     
     // 发送请求获取进入房间的 Token
@@ -153,7 +155,7 @@ UITextFieldDelegate
 - (void)viewDidDisappear:(BOOL)animated {
     [self stoptimer];
     // 离开房间
-    [self.engine leaveRoom];
+    [self.client leave];
     
     [super viewDidDisappear:animated];
 }
@@ -180,7 +182,7 @@ UITextFieldDelegate
     [self.view showNormalLoadingWithTip:@"加入房间中..."];
     // 将获取生成的 token 传入 sdk
     // 6.使用有效的 token 加入房间
-    [self.engine joinRoomWithToken:self.token];
+    [self.client join:self.token];
 }
 
 - (void)requestToken {
@@ -209,27 +211,33 @@ UITextFieldDelegate
     }];
 }
 
-- (void)setupEngine {
-    [QNRTCEngine enableFileLogging];
+- (void)setupClient {
+    [QNRTC enableFileLogging];
     
-    // 1.初始化 RTC 核心类 QNRTCEngine
-    self.engine = [[QNRTCEngine alloc] init];
-    // 2.设置 QNRTCEngineDelegate 状态回调的代理
-    self.engine.delegate = self;
+    // 1. 初始配置 QNRTC
+    [QNRTC configRTC:[QNRTCConfiguration defaultConfiguration]];
+    // 1.创建初始化 RTC 核心类 QNRTCClient
+    self.client = [QNRTC createRTCClient];
+    // 2.设置 QNRTCClientDelegate 状态回调的代理
+    self.client.delegate = self;
     
-    // 3.设置相关配置
+    // 3.创建摄像头 Track
+    QNCameraVideoTrackConfig * cameraConfig = [[QNCameraVideoTrackConfig alloc] initWithSourceTag:cameraTag bitrate:self.bitrate videoEncodeSize:self.videoEncodeSize];
+    self.cameraTrack = [QNRTC createCameraVideoTrackWithConfig:cameraConfig];
+    
+    // 4.设置相关配置
     // 视频帧率
-    self.engine.videoFrameRate = [_configDic[@"FrameRate"] integerValue];;
-    // 设置统计信息回调的时间间隔，不设置的话，默认不会回调统计信息
-    self.engine.statisticInterval = 5;
+    self.cameraTrack.videoFrameRate = [_configDic[@"FrameRate"] integerValue];;
     // 打开 sdk 自带的美颜效果
-    [self.engine setBeautifyModeOn:YES];
+    [self.cameraTrack setBeautifyModeOn:YES];
+    // 设置预览
+    [self.cameraTrack play:self.preview];
     
-    [self.colorView addSubview:self.engine.previewView];
+    [self.colorView addSubview:self.preview];
     [self.renderBackgroundView addSubview:self.colorView];
     
     // 4.设置摄像头采集的预览视频位置
-    [self.engine.previewView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.preview mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.colorView);
     }];
     
@@ -244,7 +252,7 @@ UITextFieldDelegate
     // 5.启动摄像头采集
     // 注意：记得在 Info.list 中添加摄像头、麦克风的相关权限
     // NSCameraUsageDescription、NSMicrophoneUsageDescription
-    [self.engine startCapture];
+    [self.cameraTrack startCapture];
 }
 
 - (void)setupBottomButtons {
@@ -322,7 +330,7 @@ UITextFieldDelegate
     }];
 }
 
-- (void)setupMergeSettingView {
+- (void)setuptranscodingStreamingSettingView {
     self.keyboardHeight = 0;
     
     self.mergeScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, UIScreen.mainScreen.bounds.size.height, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height > 667 ? 420 : 400)];
@@ -332,20 +340,20 @@ UITextFieldDelegate
     self.mergeScrollView.bounces = NO;
     [self.view addSubview:_mergeScrollView];
 
-    self.mergeSettingView = [[QRDMergeSettingView alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height > 667 ? 420 : 400) userId:self.userId roomName:self.roomName];
-    self.mergeSettingView.delegate = self;
-    self.mergeSettingView.mergeStreamSize = CGSizeMake(480, 848);
+    self.transcodingStreamingSettingView = [[QRDTranscodingStreamingSettingView alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height > 667 ? 420 : 400) userId:self.userId roomName:self.roomName];
+    self.transcodingStreamingSettingView.delegate = self;
+    self.transcodingStreamingSettingView.transcodingStreamingStreamSize = CGSizeMake(480, 848);
     
     self.buttonView = [[UIView alloc] initWithFrame:CGRectMake(0, UIScreen.mainScreen.bounds.size.height, UIScreen.mainScreen.bounds.size.width, 80)];
     self.buttonView.backgroundColor = [UIColor colorWithWhite:0.2 alpha:1.0];
     [self.view addSubview:_buttonView];
-    _mergeSettingView.saveButton.frame = CGRectMake(20, 10, UIScreen.mainScreen.bounds.size.width - 40, 40);
-    [self.buttonView addSubview:_mergeSettingView.saveButton];
+    _transcodingStreamingSettingView.saveButton.frame = CGRectMake(20, 10, UIScreen.mainScreen.bounds.size.width - 40, 40);
+    [self.buttonView addSubview:_transcodingStreamingSettingView.saveButton];
     
-    self.mergeSettingView.frame = CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, self.mergeSettingView.totalHeight);
-    [self.mergeScrollView addSubview:_mergeSettingView];
+    self.transcodingStreamingSettingView.frame = CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, self.transcodingStreamingSettingView.totalHeight);
+    [self.mergeScrollView addSubview:_transcodingStreamingSettingView];
 
-    self.mergeScrollView.contentSize = CGSizeMake(UIScreen.mainScreen.bounds.size.width, self.mergeSettingView.totalHeight);
+    self.mergeScrollView.contentSize = CGSizeMake(UIScreen.mainScreen.bounds.size.width, self.transcodingStreamingSettingView.totalHeight);
     
     UISwipeGestureRecognizer *downSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(downSwipe:)];
        downSwipe.direction = UISwipeGestureRecognizerDirectionDown;
@@ -397,8 +405,8 @@ UITextFieldDelegate
         [self addLogString:@"房间中暂时没有其他用户"];
     }
     if ([self isAdminUser:self.userId]) {
-        [self.mergeSettingView resetMergeFrame];
-        [self.mergeSettingView resetUserList];
+        [self.transcodingStreamingSettingView resetTranscodingStreamingFrame];
+        [self.transcodingStreamingSettingView resetUserList];
     } else{
         [self.view showTip:@"你不是 admin，无法操作合流"];
         [self addLogString:@"你不是 admin，无法操作合流"];
@@ -469,97 +477,97 @@ UITextFieldDelegate
 
 - (void)downSwipe:(UISwipeGestureRecognizer *)swipe {
     // 如果处于编辑状态，先关掉键盘，否则如果 settingView 处于显示状态，执行隐藏操作
-    if (self.mergeSettingView.firstTrackXTextField.isFirstResponder) {
-        [self.mergeSettingView.firstTrackXTextField resignFirstResponder];
-    } else if (self.mergeSettingView.firstTrackYTextField.isFirstResponder) {
-        [self.mergeSettingView.firstTrackYTextField resignFirstResponder];
-    } else if (self.mergeSettingView.firstTrackZTextField.isFirstResponder) {
-        [self.mergeSettingView.firstTrackZTextField resignFirstResponder];
-    } else if (self.mergeSettingView.firstTrackWidthTextField.isFirstResponder) {
-        [self.mergeSettingView.firstTrackWidthTextField resignFirstResponder];
-    } else if (self.mergeSettingView.firstTrackHeightTextField.isFirstResponder) {
-        [self.mergeSettingView.firstTrackHeightTextField resignFirstResponder];
-    } else if (self.mergeSettingView.secondTrackXTextField.isFirstResponder) {
-        [self.mergeSettingView.secondTrackXTextField resignFirstResponder];
-    } else if (self.mergeSettingView.secondTrackYTextField.isFirstResponder) {
-        [self.mergeSettingView.secondTrackYTextField resignFirstResponder];
-    } else if (self.mergeSettingView.secondTrackZTextField.isFirstResponder) {
-        [self.mergeSettingView.secondTrackZTextField resignFirstResponder];
-    } else if (self.mergeSettingView.secondTrackWidthTextField.isFirstResponder) {
-        [self.mergeSettingView.secondTrackWidthTextField resignFirstResponder];
-    } else if (self.mergeSettingView.secondTrackHeightTextField.isFirstResponder) {
-        [self.mergeSettingView.secondTrackHeightTextField resignFirstResponder];
+    if (self.transcodingStreamingSettingView.firstTrackXTextField.isFirstResponder) {
+        [self.transcodingStreamingSettingView.firstTrackXTextField resignFirstResponder];
+    } else if (self.transcodingStreamingSettingView.firstTrackYTextField.isFirstResponder) {
+        [self.transcodingStreamingSettingView.firstTrackYTextField resignFirstResponder];
+    } else if (self.transcodingStreamingSettingView.firstTrackZTextField.isFirstResponder) {
+        [self.transcodingStreamingSettingView.firstTrackZTextField resignFirstResponder];
+    } else if (self.transcodingStreamingSettingView.firstTrackWidthTextField.isFirstResponder) {
+        [self.transcodingStreamingSettingView.firstTrackWidthTextField resignFirstResponder];
+    } else if (self.transcodingStreamingSettingView.firstTrackHeightTextField.isFirstResponder) {
+        [self.transcodingStreamingSettingView.firstTrackHeightTextField resignFirstResponder];
+    } else if (self.transcodingStreamingSettingView.secondTrackXTextField.isFirstResponder) {
+        [self.transcodingStreamingSettingView.secondTrackXTextField resignFirstResponder];
+    } else if (self.transcodingStreamingSettingView.secondTrackYTextField.isFirstResponder) {
+        [self.transcodingStreamingSettingView.secondTrackYTextField resignFirstResponder];
+    } else if (self.transcodingStreamingSettingView.secondTrackZTextField.isFirstResponder) {
+        [self.transcodingStreamingSettingView.secondTrackZTextField resignFirstResponder];
+    } else if (self.transcodingStreamingSettingView.secondTrackWidthTextField.isFirstResponder) {
+        [self.transcodingStreamingSettingView.secondTrackWidthTextField resignFirstResponder];
+    } else if (self.transcodingStreamingSettingView.secondTrackHeightTextField.isFirstResponder) {
+        [self.transcodingStreamingSettingView.secondTrackHeightTextField resignFirstResponder];
         
-    } else if (self.mergeSettingView.widthTextField.isFirstResponder) {
-        [self.mergeSettingView.widthTextField resignFirstResponder];
-    } else if (self.mergeSettingView.heightTextField.isFirstResponder) {
-        [self.mergeSettingView.heightTextField resignFirstResponder];
-    } else if (self.mergeSettingView.fpsTextField.isFirstResponder) {
-        [self.mergeSettingView.fpsTextField resignFirstResponder];
+    } else if (self.transcodingStreamingSettingView.widthTextField.isFirstResponder) {
+        [self.transcodingStreamingSettingView.widthTextField resignFirstResponder];
+    } else if (self.transcodingStreamingSettingView.heightTextField.isFirstResponder) {
+        [self.transcodingStreamingSettingView.heightTextField resignFirstResponder];
+    } else if (self.transcodingStreamingSettingView.fpsTextField.isFirstResponder) {
+        [self.transcodingStreamingSettingView.fpsTextField resignFirstResponder];
         
-    } else if (self.mergeSettingView.bitrateTextField.isFirstResponder) {
-        [self.mergeSettingView.bitrateTextField resignFirstResponder];
-    } else if (self.mergeSettingView.mergeIdTextField.isFirstResponder) {
-        [self.mergeSettingView.mergeIdTextField resignFirstResponder];
-    } else if (self.mergeSettingView.minbitrateTextField.isFirstResponder) {
-        [self.mergeSettingView.minbitrateTextField resignFirstResponder];
-    } else if (self.mergeSettingView.maxbitrateTextField.isFirstResponder) {
-        [self.mergeSettingView.maxbitrateTextField resignFirstResponder];
-    } else if (self.mergeSettingView.frame.origin.y < self.view.bounds.size.height) {
+    } else if (self.transcodingStreamingSettingView.bitrateTextField.isFirstResponder) {
+        [self.transcodingStreamingSettingView.bitrateTextField resignFirstResponder];
+    } else if (self.transcodingStreamingSettingView.transcodingStreamingIdTextField.isFirstResponder) {
+        [self.transcodingStreamingSettingView.transcodingStreamingIdTextField resignFirstResponder];
+    } else if (self.transcodingStreamingSettingView.minbitrateTextField.isFirstResponder) {
+        [self.transcodingStreamingSettingView.minbitrateTextField resignFirstResponder];
+    } else if (self.transcodingStreamingSettingView.maxbitrateTextField.isFirstResponder) {
+        [self.transcodingStreamingSettingView.maxbitrateTextField resignFirstResponder];
+    } else if (self.transcodingStreamingSettingView.frame.origin.y < self.view.bounds.size.height) {
         [self hideSettingView];
         self.mergeButton.selected = NO;
     }
 }
 
-#pragma mark - QRDMergeSettingView
+#pragma mark - QRDTranscodingStreamingSettingViewDelegate
 
-- (void)mergeSettingView:(QRDMergeSettingView *)settingView didSetMergeLayouts:(NSArray<QNMergeStreamLayout *> *)layouts jobId:(NSString *)jobId {
+- (void)transcodingStreamingSettingView:(QRDTranscodingStreamingSettingView *)settingView didSetTranscodingStreamingLayouts:(nonnull NSArray<QNTranscodingLiveStreamingTrack *> *)layouts streamID:(nonnull NSString *)streamID {
     // 默认合流时，jobId 为 nil
-    [self.engine setMergeStreamLayouts:layouts jobId:jobId];
+    [self.client setTranscodingLiveStreamingID:streamID withTracks:layouts];
 }
 
-- (void)mergeSettingView:(QRDMergeSettingView *)settingView didRemoveMergeLayouts:(NSArray<QNMergeStreamLayout *> *)layouts jobId:(NSString *)jobId {
-    [self.engine removeMergeStreamLayouts:layouts jobId:jobId];
+- (void)transcodingStreamingSettingView:(QRDTranscodingStreamingSettingView *)settingView didRemoveTranscodingLiveStreamingTracks:(nonnull NSArray<QNTranscodingLiveStreamingTrack *> *)streamingTracks streamID:(nonnull NSString *)streamID {
+    [self.client removeTranscodingLiveStreamingID:streamID withTracks:streamingTracks];
 }
 
-- (void)mergeSettingView:(QRDMergeSettingView *)settingView didGetMessage:(NSString *)message {
-    if ([message isEqualToString:@"设置成功"] || [message isEqualToString:@"关闭合流成功"] ) {
+- (void)transcodingStreamingSettingView:(QRDTranscodingStreamingSettingView *)settingView didGetMessage:(NSString *)message {
+    if ([message isEqualToString:@"设置成功"] || [message isEqualToString:@"关闭合流成功"] || [message isEqualToString:@"取消设置"] ) {
         [self.view endEditing:YES];
         [self hideSettingView];
     }
     [self.view showFailTip:message];
 }
 
-- (void)mergeSettingView:(QRDMergeSettingView *)settingView didUpdateTotalHeight:(CGFloat)totalHeight {
-    self.mergeSettingView.frame = CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, totalHeight);
+- (void)transcodingStreamingSettingView:(QRDTranscodingStreamingSettingView *)settingView didUpdateTotalHeight:(CGFloat)totalHeight {
+    self.transcodingStreamingSettingView.frame = CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, totalHeight);
     self.mergeScrollView.contentSize = CGSizeMake(UIScreen.mainScreen.bounds.size.width, totalHeight);
 }
 
-- (void)mergeSettingView:(QRDMergeSettingView *)settingView didUpdateMergeConfiguration:(QNMergeStreamConfiguration *)streamConfiguration layouts:(nonnull NSArray<QNMergeStreamLayout *> *)layouts jobId:(nonnull NSString *)jobId {
+- (void)transcodingStreamingSettingView:(QRDTranscodingStreamingSettingView *)settingView didUpdateTranscodingStreamingConfiguration:(nonnull QNTranscodingLiveStreamingConfig *)streamConfiguration layouts:(nonnull NSArray<QNTranscodingLiveStreamingTrack *> *)layouts streamID:(nonnull NSString *)streamID {
     // 自定义 merge 需要先停止默认的合流
-    // 然后配置相应的流信息 QNMergeStreamConfiguration，根据 jobId 以区分
+    // 然后配置相应的流信息 QNMergeStreamConfiguration，根据 streamID 以区分
     // 注意调用后有相应回调才能 setMergeStreamLayouts，否则会报错
     self.serialNum++;
     streamConfiguration.publishUrl = [NSString stringWithFormat:@"rtmp://pili-publish.qnsdk.com/sdk-live/%@?serialnum=%@", self.roomName, @(self.serialNum)];
-    [self.engine createMergeStreamJobWithConfiguration:streamConfiguration];
+    [self.client startLiveStreamingWithTranscoding:streamConfiguration];
     _layouts = layouts;
-    _mergeJobId = jobId;
+    _transcodingStreamingStreamID = streamID;
 }
 
-- (void)mergeSettingView:(QRDMergeSettingView *)settingView didCloseMerge:(NSString *)jobId {
-    [self.engine stopMergeStreamWithJobId:jobId];
+- (void)transcodingStreamingSettingView:(QRDTranscodingStreamingSettingView *)settingView didCloseTranscodingLiveStreaming:(nullable QNTranscodingLiveStreamingConfig *)transcodingStreamingConfiguration {
+    [self.client stopLiveStreamingWithTranscoding:transcodingStreamingConfiguration];
 }
 
-- (void)mergeSettingView:(QRDMergeSettingView *)settingView didUseDefaultMerge:(BOOL)isDefault {
+- (void)transcodingStreamingSettingView:(QRDTranscodingStreamingSettingView *)settingView didUseDefaultTranscodingStreaming:(BOOL)isDefault{
     if (isDefault) {
         if (_forwardButton.selected) {
-            _mergeSettingView.saveEnable = NO;
+            _transcodingStreamingSettingView.saveEnable = NO;
             [self showAlertWithMessage:@"由于目前已开启单路转推，若需切换到合流任务，请关闭单路转推或开启自定义合流任务！" title:@"提示" completionHandler:nil];
         } else{
-            _mergeSettingView.saveEnable = YES;
+            _transcodingStreamingSettingView.saveEnable = YES;
         }
     } else{
-        _mergeSettingView.saveEnable = YES;
+        _transcodingStreamingSettingView.saveEnable = YES;
     }
 }
 
@@ -589,43 +597,42 @@ UITextFieldDelegate
 
 - (void)beautyButtonClick:(UIButton *)beautyButton {
     beautyButton.selected = !beautyButton.selected;
-    [self.engine setBeautifyModeOn:beautyButton.selected];
+    [self.cameraTrack setBeautifyModeOn:beautyButton.selected];
 }
 
 - (void)toggleButtonClick:(UIButton *)button {
     // 切换摄像头（前置/后置）
-    [self.engine toggleCamera];
+    [self.cameraTrack switchCamera];
 }
 
 - (void)microphoneAction:(UIButton *)microphoneButton {
     self.microphoneButton.selected = !self.microphoneButton.isSelected;
     // 打开/关闭音频
-    [self.engine muteAudio:!self.microphoneButton.isSelected];
+    [self.audioTrack updataMute:!self.microphoneButton.isSelected];
 }
 
 - (void)loudspeakerAction:(UIButton *)loudspeakerButton {
-    // 打开/关闭扬声器
-    self.engine.muteSpeaker = !self.engine.isMuteSpeaker;
-    loudspeakerButton.selected = !self.engine.isMuteSpeaker;
+    [QNRTC setSpeakerphoneMuted:![QNRTC speakerphoneMuted]];
+    loudspeakerButton.selected = ![QNRTC speakerphoneMuted];
 }
 
 - (void)videoAction:(UIButton *)videoButton {
     videoButton.selected = !videoButton.isSelected;
     NSMutableArray *videoTracks = [[NSMutableArray alloc] init];
-    if (self.screenTrackInfo) {
-        self.screenTrackInfo.muted = !videoButton.isSelected;
-        [videoTracks addObject:self.screenTrackInfo];
+    if (self.screenTrack) {
+        // 打开/关闭录屏画面
+        [self.screenTrack updataMute:!videoButton.isSelected];
+        [videoTracks addObject:self.screenTrack];
     }
-    if (self.cameraTrackInfo) {
-        [videoTracks addObject:self.cameraTrackInfo];
-        self.cameraTrackInfo.muted = !videoButton.isSelected;
+    if (self.cameraTrack) {
+        // 打开/关闭摄像头画面
+        [videoTracks addObject:self.cameraTrack];
+        [self.cameraTrack updataMute:!videoButton.isSelected];
     }
-    // 打开/关闭视频画面
-    [self.engine muteTracks:videoTracks];
     
     // 对应实际关闭连麦视频画面的场景
     // 可根据需求显示或隐藏摄像头采集的预览视图
-    self.engine.previewView.hidden = !videoButton.isSelected;
+    self.preview.hidden = !videoButton.isSelected;
     [self checkSelfPreviewGesture];
 }
 
@@ -657,20 +664,19 @@ UITextFieldDelegate
         [self.view showTip:@"你不是 admin，无法开启单路转推！"];
         return;
     }
-    if ((_mergeSettingView.customMergeSwitch.isOn && _mergeSettingView.mergeSwitch.isOn) ||
-        !_mergeSettingView.mergeSwitch.isOn) {
+    if ((_transcodingStreamingSettingView.customTranscodingStreamingSwitch.isOn && _transcodingStreamingSettingView.transcodingStreamingSwitch.isOn) ||
+        !_transcodingStreamingSettingView.transcodingStreamingSwitch.isOn) {
         button.selected = !button.isSelected;
         if (button.selected) {
             self.serialNum++;
-            QNForwardStreamConfiguration *forwardConfig = [[QNForwardStreamConfiguration alloc] init];
-            forwardConfig.audioOnly = NO;
-            forwardConfig.jobId = self.roomName;
-            forwardConfig.publishUrl = [NSString stringWithFormat:@"rtmp://pili-publish.qnsdk.com/sdk-live/%@?serialnum=%@", self.roomName, @(self.serialNum)];
-            forwardConfig.audioTrackInfo = self.audioTrackInfo;
-            forwardConfig.videoTrackInfo = self.cameraTrackInfo;
-            [self.engine createForwardJobWithConfiguration:forwardConfig];
+            self.directConfig = [[QNDirectLiveStreamingConfig alloc] init];
+            self.directConfig.streamID = self.roomName;
+            self.directConfig.publishUrl = [NSString stringWithFormat:@"rtmp://pili-publish.qnsdk.com/sdk-live/%@?serialnum=%@", self.roomName, @(self.serialNum)];
+            self.directConfig.audioTrack = self.audioTrack;
+            self.directConfig.videoTrack = self.cameraTrack ? self.cameraTrack : self.screenTrack;
+            [self.client startLiveStreamingWithDirect:self.directConfig];
         } else {
-            [self.engine stopForwardJobWithJobId:self.roomName];
+            [self.client stopLiveStreamingWithDirect:self.directConfig];
             self.forwardLabel.text = @"单路转推";
         }
     } else{
@@ -679,16 +685,26 @@ UITextFieldDelegate
 }
 
 - (void)publish {
-    
-    QNTrackInfo *audioTrack = [[QNTrackInfo alloc] initWithSourceType:QNRTCSourceTypeAudio master:YES];
-    QNTrackInfo *cameraTrack =  [[QNTrackInfo alloc] initWithSourceType:(QNRTCSourceTypeCamera)
-                                                                    tag:cameraTag
-                                                                 master:YES
-                                                             bitrateBps:self.bitrate
-                                                        videoEncodeSize:self.videoEncodeSize];
     // 7.发布音频、视频 track
-    // track 可通过 QNTrackInfo 配置
-    [self.engine publishTracks:@[audioTrack, cameraTrack]];
+    self.audioTrack = [QNRTC createMicrophoneAudioTrack];
+    
+    // track 可通过 QNTrack 配置
+    [self.client publish:@[self.audioTrack, self.cameraTrack] completeCallback:^(BOOL onPublished, NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.view hiddenLoading];
+            if (onPublished) {
+                [self.view showSuccessTip:@"发布成功了"];
+                self.microphoneButton.enabled = YES;
+                self.isAudioPublished = YES;
+                self.videoButton.enabled = YES;
+                self.isVideoPublished = YES;
+                
+                [self.transcodingStreamingSettingView addTranscodingStreamingInfoWithTracks:@[self.audioTrack, self.cameraTrack] userId:self.userId];
+                [self.transcodingStreamingSettingView resetTranscodingStreamingFrame];
+                [self.transcodingStreamingSettingView resetUserList];
+            }
+        });
+    }];
 }
 
 - (void)showAlertWithMessage:(NSString *)message title:(NSString *)title completionHandler:(void (^)(void))handler
@@ -702,43 +718,24 @@ UITextFieldDelegate
     [self presentViewController:controller animated:YES completion:nil];
 }
 
-#pragma mark - QNRTCEngineDelegate
+#pragma mark - QNRTCClientDelegate
 
 /**
- * SDK 运行过程中发生错误会通过该方法回调，具体错误码的含义可以见 QNTypeDefines.h 文件
+ * 房间状态变更的回调。当状态变为 QNConnectionStateReconnecting 时，SDK 会为您自动重连，如果希望退出，直接调用 leave 即可
  */
-- (void)RTCEngine:(QNRTCEngine *)engine didFailWithError:(NSError *)error {
-    [super RTCEngine:engine didFailWithError:error];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.view hiddenLoading];
-
-        NSString *errorMessage = error.localizedDescription;
-        if (error.code == QNRTCErrorReconnectTokenError) {
-            errorMessage = @"重新进入房间超时";
-        }
-        [self showAlertWithMessage:errorMessage title:@"错误" completionHandler:^{
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }];
-    });
-}
-
-/**
- * 房间状态变更的回调。当状态变为 QNRoomStateReconnecting 时，SDK 会为您自动重连，如果希望退出，直接调用 leaveRoom 即可
- */
-- (void)RTCEngine:(QNRTCEngine *)engine roomStateDidChange:(QNRoomState)roomState {
-    [super RTCEngine:engine roomStateDidChange:roomState];
+- (void)RTCClient:(QNRTCClient *)client didConnectionStateChanged:(QNConnectionState)state disconnectedInfo:(QNConnectionDisconnectedInfo *)info {
+    [super RTCClient:client didConnectionStateChanged:state disconnectedInfo:info];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.view hiddenLoading];
         
-        if (QNRoomStateConnected == roomState || QNRoomStateReconnected == roomState) {
+        if (QNConnectionStateConnected == state || QNConnectionStateReconnected == state) {
             [self startTimer];
         } else {
             [self stoptimer];
         }
         
-        if (QNRoomStateConnected == roomState) {
+        if (QNConnectionStateConnected == state) {
             // 获取房间内用户
             [self requestRoomUserList];
             
@@ -746,15 +743,49 @@ UITextFieldDelegate
             self.videoButton.selected = YES;
             self.microphoneButton.selected = YES;
             [self publish];
-        } else if (QNRoomStateIdle == roomState) {
+        } else if (QNConnectionStateIdle == state) {
             self.videoButton.enabled = NO;
             self.videoButton.selected = NO;
-        } else if (QNRoomStateReconnecting == roomState) {
+            switch (info.reason) {
+                case QNConnectionDisconnectedReasonKickedOut:{
+                    NSString *str = [NSString stringWithFormat:@"你被服务器踢出房间"];
+                    
+                    dispatch_main_async_safe(^{
+                        [self.view showTip:str];
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            if (self.presentingViewController) {
+                                [self dismissViewControllerAnimated:YES completion:nil];
+                            } else {
+                                [self.navigationController popViewControllerAnimated:YES];
+                            }
+                        });
+                    });
+                }
+                    break;
+                case QNConnectionDisconnectedReasonLeave:{
+                    [self.view showSuccessTip:@"离开房间成功"];
+                }
+                    break;
+                default:{
+                    [self.view hiddenLoading];
+
+                    NSString *errorMessage = info.error.localizedDescription;
+                    if (info.error.code == QNRTCErrorReconnectTokenError) {
+                        errorMessage = @"重新进入房间超时";
+                    }
+                    [self showAlertWithMessage:errorMessage title:@"错误" completionHandler:^{
+                        [self dismissViewControllerAnimated:YES completion:nil];
+                    }];
+                }
+                    break;
+            }
+            
+        } else if (QNConnectionStateReconnecting == state) {
             [self.view showNormalLoadingWithTip:@"正在重连..."];
             self.title = @"正在重连...";
             self.videoButton.enabled = NO;
             self.microphoneButton.enabled = NO;
-        } else if (QNRoomStateReconnected == roomState) {
+        } else if (QNConnectionStateReconnected == state) {
             [self.view showSuccessTip:@"重新加入房间成功"];
             self.videoButton.enabled = YES;
             self.microphoneButton.enabled = YES;
@@ -763,69 +794,33 @@ UITextFieldDelegate
 }
 
 /**
-* 调用 publish 发布本地音视频 tracks 后收到的回调
-*/
-- (void)RTCEngine:(QNRTCEngine *)engine didPublishLocalTracks:(NSArray<QNTrackInfo *> *)tracks {
-    [super RTCEngine:engine didPublishLocalTracks:tracks];
-    
-    dispatch_main_async_safe(^{
-        [self.view hiddenLoading];
-        [self.view showSuccessTip:@"发布成功了"];
-        
-        for (QNTrackInfo *trackInfo in tracks) {
-            if (trackInfo.kind == QNTrackKindAudio) {
-                self.microphoneButton.enabled = YES;
-                self.isAudioPublished = YES;
-                self.audioTrackInfo = trackInfo;
-                continue;
-            }
-            if (trackInfo.kind == QNTrackKindVideo) {
-                if ([trackInfo.tag isEqualToString:screenTag]) {
-                    self.screenTrackInfo = trackInfo;
-                    self.isScreenPublished = YES;
-                } else {
-                    self.videoButton.enabled = YES;
-                    self.isVideoPublished = YES;
-                    self.cameraTrackInfo = trackInfo;
-                }
-                continue;
-            }
-        }
-        
-        [self.mergeSettingView addMergeInfoWithTracks:tracks userId:self.userId];
-        [self.mergeSettingView resetMergeFrame];
-        [self.mergeSettingView resetUserList];
-    });
-}
-
-/**
 * 远端用户发布音/视频的回调
 */
-- (void)RTCEngine:(QNRTCEngine *)engine didPublishTracks:(NSArray<QNTrackInfo *> *)tracks ofRemoteUserId:(NSString *)userId {
-    [super RTCEngine:engine didPublishTracks:tracks ofRemoteUserId:userId];
+- (void)RTCClient:(QNRTCClient *)client didUserPublishTracks:(NSArray<QNRemoteTrack *> *)tracks ofUserID:(NSString *)userID {
+    [super  RTCClient:client didUserPublishTracks:tracks ofUserID:userID];
     
     dispatch_main_async_safe(^{
-        [self.mergeSettingView addMergeInfoWithTracks:tracks userId:userId];
-        [self.mergeSettingView resetMergeFrame];
-        [self.mergeSettingView resetUserList];
+        [self.transcodingStreamingSettingView addTranscodingStreamingInfoWithTracks:tracks userId:userID];
+        [self.transcodingStreamingSettingView resetTranscodingStreamingFrame];
+        [self.transcodingStreamingSettingView resetUserList];
     });
 }
 
 /**
  * 远端用户取消发布音/视频的回调
  */
-- (void)RTCEngine:(QNRTCEngine *)engine didUnPublishTracks:(NSArray<QNTrackInfo *> *)tracks ofRemoteUserId:(NSString *)userId {
-    [super RTCEngine:engine didUnPublishTracks:tracks ofRemoteUserId:userId];
-    
+- (void)RTCClient:(QNRTCClient *)client didUserUnpublishTracks:(NSArray<QNRemoteTrack *> *)tracks ofUserID:(NSString *)userID{
+    [super RTCClient:client didUserUnpublishTracks:tracks ofUserID:userID];
+        
     dispatch_main_async_safe(^{
-        for (QNTrackInfo *trackInfo in tracks) {
-            QRDUserView *userView = [self userViewWithUserId:userId];
-            QNTrackInfo *tempInfo = [userView trackInfoWithTrackId:trackInfo.trackId];
-            if (tempInfo) {
-                [userView.traks removeObject:tempInfo];
+        for (QNRemoteTrack *track in tracks) {
+            QRDUserView *userView = [self userViewWithUserId:userID];
+            QNRemoteTrack *tempTrack = [userView trackInfoWithTrackId:track.trackID];
+            if (tempTrack) {
+                [userView.traks removeObject:tempTrack];
                 
-                if (trackInfo.kind == QNTrackKindVideo) {
-                    if ([trackInfo.tag isEqualToString:screenTag]) {
+                if (track.kind == QNTrackKindVideo) {
+                    if ([track.tag isEqualToString:screenTag]) {
                         [userView hideScreenView];
                     } else {
                         [userView hideCameraView];
@@ -840,106 +835,126 @@ UITextFieldDelegate
             }
         }
         
-        [self.mergeSettingView removeMergeInfoWithTracks:tracks userId:userId];
-        [self.mergeSettingView resetMergeFrame];
-        [self.mergeSettingView resetUserList];
+        [self.transcodingStreamingSettingView removeTranscodingStreamingInfoWithTracks:tracks userId:userID];
+        [self.transcodingStreamingSettingView resetTranscodingStreamingFrame];
+        [self.transcodingStreamingSettingView resetUserList];
     });
 }
 
 /**
 * 远端用户离开房间的回调
 */
-- (void)RTCEngine:(QNRTCEngine *)engine didLeaveOfRemoteUserId:(NSString *)userId {
-    [super RTCEngine:engine didLeaveOfRemoteUserId:userId];
+- (void)RTCClient:(QNRTCClient *)client didLeaveOfUserID:(NSString *)userID  {
+    [super RTCClient:client didLeaveOfUserID:userID];
     dispatch_main_async_safe(^{
-        [self.mergeSettingView removeMergeInfoWithUserId:userId];
-        [self.mergeSettingView resetMergeFrame];
-        [self.mergeSettingView resetUserList];
+        [self.transcodingStreamingSettingView removeTranscodingStreamingInfoWithUserId:userID];
+        [self.transcodingStreamingSettingView resetTranscodingStreamingFrame];
+        [self.transcodingStreamingSettingView resetUserList];
     })
 }
 
-- (void)RTCEngine:(QNRTCEngine *)engine didCreateMergeStreamWithJobId:(NSString *)jobId {
+-(void)RTCClient:(QNRTCClient *)client didStartLiveStreamingWith:(NSString *)streamID {
     dispatch_main_async_safe(^{
-        [self.engine setMergeStreamLayouts:_layouts jobId:_mergeJobId];
-        [self.view endEditing:YES];
-        [self hideSettingView];
-        [self.view showFailTip:@"创建自定义合流成功"];
-        
-        // 注意：
-        // 1. A 房间中创建的转推任务，只能在 A 房间中进行销毁，无法在其他房间中销毁
-        // 2. delayMillisecond 代表转推任务延迟关闭的时间，如果您的场景涉及到房间的切换以及不同转推任务
-        // 的切换，为了保证切换场景下播放的连续性，建议您务必添加延迟关闭时间；
-        // 3. 如果您的业务场景不涉及到跨房间的转推任务切换，可以不用设置延迟关闭时间，直接调用
-        // - (void)stopForwardJobWithJobId:(NSString *)jobId; 即可，SDK 默认会立即停止转推任务
-        [self.engine stopForwardJobWithJobId:jobId delayMillisecond:QN_DELAY_MS];
-        self.forwardButton.selected = NO;
-        self.forwardLabel.text = @"单路转推";
-    });
-}
-
-/**
- * 被 userId 踢出的回调
- */
-- (void)RTCEngine:(QNRTCEngine *)engine didKickoutByUserId:(NSString *)userId {
-    //    [super RTCSession:session didKickoutByUserId:userId];
-    
-    NSString *str = [NSString stringWithFormat:@"你被用户 %@ 踢出房间", userId];
-    
-    dispatch_main_async_safe(^{
-        [self.view showTip:str];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            if (self.presentingViewController) {
-                [self dismissViewControllerAnimated:YES completion:nil];
-            } else {
-                [self.navigationController popViewControllerAnimated:YES];
-            }
-        });
+        if (streamID == self.directConfig.streamID) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.forwardLabel.text = @"停止转推";
+                [self.view showSuccessTip:[NSString stringWithFormat:@"streamID 为 %@ 的转推，创建成功！", streamID]];
+                // 注意：
+                // 1. A 房间中创建的转推任务，只能在 A 房间中进行销毁，无法在其他房间中销毁
+                // 2. 如果您的场景涉及到房间的切换以及不同转推任务
+                // 的切换，为了保证切换场景下播放的连续性，建议您务必添加延迟关闭时间；
+                // 3. 如果您的业务场景不涉及到跨房间的转推任务切换，可以不用设置延迟关闭时间，直接调用
+                // - (void)stopLiveStreamingWithTranscoding:(NSString *)jobId; 即可，SDK 默认会立即停止转推任务
+                dispatch_after(QN_DELAY_MS, dispatch_get_main_queue(), ^{
+                    [self.client stopLiveStreamingWithTranscoding:self.transcodingStreamingSettingView.customConfiguration];
+                });
+                self.mergeButton.selected = NO;
+                self.transcodingStreamingSettingView.transcodingStreamingSwitch.on = NO;
+                self.transcodingStreamingSettingView.customTranscodingStreamingSwitch.on = NO;
+                [self.transcodingStreamingSettingView updateSwitch];
+            });
+        }else {
+            [self.client setTranscodingLiveStreamingID:_transcodingStreamingStreamID withTracks:_layouts];
+            [self.view endEditing:YES];
+            [self hideSettingView];
+            [self.view showFailTip:@"创建自定义合流成功"];
+            
+            // 注意：
+            // 1. A 房间中创建的转推任务，只能在 A 房间中进行销毁，无法在其他房间中销毁
+            // 2. 转推任务延迟关闭的时间，如果您的场景涉及到房间的切换以及不同转推任务
+            // 的切换，为了保证切换场景下播放的连续性，建议您务必添加延迟关闭时间；
+            // 3. 如果您的业务场景不涉及到跨房间的转推任务切换，可以不用设置延迟关闭时间，直接调用
+            // - (void)stopLiveStreamingWithDirect:(NSString *)jobId; 即可，SDK 默认会立即停止转推任务
+            dispatch_after(QN_DELAY_MS, dispatch_get_main_queue(), ^{
+                [self.client stopLiveStreamingWithDirect:self.directConfig];
+            });
+            self.forwardButton.selected = NO;
+            self.forwardLabel.text = @"单路转推";
+        }
     });
 }
 
 /**
 * 调用 subscribe 订阅 userId 成功后收到的回调
 */
-- (void)RTCEngine:(QNRTCEngine *)engine didSubscribeTracks:(NSArray<QNTrackInfo *> *)tracks ofRemoteUserId:(NSString *)userId {
-    [super RTCEngine:engine didSubscribeTracks:tracks ofRemoteUserId:userId];
+- (void)RTCClient:(QNRTCClient *)client didSubscribedRemoteVideoTracks:(NSArray<QNRemoteVideoTrack *> *)videoTracks audioTracks:(NSArray<QNRemoteAudioTrack *> *)audioTracks ofUserID:(NSString *)userID {
+    [super RTCClient:client didSubscribedRemoteVideoTracks:videoTracks audioTracks:audioTracks ofUserID:userID];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        for (QNTrackInfo *trackInfo in tracks) {
-            QRDUserView *userView = [self userViewWithUserId:userId];
+        for (QNRemoteVideoTrack *track in videoTracks) {
+            QRDUserView *userView = [self userViewWithUserId:userID];
             if (!userView) {
-                userView = [self createUserViewWithTrackId:trackInfo.trackId userId:userId];
+                userView = [self createUserViewWithTrackId:track.trackID userId:userID];
                 [self.userViewArray addObject:userView];
-                NSLog(@"createRenderViewWithTrackId: %@", trackInfo.trackId);
+                NSLog(@"createRenderViewWithTrackId: %@", track.trackID);
             }
             if (nil == userView.superview) {
                 [self addRenderViewToSuperView:userView];
             }
             
-            QNTrackInfo *tempInfo = [userView trackInfoWithTrackId:trackInfo.trackId];
-            if (tempInfo) {
-                [userView.traks removeObject:tempInfo];
+            QNRemoteVideoTrack *tempTrack = (QNRemoteVideoTrack *)[userView trackInfoWithTrackId:track.trackID];
+            if (tempTrack) {
+                [userView.traks removeObject:tempTrack];
             }
-            [userView.traks addObject:trackInfo];
-            
-            if (trackInfo.kind == QNTrackKindVideo) {
-                if ([trackInfo.tag isEqualToString:screenTag]) {
-                    if (trackInfo.muted) {
-                        [userView hideScreenView];
-                    } else {
-                        [userView showScreenView];
-                    }
+            [userView.traks addObject:track];
+            track.videoDelegate = self;
+            track.remoteDelegate = self;
+            if ([track.tag isEqualToString:screenTag]) {
+                if (track.muted) {
+                    [userView hideScreenView];
                 } else {
-                    if (trackInfo.muted) {
-                        [userView hideCameraView];
-                    } else {
-                        [userView showCameraView];
-                    }
+                    [userView showScreenView];
                 }
-            } else if (trackInfo.kind == QNTrackKindAudio) {
-                [userView setMuteViewHidden:NO];
-                [userView setAudioMute:trackInfo.muted];
+            } else {
+                if (track.muted) {
+                    [userView hideCameraView];
+                } else {
+                    [userView showCameraView];
+                }
             }
+        }
+        
+        for (QNRemoteAudioTrack *track in audioTracks) {
+            QRDUserView *userView = [self userViewWithUserId:userID];
+            if (!userView) {
+                userView = [self createUserViewWithTrackId:track.trackID userId:userID];
+                [self.userViewArray addObject:userView];
+                NSLog(@"createRenderViewWithTrackId: %@", track.trackID);
+            }
+            if (nil == userView.superview) {
+                [self addRenderViewToSuperView:userView];
+            }
+            
+            QNTrack *tempTrack = [userView trackInfoWithTrackId:track.trackID];
+            if (tempTrack) {
+                [userView.traks removeObject:tempTrack];
+            }
+            track.remoteDelegate = self;
+            track.audioDelegate = self;
+            [userView.traks addObject:track];
+            [userView setMuteViewHidden:NO];
+            [userView setAudioMute:track.muted];
         }
     });
 }
@@ -947,123 +962,85 @@ UITextFieldDelegate
 /**
  * 远端用户视频首帧解码后的回调，如果需要渲染，则需要返回一个带 renderView 的 QNVideoRender 对象
  */
-- (QNVideoRender *)RTCEngine:(QNRTCEngine *)engine firstVideoDidDecodeOfTrackId:(NSString *)trackId remoteUserId:(NSString *)userId {
-    [super RTCEngine:engine firstVideoDidDecodeOfTrackId:trackId remoteUserId:userId];
+- (void)RTCClient:(QNRTCClient *)client firstVideoDidDecodeOfTrack:(QNRemoteVideoTrack *)videoTrack remoteUserID:(NSString *)userID {
+    [super RTCClient:client firstVideoDidDecodeOfTrack:videoTrack remoteUserID:userID];
     
-    QRDUserView *userView = [self userViewWithUserId:userId];
+    QRDUserView *userView = [self userViewWithUserId:userID];
     if (!userView) {
         [self.view showFailTip:@"逻辑错误了 firstVideoDidDecodeOfRemoteUserId 中没有获取到 VideoView"];
     }
     
     userView.contentMode = UIViewContentModeScaleAspectFit;
-    QNVideoRender *render = [[QNVideoRender alloc] init];
+    QNTrack *track = [userView trackInfoWithTrackId:videoTrack.trackID];
     
-    QNTrackInfo *trackInfo = [userView trackInfoWithTrackId:trackId];
-    render.renderView =   [trackInfo.tag isEqualToString:screenTag] ? userView.screenView : userView.cameraView;
-    return render;
+    QNVideoView * renderView =  [track.tag isEqualToString:screenTag] ? userView.screenView : userView.cameraView;
+    [videoTrack play:renderView];
 }
 
 /**
  * 远端用户视频取消渲染到 renderView 上的回调
  */
-- (void)RTCEngine:(QNRTCEngine *)engine didDetachRenderView:(UIView *)renderView ofTrackId:(NSString *)trackId remoteUserId:(NSString *)userId {
-    [super RTCEngine:engine didDetachRenderView:renderView ofTrackId:trackId remoteUserId:userId];
+- (void)RTCClient:(QNRTCClient *)client didDetachRenderTrack:(QNRemoteVideoTrack *)videoTrack remoteUserID:(NSString *)userID {
+    [super RTCClient:client didDetachRenderTrack:videoTrack remoteUserID:userID];
     
-    QRDUserView *userView = [self userViewWithUserId:userId];
+    QRDUserView *userView = [self userViewWithUserId:userID];
     if (userView) {
-        QNTrackInfo *trackInfo = [userView trackInfoWithTrackId:trackId];
-        if ([trackInfo.tag isEqualToString:screenTag]) {
+        QNRemoteVideoTrack *trackInfo = [userView trackInfoWithTrackId:videoTrack.trackID];
+        if ([videoTrack.tag isEqualToString:screenTag]) {
             [userView hideScreenView];
         } else {
             [userView hideCameraView];
         }
-        //        [self removeRenderViewFromSuperView:userView];
     }
-}
-
-/**
- * 远端用户音频状态变更为 muted 的回调
- */
-- (void)RTCEngine:(QNRTCEngine *)engine didAudioMuted:(BOOL)muted ofTrackId:(NSString *)trackId byRemoteUserId:(NSString *)userId {
-    [super RTCEngine:engine didAudioMuted:muted ofTrackId:trackId byRemoteUserId:userId];
-    
-    QRDUserView *userView = [self userViewWithUserId:userId];
-    [userView setAudioMute:muted];
-}
-
-/**
- * 远端用户视频状态变更为 muted 的回调
- */
-- (void)RTCEngine:(QNRTCEngine *)engine didVideoMuted:(BOOL)muted ofTrackId:(NSString *)trackId byRemoteUserId:(NSString *)userId {
-    [super RTCEngine:engine didVideoMuted:muted ofTrackId:trackId byRemoteUserId:userId];
-    
-    QRDUserView *userView = [self userViewWithUserId:userId];
-    QNTrackInfo *trackInfo = [userView trackInfoWithTrackId:trackId];
-    if ([trackInfo.tag isEqualToString:screenTag]) {
-        if (muted) {
-            [userView hideScreenView];
-        } else {
-            [userView showScreenView];
-        }
-    } else {
-        if (muted) {
-            [userView hideCameraView];
-        } else {
-            [userView showCameraView];
-        }
-    }
-}
-
-/**
- * 本地用户离开房间的回调
- */
-- (void)RTCEngine:(QNRTCEngine *)engine didLeaveOfLocalSuccess:(BOOL)success {
-    [super RTCEngine:engine didLeaveOfLocalSuccess:success];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.view showSuccessTip:@"离开房间成功"];
-    });
-}
-
-/**
- * 单路转推创建成功的回调
- */
-- (void)RTCEngine:(QNRTCEngine *)engine didCreateForwardJobWithJobId:(NSString *)jobId {
-    [super RTCEngine:engine didCreateForwardJobWithJobId:jobId];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.forwardLabel.text = @"停止转推";
-        [self.view showSuccessTip:[NSString stringWithFormat:@"JobId 为 %@ 的单路转推，创建成功！", jobId]];
-        
-        // 注意：
-        // 1. A 房间中创建的转推任务，只能在 A 房间中进行销毁，无法在其他房间中销毁
-        // 2. delayMillisecond 代表转推任务延迟关闭的时间，如果您的场景涉及到房间的切换以及不同转推任务
-        // 的切换，为了保证切换场景下播放的连续性，建议您务必添加延迟关闭时间；
-        // 3. 如果您的业务场景不涉及到跨房间的转推任务切换，可以不用设置延迟关闭时间，直接调用
-        // - (void)stopMergeStreamWithJobId:(NSString *)jobId; 即可，SDK 默认会立即停止转推任务
-        [self.engine stopMergeStreamWithJobId:jobId delayMillisecond:QN_DELAY_MS];
-        self.mergeButton.selected = NO;
-        self.mergeSettingView.mergeSwitch.on = NO;
-        self.mergeSettingView.customMergeSwitch.on = NO;
-        [self.mergeSettingView updateSwitch];
-    });
+    [videoTrack play:nil];
 }
 
 /**
 * 远端用户发生重连
 */
-- (void)RTCEngine:(QNRTCEngine *)engine didReconnectingRemoteUserId:(NSString *)userId {
-   [super RTCEngine:engine didReconnectingRemoteUserId:userId];
+- (void)RTCClient:(QNRTCClient *)client didReconnectingOfUserID:(NSString *)userID {
+    [super RTCClient:client didReconnectingOfUserID:userID];
    dispatch_async(dispatch_get_main_queue(), ^{
-       [self.view showSuccessTip:[NSString stringWithFormat:@"远端用户 %@，发生了重连！", userId]];
+       [self.view showSuccessTip:[NSString stringWithFormat:@"远端用户 %@，发生了重连！", userID]];
    });
 }
 
 /**
 * 远端用户重连成功
 */
-- (void)RTCEngine:(QNRTCEngine *)engine didReconnectedRemoteUserId:(NSString *)userId {
-   [super RTCEngine:engine didReconnectedRemoteUserId:userId];
+- (void)RTCClient:(QNRTCClient *)client didReconnectedOfUserID:(NSString *)userID {
+    [super RTCClient:client didReconnectedOfUserID:userID];
    dispatch_async(dispatch_get_main_queue(), ^{
-       [self.view showSuccessTip:[NSString stringWithFormat:@"远端用户 %@，重连成功了！", userId]];
+       [self.view showSuccessTip:[NSString stringWithFormat:@"远端用户 %@，重连成功了！", userID]];
    });
+}
+
+#pragma mark QNRemoteTrackDelegate
+
+/**
+ * 远端用户 Track 状态变更为 muted 的回调
+ */
+- (void)remoteTrack:(QNRemoteTrack *)remoteTrack didMutedByRemoteUserID:(NSString *)userID {
+    [super remoteTrack:remoteTrack didMutedByRemoteUserID:userID];
+    if (QNTrackKindVideo == remoteTrack.kind) {
+        QRDUserView *userView = [self userViewWithUserId:userID];
+        QNRemoteTrack *track = [userView trackInfoWithTrackId:remoteTrack.trackID];
+        if ([track.tag isEqualToString:screenTag]) {
+            if (track.muted) {
+                [userView hideScreenView];
+            } else {
+                [userView showScreenView];
+            }
+        } else {
+            if (track.muted) {
+                [userView hideCameraView];
+            } else {
+                [userView showCameraView];
+            }
+        }
+    }else {
+        QRDUserView *userView = [self userViewWithUserId:userID];
+        [userView setAudioMute:remoteTrack.muted];
+    }
 }
 @end

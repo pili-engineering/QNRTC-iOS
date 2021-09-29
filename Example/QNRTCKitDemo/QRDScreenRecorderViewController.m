@@ -24,13 +24,13 @@
     self.togCameraButton.enabled = NO;
 }
 
-- (void)setupEngine {
-    // 1.初始化
-    self.engine = [[QNRTCEngine alloc] init];
-    // 2.设置回调代理
-    self.engine.delegate = self;
-    
-    self.engine.statisticInterval = 5;
+- (void)setupClient {
+    // 1. 初始配置 QNRTC
+    [QNRTC configRTC:[QNRTCConfiguration defaultConfiguration]];
+    // 2.创建初始化 RTC 核心类 QNRTCClient
+    self.client = [QNRTC createRTCClient];
+    // 3.设置 QNRTCClientDelegate 状态回调的代理
+    self.client.delegate = self;
     
     [self.renderBackgroundView addSubview:self.colorView];
     
@@ -41,34 +41,48 @@
 
 - (void)publish {
     // 3.配置音频 track
-    QNTrackInfo *audioTrack = [[QNTrackInfo alloc] initWithSourceType:QNRTCSourceTypeAudio master:YES];
-    QNTrackInfo *screenTrack = nil;
+    self.audioTrack = [QNRTC createMicrophoneAudioTrack];
+    self.screenTrack = nil;
     
     // 判断本机系统是否支持录屏
-    if (![QNRTCEngine isScreenRecorderAvailable]) {
+    if (![QNScreenVideoTrack isScreenRecorderAvailable]) {
         [self addLogString:@"该系统版本不支持录屏"];
     } else {
         // 支持，则配置录屏 track（视频 track）
-        screenTrack = [[QNTrackInfo alloc] initWithSourceType:QNRTCSourceTypeScreenRecorder
-                                                          tag:screenTag
-                                                       master:YES
-                                                   bitrateBps:self.bitrate
-                                              videoEncodeSize:self.videoEncodeSize];
+        QNScreenVideoTrackConfig * screenConfig = [[QNScreenVideoTrackConfig alloc] initWithSourceTag:screenTag bitrate:self.bitrate videoEncodeSize:self.videoEncodeSize];
+        self.screenTrack = [QNRTC createScreenVideoTrackWithConfig:screenConfig];
     }
     
     // 4.发布音视频 track
-    if (screenTrack) {
-        [self.engine publishTracks:@[audioTrack, screenTrack]];
+    if (self.screenTrack) {
+        [self.client publish:@[self.audioTrack, self.screenTrack] completeCallback:^(BOOL onPublished, NSError *error) {
+            if (onPublished) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.microphoneButton.enabled = YES;
+                    self.isAudioPublished = YES;
+                    
+                    self.isScreenPublished = YES;
+                });
+            }
+            
+        }];
     } else {
-        [self.engine publishTracks:@[audioTrack]];
+        [self.client publish:@[self.audioTrack] completeCallback:^(BOOL onPublished, NSError *error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (onPublished) {
+                    self.microphoneButton.enabled = YES;
+                    self.isAudioPublished = YES;
+                }
+            });
+        }];
     }
 }
 
 /**
- * 房间状态变更的回调。当状态变为 QNRoomStateReconnecting 时，SDK 会为您自动重连，如果希望退出，直接调用 leaveRoom 即可
+ * 房间状态变更的回调。当状态变为 QNConnectionStateReconnecting 时，SDK 会为您自动重连，如果希望退出，直接调用 leave 即可
  */
-- (void)RTCEngine:(QNRTCEngine *)engine roomStateDidChange:(QNRoomState)roomState {
-    [super RTCEngine:engine roomStateDidChange:roomState];
+- (void)RTCClient:(QNRTCClient *)client didConnectionStateChanged:(QNConnectionState)state disconnectedInfo:(QNConnectionDisconnectedInfo *)info {
+    [super RTCClient:client didConnectionStateChanged:state disconnectedInfo:info];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         self.videoButton.enabled = NO;

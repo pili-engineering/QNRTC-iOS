@@ -211,10 +211,10 @@
     });
 }
 
-- (QNTrackInfo *)trackInfoWithTrackId:(NSString *)trackId {
-    for (QNTrackInfo *trackInfo in self.traks) {
-        if ([trackInfo.trackId isEqualToString:trackId]) {
-            return trackInfo;
+- (QNTrack *)trackInfoWithTrackId:(NSString *)trackId {
+    for (QNTrack *track in self.traks) {
+        if ([track.trackID isEqualToString:trackId]) {
+            return track;
         }
     }
     return nil;

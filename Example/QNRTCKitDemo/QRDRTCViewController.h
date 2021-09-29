@@ -35,9 +35,6 @@ static NSString *screenTag = @"screen";
 @property (nonatomic, assign) BOOL isAudioPublished;
 @property (nonatomic, assign) BOOL isVideoPublished;
 @property (nonatomic, assign) BOOL isScreenPublished;
-@property (nonatomic, strong) QNTrackInfo *screenTrackInfo;
-@property (nonatomic, strong) QNTrackInfo *cameraTrackInfo;
-@property (nonatomic, strong) QNTrackInfo *audioTrackInfo;
 
 @property (nonatomic, assign) CGSize videoEncodeSize;
 @property (nonatomic, assign) NSInteger bitrate;

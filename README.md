@@ -30,7 +30,9 @@ QNRTCKit 是七牛云推出的一款适用于 iOS 平台的实时音视频 SDK�
 - 音频支持双声道
 - 支持音量大小回调
 - 支持自定义消息
-
+- 支持单路转推功能
+- 支持视频大小流功能
+- 支持 HappyDNS 解析
 
 # 3 方案介绍
 七牛实时音视频云支持低延时音视频通话，提供灵活丰富的接口，方便进行二次开发。该系统主要包括服务端和客户端两个部分，其中，服务端主要提供了房间管理、权限验证、信令和媒体数据转发等功能，客户端则提供了媒体数据的采集、编解码、传输、渲染等功能。
@@ -119,7 +121,10 @@ QNRTCKit 是七牛云推出的一款适用于 iOS 平台的实时音视频 SDK�
 - 提供云端存储空间及海量数据的处理能力，提供高可用的技术和高稳定的平台
 
 # 6 开发文档
-请参考开发文档：[QNRTCKit 开发文档](https://doc.qnsdk.com/rtn/ios)
+
+- 可通过 [QNRTCKit 快速入门](https://developer.qiniu.com/rtc/development_guidelines/9392/guidelines-iOS) 了解如何快速搭建音视频通话应用
+- 可通过 [QNRTCKit 使用指南](https://developer.qiniu.com/rtc/development_guidelines/9392/guidelines-iOS) 了解不同场景的实现方式
+- 可通过 [QNRTCKit API 概览](https://developer.qiniu.com/rtc/api/8829/iOS) 了解 SDK 的接口设计及使用姿势
 
 # 7 反馈及意见
 
@@ -132,7 +137,7 @@ QNRTCKit 是七牛云推出的一款适用于 iOS 平台的实时音视频 SDK�
 ## 8.1 如何体验 Demo？
 
 您可以通过扫描下面的二维码，安装我们的 demo 应用『牛会议』，体验通话效果：<br>
-![](http://pk0jd2tt5.bkt.clouddn.com/iOS-qnsdk-rtc-demo.png)
+![](http://docs.qnsdk.com/qnrtc-demo.jpg)
 
 ## 8.2 实时通话功能是否收费？
 

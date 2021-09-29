@@ -16,7 +16,7 @@
 /*!
  * @abstract    将 CVPixelBufferRef 转换为 UIImage. 支持的 PixelFormat 类型: kCVPixelFormatType_32BGRA, kCVPixelFormatType_420YpCbCr8Planar, kCVPixelFormatType_420YpCbCr8PlanarFullRange, kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange, kCVPixelFormatType_420YpCbCr8BiPlanarFullRange
  *
- * @since v2.1.0
+ * @since v4.0.0
  */
 + (UIImage *)convertFrame:(CVPixelBufferRef)pixelBuffer;
 

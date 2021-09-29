@@ -8,10 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		5029EC5434AD3A66D8A128FD /* libPods-QNRTCKitDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D8BB45036542B95EF652274E /* libPods-QNRTCKitDemo.a */; };
-		764940AF212507370025ED41 /* QRDMergeInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 764940AE212507370025ED41 /* QRDMergeInfo.m */; };
 		76EB7FFC2122B624001D6EA5 /* launchImage@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 76EB7FFB2122B624001D6EA5 /* launchImage@2x.jpg */; };
-		9C55F1AB24938DB600C2063F /* QRDMergeSettingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C55F1AA24938DB600C2063F /* QRDMergeSettingView.m */; };
 		9C55F1AE24938E1100C2063F /* QRDPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C55F1AC24938E1100C2063F /* QRDPlayerViewController.m */; };
+		AA2A60672704542B00743FC8 /* QRDTranscodingStreamingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2A60652704542B00743FC8 /* QRDTranscodingStreamingInfo.m */; };
+		AA2A60682704542B00743FC8 /* QRDTranscodingStreamingSettingView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2A60662704542B00743FC8 /* QRDTranscodingStreamingSettingView.m */; };
+		AA2A606D2704544800743FC8 /* UIView+Alert.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2A606B2704544800743FC8 /* UIView+Alert.m */; };
+		AA2A606E2704544800743FC8 /* QRDUserNameView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2A606C2704544800743FC8 /* QRDUserNameView.m */; };
 		B06DBBD120F6270E009AE9F9 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B06DBBCF20F6270E009AE9F9 /* ReplayKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		B0769C6F1FBA97100051F9C2 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0769C6E1FBA97090051F9C2 /* VideoToolbox.framework */; };
 		B0769C751FBADAFD0051F9C2 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0769C741FBADAF70051F9C2 /* GLKit.framework */; };
@@ -67,13 +69,17 @@
 
 /* Begin PBXFileReference section */
 		474E520E8ACB91CC17307E39 /* Pods-QNRTCKitDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QNRTCKitDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-QNRTCKitDemo/Pods-QNRTCKitDemo.release.xcconfig"; sourceTree = "<group>"; };
-		764940AD212507370025ED41 /* QRDMergeInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QRDMergeInfo.h; sourceTree = "<group>"; };
-		764940AE212507370025ED41 /* QRDMergeInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QRDMergeInfo.m; sourceTree = "<group>"; };
 		76EB7FFB2122B624001D6EA5 /* launchImage@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "launchImage@2x.jpg"; sourceTree = "<group>"; };
-		9C55F1A924938DB600C2063F /* QRDMergeSettingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRDMergeSettingView.h; sourceTree = "<group>"; };
-		9C55F1AA24938DB600C2063F /* QRDMergeSettingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRDMergeSettingView.m; sourceTree = "<group>"; };
 		9C55F1AC24938E1100C2063F /* QRDPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRDPlayerViewController.m; sourceTree = "<group>"; };
 		9C55F1AD24938E1100C2063F /* QRDPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRDPlayerViewController.h; sourceTree = "<group>"; };
+		AA2A60632704542B00743FC8 /* QRDTranscodingStreamingSettingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRDTranscodingStreamingSettingView.h; sourceTree = "<group>"; };
+		AA2A60642704542B00743FC8 /* QRDTranscodingStreamingInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRDTranscodingStreamingInfo.h; sourceTree = "<group>"; };
+		AA2A60652704542B00743FC8 /* QRDTranscodingStreamingInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRDTranscodingStreamingInfo.m; sourceTree = "<group>"; };
+		AA2A60662704542B00743FC8 /* QRDTranscodingStreamingSettingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRDTranscodingStreamingSettingView.m; sourceTree = "<group>"; };
+		AA2A60692704544800743FC8 /* UIView+Alert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Alert.h"; sourceTree = "<group>"; };
+		AA2A606A2704544800743FC8 /* QRDUserNameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRDUserNameView.h; sourceTree = "<group>"; };
+		AA2A606B2704544800743FC8 /* UIView+Alert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Alert.m"; sourceTree = "<group>"; };
+		AA2A606C2704544800743FC8 /* QRDUserNameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRDUserNameView.m; sourceTree = "<group>"; };
 		B04AF08A1F9652A6009BAFEF /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 		B04AF08C1F9652C7009BAFEF /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		B06DBBCF20F6270E009AE9F9 /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = System/Library/Frameworks/ReplayKit.framework; sourceTree = SDKROOT; };
@@ -235,18 +241,22 @@
 		C30F0F88200F58EF00A2A1CA /* ViewTools */ = {
 			isa = PBXGroup;
 			children = (
-				9C55F1A924938DB600C2063F /* QRDMergeSettingView.h */,
-				9C55F1AA24938DB600C2063F /* QRDMergeSettingView.m */,
 				C30F0F8B200F58EF00A2A1CA /* QRDUserNameView.h */,
 				C30F0F8C200F58EF00A2A1CA /* QRDUserNameView.m */,
 				C30F0F89200F58EF00A2A1CA /* QRDJoinRoomView.h */,
 				C30F0F8A200F58EF00A2A1CA /* QRDJoinRoomView.m */,
 				C30F0F8F200F590C00A2A1CA /* QRDSettingView.h */,
 				C30F0F90200F590C00A2A1CA /* QRDSettingView.m */,
-				764940AD212507370025ED41 /* QRDMergeInfo.h */,
-				764940AE212507370025ED41 /* QRDMergeInfo.m */,
+				AA2A606A2704544800743FC8 /* QRDUserNameView.h */,
+				AA2A606C2704544800743FC8 /* QRDUserNameView.m */,
 				BC0F652821B7708C006C1A0B /* UIView+Alert.h */,
 				BC0F652721B7708C006C1A0B /* UIView+Alert.m */,
+				AA2A60642704542B00743FC8 /* QRDTranscodingStreamingInfo.h */,
+				AA2A60652704542B00743FC8 /* QRDTranscodingStreamingInfo.m */,
+				AA2A60632704542B00743FC8 /* QRDTranscodingStreamingSettingView.h */,
+				AA2A60662704542B00743FC8 /* QRDTranscodingStreamingSettingView.m */,
+				AA2A60692704544800743FC8 /* UIView+Alert.h */,
+				AA2A606B2704544800743FC8 /* UIView+Alert.m */,
 				BC0F654D21B80CFB006C1A0B /* noChoose@2x.png */,
 				BC0F654B21B80CFB006C1A0B /* noChoose@3x.png */,
 				BC0F655521B80D71006C1A0B /* set_back@2x.png */,
@@ -368,14 +378,12 @@
 				"${PODS_ROOT}/PLPlayerKit/Pod/Library/PLPlayerKit.framework",
 				"${PODS_ROOT}/../../Pod/iphoneos/HappyDNS.framework",
 				"${PODS_ROOT}/../../Pod/iphoneos/QNRTCKit.framework",
-				"${PODS_ROOT}/../../Pod/iphoneos/QNRTCKit.framework.dSYM",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PLPlayerKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HappyDNS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/QNRTCKit.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/QNRTCKit.framework.dSYM",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -423,25 +431,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC0F654121B7A371006C1A0B /* QRDBaseViewController.m in Sources */,
+				AA2A606D2704544800743FC8 /* UIView+Alert.m in Sources */,
 				B0A335DD20D2CF6F00098E94 /* QRDScreenRecorderViewController.m in Sources */,
+				AA2A60672704542B00743FC8 /* QRDTranscodingStreamingInfo.m in Sources */,
 				C30F0F8E200F58EF00A2A1CA /* QRDUserNameView.m in Sources */,
 				C3F800C8200E012A00ECDDC9 /* QRDLoginViewController.m in Sources */,
 				BC99862121C8E7D3000E8942 /* QRDPureAudioViewController.m in Sources */,
 				C30F0F8D200F58EF00A2A1CA /* QRDJoinRoomView.m in Sources */,
 				C30F0F83200F416500A2A1CA /* QRDSettingViewController.m in Sources */,
 				9C55F1AE24938E1100C2063F /* QRDPlayerViewController.m in Sources */,
+				AA2A606E2704544800743FC8 /* QRDUserNameView.m in Sources */,
+				AA2A60682704542B00743FC8 /* QRDTranscodingStreamingSettingView.m in Sources */,
 				B0A335E420D2E39600098E94 /* QRDMicrophoneSource.m in Sources */,
 				BC0F654321B7A371006C1A0B /* QRDUserView.m in Sources */,
 				BC0F653A21B78257006C1A0B /* QRDNetworkUtil.m in Sources */,
 				B0C660591F94F98300999C9F /* AppDelegate.m in Sources */,
-				764940AF212507370025ED41 /* QRDMergeInfo.m in Sources */,
 				B0C6606A1F94F98300999C9F /* main.m in Sources */,
 				BC0F652921B7708C006C1A0B /* UIView+Alert.m in Sources */,
 				C30F0F98201033BD00A2A1CA /* QRDRTCViewController.m in Sources */,
 				B07BB0CB2064E670009218C1 /* QRDAgreementViewController.m in Sources */,
 				BC0F654221B7A371006C1A0B /* QRDScreenMainViewController.m in Sources */,
 				C30F0F91200F590C00A2A1CA /* QRDSettingView.m in Sources */,
-				9C55F1AB24938DB600C2063F /* QRDMergeSettingView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

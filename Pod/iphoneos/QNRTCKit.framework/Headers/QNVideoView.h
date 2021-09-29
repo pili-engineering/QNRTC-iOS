@@ -16,7 +16,7 @@
  *
  * @discussion 当远端画面与 QNVideoView 的比例不一致时，使用的填充方式。默认使用 QNVideoFillModePreserveAspectRatioAndFill。
  *
- * @since v2.1.1
+ * @since v4.0.0
  */
 @property(nonatomic, assign) QNVideoFillModeType fillMode;
 

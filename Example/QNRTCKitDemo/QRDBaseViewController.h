@@ -26,8 +26,13 @@
 <
 UITableViewDelegate,
 UITableViewDataSource,
-QNRTCEngineDelegate,
-QRDUserViewDelegate
+QNRTCClientDelegate,
+QNCameraTrackVideoDataDelegate,
+QNMicrophoneAudioTrackDataDelegate,
+QNRemoteTrackAudioDataDelegate,
+QNRemoteTrackVideoDataDelegate,
+QRDUserViewDelegate,
+QNRemoteTrackDelegate
 >
 @property (nonatomic, strong) UIView *colorView;
 @property (nonatomic, readonly) LogTableView *tableView;
@@ -35,12 +40,18 @@ QRDUserViewDelegate
 @property (nonatomic, readonly) UIView *renderBackgroundView;//上面只添加 renderView
 @property (nonatomic, readonly) NSMutableArray *userViewArray;
 
-@property (nonatomic, strong) QNRTCEngine *engine;
+@property (nonatomic, strong) QNRTCClient *client;
 @property (nonatomic, readonly) NSString *userId;
 @property (nonatomic, readonly) NSString *appId;
 @property (nonatomic, readonly) NSString *roomName;
 @property (nonatomic, readonly) BOOL isAdmin;
 @property (nonatomic, strong) UITapGestureRecognizer *singleTap;
+
+@property (nonatomic, strong) QNScreenVideoTrack *screenTrack;
+@property (nonatomic, strong) QNCameraVideoTrack *cameraTrack;
+@property (nonatomic, strong) QNMicrophoneAudioTrack *audioTrack;
+
+@property (nonatomic, strong) QNGLKView * preview;
 
 - (void)resetRenderViews;
 - (QRDUserView *)createUserViewWithTrackId:(NSString *)trackId userId:(NSString *)userId;

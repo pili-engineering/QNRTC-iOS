@@ -37,11 +37,14 @@
 @property (nonatomic, strong) UIView *renderBackgroundView;//上面只添加 renderView
 @property (nonatomic, strong) NSMutableArray *userViewArray;
 @property (nonatomic, strong) NSMutableDictionary *trackInfoDics;
+
+@property (nonatomic, strong) NSTimer *getstatsTimer;
 @end
 
 @implementation QRDBaseViewController
 
 - (void)dealloc {
+    [QNRTC deinit];
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
     NSLog(@"[dealloc]==> %@", self.description);
@@ -89,6 +92,8 @@
     }];
     
     [self setupLogUI];
+    
+    self.preview = [[QNGLKView alloc] initWithFrame:self.view.bounds];
     
     self.singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(exchangeWindowSize)];
 }
@@ -294,17 +299,17 @@
 
 - (void)checkSelfPreviewGesture {
     
-    if ([self.engine.previewView.gestureRecognizers containsObject:self.singleTap]) {
-        [self.engine.previewView removeGestureRecognizer:self.singleTap];
+    if ([self.preview.gestureRecognizers containsObject:self.singleTap]) {
+        [self.preview removeGestureRecognizer:self.singleTap];
     }
     if ([self.colorView.gestureRecognizers containsObject:self.singleTap]) {
         [self.colorView removeGestureRecognizer:self.singleTap];
     }
     
     UIView *gestureView = self.colorView;
-    if (self.engine.previewView.superview == self.colorView &&
-        NO == self.engine.previewView.hidden) {
-        gestureView = self.engine.previewView;
+    if (self.preview.superview == self.colorView &&
+        NO == self.preview) {
+        gestureView = self.preview;
     }
     
     if (2 == self.renderBackgroundView.subviews.count &&
@@ -436,6 +441,66 @@ static const int cLabelTag = 10;
     self.tableView.isBottom =  offset < 10;
 }
 
+#pragma mark - 统计信息计算
+
+- (void)startGetStatsTimer {
+    
+    [self stopGetStatsTimer];
+    
+    self.getstatsTimer = [NSTimer timerWithTimeInterval:3
+                                             target:self
+                                           selector:@selector(getStatesTimerAction)
+                                           userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:self.getstatsTimer forMode:NSRunLoopCommonModes];
+}
+
+- (void)getStatesTimerAction {
+    if (QNConnectionStateConnected != self.client.roomState && QNConnectionStateReconnected != self.client.roomState) {
+        return;
+    }
+        
+    NSDictionary* videoTrackStats =  [[NSDictionary alloc] initWithDictionary:[self.client getLocalVideoTrackStats]];
+    for (NSString * trackID in videoTrackStats.allKeys) {
+        NSString *str = nil;
+        QNLocalVideoTrackStats * videoStats = videoTrackStats[trackID];
+        str = [NSString stringWithFormat:@"统计信息回调:trackID：%@\n\n视频码率：%2fbps\n本地视频丢包率：%f%%\n视频帧率：%d\n本地 rtt：%d\nprofile：%d\n",trackID, videoStats.uplinkBitrate, videoStats.uplinkLostRate, videoStats.uplinkFrameRate, videoStats.uplinkRTT, videoStats.profile];
+        [self addLogString:str];
+    }
+    
+    NSDictionary* audioTrackStats =  [self.client getLocalAudioTrackStats];
+    for (NSString * trackID in audioTrackStats.allKeys) {
+        NSString *str = nil;
+        QNLocalAudioTrackStats * audioState = audioTrackStats[trackID];
+        str = [NSString stringWithFormat:@"统计信息回调:trackID：%@\n音频码率：%.2fbps\n音频丢包率：%f%%\n本地 rtt：%d\n",trackID, audioState.uplinkBitrate, audioState.uplinkLostRate,audioState.uplinkRTT];
+        [self addLogString:str];
+    }
+    
+    NSDictionary* videoRemoteTrackStats =  [self.client getRemoteVideoTrackStats];
+    for (NSString * trackID in videoRemoteTrackStats.allKeys) {
+        NSString *str = nil;
+        QNRemoteVideoTrackStats * videoStats = videoRemoteTrackStats[trackID];
+        str = [NSString stringWithFormat:@"统计信息回调:trackID：%@\n视频码率：%2fbps\n远端服务器视频丢包率：%f%%\n视频帧率：%d\n远端user视频丢包率：%f%%\n远端 rtt：%d\n", trackID,videoStats.downlinkBitrate, videoStats.uplinkLostRate, videoStats.downlinkFrameRate, videoStats.downlinkLostRate, videoStats.uplinkRTT];
+        [self addLogString:str];
+    }
+    
+    NSDictionary* audioRemoteTrackStats =  [self.client getRemoteAudioTrackStats];
+    for (NSString * trackID in audioRemoteTrackStats.allKeys) {
+        NSString *str = nil;
+        QNRemoteAudioTrackStats * audioState = audioRemoteTrackStats[trackID];
+        str = [NSString stringWithFormat:@"统计信息回调:trackID：%@\n音频码率：%2fbps\n远端服务器音频丢包率：%f%%\n远端user音频丢包率：%f%%\n远端 rtt：%d\n", trackID,audioState.downlinkBitrate, audioState.downlinkLostRate,audioState.uplinkLostRate,audioState.uplinkRTT];
+        [self addLogString:str];
+    }
+    
+    NSLog(@"aaron localCount:%d localAudioCount:%d remoteVideo:%d remoteAudio:%d",videoTrackStats.count,audioTrackStats.count,videoRemoteTrackStats.count,audioRemoteTrackStats.count);
+}
+
+- (void)stopGetStatsTimer {
+    if (self.getstatsTimer) {
+        [self.getstatsTimer invalidate];
+        self.getstatsTimer = nil;
+    }
+}
+
 
 #pragma mark - QRDUserViewDelegate
 
@@ -459,216 +524,202 @@ static const int cLabelTag = 10;
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleCancel) handler:^(UIAlertAction * _Nonnull action) {
     }];
     UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"踢出" style:(UIAlertActionStyleDestructive) handler:^(UIAlertAction * _Nonnull action) {
-        [self.engine kickoutUser:userId];
+        [self.view showFailTip:@"无踢人功能，请转至服务端触发"];
     }];
     
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"确定要将 %@ 踢出房间?", userId] message:nil preferredStyle:(UIAlertControllerStyleAlert)];
-    [alert addAction:cancelAction];
-    [alert addAction:sureAction];
-                                
-    [self presentViewController:alert animated:YES completion:nil];
-}
-
-
-/**
- * SDK 运行过程中发生错误会通过该方法回调，具体错误码的含义可以见 QNTypeDefines.h 文件
- */
-- (void)RTCEngine:(QNRTCEngine *)engine didFailWithError:(NSError *)error {
-    NSString *str = [NSString stringWithFormat:@"SDK 运行过程中发生错误会通过该方法回调，具体错误码的含义可以见 QNTypeDefines.h 文件:\nerror: %@",  error];
-    [self addLogString:str];
-    switch (error.code) {
-        case QNRTCErrorAuthFailed:
-            NSLog(@"鉴权失败，请检查鉴权");
-            break;
-        case QNRTCErrorRoomIsFull:
-            NSLog(@"房间人数已满");
-            break;
-        case QNRTCErrorTokenError:
-            //关于 token 签算规则, 详情请参考【服务端开发说明.RoomToken 签发服务】https://doc.qnsdk.com/rtn/docs/server_overview#1
-            NSLog(@"roomToken 错误");
-            break;
-        case QNRTCErrorTokenExpired:
-            NSLog(@"roomToken 过期");
-            break;
-        case QNRTCErrorUserAlreadyExist:
-            NSLog(@"用户已存在");
-            break;
-        case QNRTCErrorNoPermission:
-            NSLog(@"请检查用户是否有权限，如:合流");
-            break;
-        case QNRTCErrorReconnectTokenError:
-            NSLog(@"重新进入房间超时，请务必调用 leaveRoom, 重新进入房间");
-            break;
-        case QNRTCErrorPublishFailed:
-            NSLog(@"发布失败，请查看是否加入房间，并确定对于音频/视频 Track，分别最多只能有一路为 master");
-            break;
-        case QNRTCErrorInvalidParameter:
-            NSLog(@"服务交互参数错误，请在开发时注意合流、踢人动作等参数的设置");
-            break;
-        case QNRTCErrorRoomClosed:
-            NSLog(@"房间已被管理员关闭");
-            break;
-            
-        default:
-            break;
-    }
-
 }
 
 /**
  * 房间状态变更的回调。当状态变为 QNRoomStateReconnecting 时，SDK 会为您自动重连，如果希望退出，直接调用 leaveRoom 即可
  */
-- (void)RTCEngine:(QNRTCEngine *)engine roomStateDidChange:(QNRoomState)roomState {
+- (void)RTCClient:(QNRTCClient *)client didConnectionStateChanged:(QNConnectionState)state disconnectedInfo:(QNConnectionDisconnectedInfo *)info {
     
     NSDictionary *roomStateDictionary =  @{
-                                           @(QNRoomStateIdle) : @"Idle",
-                                           @(QNRoomStateConnecting) : @"Connecting",
-                                           @(QNRoomStateConnected): @"Connected",
-                                           @(QNRoomStateReconnecting) : @"Reconnecting",
-                                           @(QNRoomStateReconnected) : @"Reconnected"
+                                           @(QNConnectionStateIdle) : @"Idle",
+                                           @(QNConnectionStateConnecting) : @"Connecting",
+                                           @(QNConnectionStateConnected): @"Connected",
+                                           @(QNConnectionStateReconnecting) : @"Reconnecting",
+                                           @(QNConnectionStateReconnected) : @"Reconnected"
                                            };
-    NSString *str = [NSString stringWithFormat:@"房间状态变更的回调。当状态变为 QNRoomStateReconnecting 时，SDK 会为您自动重连，如果希望退出，直接调用 leaveRoom 即可:\nroomState: %@",  roomStateDictionary[@(roomState)]];
+    NSString *str = [NSString stringWithFormat:@"房间状态变更的回调。当状态变为 QNRoomStateReconnecting 时，SDK 会为您自动重连，如果希望退出，直接调用 leaveRoom 即可:\nroomState: %@\ninfo:%d",  roomStateDictionary[@(state)], info.reason];
+    if (QNConnectionStateConnected == state || QNConnectionStateReconnected == state) {
+        [self startGetStatsTimer];
+    } else {
+        [self stopGetStatsTimer];
+    }
     [self addLogString:str];
-}
+    if (QNConnectionStateIdle == state) {
+        switch (info.reason) {
+            case QNConnectionDisconnectedReasonKickedOut:{
+                str =[NSString stringWithFormat:@"被远端服务器踢出的回调"];
+                [self addLogString:str];
+            }
+                break;
+            case QNConnectionDisconnectedReasonLeave:{
+                str = [NSString stringWithFormat:@"本地用户离开房间"];
+                [self addLogString:str];
+            }
+                break;
+                
+            default:{
+                str = [NSString stringWithFormat:@"SDK 运行过程中发生错误会通过该方法回调，具体错误码的含义可以见 QNTypeDefines.h 文件:\nerror: %@",  info.error];
+                [self addLogString:str];
+                switch (info.error.code) {
+                    case QNRTCErrorAuthFailed:
+                        NSLog(@"鉴权失败，请检查鉴权");
+                        break;
+                    case QNRTCErrorTokenError:
+                        //关于 token 签算规则, 详情请参考【服务端开发说明.RoomToken 签发服务】https://doc.qnsdk.com/rtn/docs/server_overview#1
+                        NSLog(@"roomToken 错误");
+                        break;
+                    case QNRTCErrorTokenExpired:
+                        NSLog(@"roomToken 过期");
+                        break;
+                    case QNRTCErrorReconnectTokenError:
+                        NSLog(@"重新进入房间超时，请务必调用 leave, 重新进入房间");
+                        break;
+                    default:
+                        break;
+                }
+            }
+                break;
+        }
+    }
 
-/**
- * 本地音视频发布到服务器的回调
- */
-- (void)RTCEngine:(QNRTCEngine *)engine didPublishLocalTracks:(NSArray<QNTrackInfo *> *)tracks {
-    NSString *str = [NSString stringWithFormat:@"本地 Track 发布到服务器的回调:\n%@", tracks];
-    [self addLogString:str];
 }
 
 /**
  * 远端用户加入房间的回调
  */
-- (void)RTCEngine:(QNRTCEngine *)engine didJoinOfRemoteUserId:(NSString *)userId userData:(NSString *)userData {
-    NSString *str = [NSString stringWithFormat:@"远端用户加入房间的回调:\nuserId: %@, userData: %@",  userId, userData];
+- (void)RTCClient:(QNRTCClient *)client didJoinOfUserID:(NSString *)userID userData:(NSString *)userData {
+    NSString *str = [NSString stringWithFormat:@"远端用户加入房间的回调:userID: %@, userData: %@",  userID, userData];
     [self addLogString:str];
 }
 
 /**
  * 远端用户离开房间的回调
  */
-- (void)RTCEngine:(QNRTCEngine *)engine didLeaveOfRemoteUserId:(NSString *)userId {
-    NSString *str = [NSString stringWithFormat:@"远端用户: %@ 离开房间的回调", userId];
+- (void)RTCClient:(QNRTCClient *)client didLeaveOfUserID:(NSString *)userID {
+    NSString *str = [NSString stringWithFormat:@"远端用户: %@ 离开房间的回调", userID];
     [self addLogString:str];
     
-    [self clearUserInfo:userId];
+    [self clearUserInfo:userID];
 }
 
 /**
  * 订阅远端用户成功的回调
  */
-- (void)RTCEngine:(QNRTCEngine *)engine didSubscribeTracks:(NSArray<QNTrackInfo *> *)tracks ofRemoteUserId:(NSString *)userId {
-    NSString *str = [NSString stringWithFormat:@"订阅远端用户: %@ 成功的回调:\nTracks: %@", userId, tracks];
+- (void)RTCClient:(QNRTCClient *)client didSubscribedRemoteVideoTracks:(NSArray<QNRemoteVideoTrack *> *)videoTracks audioTracks:(NSArray<QNRemoteAudioTrack *> *)audioTracks ofUserID:(NSString *)userID {
+    NSString *str = [NSString stringWithFormat:@"订阅远端用户: %@ 成功的回调:\nvideoTracks: %@\naudioTracks: %@", userID, videoTracks,audioTracks];
     [self addLogString:str];
 }
 
 /**
  * 远端用户发布音/视频的回调
  */
-- (void)RTCEngine:(QNRTCEngine *)engine didPublishTracks:(NSArray<QNTrackInfo *> *)tracks ofRemoteUserId:(NSString *)userId {
-    NSString *str = [NSString stringWithFormat:@"远端用户: %@ 发布成功的回调:\nTracks: %@",  userId, tracks];
+- (void)RTCClient:(QNRTCClient *)client didUserPublishTracks:(NSArray<QNRemoteTrack *> *)tracks ofUserID:(NSString *)userID {
+    NSString *str = [NSString stringWithFormat:@"远端用户: %@ 发布成功的回调:\nTracks: %@",  userID, tracks];
     [self addLogString:str];
 }
 
 /**
  * 远端用户取消发布音/视频的回调
  */
-- (void)RTCEngine:(QNRTCEngine *)engine didUnPublishTracks:(NSArray<QNTrackInfo *> *)tracks ofRemoteUserId:(NSString *)userId {
-    NSString *str = [NSString stringWithFormat:@"远端用户: %@ 取消发布的回调:\nTracks: %@",  userId, tracks];
+- (void)RTCClient:(QNRTCClient *)client didUserUnpublishTracks:(NSArray<QNRemoteTrack *> *)tracks ofUserID:(NSString *)userID {
+    NSString *str = [NSString stringWithFormat:@"远端用户: %@ 取消发布的回调:\nTracks: %@",  userID, tracks];
     [self addLogString:str];
 }
 
 /**
-* 创建合流的回调
+* 创建转推的回调
 */
-- (void)RTCEngine:(QNRTCEngine *)engine didCreateMergeStreamWithJobId:(NSString *)jobId {
-    NSString *str = [NSString stringWithFormat:@"创建合流的回调:\nJobId: %@",  jobId];
+- (void)RTCClient:(QNRTCClient *)client didStartLiveStreamingWith:(NSString *)streamID {
+    NSString *str = [NSString stringWithFormat:@"创建转推的回调:\nStreamID: %@",  streamID];
     [self addLogString:str];
 }
 
 /**
- * 被 userId 踢出的回调
+ * 远端用户视频首帧解码后的回调，如果需要渲染，则调用当前 videoTrack.play(QNVideoView*) 方法
  */
-- (void)RTCEngine:(QNRTCEngine *)engine didKickoutByUserId:(NSString *)userId {
-    NSString *str = [NSString stringWithFormat:@"被远端用户: %@ 踢出的回调",  userId];
+- (void)RTCClient:(QNRTCClient *)client firstVideoDidDecodeOfTrack:(QNRemoteVideoTrack *)videoTrack remoteUserID:(NSString *)userID {
+    NSString *str = [NSString stringWithFormat:@"远端用户: %@ trackID: %@ 视频首帧解码后的回调",  userID, videoTrack.trackID];
     [self addLogString:str];
-}
-
-/**
- * 远端用户音频状态变更为 muted 的回调
- */
-- (void)RTCEngine:(QNRTCEngine *)engine didAudioMuted:(BOOL)muted ofTrackId:(NSString *)trackId byRemoteUserId:(NSString *)userId {
-    NSString *str = [NSString stringWithFormat:@"远端用户: %@ trackId: %@ 音频状态变更为: %d 的回调",  userId, trackId, muted];
-    [self addLogString:str];
-}
-
-/**
- * 远端用户视频状态变更为 muted 的回调
- */
-- (void)RTCEngine:(QNRTCEngine *)engine didVideoMuted:(BOOL)muted ofTrackId:(NSString *)trackId byRemoteUserId:(NSString *)userId {
-    NSString *str = [NSString stringWithFormat:@"远端用户: %@ trackId: %@ 视频状态变更为: %d 的回调",  userId, trackId, muted];
-    [self addLogString:str];
-}
-
-/**
- * 远端用户视频首帧解码后的回调，如果需要渲染，则需要返回一个带 renderView 的 QNVideoRender 对象
- */
-- (QNVideoRender *)RTCEngine:(QNRTCEngine *)engine firstVideoDidDecodeOfTrackId:(NSString *)trackId remoteUserId:(NSString *)userId {
-    NSString *str = [NSString stringWithFormat:@"远端用户: %@ trackId: %@ 视频首帧解码后的回调",  userId, trackId];
-    [self addLogString:str];
-
-    return nil;
 }
 
 /**
  * 远端用户视频取消渲染到 renderView 上的回调
  */
-- (void)RTCEngine:(QNRTCEngine *)engine didDetachRenderView:(UIView *)renderView ofTrackId:(NSString *)trackId remoteUserId:(NSString *)userId {
-    NSString *str = [NSString stringWithFormat:@"远端用户: %@ trackId: %@ 视频取消渲染到 renderView 上的回调",  userId, trackId];
+- (void)RTCClient:(QNRTCClient *)client didDetachRenderTrack:(QNRemoteVideoTrack *)videoTrack remoteUserID:(NSString *)userID {
+    NSString *str = [NSString stringWithFormat:@"远端用户: %@ trackID: %@ 视频取消渲染到 renderView 上的回调",  userID, videoTrack.trackID];
     [self addLogString:str];
 }
+
+
+/**
+* 远端用户发生重连
+*/
+- (void)RTCClient:(QNRTCClient *)client didReconnectingOfUserID:(NSString *)userID {
+    NSString *logStr = [NSString stringWithFormat:@"userId 为 %@ 的远端用户发生了重连！", userID];
+    [self addLogString:logStr];
+}
+
+/**
+* 远端用户重连成功
+*/
+- (void)RTCClient:(QNRTCClient *)client didReconnectedOfUserID:(NSString *)userID {
+    NSString *logStr = [NSString stringWithFormat:@"userId 为 %@ 的远端用户重连成功了！", userID];
+    [self addLogString:logStr];
+}
+
+#pragma mark QNRemoteTrackDelegate
+
+/**
+ * 远端用户 Track 状态变更为 muted 的回调
+ */
+- (void)remoteTrack:(QNRemoteTrack *)remoteTrack didMutedByRemoteUserID:(NSString *)userID {
+    NSString *str = [NSString stringWithFormat:@"远端用户: %@ trackId: %@ Track 状态变更为: %d 的回调",  userID, remoteTrack.trackID, remoteTrack.muted];
+    [self addLogString:str];
+}
+
+#pragma mark QNRemoteTrackAudioDataDelegate
 
 /**
  * 远端用户视频数据的回调
  *
  * 注意：回调远端用户视频数据会带来一定的性能消耗，如果没有相关需求，请不要实现该回调
  */
-- (void)RTCEngine:(QNRTCEngine *)engine didGetPixelBuffer:(CVPixelBufferRef)pixelBuffer ofTrackId:(NSString *)trackId remoteUserId:(NSString *)userId {
+- (void)remoteVideoTrack:(QNRemoteVideoTrack *)remoteVideoTrack didGetPixelBuffer:(CVPixelBufferRef)pixelBuffer; {
     static int i = 0;
     if (i % 300 == 0) {
-        NSString *str = [NSString stringWithFormat:@"远端用户视频数据的回调:\nuserId: %@ size: %zux%zu", userId, CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer)];
-        //        [self addLogString:str];
+        NSString *str = [NSString stringWithFormat:@"远端用户视频数据的回调:\ntrackID: %@ size: %zux%zu",remoteVideoTrack.trackID, CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer)];
+//                [self addLogString:str];
     }
     i ++;
     
 }
+
+#pragma mark QNRemoteTrackAudioDataDelegate
 
 /**
  * 远端用户音频数据的回调
  *
  * 注意：回调远端用户音频数据会带来一定的性能消耗，如果没有相关需求，请不要实现该回调
  */
-- (void)RTCEngine:(QNRTCEngine *)engine
-didGetAudioBuffer:(AudioBuffer *)audioBuffer
-    bitsPerSample:(NSUInteger)bitsPerSample
-       sampleRate:(NSUInteger)sampleRate
-        ofTrackId:(NSString *)trackId
-     remoteUserId:(NSString *)userId {
+- (void)remoteAudioTrack:(QNRemoteAudioTrack *)remoteAudioTrack didGetAudioBuffer:(AudioBuffer *)audioBuffer bitsPerSample:(NSUInteger)bitsPerSample sampleRate:(NSUInteger)sampleRate {
     static int i = 0;
     if (i % 500 == 0) {
-        NSString *str = [NSString stringWithFormat:@"远端用户音频数据的回调:\nuserId: %@\nbufferCount: %d\nbitsPerSample:%lu\nsampleRate:%lu,dataLen = %u",  userId, i, (unsigned long)bitsPerSample, (unsigned long)sampleRate, (unsigned int)audioBuffer->mDataByteSize];
-        //        [self addLogString:str];
+        NSString *str = [NSString stringWithFormat:@"远端用户音频数据的回调:\ntrackID: %@\NbufferCount: %d\nbitsPerSample:%lu\nsampleRate:%lu,dataLen = %u",remoteAudioTrack.trackID, i, (unsigned long)bitsPerSample, (unsigned long)sampleRate, (unsigned int)audioBuffer->mDataByteSize];
+//                [self addLogString:str];
     }
     i ++;
 }
 
+#pragma mark QNCameraTrackVideoDataDelegate
+
 /**
  * 获取到摄像头原数据时的回调, 便于开发者做滤镜等处理，需要注意的是这个回调在 camera 数据的输出线程，请不要做过于耗时的操作，否则可能会导致编码帧率下降
  */
-- (void)RTCEngine:(QNRTCEngine *)engine cameraSourceDidGetSampleBuffer:(CMSampleBufferRef)sampleBuffer {
+- (void)cameraVideoTrack:(QNCameraVideoTrack *)cameraVideoTrack didGetSampleBuffer:(CMSampleBufferRef)sampleBuffer; {
     static int i = 0;
     if (i % 300 == 0) {
         CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
@@ -678,83 +729,18 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
     i ++;
 }
 
+#pragma mark QNMicrophoneAudioTrackDataDelegate
+
 /**
  * 获取到麦克风原数据时的回调，需要注意的是这个回调在 AU Remote IO 线程，请不要做过于耗时的操作，否则可能阻塞该线程影响音频输出或其他未知问题
  */
-- (void)RTCEngine:(QNRTCEngine *)engine microphoneSourceDidGetAudioBuffer:(AudioBuffer *)audioBuffer {
+- (void)microphoneAudioTrack:(QNMicrophoneAudioTrack *)microphoneAudioTrack didGetAudioBuffer:(AudioBuffer *)audioBuffer bitsPerSample:(NSUInteger)bitsPerSample sampleRate:(NSUInteger)sampleRate {
     static int i = 0;
     if (i % 500 == 0) {
         NSString *str = [NSString stringWithFormat:@"获取到麦克风原数据时的回调:\nbufferCount: %d, dataLen = %u",  i, (unsigned int)audioBuffer->mDataByteSize];
         //        [self addLogString:str];
     }
     i ++;
-}
-
-/**
- *统计信息回调，回调的时间间隔由 statisticInterval 参数决定，statisticInterval 默认为 0，即不回调统计信息
- */
-- (void)RTCEngine:(QNRTCEngine *)engine
-  didGetStatistic:(NSDictionary *)statistic
-        ofTrackId:(NSString *)trackId
-           userId:(NSString *)userId {
-    NSString *str = nil;
-    if (statistic[QNStatisticAudioBitrateKey] && statistic[QNStatisticAudioPacketLossRateKey]) {
-        int audioBitrate = [[statistic objectForKey:QNStatisticAudioBitrateKey] intValue];
-        float audioPacketLossRate = [[statistic objectForKey:QNStatisticAudioPacketLossRateKey] floatValue];
-        int audioRtt = [[statistic objectForKey:QNStatisticRttKey] floatValue];
-        if ([self.userId isEqualToString:userId]) {
-            str = [NSString stringWithFormat:@"音频码率：%dbps\n 音频丢包率：%3.1f%%\n本地 rtt：%d\n", audioBitrate, audioPacketLossRate,audioRtt];
-        }else{
-            int audioRemotePacketLossRate = [[statistic objectForKey:QNStatisticAudioRemotePacketLossRateKey] floatValue];
-            str = [NSString stringWithFormat:@"音频码率：%dbps\n 远端服务器音频丢包率：%3.1f%%\n远端user音频丢包率：%3.1f%%\n远端 rtt：%d\n", audioBitrate, audioPacketLossRate,audioRemotePacketLossRate,audioRtt];
-        }
-    }
-    else {
-        int videoBitrate = [[statistic objectForKey:QNStatisticVideoBitrateKey] intValue];
-        float videoPacketLossRate = [[statistic objectForKey:QNStatisticVideoPacketLossRateKey] floatValue];
-        int videoFrameRateKey = [[statistic objectForKey:QNStatisticVideoFrameRateKey] intValue];
-        int videoRtt = [[statistic objectForKey:QNStatisticRttKey] floatValue];
-        if ([self.userId isEqualToString:userId]) {
-            str = [NSString stringWithFormat:@"视频码率：%dbps\n 本地视频丢包率：%3.1f%%\n视频帧率：%d\n本地 rtt：%d\n", videoBitrate, videoPacketLossRate, videoFrameRateKey,videoRtt];
-        }else{
-            int videoRemotePacketLossRate = [[statistic objectForKey:QNStatisticVideoRemotePacketLossRateKey] floatValue];
-            str = [NSString stringWithFormat:@"视频码率：%dbps\n 远端服务器视频丢包率：%3.1f%%\n视频帧率：%d\n远端user视频丢包率：%3.1f%%\n远端 rtt：%d\n", videoBitrate, videoPacketLossRate, videoFrameRateKey,videoRemotePacketLossRate,videoRtt];
-        }
-    }
-    NSString *logStr = [NSString stringWithFormat:@"统计信息回调:userId: %@ trackId: %@\n%@", userId, trackId, str];
-    [self addLogString:logStr];
-}
-
-/**
- *本地用户离开房间的回调
- */
-- (void)RTCEngine:(QNRTCEngine *)engine didLeaveOfLocalSuccess:(BOOL)success {
-    NSString *logStr = [NSString stringWithFormat:@"本地用户离开房间 success %d", success];
-    [self addLogString:logStr];
-}
-
-/**
- *单路转推创建成功的回调
- */
-- (void)RTCEngine:(QNRTCEngine *)engine didCreateForwardJobWithJobId:(nonnull NSString *)jobId {
-    NSString *logStr = [NSString stringWithFormat:@"单路转推任务 jobId: %@", jobId];
-    [self addLogString:logStr];
-}
-
-/**
-* 远端用户发生重连
-*/
-- (void)RTCEngine:(QNRTCEngine *)engine didReconnectingRemoteUserId:(NSString *)userId {
-    NSString *logStr = [NSString stringWithFormat:@"userId 为 %@ 的远端用户发生了重连！", userId];
-    [self addLogString:logStr];
-}
-
-/**
-* 远端用户重连成功
-*/
-- (void)RTCEngine:(QNRTCEngine *)engine didReconnectedRemoteUserId:(NSString *)userId {
-    NSString *logStr = [NSString stringWithFormat:@"userId 为 %@ 的远端用户重连成功了！", userId];
-    [self addLogString:logStr];
 }
 
 @end

@@ -1,10 +1,13 @@
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/../../Pod/iphoneos" "${PODS_ROOT}/PLPlayerKit/Pod/Library"
+CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/../../Pod/iphoneos" "${PODS_ROOT}/Crashlytics/iOS" "${PODS_ROOT}/Fabric/iOS" "${PODS_ROOT}/PLPlayerKit/Pod/Library"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Bugsnag" "${PODS_ROOT}/Headers/Public/JGProgressHUD" "${PODS_ROOT}/Headers/Public/MMMaterialDesignSpinner" "${PODS_ROOT}/Headers/Public/Masonry"
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
 LIBRARY_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Bugsnag" "${PODS_CONFIGURATION_BUILD_DIR}/JGProgressHUD" "${PODS_CONFIGURATION_BUILD_DIR}/MMMaterialDesignSpinner" "${PODS_CONFIGURATION_BUILD_DIR}/Masonry"
-OTHER_LDFLAGS = $(inherited) -ObjC -l"Bugsnag" -l"JGProgressHUD" -l"MMMaterialDesignSpinner" -l"Masonry" -l"bz2" -l"c++" -l"iconv" -l"resolv" -l"z" -framework "AVFoundation" -framework "AVKit" -framework "Accelerate" -framework "AudioToolbox" -framework "CFNetwork" -framework "CoreAudio" -framework "CoreGraphics" -framework "CoreMedia" -framework "CoreTelephony" -framework "CoreVideo" -framework "Foundation" -framework "HappyDNS" -framework "MediaPlayer" -framework "OpenGLES" -framework "PLPlayerKit" -framework "QNRTCKit" -framework "QuartzCore" -framework "SystemConfiguration" -framework "UIKit" -framework "VideoToolbox"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"Bugsnag" -l"JGProgressHUD" -l"MMMaterialDesignSpinner" -l"Masonry" -l"bz2" -l"c++" -l"iconv" -l"resolv" -l"z" -framework "AVFoundation" -framework "AVKit" -framework "Accelerate" -framework "AudioToolbox" -framework "CFNetwork" -framework "CoreAudio" -framework "CoreGraphics" -framework "CoreMedia" -framework "CoreTelephony" -framework "CoreVideo" -framework "Crashlytics" -framework "Fabric" -framework "Foundation" -framework "HappyDNS" -framework "MediaPlayer" -framework "OpenGLES" -framework "PLPlayerKit" -framework "QNRTCKit" -framework "QuartzCore" -framework "Security" -framework "SystemConfiguration" -framework "UIKit" -framework "VideoToolbox"
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_PODFILE_DIR_PATH = ${SRCROOT}/.
 PODS_ROOT = ${SRCROOT}/Pods
+PODS_XCFRAMEWORKS_BUILD_DIR = $(PODS_CONFIGURATION_BUILD_DIR)/XCFrameworkIntermediates
+USE_RECURSIVE_SCRIPT_INPUTS_IN_SCRIPT_PHASES = YES

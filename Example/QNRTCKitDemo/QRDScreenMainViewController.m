@@ -19,29 +19,45 @@
 
 - (void)publish {
     
-    QNTrackInfo *audioTrack = [[QNTrackInfo alloc] initWithSourceType:QNRTCSourceTypeAudio master:YES];
-    QNTrackInfo *cameraTrack =  [[QNTrackInfo alloc] initWithSourceType:(QNRTCSourceTypeCamera)
-                                                                    tag:cameraTag
-                                                                 master:YES
-                                                             bitrateBps:self.bitrate
-                                                        videoEncodeSize:self.videoEncodeSize];
-    QNTrackInfo *screenTrack = nil;
-    if (![QNRTCEngine isScreenRecorderAvailable]) {
+    
+    self.audioTrack = [QNRTC createMicrophoneAudioTrack];
+
+    self.screenTrack = nil;
+    if (![QNScreenVideoTrack isScreenRecorderAvailable]) {
         [self addLogString:@"该系统版本不支持录屏"];
     } else {
-        screenTrack = [[QNTrackInfo alloc] initWithSourceType:QNRTCSourceTypeScreenRecorder
-                                                          tag:screenTag
-                                                       master:NO
-                                                   bitrateBps:self.bitrate
-                                              videoEncodeSize:self.videoEncodeSize];
+        QNScreenVideoTrackConfig * screenConfig = [[QNScreenVideoTrackConfig alloc] initWithSourceTag:screenTag bitrate:self.bitrate videoEncodeSize:self.videoEncodeSize];
+        self.screenTrack = [QNRTC createScreenVideoTrackWithConfig:screenConfig];
     }
 
-    if (screenTrack) {
+    if (self.screenTrack) {
         // cameraTrack 摄像头采集的 track
         // screenTrack 屏幕录制的 track
-        [self.engine publishTracks:@[audioTrack, cameraTrack, screenTrack]];
+        [self.client publish:@[self.audioTrack, self.cameraTrack, self.screenTrack] completeCallback:^(BOOL onPublished, NSError *error) {
+            if (onPublished) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.microphoneButton.enabled = YES;
+                    self.isAudioPublished = YES;
+                    
+                    self.videoButton.enabled = YES;
+                    self.isVideoPublished = YES;
+                    
+                    self.isScreenPublished = YES;
+                });
+            }
+        }];
     } else {
-        [self.engine publishTracks:@[audioTrack, cameraTrack]];
+        [self.client publish:@[self.audioTrack, self.cameraTrack] completeCallback:^(BOOL onPublished, NSError *error) {
+            if (onPublished) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.microphoneButton.enabled = YES;
+                    self.isAudioPublished = YES;
+                    
+                    self.videoButton.enabled = YES;
+                    self.isVideoPublished = YES;
+                });
+            }
+        } ];
     }
 }
 

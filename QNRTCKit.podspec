@@ -14,7 +14,8 @@ Pod::Spec.new do |s|
     s.license   = 'Apache License, Version 2.0'
     s.author    = { "pili" => "pili-coresdk@qiniu.com" }
     s.source    = { :http => "https://sdk-release.qnsdk.com/QNRTCKit-iphoneos-v4.0.0.zip"}
-
+    s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+    s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
 
     s.platform                = :ios
     s.ios.deployment_target   = '9.0'

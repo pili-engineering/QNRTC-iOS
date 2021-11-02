@@ -354,7 +354,7 @@ THE SOFTWARE.</string>
 			<key>License</key>
 			<string>Apache License, Version 2.0</string>
 			<key>Title</key>
-			<string>QNRTCKit</string>
+			<string>QNRTCKit-iOS</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>

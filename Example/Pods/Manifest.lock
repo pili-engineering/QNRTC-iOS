@@ -6,9 +6,9 @@ PODS:
   - PLPlayerKit (3.4.1):
     - PLPlayerKit/iphoneos (= 3.4.1)
   - PLPlayerKit/iphoneos (3.4.1)
-  - QNRTCKit (3.0.2):
-    - QNRTCKit/Core (= 3.0.2)
-  - QNRTCKit/Core (3.0.2)
+  - QNRTCKit (3.1.0):
+    - QNRTCKit/Core (= 3.1.0)
+  - QNRTCKit/Core (3.1.0)
 
 DEPENDENCIES:
   - Bugsnag (= 5.15.4)
@@ -19,7 +19,7 @@ DEPENDENCIES:
   - QNRTCKit (from `../QNRTCKit.podspec`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - Bugsnag
     - JGProgressHUD
     - Masonry
@@ -36,8 +36,8 @@ SPEC CHECKSUMS:
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MMMaterialDesignSpinner: a548042720c2e5f04212048483085d7942ac3e81
   PLPlayerKit: ebec9d70b66a95d1770b2dc5107fe2a469454a28
-  QNRTCKit: 8e39a3d0f80cae7aec40618e14510b347f42dc96
+  QNRTCKit: dfa497a8cab0f9057d03fc36d86238496e00f9cf
 
 PODFILE CHECKSUM: b2d05023ad44db0b63e1263186f1e268a2c7e2ff
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.11.2

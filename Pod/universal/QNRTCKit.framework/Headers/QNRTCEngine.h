@@ -17,6 +17,9 @@
 #import "QNMessageInfo.h"
 #import "QNForwardStreamConfiguration.h"
 #import <HappyDNS/HappyDNS.h>
+#import "QNRoomMediaRelayInfo.h"
+#import "QNRoomMediaRelayConfiguration.h"
+
 
 @class QNRTCEngine;
 @class QNRTCConfiguration;
@@ -254,16 +257,39 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
 /*!
 * @abstract 远端用户发生重连的回调。
 *
-* @since v3.0.0
+* @since v3.0.3
 */
 - (void)RTCEngine:(QNRTCEngine *)engine didReconnectingRemoteUserId:(NSString *)userId;
 
 /*!
 * @abstract 远端用户重连成功的回调。
 *
-* @since v3.0.0
+* @since v3.0.3
 */
 - (void)RTCEngine:(QNRTCEngine *)engine didReconnectedRemoteUserId:(NSString *)userId;
+
+/*!
+* @abstract 跨房间媒体流转发状态发生改变回调。
+*
+* @since v3.0.3
+*/
+- (void)RTCEngine:(QNRTCEngine *)engine roomMediaRelayStateDidChange:(NSDictionary *)state;
+
+/*!
+* @abstract 用户角色已切换回调。仅在直播场景使用
+*
+* @since v3.1.0
+*/
+- (void)RTCEngine:(QNRTCEngine *_Nonnull)engine didClientRoleChanged:(QNClientRole)oldRole newRole:(QNClientRole)newRole;
+
+/*!
+ * @abstract 远端音频 track mix 数据的回调。
+ *
+ * @discussion 需要注意的是这个回调在 AU Remote IO 线程，请不要做过于耗时的操作，否则可能阻塞该线程影响音频输出或其他未知问题。
+ *
+ * @since v3.1.0
+ */
+- (void)RTCEngine:(QNRTCEngine *)engine remoteTrackMixedDidGetAudioBuffer:(AudioBuffer *)audioBuffer;
 
 @end
 
@@ -276,7 +302,7 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
 *
 * @discussion 调用此函数，需要把对应的加密数据设置给 encryptedData，并且返回     encryptedData 的实际对应长度
 *
-* @since v3.0.0
+* @since v3.0.3
 */
 - (size_t)RTCEngine:(QNRTCEngine *)engine
    didSendFrameData:(uint8_t *)frameData
@@ -289,7 +315,7 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
 *
 * @warning 最多 1000 个字节
 *
-* @since v3.0.0
+* @since v3.0.3
 */
 - (size_t)RTCEngine:(QNRTCEngine *)engine
      didSendExtData:(uint8_t *)extData
@@ -307,7 +333,7 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
 *            encryptedData:(uint8_t*)encryptedData
 *                ofTrackId:(NSString *)trackId;
 *
-* @since v3.0.0
+* @since v3.0.3
 */
 - (size_t)RTCEngine:(QNRTCEngine *)engine
   didSendDataLength:(size_t)frameDataLength
@@ -318,7 +344,7 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
 *
 * @discussion 调用此函数，需要把对应的解密数据设置给 decryptedData，并且返回     decryptedData 的实际对应长度
 *
-* @since v3.0.0
+* @since v3.0.3
 */
 - (size_t)RTCEngine:(QNRTCEngine *)engine
     didGetFrameData:(uint8_t *)frameData
@@ -330,7 +356,7 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
 /*!
 * @abstract 远端用户自定义拓展数据的回调 （目前只支持音频）
 *
-* @since v3.0.0
+* @since v3.0.3
 */
 - (void)RTCEngine:(QNRTCEngine *)engine
     didGetExtData:(uint8_t *)extData
@@ -350,7 +376,7 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
 *                ofTrackId:(NSString *)trackId;
 *                 ofUserId:(NSString *)userId;
 *
-* @since v3.0.0
+* @since v3.0.3
 */
 - (size_t)RTCEngine:(QNRTCEngine *)engine
    didGetDataLength:(size_t)frameDataLength
@@ -379,7 +405,7 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
 /*!
 * @abstract 编码数据回调的 delegate。
 *
-* @since v3.0.0
+* @since v3.0.3
 */
 @property (nonatomic, weak) id<QNRTCEngineEncodeDataDelegate> encodeDataDelegate;
 
@@ -453,6 +479,40 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
 - (instancetype)initWithConfiguration:(QNRTCConfiguration *)configuration dnsManager:(nullable QNDnsManager *)dnsManager;
 
 /*!
+ * @abstract 该方法用于设置 QNRTCEngine  房间的使用场景。
+ *
+ * @param type 房间使用场景。
+ *
+ * @see QNRoomType.
+ *
+ * @discussion 为保证实时音视频质量，我们建议相同房间内的用户使用同一种房间场景。
+ *
+ * @warning 该方法必须在加入房间前调用，进入房间后无法再设置房间场景。
+ *
+ * @since v3.1.0
+ */
+- (void)setRoomType:(QNRoomType)type;
+
+/*!
+ * @abstract 设置直播场景下的用户角色。
+ *
+ * @param role 直播场景里的用户角色。
+ *
+ * @see QNClientRole.
+ *
+ * @discussion 该方法在加入频道前后均可调用。如果你在加入频道后调用该方法切换用户角色，调用成功后，SDK 会自动进行如下操作:
+ *             调用 publishVideo/publishAudio 和 unpublishVideo/unpublishAudio 修改发布状态。
+ *             本地触发 didClientRoleChanged。
+ *             远端触发 didJoinOfRemoteUserId 或 didLeaveOfRemoteUserId。
+ *
+ * @warning 该方法仅适用于直播场景
+ *
+ * @since v3.1.0
+ */
+- (void)setClientRole:(QNClientRole)role;
+
+
+/*!
  * @abstract 加入房间。
  *
  * @param
@@ -477,6 +537,21 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
  */
 - (void)joinRoomWithToken:(NSString *)token
                  userData:(nullable NSString *)userData;
+
+/*!
+ * @abstract 快速切换直播房间。
+ *
+ * @param token 此处 token 需要 App 从 App Server 中获取，token 中已经包含 appId、roomToken、userId 等信息。
+ *
+ * @discussion 当直播房间中的观众想从一个房间切换到另一个房间时，可以调用该方法，实现快速切换。
+ *
+ *  成功调用该方切换房间后，本地会先收到离开原房间的回调 didLeaveOfLocalSuccess，再收到成功加入新房间的回调 roomStateDidChange。
+ *
+ * @warning 该方法仅适用直播房间中的观众用户
+ *
+ * @since v3.1.0
+ */
+- (void)switchRoomWithToken:(NSString *)token;
 
 /*!
  * @abstract 退出房间。
@@ -605,7 +680,7 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
 *
 * @warning 部分机型调整音量放大会出现低频噪音
 *
-* @since v3.0.0
+* @since v3.1.0
 */
 - (void)setRemoteTrackId:(NSString *)trackId outputVolume:(double)volume;
 
@@ -840,6 +915,32 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
 * @since v3.0.1
 */
 - (void)stopForwardJobWithJobId:(NSString *)jobId delayMillisecond:(NSUInteger)delayMillisecond;
+
+
+/*!
+* @abstract 开始跨房间媒体流转发。该方法可用于实现跨房间连麦等场景。
+*
+* @param config 跨房间媒体流转发参数配置: QNRoomMediaRelayConfiguration 类。
+*
+* @since v3.1.0
+*/
+- (void)startRoomMediaRelay:(QNRoomMediaRelayConfiguration *_Nonnull)config;
+
+/*!
+* @abstract 更新媒体流转发的房间。成功开始跨房间转发媒体流后，如果你希望将流转发到多个目标房间，或退出当前的转发房间，可以调用该方法。
+*
+* @param config 跨房间媒体流转发参数配置: QNRoomMediaRelayConfiguration 类。
+*
+* @since v3.1.0
+*/
+- (void)updateRoomMediaRelay:(QNRoomMediaRelayConfiguration *_Nonnull)config;
+
+/*!
+* @abstract 停止跨房间媒体流转发。一旦停止，主播会退出所有目标房间。
+*
+* @since v3.1.0
+*/
+- (void)stopRoomMediaRelay;
 
 /*!
  * @abstract 麦克风输入音量

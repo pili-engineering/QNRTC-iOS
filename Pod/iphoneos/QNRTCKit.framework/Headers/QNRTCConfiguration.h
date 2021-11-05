@@ -47,6 +47,20 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) BOOL allowAudioMixWithOthers;
 
 /*!
+ * @abstract 是否开启音频冗余功能，默认为 YES
+ *
+ * @since v3.1.0
+ */
+@property (nonatomic, assign) BOOL audioRedundantEnable;
+
+/*!
+ * @abstract 是否开启视频数据包纠错功能，用于提升弱网时的视频质量，默认为 YES
+ *
+ * @since v3.1.0
+ */
+@property (nonatomic, assign) BOOL videoErrorCorrectionEnable;
+
+/*!
  * @abstract 用默认参数生成一个对象
  *
  * @since v2.2.0

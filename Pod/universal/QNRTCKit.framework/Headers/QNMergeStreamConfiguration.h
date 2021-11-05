@@ -75,6 +75,11 @@ NSCopying
  */
 @property (nonatomic, assign) NSUInteger maxBitrateBps;
 
+/**
+ @brief 是否在 Track 没有数据的情况下在合流画布中保持最后一帧,默认为 NO
+ */
+@property (nonatomic, assign) BOOL holdLastFrame;
+
 
 /**
  @brief 创建默认配置的实例

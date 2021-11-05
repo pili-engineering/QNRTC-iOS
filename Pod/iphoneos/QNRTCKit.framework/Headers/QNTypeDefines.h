@@ -505,6 +505,95 @@ typedef NS_ENUM(NSUInteger, QNNetworkGrade) {
     QNNetworkGradePoor,
 };
 
+///房间场景
+typedef NS_ENUM(NSUInteger, QNRoomType) {
+    /*!
+     * @abstract （默认）通信场景。该场景下，房间内所有用户都可以发布和接收音、视频流。适用于语音通话、视频群聊等应用场景。
+     *
+     * @since v3.1.0
+     */
+    QNRoomTypeCommunication = 0,
+    /*!
+     * @abstract 直播场景。该场景有主播和观众两种用户角色，可以通过 setClientRole 设置。主播可以发布和接收音视频流，观众直接接收流。适用于语聊房、视频直播、互动大班课等应用场景。
+     *
+     * @since v3.1.0
+     */
+    QNRoomTypeLiveBroadcasting = 1,
+};
+
+///直播场景里的用户角色
+typedef NS_ENUM(NSUInteger, QNClientRole) {
+    /*!
+     * @abstract 主播。主播既可以发流也可以收流。
+     *
+     * @since v3.1.0
+     */
+    QNClientRoleBroadcaster = 0,
+    /*!
+     * @abstract 观众。观众只能收流不能发流。
+     *
+     * @since v3.1.0
+     */
+    QNClientRoleAudience = 1,
+};
+
+///直播房间中观众端（用户角色为观众的客户端）的延时级别。仅在用户角色设为 QNClientRoleAudience 时才生效。
+typedef NS_ENUM(NSUInteger, QNAudienceLatencyLevelType) {
+    /*!
+     * @abstract 低延时。
+     *
+     * @since v3.1.0
+     */
+    QNAudienceLatencyLevelLowLatency = 0,
+    /*!
+     * @abstract（默认）超低延时。
+     *
+     * @since v3.1.0
+     */
+    QNAudienceLatencyLevelUltraLowLatency = 1,
+};
+
+///跨房间媒体转发状态
+typedef NS_ENUM(NSUInteger, QNMediaRelayState) {
+    /*!
+     * @abstract 成功
+     *
+     * @since v3.1.0
+     */
+    QNMediaRelayStateSuccess = 0,
+    /*!
+     * @abstract 主动退出
+     *
+     * @since v3.1.0
+     */
+    QNMediaRelayStateStopped  = 1,
+    /*!
+     * @abstract 无效token
+     *
+     * @since v3.1.0
+     */
+    QNMediaRelayStateInvalidToken = 2,
+    /*!
+     * @abstract 房间不存在
+     *
+     * @since v3.1.0
+     */
+    QNMediaRelayStateNoRoom = 3,
+    /*!
+     * @abstract 房间已关闭
+     *
+     * @since v3.1.0
+     */
+    QNMediaRelayStateRoomClosed = 4,
+    /*!
+     * @abstract 用户ID已存在
+     *
+     * @since v3.1.0
+     */
+    QNMediaRelayStatePlayerExisted = 5,
+};
+
+
 extern NSString *QNStatisticAudioBitrateKey;
 extern NSString *QNStatisticVideoBitrateKey;
 extern NSString *QNStatisticVideoFrameRateKey;
@@ -515,6 +604,23 @@ extern NSString *QNStatisticNetworkGrade;
 extern NSString *QNStatisticAudioRemotePacketLossRateKey;
 extern NSString *QNStatisticVideoRemotePacketLossRateKey;
 extern NSString *QNStatisticProfileKey;
+
+extern NSString *QNStatisticPacketsSent;    //发送媒体包个数
+extern NSString *QNStatisticPacketsReceived;//接收媒体包个数
+
+extern NSString *QNStatisticAudioSamplesReceived;//收到的音频样本总数
+extern NSString *QNStatisticAudioSamplesConcealed; //隐藏的音频样本总数
+
+extern NSString *QNStatisticAudioRedCount; //发送端发送的 redundant packet 个数
+
+extern NSString *QNStatisticVideoFreezesDuration; //冻结的渲染帧的总持续时间
+extern NSString *QNStatisticVideoTotalDuration;//所有渲染视频帧的总持续时间
+
+extern NSString *QNStatisticVideoInputFramerate; //输入视频流帧数
+
+extern NSString *QNStatisticVideoFECPacketsReceived;//接收 FEC 包
+extern NSString *QNStatisticVideoFECPacketsSent;//发送 FEC 包
+
 
 
 

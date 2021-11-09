@@ -132,7 +132,7 @@ QNRTCKit 是七牛云推出的一款适用于 iOS 平台的实时音视频 SDK�
 ## 8.1 如何体验 Demo？
 
 您可以通过扫描下面的二维码，安装我们的 demo 应用『牛会议』，体验通话效果：<br>
-![](http://pk0jd2tt5.bkt.clouddn.com/iOS-qnsdk-rtc-demo.png)
+![](http://pk0jd2tt5.bkt.clouddn.com/iOS-qnsdk-rtc-demo-v3.png)
 
 ## 8.2 实时通话功能是否收费？
 

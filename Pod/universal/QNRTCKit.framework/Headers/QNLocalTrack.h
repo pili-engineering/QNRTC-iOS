@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since v4.0.0
  */
-- (void)updataMute:(BOOL)mute;
+- (void)updateMute:(BOOL)mute;
 
 @end
 

@@ -608,7 +608,7 @@ UITextFieldDelegate
 - (void)microphoneAction:(UIButton *)microphoneButton {
     self.microphoneButton.selected = !self.microphoneButton.isSelected;
     // 打开/关闭音频
-    [self.audioTrack updataMute:!self.microphoneButton.isSelected];
+    [self.audioTrack updateMute:!self.microphoneButton.isSelected];
 }
 
 - (void)loudspeakerAction:(UIButton *)loudspeakerButton {
@@ -621,13 +621,13 @@ UITextFieldDelegate
     NSMutableArray *videoTracks = [[NSMutableArray alloc] init];
     if (self.screenTrack) {
         // 打开/关闭录屏画面
-        [self.screenTrack updataMute:!videoButton.isSelected];
+        [self.screenTrack updateMute:!videoButton.isSelected];
         [videoTracks addObject:self.screenTrack];
     }
     if (self.cameraTrack) {
         // 打开/关闭摄像头画面
         [videoTracks addObject:self.cameraTrack];
-        [self.cameraTrack updataMute:!videoButton.isSelected];
+        [self.cameraTrack updateMute:!videoButton.isSelected];
     }
     
     // 对应实际关闭连麦视频画面的场景

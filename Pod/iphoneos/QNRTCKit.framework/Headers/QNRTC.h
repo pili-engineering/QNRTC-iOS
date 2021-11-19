@@ -143,7 +143,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since v4.0.0
  */
-+ (QNCustomVideoTrack *)createcreateCustomVideoTrackWithConfig:(QNCustomVideoTrackConfig *)configuration;
++ (QNCustomVideoTrack *)createCustomVideoTrackWithConfig:(QNCustomVideoTrackConfig *)configuration;
 
 @end
 

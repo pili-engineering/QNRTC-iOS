@@ -126,7 +126,7 @@ QNRTCKit 是七牛云推出的一款适用于 iOS 平台的实时音视频 SDK�
 
 # 6 开发文档
 
-- 可通过[开发准备] (https://developer.qiniu.com/rtc/8831/prepare-ios-development) 和 [实现视频通话](https://developer.qiniu.com/rtc/9255/quick-start-iOS) 了解如何快速搭建音视频通话应用
+- 可通过 [开发准备](https://developer.qiniu.com/rtc/8831/prepare-ios-development) 和 [实现视频通话](https://developer.qiniu.com/rtc/9255/quick-start-iOS) 了解如何快速搭建音视频通话应用
 - 可通过 [QNRTCKit 使用指南](https://developer.qiniu.com/rtc/9257/user-guidance-iOS) 了解不同场景的实现方式
 - 可通过 [QNRTCKit API 概览](https://developer.qiniu.com/rtc/8833/iOS%20API%20%E6%A6%82%E8%A7%88) 了解 SDK 的接口设计及使用姿势
 

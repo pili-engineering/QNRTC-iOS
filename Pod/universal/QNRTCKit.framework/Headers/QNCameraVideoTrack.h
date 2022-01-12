@@ -31,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v4.0.0
  */
 @property (nonatomic, weak) id<QNCameraTrackVideoDataDelegate> videoDelegate;
+
 /*!
  * @abstract 视频采集 session，只读变量，给有特殊需求的开发者使用，最好不要修改。
  *
@@ -57,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since v4.0.0
  */
-@property (nonatomic, assign) AVCaptureDevicePosition   captureDevicePosition;
+@property (nonatomic, assign) AVCaptureDevicePosition captureDevicePosition;
 
 /*!
  * @abstract 开启 camera 时的采集摄像头的旋转方向，默认为 AVCaptureVideoOrientationPortrait。
@@ -71,14 +72,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since v4.0.0
  */
-@property (nonatomic, assign, getter=isTorchOn) BOOL    torchOn;
+@property (nonatomic, assign, getter=isTorchOn) BOOL torchOn;
 
 /*!
  * @abstract 连续自动对焦。默认为 YES。
  *
  * @since v4.0.0
  */
-@property (nonatomic, assign, getter=isContinuousAutofocusEnable) BOOL  continuousAutofocusEnable;
+@property (nonatomic, assign, getter=isContinuousAutofocusEnable) BOOL continuousAutofocusEnable;
 
 /*!
  * @abstract 手动点击屏幕进行对焦。默认为 YES。
@@ -92,14 +93,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since v4.0.0
  */
-@property (nonatomic, assign, getter=isSmoothAutoFocusEnabled) BOOL  smoothAutoFocusEnabled;
+@property (nonatomic, assign, getter=isSmoothAutoFocusEnabled) BOOL smoothAutoFocusEnabled;
 
 /*!
  * @abstract 聚焦的位置，(0,0) 代表左上, (1,1) 代表右下。默认为 (0.5, 0.5)，即中间位置。
  *
  * @since v4.0.0
  */
-@property (nonatomic, assign) CGPoint   focusPointOfInterest;
+@property (nonatomic, assign) CGPoint focusPointOfInterest;
 
 /*!
  * @abstract 控制摄像头的缩放，默认为 1.0。
@@ -178,7 +179,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since v4.0.0
  */
--(void)setBeautifyModeOn:(BOOL)beautifyModeOn;
+- (void)setBeautifyModeOn:(BOOL)beautifyModeOn;
 
 /*!
  * @abstract 设置对应 Beauty 的程度参数，范围从 0 ~ 1，0 为不美颜。
@@ -187,7 +188,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since v4.0.0
  */
--(void)setBeautify:(CGFloat)beautify;
+- (void)setBeautify:(CGFloat)beautify;
 
 /*!
  * @abstract 设置美白程度。
@@ -196,7 +197,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since v4.0.0
  */
--(void)setWhiten:(CGFloat)whiten;
+- (void)setWhiten:(CGFloat)whiten;
 
 /*!
  * @abstract 设置红润的程度。范围是从 0 ~ 1，0 为不红润。
@@ -205,21 +206,21 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since v4.0.0
  */
--(void)setRedden:(CGFloat)redden;
+- (void)setRedden:(CGFloat)redden;
 
 /*!
  * @abstract 设置水印。
  *
  * @since v4.0.0
  */
--(void)setWaterMarkWithImage:(UIImage *)waterMarkImage position:(CGPoint)position;
+- (void)setWaterMarkWithImage:(UIImage *)waterMarkImage position:(CGPoint)position;
 
 /*!
  * @abstract 移除水印。
  *
  * @since v4.0.0
  */
--(void)clearWaterMark;
+- (void)clearWaterMark;
 
 /*!
  * @abstract 设置摄像头 track 发送图片数据

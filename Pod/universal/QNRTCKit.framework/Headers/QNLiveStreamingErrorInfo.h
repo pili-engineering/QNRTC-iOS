@@ -31,7 +31,6 @@ typedef NS_ENUM(NSUInteger, QNLiveStreamingType){
  */
 @property (nonatomic, assign) QNLiveStreamingType type;
 
-
 @end
 
 

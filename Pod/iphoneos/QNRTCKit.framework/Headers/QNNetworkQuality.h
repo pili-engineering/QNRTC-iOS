@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v4.0.0
  */
 @property (nonatomic, assign, readonly) QNNetworkGrade uplinkNetworkGrade;
+
 /*!
  * @abstract 下行网络质量。
  *

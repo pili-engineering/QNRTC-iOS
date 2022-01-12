@@ -26,6 +26,9 @@
 @class QNConnectionDisconnectedInfo;
 @class QNRemoteUser;
 @class QNAudioMixer;
+@class QNClientRoleOptions;
+@class QNRoomMediaRelayInfo;
+@class QNRoomMediaRelayConfiguration;
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol QNRTCClientDelegate <NSObject>
@@ -142,6 +145,19 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)RTCClient:(QNRTCClient *)client didDetachRenderTrack:(QNRemoteVideoTrack *)videoTrack remoteUserID:(NSString *)userID;
 
+/*!
+ * @abstract 跨房媒体转发状态变更的回调。
+ *
+ * @warning 非主动调用触发，由目标房间状态变化引起此通知。目前仅当目标房间关闭（QNMediaRelayStateRoomClosed）时，会触发此通知。
+ *
+ * @param relayRoom 目标房间名称
+ *
+ * @param state 目标房间媒体转发状态
+ *
+ * @since v4.0.1
+*/
+- (void)RTCClient:(QNRTCClient *)client didMediaRelayStateChanged:(NSString *)relayRoom state:(QNMediaRelayState)state;
+
 @end
 
 
@@ -183,18 +199,20 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong, readonly) NSArray<QNTrack *> *publishedTracks;
 
+
 /*!
- * @abstract 连麦房间中的音频管理类实例。
+ * @abstract 设置直播场景下的用户角色。
  *
- * @warning 该值为 QNRTCEngine 的属性，使用方式如下：
- *          self.engine.audioMixer.audioURL = [NSURL URLWithString:@"http://www.xxx.com/test.mp3"];
- *          self.engine.audioMixer.delegate = self;
+ * @param role 直播场景里的用户角色。
+ * @see QNClientRole.
  *
- * @discussion 需要配置 audioURL 传入音频地址，调用 start 开始混音，调用 stop 停止混音。
+ * @discussion 该方法在加入频道前后均可调用。
  *
- * @since v4.0.0
+ * @warning 该方法仅适用于直播场景。
+ *
+ * @since v4.0.1
  */
-@property (nonatomic, strong, readonly) QNAudioMixer *audioMixer;
+- (void)setClientRole:(QNClientRole)role completeCallback:(nullable QNClientRoleResultCallback)callback;
 
 /*!
  * @abstract 加入房间。
@@ -222,14 +240,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since v4.0.0
  */
--(void)publish:(NSArray<QNLocalTrack *> *)tracks;
+- (void)publish:(NSArray<QNLocalTrack *> *)tracks;
 
 /*!
  * @abstract 发布 tracks。
  *
  * @since v4.0.0
  */
--(void)publish:(NSArray<QNLocalTrack *> *)tracks completeCallback:(QNPublishResultCallback)callback;
+- (void)publish:(NSArray<QNLocalTrack *> *)tracks completeCallback:(QNPublishResultCallback)callback;
 
 /*!
  * @abstract 取消发布 tracks。
@@ -294,7 +312,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since v4.0.0
  */
-- (void)setTranscodingLiveStreamingID:(NSString *)streamID withTracks:(NSArray <QNTranscodingLiveStreamingTrack *> *)tracks;
+- (void)setTranscodingLiveStreamingID:(nullable NSString *)streamID withTracks:(NSArray <QNTranscodingLiveStreamingTrack *> *)tracks;
 
 /*!
  * @abstract 将对应的音视频 Track 从合流中移除。
@@ -303,7 +321,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since v4.0.0
  */
-- (void)removeTranscodingLiveStreamingID:(NSString *)streamID withTracks:(NSArray <QNTranscodingLiveStreamingTrack *> *)tracks;
+- (void)removeTranscodingLiveStreamingID:(nullable NSString *)streamID withTracks:(NSArray <QNTranscodingLiveStreamingTrack *> *)tracks;
 
 /*!
  * @abstract 发送消息给 users 数组中的所有 userID。若需要给房间中的所有人发消息，数组传入 nil 即可。
@@ -313,35 +331,84 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sendMessage:(NSString *)messsage toUsers:(nullable NSArray<NSString *> *)users messageId:(nullable NSString *)messageId;
 
 /*!
+ * @abstract 开启跨房媒体转发
+ *
+ * @discussion 如果已经开启，则调用失败
+ *             当所有目标房间跨房媒体转发都失败，则本次跨房媒体转发请求视为失败，使用跨房媒体转发功能需要再次调用此 API
+ *             当有任意一个目标或多个目标房间媒体转发成功，则本次跨房媒体转发请求视为成功，具体每个房间的状态参考回调结果。
+ *
+ * @param config 跨房间媒体转发参数配置。
+ *
+ * @see QNRoomMediaRelayConfiguration
+ *
+ * @warning 该方法仅适用直播类型房间中角色类型为主播的用户。
+ *
+ * @since v4.0.1
+ */
+- (void)startRoomMediaRelay:(QNRoomMediaRelayConfiguration *_Nonnull)config completeCallback:(nullable QNMediaRelayResultCallback)callback;
+
+/*!
+ * @abstract 更新媒体流转发的房间。
+ *
+ * @discussion 成功开启跨房媒体转发后，如果你希望将流转发到多个目标房间，或退出当前正在转发的房间，可以调用该方法。
+ *             此 API 为全量更新，正在跨房媒体转发中却未被包含在参数 configuration 中的房间，将停止媒体转发。
+ *
+ * @param config 跨房间媒体流转发参数配置。
+ *
+ * @see QNRoomMediaRelayConfiguration
+ *
+ * @warning 调用此 API 前必须确保已经成功开启跨房媒体转发，否则将调用失败；该方法仅适用直播类型房间中角色类型为主播的用户。
+ *
+ * @since v4.0.1
+ */
+- (void)updateRoomMediaRelay:(QNRoomMediaRelayConfiguration *_Nonnull)config completeCallback:(nullable QNMediaRelayResultCallback)callback;
+
+/*!
+ * @abstract 停止跨房间媒体流转发。
+ *
+ * @discussion 如果未开启，则调用失败。
+ *
+ * @warning 一旦停止，会停止在所有目标房间中的媒体转发；该方法仅适用直播类型房间中角色类型为主播的用户。
+ *
+ * @since v4.0.1
+ */
+- (void)stopRoomMediaRelay:(nullable QNMediaRelayResultCallback)callback;
+
+/*!
  * @abstract 获取远端用户。
  *
  * @since v4.0.0
  */
 - (QNRemoteUser *)getRemoteUser:(NSString *)userID;
+
 /*!
  * @abstract 获取某个用户的网路质量等级。
  *
  * @since v4.0.0
  */
 - (QNNetworkQuality *)getUserNetworkQuality:(NSString *)userID;
+
 /*!
  * @abstract 获取远端用户视频传输统计信息。
  *
  * @since v4.0.0
  */
 - (NSDictionary *)getRemoteVideoTrackStats;
+
 /*!
  * @abstract 获取远端用户音频传输统计信息。
  *
  * @since v4.0.0
  */
 - (NSDictionary *)getRemoteAudioTrackStats;
+
 /*!
  * @abstract 获取本地视频传输统计信息。
  *
  * @since v4.0.0
  */
 - (NSDictionary *)getLocalVideoTrackStats;
+
 /*!
  * @abstract 获取本地音频传输统计信息。
  *

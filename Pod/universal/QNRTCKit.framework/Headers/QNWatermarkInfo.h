@@ -11,14 +11,14 @@
 
 @interface QNWatermarkInfo : NSObject
 
-/**
- @brief 水印在合流中的位置
-*/
+/*!
+ * @abstract 水印在合流中的位置
+ */
 @property (nonatomic, assign) CGRect frame;
 
-/**
- @brief 水印图片的 url
-*/
+/*!
+ * @abstract 水印图片的 url
+ */
 @property (nonatomic, strong) NSString *watermarkUrl;
 
 @end
@@ -26,14 +26,14 @@
 
 @interface QNBackgroundInfo : NSObject
 
-/**
- @brief 背景图片在合流中的位置
-*/
+/*!
+ * @abstract 背景图片在合流中的位置
+ */
 @property (nonatomic, assign) CGRect frame;
 
-/**
- @brief 背景图片的 url
-*/
+/*!
+ * @abstract 背景图片的 url
+ */
 @property (nonatomic, strong) NSString *backgroundUrl;
 
 @end

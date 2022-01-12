@@ -15,13 +15,13 @@
  * @since v4.0.0
  */
 @property (nonatomic, strong) NSString *userID;
+
 /*!
  * @abstract SDK 可将 userData 传给房间中的其它用户，如无需求可置为 nil。
  *
  * @since v4.0.0
  */
 @property (nonatomic, strong) NSString *userData;
-
 
 @end
 

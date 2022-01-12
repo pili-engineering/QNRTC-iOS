@@ -35,7 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 连麦房间中的音频管理类实例。
  *
- * @warning 该值为 QNAudioMixer 的属性，使用方式如下：
+ * @warning 务必保证已创建 QNMicrophoneAudioTrack，再使用 QNAudioMixer
+ *          该值为 QNAudioMixer 的属性，使用方式如下：
  *          self.audioTrack.audioMixer.audioURL = [NSURL URLWithString:@"http://www.xxx.com/test.mp3"];
  *          self.audioTrack.audioMixer.delegate = self;
  *
@@ -55,7 +56,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v4.0.0
  */
 - (void)setVolume:(float)volume;
-
 
 @end
 

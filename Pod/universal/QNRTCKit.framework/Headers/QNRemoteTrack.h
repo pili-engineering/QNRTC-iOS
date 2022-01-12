@@ -26,8 +26,13 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface QNRemoteTrack : QNTrack
-
+/*!
+ * @abstract 远端 Track 回调代理。
+ *
+ * @since v4.0.0
+ */
 @property (nonatomic, weak) id<QNRemoteTrackDelegate> remoteDelegate;
+
 /*!
  * @abstract 是否已订阅。
  *

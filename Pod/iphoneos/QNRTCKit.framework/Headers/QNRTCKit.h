@@ -30,6 +30,7 @@ FOUNDATION_EXPORT const unsigned char QNRTCKitVersionString[];
 #import <QNRTCKit/QNRTCUser.h>
 #import <QNRTCKit/QNRemoteUser.h>
 #import <QNRTCKit/QNRTCClient.h>
+#import <QNRTCKit/QNClientConfig.h>
 #import <QNRTCKit/QNMicrophoneAudioTrackConfig.h>
 #import <QNRTCKit/QNCustomAudioTrackConfig.h>
 #import <QNRTCKit/QNCameraVideoTrackConfig.h>
@@ -58,4 +59,6 @@ FOUNDATION_EXPORT const unsigned char QNRTCKitVersionString[];
 #import <QNRTCKit/QNNetworkQuality.h>
 #import <QNRTCKit/QNLocalVideoTrackStats.h>
 #import <QNRTCKit/QNLocalAudioTrackStats.h>
+#import <QNRTCKit/QNRoomMediaRelayInfo.h>
+#import <QNRTCKit/QNRoomMediaRelayConfiguration.h>
 

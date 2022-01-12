@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSError *error;
 
 @property (nonatomic, assign) QNConnectionDisconnectedReason reason;
+
 @end
 
 NS_ASSUME_NONNULL_END

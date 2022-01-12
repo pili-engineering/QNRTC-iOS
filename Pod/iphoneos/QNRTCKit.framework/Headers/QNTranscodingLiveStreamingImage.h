@@ -12,16 +12,18 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface QNTranscodingLiveStreamingImage : NSObject
-/**
- @brief 设置图片在合流画布中所在位置
- @since v4.0.0
-*/
+/*!
+ * @abstract 设置图片在合流画布中所在位置
+ *
+ * @since v4.0.0
+ */
 @property (nonatomic, assign) CGRect frame;
 
-/**
- @brief 设置图片地址，仅支持 HTTP
- @since v4.0.0
-*/
+/*!
+ * @abstract 设置图片地址，仅支持 HTTP
+ *
+ * @since v4.0.0
+ */
 @property (nonatomic, strong) NSString *imageUrl;
 
 @end

@@ -19,6 +19,7 @@
 
 @class QNRTC;
 @class QNRTCConfiguration;
+@class QNClientConfig;
 @class QNMicrophoneAudioTrack;
 @class QNCameraVideoTrack;
 @class QNCustomAudioTrack;
@@ -64,6 +65,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v4.0.0
  */
 + (QNRTCClient *)createRTCClient;
+
+/*!
+ * @abstract 用 config 创建 QNRTCClient。
+ *
+ * @since v4.0.1
+ */
++ (QNRTCClient *)createRTCClient:(QNClientConfig *)clientConfig;
 
 /*!
  * @abstract 创建一路以麦克风采集为数据源的音频 track，默认码率为 64kbps
@@ -192,6 +200,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v4.0.0
  */
 + (BOOL)speakerphoneMuted;
+
 @end
 
 #pragma mark - Category (Logging)
@@ -223,6 +232,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v4.0.0
 */
 + (void)setLogLevel:(QNRTCLogLevel)level;
+
 @end
 
 #pragma mark - Category (Info)

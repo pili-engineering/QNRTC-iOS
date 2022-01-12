@@ -39,24 +39,28 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v4.0.0
  */
 @property (nonatomic, weak) id<QNRemoteTrackVideoDataDelegate> videoDelegate;
+
 /*!
  * @abstract 是否开启大小流。
  *
  * @since v4.0.0
  */
 @property (nonatomic, assign, readonly) BOOL isMultiProfileEnabled;
+
 /*!
  * @abstract 当前大小流等级。
  *
  * @since v4.0.0
  */
 @property (nonatomic, assign, readonly) QNTrackProfile profile;
+
 /*!
  * @abstract 视频 Track 渲染。
  *
  * @since v4.0.0
  */
 - (void)play:(nullable QNVideoView *)renderView;
+
 /*!
  * @abstract 变更订阅大小流等级。
  *

@@ -462,9 +462,12 @@ static const int cLabelTag = 10;
     NSDictionary* videoTrackStats =  [[NSDictionary alloc] initWithDictionary:[self.client getLocalVideoTrackStats]];
     for (NSString * trackID in videoTrackStats.allKeys) {
         NSString *str = nil;
-        QNLocalVideoTrackStats * videoStats = videoTrackStats[trackID];
-        str = [NSString stringWithFormat:@"统计信息回调:trackID：%@\n\n视频码率：%2fbps\n本地视频丢包率：%f%%\n视频帧率：%d\n本地 rtt：%d\nprofile：%d\n",trackID, videoStats.uplinkBitrate, videoStats.uplinkLostRate, videoStats.uplinkFrameRate, videoStats.uplinkRTT, videoStats.profile];
-        [self addLogString:str];
+        NSArray * videoArray = videoTrackStats[trackID];
+        for (QNLocalVideoTrackStats *videoStats in videoArray ) {
+            str = [NSString stringWithFormat:@"统计信息回调:trackID：%@\n\n视频码率：%2fbps\n 本地视频丢包率：%f%%\n视频帧率：%d\n本地 rtt：%d\nprofile：%d\n",trackID, videoStats.uplinkBitrate, videoStats.uplinkLostRate, videoStats.uplinkFrameRate, videoStats.uplinkRTT, videoStats.profile];
+            [self addLogString:str];
+        }
+        
     }
     
     NSDictionary* audioTrackStats =  [self.client getLocalAudioTrackStats];

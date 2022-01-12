@@ -27,9 +27,9 @@
 		};
 		B6A52A79806572386958AD9BA67B8948 /* QNRTCKit-iOS */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 11F6A5F51F596F98D381E45D4627165B /* Build configuration list for PBXAggregateTarget "QNRTCKit-iOS" */;
+			buildConfigurationList = 22321BD7F18EF6466BAB38611A22DBB4 /* Build configuration list for PBXAggregateTarget "QNRTCKit-iOS" */;
 			buildPhases = (
-				3AE46C2A751272F554F06AF91979F89C /* [CP] Copy dSYMs */,
+				9597F7676160E0AD28AAFF3BF8B901F8 /* [CP] Copy dSYMs */,
 			);
 			dependencies = (
 			);
@@ -1424,18 +1424,16 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3AE46C2A751272F554F06AF91979F89C /* [CP] Copy dSYMs */ = {
+		9597F7676160E0AD28AAFF3BF8B901F8 /* [CP] Copy dSYMs */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/../../Pod/iphoneos/HappyDNS.framework.dSYM",
 				"${PODS_ROOT}/../../Pod/iphoneos/QNRTCKit.framework.dSYM",
 			);
 			name = "[CP] Copy dSYMs";
 			outputPaths = (
-				"${DWARF_DSYM_FOLDER_PATH}/HappyDNS.framework.dSYM",
 				"${DWARF_DSYM_FOLDER_PATH}/QNRTCKit.framework.dSYM",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1740,6 +1738,22 @@
 			};
 			name = Debug;
 		};
+
+		2D0FD884BD97E3B17A3CEB01833E6642 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69B3343CAF91FF40B520155EF931D4B1 /* QNRTCKit-iOS.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+
 		45D8A40622AC41899280D8E7A2139E32 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = EA683D2C945FA2089D235AC99EA45A41 /* Pods-QNRTCKitDemo.release.xcconfig */;
@@ -1783,8 +1797,23 @@
 			};
 			name = Debug;
 		};
+
+		5B92DA013C1D43A98B14BBF233D4BA3D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4DB733D546797019CAAFC4D6AFF816F4 /* QNRTCKit-iOS.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 		5C09F5AF55340000CAD4FE7BA8F9F710 /* Debug */ = {
 			isa = XCBuildConfiguration;
+
 			baseConfigurationReference = B58259943A915A3AEA389BA0524B18FB /* JGProgressHUD.debug.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1858,19 +1887,6 @@
 			};
 			name = Debug;
 		};
-		971B87B36A3EE0BEAA240AAB4F65F204 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4DB733D546797019CAAFC4D6AFF816F4 /* QNRTCKit-iOS.debug.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
 		9A8E56DD498BB7B1F873E183FCE5F037 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C0A4F0B6B56A67F996A116C9F6A4E66C /* MMMaterialDesignSpinner.release.xcconfig */;
@@ -1917,13 +1933,14 @@
 			};
 			name = Release;
 		};
-		9C8AA4D30B87DAC40E8F3382FFEDEA8A /* Release */ = {
+
+		A3FD0DB2874EE67C4FACB1AFDDEC5BF2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 69B3343CAF91FF40B520155EF931D4B1 /* QNRTCKit-iOS.release.xcconfig */;
+			baseConfigurationReference = E9F7371B5086C7309CDD4B546ADF1107 /* Fabric.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2132,11 +2149,11 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		11F6A5F51F596F98D381E45D4627165B /* Build configuration list for PBXAggregateTarget "QNRTCKit-iOS" */ = {
+		22321BD7F18EF6466BAB38611A22DBB4 /* Build configuration list for PBXAggregateTarget "QNRTCKit-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				971B87B36A3EE0BEAA240AAB4F65F204 /* Debug */,
-				9C8AA4D30B87DAC40E8F3382FFEDEA8A /* Release */,
+				5B92DA013C1D43A98B14BBF233D4BA3D /* Debug */,
+				2D0FD884BD97E3B17A3CEB01833E6642 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

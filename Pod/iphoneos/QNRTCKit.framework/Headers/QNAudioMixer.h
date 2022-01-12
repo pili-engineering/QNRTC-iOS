@@ -14,74 +14,76 @@ NS_ASSUME_NONNULL_BEGIN
 @class QNAudioMixer;
 @protocol QNAudioMixerDelegate <NSObject>
 
-/**
- QNAudioMixer 在运行过程中，发生错误的回调
- 
- @param audioMixer QNAudioMixer
- @param error 错误
- 
- @since v4.0.0
+@required
+/*!
+ * @abstract QNAudioMixer 在运行过程中，发生错误的回调
+ *
+ * @param audioMixer QNAudioMixer
+ * @param error 错误
+ *
+ * @since v4.0.0
  */
 - (void)audioMixer:(QNAudioMixer *)audioMixer didFailWithError:(NSError *)error;
 
-/**
- QNAudioMixer 在运行过程中，音频状态发生变化的回调
- 
- @param audioMixer QNAudioMixer
- @param playState 播放状态
- 
- @since v4.0.0
+/*!
+ * @abstract QNAudioMixer 在运行过程中，音频状态发生变化的回调
+ *
+ * @param audioMixer QNAudioMixer
+ * @param playState 播放状态
+ *
+ * @since v4.0.0
  */
 - (void)audioMixer:(QNAudioMixer *)audioMixer playStateDidChange:(QNAudioPlayState)playState;
 
-/**
- QNAudioMixer 在运行过程中，混音进度的回调
- 
- @discussion 混音进度不被 loopTimes 影响，跟当前时间 currentTime 节奏一致。
- 
- @param audioMixer QNAudioMixer
- @param currentTime 当前时间
- 
- @since v4.0.0
+/*!
+ * @abstract QNAudioMixer 在运行过程中，混音进度的回调
+ *
+ * @discussion 混音进度不被 loopTimes 影响，跟当前时间 currentTime 节奏一致。
+ *
+ * @param audioMixer QNAudioMixer
+ * @param currentTime 当前时间
+ *
+ * @since v4.0.0
  */
 - (void)audioMixer:(QNAudioMixer *)audioMixer didMixing:(NSTimeInterval)currentTime;
 
-/**
- QNAudioMixer 在运行过程中，麦克风音频数据的回调
- 
- @warning 当 playState 为 QNAudioPlayStatePlaying 时，该回调有数据；否则，无数据。
- 
- @param audioMixer QNAudioMixer
- @param audioBuffer 音频数据
- @param asbd 音频数据的格式参数
- 
- @since v4.0.0
+@optional
+/*!
+ * @abstract QNAudioMixer 在运行过程中，麦克风音频数据的回调
+ *
+ * @warning 当 playState 为 QNAudioPlayStatePlaying 时，该回调有数据；否则，无数据。
+ *
+ * @param audioMixer QNAudioMixer
+ * @param audioBuffer 音频数据
+ * @param asbd 音频数据的格式参数
+ *
+ * @since v4.0.0
  */
 - (void)audioMixer:(QNAudioMixer *)audioMixer microphoneSourceDidGetAudioBuffer:(AudioBuffer *)audioBuffer asbd:(const AudioStreamBasicDescription *)asbd;
 
-/**
- QNAudioMixer 在运行过程中，音乐音频数据的回调
- 
- @warning 当 playState 为 QNAudioPlayStatePlaying 时，该回调有数据；否则，无数据。
- 
- @param audioMixer QNAudioMixer
- @param audioBuffer 音频数据
- @param asbd 音频数据的格式参数
- 
- @since v4.0.0
+/*!
+ * @abstract QNAudioMixer 在运行过程中，音乐音频数据的回调
+ *
+ * @warning 当 playState 为 QNAudioPlayStatePlaying 时，该回调有数据；否则，无数据。
+ *
+ * @param audioMixer QNAudioMixer
+ * @param audioBuffer 音频数据
+ * @param asbd 音频数据的格式参数
+ *
+ * @since v4.0.0
  */
 - (void)audioMixer:(QNAudioMixer *)audioMixer musicSourceDidGetAudioBuffer:(AudioBuffer *)audioBuffer asbd:(const AudioStreamBasicDescription *)asbd;
 
-/**
- QNAudioMixer 在运行过程中，混音数据的回调
- 
- @warning 当 playState 为 QNAudioPlayStatePlaying 时，该回调有数据；否则，无数据。
- 
- @param audioMixer QNAudioMixer
- @param audioBuffer 音频数据
- @param asbd 音频数据的格式参数
- 
- @since v4.0.0
+/*!
+ * @abstract QNAudioMixer 在运行过程中，混音数据的回调
+ *
+ * @warning 当 playState 为 QNAudioPlayStatePlaying 时，该回调有数据；否则，无数据。
+ *
+ * @param audioMixer QNAudioMixer
+ * @param audioBuffer 音频数据
+ * @param asbd 音频数据的格式参数
+ *
+ * @since v4.0.0
  */
 - (void)audioMixer:(QNAudioMixer *)audioMixer mixedSourceDidGetAudioBuffer:(AudioBuffer *)audioBuffer asbd:(const AudioStreamBasicDescription *)asbd;
 

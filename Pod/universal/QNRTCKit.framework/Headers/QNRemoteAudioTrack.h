@@ -42,6 +42,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)setVolume:(float)volume;
 
+/*!
+ * @abstract 获取远端音频 Track 播放音量。范围从 0 ~ 1，1 为最大
+ *
+ * @since  v4.0.2
+ */
+- (float)getVolumeLevel;
+
 @end
 
 NS_ASSUME_NONNULL_END

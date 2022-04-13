@@ -27,4 +27,11 @@
  */
 + (void)scaleWithSat:(AudioBuffer *)audioBuffer scale:(double)scale max:(float)max min:(float) min;
 
+/*!
+ * @abstract 计算音量大小
+ *
+ * @since v4.0.0
+ */
++ (double)volumeWithAudioBuffer:(AudioBuffer *)audioBuffer;
+
 @end

@@ -12,6 +12,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface QNLocalAudioTrack : QNLocalTrack
 
+/*!
+ * @abstract 用户音量回调，volume 值在 [0, 1] 之间。
+ *
+ * @since v4.0.1
+ */
+- (float)getVolumeLevel;
+
 @end
 
 NS_ASSUME_NONNULL_END

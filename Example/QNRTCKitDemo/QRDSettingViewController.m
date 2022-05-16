@@ -68,10 +68,10 @@ QRDSettingViewDelegate
     * 则：
     * A / 2 分辨率 x B 帧率 = 1000kbps
     */
-    _configDicArray = @[@{@"VideoSize":NSStringFromCGSize(CGSizeMake(288, 352)), @"FrameRate":@15, @"Bitrate":@(400*1000)},
-                   @{@"VideoSize":NSStringFromCGSize(CGSizeMake(480, 640)), @"FrameRate":@20, @"Bitrate":@(800*1000) },
-                   @{@"VideoSize":NSStringFromCGSize(CGSizeMake(544, 960)), @"FrameRate":@25, @"Bitrate":@(1200*1000)},
-                   @{@"VideoSize":NSStringFromCGSize(CGSizeMake(720, 1280)), @"FrameRate":@30, @"Bitrate":@(2000*1000)}];
+    _configDicArray = @[@{@"VideoSize":NSStringFromCGSize(CGSizeMake(288, 352)), @"FrameRate":@15, @"Bitrate":@(400)},
+                   @{@"VideoSize":NSStringFromCGSize(CGSizeMake(480, 640)), @"FrameRate":@20, @"Bitrate":@(800) },
+                   @{@"VideoSize":NSStringFromCGSize(CGSizeMake(544, 960)), @"FrameRate":@25, @"Bitrate":@(1200)},
+                   @{@"VideoSize":NSStringFromCGSize(CGSizeMake(720, 1280)), @"FrameRate":@30, @"Bitrate":@(2000)}];
     _configArray = @[@"288x352、15fps、400kbps",
                      @"480x640、20fps、800kbps",
                      @"544x960、25fps、1200kbps",

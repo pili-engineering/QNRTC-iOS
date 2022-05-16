@@ -169,10 +169,10 @@ UITextFieldDelegate
 
     NSDictionary *configDic = [[NSUserDefaults standardUserDefaults] objectForKey:QN_SET_CONFIG_KEY];
     if (!configDic) {
-        configDic = @{@"VideoSize":NSStringFromCGSize(CGSizeMake(480, 640)), @"FrameRate":@15, @"Bitrate":@(400*1000)};
+        configDic = @{@"VideoSize":NSStringFromCGSize(CGSizeMake(480, 640)), @"FrameRate":@15, @"Bitrate":@(400)};
     } else if (![configDic objectForKey:@"Bitrate"]) {
         // 如果不存在 Bitrate key，做一下兼容处理
-        configDic = @{@"VideoSize":NSStringFromCGSize(CGSizeMake(480, 640)), @"FrameRate":@15, @"Bitrate":@(400*1000)};
+        configDic = @{@"VideoSize":NSStringFromCGSize(CGSizeMake(480, 640)), @"FrameRate":@15, @"Bitrate":@(400)};
         [[NSUserDefaults standardUserDefaults] setObject:configDic forKey:QN_SET_CONFIG_KEY];
     }
 

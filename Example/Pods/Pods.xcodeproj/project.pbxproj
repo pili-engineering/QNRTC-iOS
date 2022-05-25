@@ -1738,7 +1738,6 @@
 			};
 			name = Debug;
 		};
-
 		2D0FD884BD97E3B17A3CEB01833E6642 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 69B3343CAF91FF40B520155EF931D4B1 /* QNRTCKit-iOS.release.xcconfig */;
@@ -1753,7 +1752,6 @@
 			};
 			name = Release;
 		};
-
 		45D8A40622AC41899280D8E7A2139E32 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = EA683D2C945FA2089D235AC99EA45A41 /* Pods-QNRTCKitDemo.release.xcconfig */;
@@ -1797,7 +1795,6 @@
 			};
 			name = Debug;
 		};
-
 		5B92DA013C1D43A98B14BBF233D4BA3D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4DB733D546797019CAAFC4D6AFF816F4 /* QNRTCKit-iOS.debug.xcconfig */;
@@ -1813,7 +1810,6 @@
 		};
 		5C09F5AF55340000CAD4FE7BA8F9F710 /* Debug */ = {
 			isa = XCBuildConfiguration;
-
 			baseConfigurationReference = B58259943A915A3AEA389BA0524B18FB /* JGProgressHUD.debug.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1928,21 +1924,6 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-
-		A3FD0DB2874EE67C4FACB1AFDDEC5BF2 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E9F7371B5086C7309CDD4B546ADF1107 /* Fabric.debug.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};

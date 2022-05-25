@@ -34,4 +34,7 @@
  */
 + (double)volumeWithAudioBuffer:(AudioBuffer *)audioBuffer;
 
++ (NSInteger)findSimulcastLowAndMediumBpsWithOriginalWidth:(NSInteger)originalWidth
+                                            originalHeight:(NSInteger) originalHeight;
+
 @end

@@ -652,7 +652,7 @@ static NSString *screenTag = @"screen";
             }
         } else{
             if (self.delegate && [self.delegate respondsToSelector:@selector(transcodingStreamingSettingView:didCloseTranscodingLiveStreaming:)]) {
-                [self.delegate transcodingStreamingSettingView:self didCloseTranscodingLiveStreaming:nil];
+                [self.delegate transcodingStreamingSettingView:self didCloseTranscodingLiveStreaming:[QNTranscodingLiveStreamingConfig defaultConfiguration]];
             }
         }
         if (self.delegate && [self.delegate respondsToSelector:@selector(transcodingStreamingSettingView:didGetMessage:)]) {
@@ -667,7 +667,7 @@ static NSString *screenTag = @"screen";
                 }
             } else {
                 if (self.delegate && [self.delegate respondsToSelector:@selector(transcodingStreamingSettingView:didCloseTranscodingLiveStreaming:)]) {
-                    [self.delegate transcodingStreamingSettingView:self didCloseTranscodingLiveStreaming:nil];
+                    [self.delegate transcodingStreamingSettingView:self didCloseTranscodingLiveStreaming:[QNTranscodingLiveStreamingConfig defaultConfiguration]];
                 }
             }
          }
@@ -714,8 +714,8 @@ static NSString *screenTag = @"screen";
         
         QNTranscodingLiveStreamingTrack *layoutTrack = [[QNTranscodingLiveStreamingTrack alloc] init];
         layoutTrack.frame = firstTrackFrame;
-        layoutTrack.zIndex = firstTrackZValue;
-        layoutTrack.trackId = self.firstTrackTranscodingStreamingInfo.trackId;
+        layoutTrack.zOrder = firstTrackZValue;
+        layoutTrack.trackID = self.firstTrackTranscodingStreamingInfo.trackId;
         if (firstTrackMerged) {
             [addLayouts addObject:layoutTrack];
         } else {
@@ -730,8 +730,8 @@ static NSString *screenTag = @"screen";
         
         QNTranscodingLiveStreamingTrack *layoutTrack = [[QNTranscodingLiveStreamingTrack alloc] init];
         layoutTrack.frame = secondTrackFrame;
-        layoutTrack.zIndex = secondTrackZValue;
-        layoutTrack.trackId = self.secondTrackTranscodingStreamingInfo.trackId;
+        layoutTrack.zOrder = secondTrackZValue;
+        layoutTrack.trackID = self.secondTrackTranscodingStreamingInfo.trackId;
         if (secondTrackMerged) {
             [addLayouts addObject:layoutTrack];
         } else {
@@ -743,7 +743,7 @@ static NSString *screenTag = @"screen";
         self.audioTrackTranscodingStreamingInfo.merged = audioTrackMerged;
     
         QNTranscodingLiveStreamingTrack *audioLayout = [[QNTranscodingLiveStreamingTrack alloc] init];
-        audioLayout.trackId = self.audioTrackTranscodingStreamingInfo.trackId;
+        audioLayout.trackID = self.audioTrackTranscodingStreamingInfo.trackId;
         if (audioTrackMerged) {
             [addLayouts addObject:audioLayout];
         } else {
@@ -899,9 +899,9 @@ static NSString *screenTag = @"screen";
     for (QRDTranscodingStreamingInfo *info in self.transcodingStreamingInfoArray) {
         if (info.isMerged) {
             QNTranscodingLiveStreamingTrack *layoutTrack = [[QNTranscodingLiveStreamingTrack alloc] init];
-            layoutTrack.trackId = info.trackId;
+            layoutTrack.trackID = info.trackId;
             layoutTrack.frame = info.mergeFrame;
-            layoutTrack.zIndex = info.zIndex;
+            layoutTrack.zOrder = info.zIndex;
             [array addObject:layoutTrack];
         }
     }

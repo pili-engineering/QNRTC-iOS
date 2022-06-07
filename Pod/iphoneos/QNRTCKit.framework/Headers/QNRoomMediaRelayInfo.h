@@ -26,23 +26,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (copy, nonatomic) NSString *roomName;
 
+
 /*!
  * @abstract 初始化方法。
  *
  * @since v4.0.1
  */
-- (instancetype _Nonnull)initWithToken:(NSString *_Nullable)token  __deprecated_msg("Method deprecated in v4.0.3. Use 'initWithRoomName:token:'");
-
-/*!
- * @abstract 初始化方法。
- *
- * @param roomName 房间名
- *
- * @param token 房间 token
- *
- * @since v4.0.3
- */
-- (instancetype _Nonnull)initWithRoomName:(NSString *__nonnull)roomName token:(NSString *__nonnull)token;
+- (instancetype _Nonnull)initWithToken:(NSString *_Nullable)token;
 
 @end
 

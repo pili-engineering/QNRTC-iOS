@@ -44,7 +44,6 @@
 @implementation QRDBaseViewController
 
 - (void)dealloc {
-    [QNRTC deinit];
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
     NSLog(@"[dealloc]==> %@", self.description);
@@ -93,9 +92,14 @@
     
     [self setupLogUI];
     
-    self.preview = [[QNGLKView alloc] initWithFrame:self.view.bounds];
+    self.preview = [[QNVideoGLView alloc] initWithFrame:self.view.bounds];
     
     self.singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(exchangeWindowSize)];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [QNRTC deinit];
+    [super viewDidDisappear:animated];
 }
 
 - (UIView *)colorView {
@@ -455,19 +459,17 @@ static const int cLabelTag = 10;
 }
 
 - (void)getStatesTimerAction {
-    if (QNConnectionStateConnected != self.client.roomState && QNConnectionStateReconnected != self.client.roomState) {
+    if (QNConnectionStateConnected != self.client.connectionState && QNConnectionStateReconnected != self.client.connectionState) {
         return;
     }
         
     NSDictionary* videoTrackStats =  [[NSDictionary alloc] initWithDictionary:[self.client getLocalVideoTrackStats]];
     for (NSString * trackID in videoTrackStats.allKeys) {
         NSString *str = nil;
-        NSArray * videoArray = videoTrackStats[trackID];
-        for (QNLocalVideoTrackStats *videoStats in videoArray ) {
-            str = [NSString stringWithFormat:@"统计信息回调:trackID：%@\n\n视频码率：%2fbps\n 本地视频丢包率：%f%%\n视频帧率：%d\n本地 rtt：%d\nprofile：%d\n",trackID, videoStats.uplinkBitrate, videoStats.uplinkLostRate, videoStats.uplinkFrameRate, videoStats.uplinkRTT, videoStats.profile];
-            [self addLogString:str];
-        }
-        
+        NSArray *videoTracksArray = videoTrackStats[trackID];
+        QNLocalVideoTrackStats *videoStats = videoTracksArray[0];
+        str = [NSString stringWithFormat:@"统计信息回调:trackID：%@\n\n视频码率：%2fbps\n本地视频丢包率：%f%%\n视频帧率：%d\n本地 rtt：%d\nprofile：%d\n",trackID, videoStats.uplinkBitrate, videoStats.uplinkLostRate, videoStats.uplinkFrameRate, videoStats.uplinkRTT, videoStats.profile];
+        [self addLogString:str];
     }
     
     NSDictionary* audioTrackStats =  [self.client getLocalAudioTrackStats];
@@ -538,7 +540,7 @@ static const int cLabelTag = 10;
 - (void)RTCClient:(QNRTCClient *)client didConnectionStateChanged:(QNConnectionState)state disconnectedInfo:(QNConnectionDisconnectedInfo *)info {
     
     NSDictionary *roomStateDictionary =  @{
-                                           @(QNConnectionStateIdle) : @"Idle",
+                                           @(QNConnectionStateDisconnected) : @"Disconnected",
                                            @(QNConnectionStateConnecting) : @"Connecting",
                                            @(QNConnectionStateConnected): @"Connected",
                                            @(QNConnectionStateReconnecting) : @"Reconnecting",
@@ -551,7 +553,7 @@ static const int cLabelTag = 10;
         [self stopGetStatsTimer];
     }
     [self addLogString:str];
-    if (QNConnectionStateIdle == state) {
+    if (QNConnectionStateDisconnected == state) {
         switch (info.reason) {
             case QNConnectionDisconnectedReasonKickedOut:{
                 str =[NSString stringWithFormat:@"被远端服务器踢出的回调"];
@@ -577,9 +579,6 @@ static const int cLabelTag = 10;
                         break;
                     case QNRTCErrorTokenExpired:
                         NSLog(@"roomToken 过期");
-                        break;
-                    case QNRTCErrorReconnectTokenError:
-                        NSLog(@"重新进入房间超时，请务必调用 leave, 重新进入房间");
                         break;
                     default:
                         break;
@@ -642,7 +641,7 @@ static const int cLabelTag = 10;
 }
 
 /**
- * 远端用户视频首帧解码后的回调，如果需要渲染，则调用当前 videoTrack.play(QNVideoView*) 方法
+ * 远端用户视频首帧解码后的回调，如果需要渲染，则调用当前 videoTrack.play(QNVideoGLView*) 方法
  */
 - (void)RTCClient:(QNRTCClient *)client firstVideoDidDecodeOfTrack:(QNRemoteVideoTrack *)videoTrack remoteUserID:(NSString *)userID {
     NSString *str = [NSString stringWithFormat:@"远端用户: %@ trackID: %@ 视频首帧解码后的回调",  userID, videoTrack.trackID];
@@ -656,7 +655,6 @@ static const int cLabelTag = 10;
     NSString *str = [NSString stringWithFormat:@"远端用户: %@ trackID: %@ 视频取消渲染到 renderView 上的回调",  userID, videoTrack.trackID];
     [self addLogString:str];
 }
-
 
 /**
 * 远端用户发生重连
@@ -674,13 +672,17 @@ static const int cLabelTag = 10;
     [self addLogString:logStr];
 }
 
-#pragma mark QNRemoteTrackDelegate
+#pragma mark QNRemoteVideoTrackDelegate
 
-/**
- * 远端用户 Track 状态变更为 muted 的回调
- */
-- (void)remoteTrack:(QNRemoteTrack *)remoteTrack didMutedByRemoteUserID:(NSString *)userID {
-    NSString *str = [NSString stringWithFormat:@"远端用户: %@ trackId: %@ Track 状态变更为: %d 的回调",  userID, remoteTrack.trackID, remoteTrack.muted];
+- (void)remoteVideoTrack:(QNRemoteVideoTrack *)remoteVideoTrack didMuteStateChanged:(BOOL)isMuted {
+    NSString *str = [NSString stringWithFormat:@"远端视频用户: %@ trackId: %@ Track 状态变更为: %d 的回调",  remoteVideoTrack.userID, remoteVideoTrack.trackID, remoteVideoTrack.muted];
+    [self addLogString:str];
+}
+
+#pragma mark QNRemoteAudioTrackDelegate
+
+- (void)remoteAudioTrack:(QNRemoteAudioTrack *)remoteAudioTrack didMuteStateChanged:(BOOL)isMuted {
+    NSString *str = [NSString stringWithFormat:@"远端音频用户: %@ trackId: %@ Track 状态变更为: %d 的回调",  remoteAudioTrack.userID, remoteAudioTrack.trackID, remoteAudioTrack.muted];
     [self addLogString:str];
 }
 
@@ -717,30 +719,29 @@ static const int cLabelTag = 10;
     i ++;
 }
 
-#pragma mark QNCameraTrackVideoDataDelegate
+#pragma mark QNLocalVideoTrackDelegate
 
 /**
  * 获取到摄像头原数据时的回调, 便于开发者做滤镜等处理，需要注意的是这个回调在 camera 数据的输出线程，请不要做过于耗时的操作，否则可能会导致编码帧率下降
  */
-- (void)cameraVideoTrack:(QNCameraVideoTrack *)cameraVideoTrack didGetSampleBuffer:(CMSampleBufferRef)sampleBuffer; {
+- (void)localVideoTrack:(QNLocalVideoTrack *)localVideoTrack didGetPixelBuffer:(CVPixelBufferRef)pixelBuffer {
     static int i = 0;
     if (i % 300 == 0) {
-        CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-        NSString *str = [NSString stringWithFormat:@"获取到摄像头原数据时的回调:\nbufferCount: %d, size = %zux%zu",  i, CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer)];
+        NSString *str = [NSString stringWithFormat:@"获取到本地track: %@ 的原数据时的回调:\nbufferCount: %d, size = %zux%zu",localVideoTrack.trackID,  i, CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer)];
         //        [self addLogString:str];
     }
     i ++;
 }
 
-#pragma mark QNMicrophoneAudioTrackDataDelegate
+#pragma mark QNLocalAudioTrackDelegate
 
 /**
  * 获取到麦克风原数据时的回调，需要注意的是这个回调在 AU Remote IO 线程，请不要做过于耗时的操作，否则可能阻塞该线程影响音频输出或其他未知问题
  */
-- (void)microphoneAudioTrack:(QNMicrophoneAudioTrack *)microphoneAudioTrack didGetAudioBuffer:(AudioBuffer *)audioBuffer bitsPerSample:(NSUInteger)bitsPerSample sampleRate:(NSUInteger)sampleRate {
+- (void)localAudioTrack:(QNLocalAudioTrack *)localAudioTrack didGetAudioBuffer:(AudioBuffer *)audioBuffer bitsPerSample:(NSUInteger)bitsPerSample sampleRate:(NSUInteger)sampleRate {
     static int i = 0;
     if (i % 500 == 0) {
-        NSString *str = [NSString stringWithFormat:@"获取到麦克风原数据时的回调:\nbufferCount: %d, dataLen = %u",  i, (unsigned int)audioBuffer->mDataByteSize];
+        NSString *str = [NSString stringWithFormat:@"获取到本地音频 track  ：%@ 的原数据时的回调:\nbufferCount: %d, dataLen = %u", localAudioTrack.trackID,  i, (unsigned int)audioBuffer->mDataByteSize];
         //        [self addLogString:str];
     }
     i ++;

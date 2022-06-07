@@ -10,21 +10,21 @@
 #import <UIKit/UIKit.h>
 #import "QNTypeDefines.h"
 #import "QNTrack.h"
-#import "QNRTCClient.h"
-#import "QNMicrophoneAudioTrackConfig.h"
-#import "QNCustomAudioTrackConfig.h"
-#import "QNCameraVideoTrackConfig.h"
-#import "QNScreenVideoTrackConfig.h"
-#import "QNCustomVideoTrackConfig.h"
 
 @class QNRTC;
 @class QNRTCConfiguration;
 @class QNClientConfig;
+@class QNRTCClient;
 @class QNMicrophoneAudioTrack;
+@class QNMicrophoneAudioTrackConfig;
 @class QNCameraVideoTrack;
+@class QNCameraVideoTrackConfig;
 @class QNCustomAudioTrack;
+@class QNCustomAudioTrackConfig;
 @class QNScreenVideoTrack;
+@class QNScreenVideoTrackConfig;
 @class QNCustomVideoTrack;
+@class QNCustomVideoTrackConfig;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -35,27 +35,27 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 音频输出设备变更的回调。主动调用的 `+ (void)setAudioRouteToSpeakerphone:(BOOL)audioRouteToSpeakerphone;` 不会有该回调。
  *
- * @since v4.0.0
+ * @since v5.0.0
  */
-- (void)QNRTCDidChangeRTCAudioOutputToDevice:(QNAudioDeviceType)deviceType;
+- (void)RTCDidAudioRouteChanged:(QNAudioDeviceType)deviceType;
 
 @end
 
 @interface QNRTC : NSObject
 
 /*!
- * @abstract 用 configuration 配置 QNRTC。
+ * @abstract 用 configuration 初始化 QNRTC，务必使用。
  *
  * @param configuration QNRTC 的配置。
  *
- * @since v4.0.0
+ * @since v5.0.0
  */
-+ (void)configRTC:(QNRTCConfiguration *)configuration;
++ (void)initRTC:(QNRTCConfiguration *)configuration;
 
 /*!
  * @abstract 取消初始化 QNRTC。
  *
- * @since v4.0.0
+ * @since v5.0.0
  */
 + (void)deinit;
 
@@ -67,9 +67,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (QNRTCClient *)createRTCClient;
 
 /*!
- * @abstract 用 config 创建 QNRTCClient。
+ * @abstract 创建 QNRTCClient。
  *
- * @since v4.0.1
+ *@param clientConfig QNRTCClient 的配置。
+ *
+ * @since v4.0.0
  */
 + (QNRTCClient *)createRTCClient:(QNClientConfig *)clientConfig;
 
@@ -122,16 +124,16 @@ NS_ASSUME_NONNULL_BEGIN
 + (QNCameraVideoTrack *)createCameraVideoTrackWithConfig:(QNCameraVideoTrackConfig *)configuration;
 
 /*!
- * @abstract 创建一路以屏幕录制采集为数据源的视频 track，默认码率为 600 kbps
+ * @abstract 创建一路以屏幕共享采集为数据源的视频 track，默认码率为 600 kbps
  *
  * @since v4.0.0
  */
 + (QNScreenVideoTrack *)createScreenVideoTrack;
 
 /*!
- * @abstract 创建一路以屏幕录制采集为数据源的视频 track。
+ * @abstract 创建一路以屏幕共享采集为数据源的视频 track。
  *
- * @param configuration 用于初始化屏幕录制采集的视频 track 的配置。
+ * @param configuration 用于初始化屏幕共享采集的视频 track 的配置。
  *
  * @since v4.0.0
  */
@@ -169,9 +171,9 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 设置 QNRTCDelegate 代理回调。
  *
- * @since v4.0.0
+ * @since v5.0.0
  */
-+ (void)setAudioRouteDelegate:(id <QNRTCDelegate>)delegate;
++ (void)setRTCDelegate:(id <QNRTCDelegate>)delegate;
 
 /*!
  * @abstract 是否将声音从扬声器输出。
@@ -217,7 +219,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 开启文件日志
  *
- * @discussion 为了不错过日志，建议在 App 启动时即开启，日志文件位于 App Container/Library/Caches/Pili/Logs 目录下以 QNRTC+当前时间命名的目录内
+ * @discussion 为了不错过日志，建议在 App 启动时即开启，日志文件位于 App Container/Library/Caches/Pili/Logs 目录内
  * 注意：文件日志功能主要用于排查问题，打开文件日志功能会对性能有一定影响，上线前请记得关闭文件日志功能！
  *
  * @since v4.0.0

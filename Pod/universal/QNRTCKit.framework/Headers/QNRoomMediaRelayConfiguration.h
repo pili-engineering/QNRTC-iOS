@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since v4.0.1
  */
-@property (strong, nonatomic, readonly) NSMutableDictionary *destRoomInfos;
+@property (strong, nonatomic, readonly) NSMutableDictionary<NSString *, QNRoomMediaRelayInfo *> *destRoomInfos;
 
 /*!
  * @abstract 设置目标房间信息。
@@ -49,9 +49,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param roomName 将要删除的目标房间名
  *
- * @since v4.0.1
+ * @since v5.0.0
  */
-- (BOOL)removeDestRoomInfoForRoomName:(NSString *_Nonnull)roomName;
+- (BOOL)removeDestRoomInfo:(NSString *_Nonnull)roomName;
 
 @end
 

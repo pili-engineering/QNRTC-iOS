@@ -23,7 +23,7 @@
 }
 
 - (void)setupClient {
-    [QNRTC configRTC:[QNRTCConfiguration defaultConfiguration]];
+    [QNRTC initRTC:[QNRTCConfiguration defaultConfiguration]];
     // 1.创建初始化 RTC 核心类 QNRTCClient
     self.client = [QNRTC createRTCClient];
     self.client.delegate = self;

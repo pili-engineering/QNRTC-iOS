@@ -2,9 +2,12 @@
 
 QNRTCKit 是七牛云推出的一款适用于 iOS 平台的实时音视频 SDK，提供了包括音视频通话、美颜、滤镜、水印等多种功能，提供灵活的接口，支持高度定制以及二次开发。
 
-> - ** QNRTCKit 4.x 版本是在 3.x 版本的基础上进行了 API 的重构和优化**，从而使使用者能够更加高效的接入，由于**接口不向下兼容**，所以新接入的用户推荐使用最新版本的 SDK。
+#### Warning: 如需运行 Example,请至 Pod/universal 和 Pod/iphoneos 文件夹下，解压 FFmpeg.framework.zip 文件，即可直接运行。
+
+> - ** QNRTCKit 5.x 版本是在 4.x 版本的基础上进行了 API 的重构和优化**，从而使使用者能够更加高效的接入，由于**接口不向下兼容**，所以新接入的用户推荐使用最新版本的 SDK。
 > - 老用户也可以继续使用 [QNRTCKit 3.x](https://github.com/pili-engineering/QNRTC-iOS/tree/v3.x) 版本，我们也会持续在此版本上进行问题修复和版本更迭，但是后续的一些新功能有可能并不会在 3.x 版本上提供。若您决定继续使用 3.x 版本 SDK，则可参考 [3.x 及之前版本的相关文档](https://doc.qnsdk.com/rtn/ios)。
 > - 使用 3.x 或者更低版本的用户若想升级至 4.x 版本，可参考 [4.x 版本迁移指南](https://developer.qiniu.com/rtc/9538/migration-guide-iOS) 进行升级。
+> - 使用 4.x 或者更低版本的用户若想升级至 v5.x 版本，可参考 [5.x 版本迁移指南](https://developer.qiniu.com/rtc/development_guidelines/11949/migration-guide-iOS-v5) 进行升级
 
 # 2 功能列表
 

@@ -27,12 +27,11 @@
 UITableViewDelegate,
 UITableViewDataSource,
 QNRTCClientDelegate,
-QNCameraTrackVideoDataDelegate,
-QNMicrophoneAudioTrackDataDelegate,
-QNRemoteTrackAudioDataDelegate,
-QNRemoteTrackVideoDataDelegate,
-QRDUserViewDelegate,
-QNRemoteTrackDelegate
+QNLocalVideoTrackDelegate,
+QNLocalAudioTrackDelegate,
+QNRemoteAudioTrackDelegate,
+QNRemoteVideoTrackDelegate,
+QRDUserViewDelegate
 >
 @property (nonatomic, strong) UIView *colorView;
 @property (nonatomic, readonly) LogTableView *tableView;
@@ -51,7 +50,7 @@ QNRemoteTrackDelegate
 @property (nonatomic, strong) QNCameraVideoTrack *cameraTrack;
 @property (nonatomic, strong) QNMicrophoneAudioTrack *audioTrack;
 
-@property (nonatomic, strong) QNGLKView * preview;
+@property (nonatomic, strong) QNVideoGLView * preview;
 
 - (void)resetRenderViews;
 - (QRDUserView *)createUserViewWithTrackId:(NSString *)trackId userId:(NSString *)userId;

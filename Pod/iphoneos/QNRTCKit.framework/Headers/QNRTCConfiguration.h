@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since v4.0.0
  */
-@interface QNRTCConfiguration : NSObject
+@interface QNRTCConfiguration : NSObject <NSCopying>
 
 /*!
  * @abstract 媒体流的连接方式，默认为 QNRTCPolicyForceUDP
@@ -24,27 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v4.0.0
  */
 @property (nonatomic, assign, readonly) QNRTCPolicy policy;
-
-/*!
- * @abstract 是否使用立体声，默认为 NO
- *
- * @since v4.0.0
- */
-@property (nonatomic, assign, readonly) BOOL isStereo;
-
-/*!
- * @abstract 带宽估计的策略，默认为 QNRTCBWEPolicyTCC
- *
- * @since v4.0.0
- */
-@property (nonatomic, assign, readonly) QNRTCBWEPolicy bwePolicy;
-
-/*!
- * @abstract 是否允许和其它音频一起播放
- *
- * @since v4.0.0
- */
-@property (nonatomic, assign, readonly) BOOL allowAudioMixWithOthers;
 
 /*!
  * @abstract 用默认参数生成一个对象
@@ -59,31 +38,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v4.0.0
  */
 - (instancetype)initWithPolicy:(QNRTCPolicy)policy;
-
-/*!
- * @abstract 用指定的参数生成一个对象
- *
- * @since v4.0.0
- */
-- (instancetype)initWithPolicy:(QNRTCPolicy)policy stereo:(BOOL)isStereo;
-
-/*!
- * @abstract 用指定的参数生成一个对象
- *
- * @since v4.0.0
- */
-- (instancetype)initWithPolicy:(QNRTCPolicy)policy stereo:(BOOL)isStereo bwePolicy:(QNRTCBWEPolicy)bwePolicy;
-
-/*!
- * @abstract 用指定的参数生成一个对象
- *
- * @since v4.0.0
- */
-- (instancetype)initWithPolicy:(QNRTCPolicy)policy
-                        stereo:(BOOL)isStereo
-                     bwePolicy:(QNRTCBWEPolicy)bwePolicy
-       allowAudioMixWithOthers:(BOOL)allowAudioMixWithOthers;
-
 
 @end
 

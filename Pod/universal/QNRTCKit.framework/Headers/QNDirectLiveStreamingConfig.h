@@ -30,12 +30,12 @@ NSCopying
 /*!
  * @abstract 音频 track
  */
-@property (nonatomic, strong) QNTrack *audioTrack;
+@property (nonatomic, strong) QNLocalAudioTrack *audioTrack;
 
 /*!
  * @abstract 视频 track
  */
-@property (nonatomic, strong) QNTrack *videoTrack;
+@property (nonatomic, strong) QNLocalVideoTrack *videoTrack;
 
 @end
 

@@ -10,6 +10,7 @@
 #import <CoreVideo/CoreVideo.h>
 #import <UIKit/UIKit.h>
 #import <CoreAudioTypes/CoreAudioTypes.h>
+#import <CoreMedia/CoreMedia.h>
 
 @interface QNUtil : NSObject
 
@@ -19,22 +20,5 @@
  * @since v4.0.0
  */
 + (UIImage *)convertFrame:(CVPixelBufferRef)pixelBuffer;
-
-/*!
- * @abstract 根据最大最小范围调控音频数据音量
- *
- * @since v4.0.0
- */
-+ (void)scaleWithSat:(AudioBuffer *)audioBuffer scale:(double)scale max:(float)max min:(float) min;
-
-/*!
- * @abstract 计算音量大小
- *
- * @since v4.0.0
- */
-+ (double)volumeWithAudioBuffer:(AudioBuffer *)audioBuffer;
-
-+ (NSInteger)findSimulcastLowAndMediumBpsWithOriginalWidth:(NSInteger)originalWidth
-                                            originalHeight:(NSInteger) originalHeight;
 
 @end

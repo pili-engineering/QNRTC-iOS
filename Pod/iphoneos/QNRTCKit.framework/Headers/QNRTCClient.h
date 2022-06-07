@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "QNTypeDefines.h"
 #import "QNTrack.h"
-#import "QNLocalTrack.h"
-#import "QNRTCUser.h"
 #import "QNMessageInfo.h"
 #import "QNTypeDefines.h"
 
@@ -97,30 +95,30 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 成功创建转推/合流转推任务的回调。
  *
- * @since v4.0.0
+ * @since v5.0.0
  */
-- (void)RTCClient:(QNRTCClient *)client didStartLiveStreamingWith:(NSString *)streamID;
+- (void)RTCClient:(QNRTCClient *)client didStartLiveStreaming:(NSString *)streamID;
 
 /*!
  * @abstract 停止转推/合流转推任务的回调。
  *
- * @since v4.0.0
+ * @since v5.0.0
  */
-- (void)RTCClient:(QNRTCClient *)client didStopLiveStreamingWith:(NSString *)streamID;
+- (void)RTCClient:(QNRTCClient *)client didStopLiveStreaming:(NSString *)streamID;
 
 /*!
  * @abstract 更新合流布局的回调。
  *
  * @since v4.0.0
  */
-- (void)RTCClient:(QNRTCClient *)client didTranscodingTracksUpdated:(BOOL)success withStreamID:(NSString *)streamID;
+- (void)RTCClient:(QNRTCClient *)client didTranscodingTracksUpdated:(NSString *)streamID;
 
 /*!
  * @abstract 合流转推出错的回调。
  *
- * @since v4.0.0
+ * @since v5.0.0
  */
-- (void)RTCClient:(QNRTCClient *)client didErrorLiveStreamingWith:(NSString *)streamID errorInfo:(QNLiveStreamingErrorInfo *)errorInfo;
+- (void)RTCClient:(QNRTCClient *)client didErrorLiveStreaming:(NSString *)streamID errorInfo:(QNLiveStreamingErrorInfo *)errorInfo;
 
 /*!
  * @abstract 收到远端用户发送给自己的消息时回调。
@@ -129,10 +127,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)RTCClient:(QNRTCClient *)client didReceiveMessage:(QNMessageInfo *)message;
 
+
 /*!
  * @abstract 远端用户视频首帧解码后的回调。
- *
- * @discussion 如果需要渲染，则需要返回一个带 renderView 的 QNVideoRender 对象。
  *
  * @since v4.0.0
  */
@@ -158,8 +155,25 @@ NS_ASSUME_NONNULL_BEGIN
 */
 - (void)RTCClient:(QNRTCClient *)client didMediaRelayStateChanged:(NSString *)relayRoom state:(QNMediaRelayState)state;
 
-@end
+/*!
+ * @abstract 远端音频 track mix 数据的回调。
+ *
+ * @discussion 需要注意的是这个回调在 AU Remote IO 线程，请不要做过于耗时的操作，否则可能阻塞该线程影响音频输出或其他未知问题。
+ *
+ * @since v5.0.0
+ */
+- (void)RTCClient:(QNRTCClient *)client remoteTrackMixedDidGetAudioBuffer:(AudioBuffer *)audioBuffer;
 
+/*!
+ * @abstract 本地网络质量信息的回调。
+ *
+ * @param quality 当前应用上下行的网络质量
+ *
+ * @since v5.0.0
+ */
+- (void)RTCClient:(QNRTCClient *)client didNetworkQualityNotified:(QNNetworkQuality *)quality;
+
+@end
 
 
 @interface QNRTCClient : NSObject
@@ -174,9 +188,9 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 房间状态。
  *
- * @since v4.0.0
+ * @since v5.0.0
  */
-@property (nonatomic, assign, readonly) QNConnectionState roomState;
+@property (nonatomic, assign, readonly) QNConnectionState connectionState;
 
 /*!
  * @abstract 是否自动订阅远端的流，默认为 YES。
@@ -197,8 +211,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since v4.0.0
  */
-@property (nonatomic, strong, readonly) NSArray<QNTrack *> *publishedTracks;
+@property (nonatomic, strong, readonly) NSArray<QNLocalTrack *> *publishedTracks;
 
+- (instancetype)init NS_UNAVAILABLE;
 
 /*!
  * @abstract 设置直播场景下的用户角色。
@@ -254,28 +269,21 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since v4.0.0
  */
-- (void)unpublish:(NSArray<QNTrack *> *)tracks;
+- (void)unpublish:(NSArray<QNLocalTrack *> *)tracks;
 
 /*!
  * @abstract 订阅 tracks。
  *
  * @since v4.0.0
  */
-- (void)subscribe:(NSArray<QNTrack *> *)tracks;
+- (void)subscribe:(NSArray<QNRemoteTrack *> *)tracks;
 
 /*!
  * @abstract 取消订阅。
  *
  * @since v4.0.0
  */
-- (void)unsubscribe:(NSArray<QNTrack *> *)tracks;
-
-/*!
- * @abstract 获取指定用户已被自己订阅的 tracks。
- *
- * @since v4.0.0
- */
-- (NSArray <QNTrack *> *)getSubscribedTracks:(NSString *)userID;
+- (void)unsubscribe:(NSArray<QNRemoteTrack *> *)tracks;
 
 /*!
  * @abstract 开启单路转推。
@@ -317,7 +325,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 将对应的音视频 Track 从合流中移除。
  *
- * @discussion 此处 QNMergeStreamLayout 中只需要设置 trackId 即可，其它参数可忽略。若使用默认的合流任务，则 streamID 传入 nil 即可。
+ * @discussion 此处 QNMergeStreamLayout 中只需要设置 trackID 即可，其它参数可忽略。若使用默认的合流任务，则 streamID 传入 nil 即可。
  *
  * @since v4.0.0
  */
@@ -382,11 +390,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (QNRemoteUser *)getRemoteUser:(NSString *)userID;
 
 /*!
- * @abstract 获取某个用户的网路质量等级。
+ * @abstract 获取当前订阅的远端用户网络质量。
  *
- * @since v4.0.0
+ * @since v5.0.0
  */
-- (QNNetworkQuality *)getUserNetworkQuality:(NSString *)userID;
+- (NSDictionary *)getUserNetworkQuality;
 
 /*!
  * @abstract 获取远端用户视频传输统计信息。

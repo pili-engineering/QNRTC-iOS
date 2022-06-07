@@ -26,7 +26,7 @@
 
 - (void)setupClient {
     // 1. 初始配置 QNRTC
-    [QNRTC configRTC:[QNRTCConfiguration defaultConfiguration]];
+    [QNRTC initRTC:[QNRTCConfiguration defaultConfiguration]];
     // 2.创建初始化 RTC 核心类 QNRTCClient
     self.client = [QNRTC createRTCClient];
     // 3.设置 QNRTCClientDelegate 状态回调的代理
@@ -49,7 +49,8 @@
         [self addLogString:@"该系统版本不支持录屏"];
     } else {
         // 支持，则配置录屏 track（视频 track）
-        QNScreenVideoTrackConfig * screenConfig = [[QNScreenVideoTrackConfig alloc] initWithSourceTag:screenTag bitrate:self.bitrate videoEncodeSize:self.videoEncodeSize];
+        QNVideoEncoderConfig *config = [[QNVideoEncoderConfig alloc] initWithBitrate:self.bitrate videoEncodeSize:self.videoEncodeSize];
+        QNScreenVideoTrackConfig * screenConfig = [[QNScreenVideoTrackConfig alloc] initWithSourceTag:screenTag config:config];
         self.screenTrack = [QNRTC createScreenVideoTrackWithConfig:screenConfig];
     }
     

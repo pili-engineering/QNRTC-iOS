@@ -24,8 +24,8 @@
 
 @property (nonatomic, strong) NSMutableArray *traks;
 
-@property (nonatomic, readonly) QNVideoView *cameraView;
-@property (nonatomic, readonly) QNVideoView *screenView;
+@property (nonatomic, readonly) QNVideoGLView *cameraView;
+@property (nonatomic, readonly) QNVideoGLView *screenView;
 
 @property (nonatomic, weak) UIView *fullScreenSuperView;
 

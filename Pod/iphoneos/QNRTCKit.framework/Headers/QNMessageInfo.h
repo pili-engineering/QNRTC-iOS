@@ -17,28 +17,28 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since v4.0.0
  */
-@property (nonatomic, strong) NSString *identifier;
+@property (nonatomic, strong, readonly) NSString *identifier;
 
 /*!
- * @abstract 发送消息的用户的 userId
+ * @abstract 发送消息的用户的 userID
  *
  * @since v4.0.0
  */
-@property (nonatomic, strong) NSString *userId;
+@property (nonatomic, strong, readonly) NSString *userID;
 
 /*!
  * @abstract 发送的消息内容
  *
  * @since v4.0.0
  */
-@property (nonatomic, strong) NSString *content;
+@property (nonatomic, strong, readonly) NSString *content;
 
 /*!
  * @abstract 服务器收到消息的时间戳
  *
  * @since v4.0.0
  */
-@property (nonatomic, strong) NSNumber *timestamp;
+@property (nonatomic, strong, readonly) NSNumber *timestamp;
 
 @end
 

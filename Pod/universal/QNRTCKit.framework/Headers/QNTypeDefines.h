@@ -16,11 +16,7 @@ extern NSString *QNCameraAuthorizationStatusDidGetNotificaiton;
 
 extern NSString *QNRTCErrorDomain;
 
-extern NSString *QNAudioMixErrorDomain;
-
 extern NSString *QNMediaRelayErrorDomain;
-
-extern NSString *QNAudioFileErrorDomain;
 
 #pragma mark - RTC Log Level
 
@@ -74,14 +70,7 @@ NS_ERROR_ENUM(QNRTCErrorDomain) {
      * @discussion RoomToken 过期，建议用户收到此错误代码时尝试重新获取 RoomToken 后再次加入房间。
      */
     QNRTCErrorTokenExpired                      = 10002,
-        
-    /*!
-     * @abstract reconnect token error
-     *
-     * @discussion 重连时 RoomToken 错误，建议用户收到此错误代码时尝试重新获取 RoomToken 后再次加入房间。
-     */
-    QNRTCErrorReconnectTokenError               = 10004,
-    
+            
     /*!
      * @abstract room closed
      *
@@ -90,33 +79,12 @@ NS_ERROR_ENUM(QNRTCErrorDomain) {
     QNRTCErrorRoomClosed                        = 10005,
     
     /*!
-     * @abstract kick out of room
-     *
-     * @discussion 被管理员踢出房间。
-     */
-    QNRTCErrorKickOutOfRoom                     = 10006,
-    
-    /*!
      * @abstract room is full
      *
      * @discussion 房间人数已超过限制。
      */
     QNRTCErrorRoomIsFull                        = 10011,
-    
-    /*!
-     * @abstract room not exist
-     *
-     * @discussion 房间不存在。
-     */
-    QNRTCErrorRoomNotExist                      = 10012,
-    
-    /*!
-     * @abstract user not exist
-     *
-     * @discussion 用户不存在。
-     */
-    QNRTCErrorUserNotExist                      = 10021,
-    
+        
     /*!
      * @abstract user already exist
      *
@@ -132,13 +100,6 @@ NS_ERROR_ENUM(QNRTCErrorDomain) {
     QNRTCErrorNoPermission                      = 10051,
     
     /*!
-     * @abstract server unavailable
-     *
-     * @discussion 服务不可用，SDK 内部错误。用户无需处理。
-     */
-    QNRTCErrorServerUnavailable                 = 10052,
-    
-    /*!
      * @abstract invalid parameter
      *
      * @discussion 服务端信令参数错误以及配置参数非法等。
@@ -151,13 +112,6 @@ NS_ERROR_ENUM(QNRTCErrorDomain) {
      * @discussion 服务不可用，SDK 内部错误。用户无需处理。
      */
     QNRTCErrorMediaCapNotSupport                 = 10054,
-
-    /*!
-     * @abstract Publisher Disconnected, or not exist
-     *
-     * @discussion 发布失败，或不存在，用户无需处理。
-     */
-    QNRTCErrorPublishDisconnected               = 10061,
     
     /*!
      * @abstract Subscriber Disconnected, or not exist
@@ -165,13 +119,6 @@ NS_ERROR_ENUM(QNRTCErrorDomain) {
      * @discussion 订阅失败，或订阅不存在，用户无需处理。
      */
     QNRTCErrorSubscribeDisconnected             = 10062,
-    
-    /*!
-     * @abstract Multi master video or audio
-     *
-     * @discussion 音频或视频 track 最多只有一路为 master。
-     */
-    QNRTCErrorMultiMasterVideoOrAudio           = 10063,
 
     /*!
      * @abstract auth failed
@@ -201,6 +148,15 @@ NS_ERROR_ENUM(QNRTCErrorDomain) {
     QNRTCErrorReconnectFailed                   = 21003,
     
     /*!
+     * @abstract network request timeout
+     *
+     * @discussion 网络超时。
+     *
+     * @since v4.0.1
+     */
+    QNRTCErrorNetworkTimeout                   = 21004,
+    
+    /*!
      * @abstract fatal error
      *
      * @discussion 非预期错误。
@@ -224,99 +180,6 @@ NS_ERROR_ENUM(QNRTCErrorDomain) {
     QNRTCErrorPushAudioBufferFailed             = 11014,
 };
 
-#pragma mark - Audio Mix Error Code
-
-NS_ERROR_ENUM(QNAudioMixErrorDomain) {
-    /*!
-     * @abstract graph error
-     *
-     * @discussion 系统 AUGraph 操作相关错误。
-     *
-     * @since v4.0.0
-     */
-    QNAudioMixErrorGraphError = 22006,
-    
-    /*!
-     * @abstract node error
-     *
-     * @discussion 系统 AUNode 操作相关错误。
-     *
-     * @since v4.0.0
-     */
-    QNAudioMixErrorNodeError  = 22007,
-    
-    /*!
-     * @abstract read data error
-     *
-     * @discussion 读取混音数据发生错误。
-     *
-     * @since v4.0.0
-     */
-    QNAudioMixErrorReadDataError = 22008,
-    
-    /*!
-     * @abstract set property error
-     *
-     * @discussion 混音参数设置错误。
-     *
-     * @since v4.0.0
-     */
-    QNAudioMixErrorPropertyError = 22009,
-    
-    /*!
-     * @abstract callback error
-     *
-     * @discussion 配置混音相关回调发生错误。
-     *
-     * @since v4.0.0
-     */
-    QNAudioMixErrorCallbackError = 22010,
-};
-
-NS_ERROR_ENUM(QNAudioFileErrorDomain) {
-    /*!
-     * @abstract open audio file failed
-     *
-     * @since v4.0.0
-     */
-    QNAudioFileErrorOpenFailed = 30001,
-    
-    /*!
-     * @abstract dispose audio file failed
-     *
-     * @since v4.0.0
-     */
-    QNAudioFileErrorDisposeFailed = 30002,
-    
-    /*!
-     * @abstract set/get property error
-     *
-     * @since v4.0.0
-     */
-    QNAudioFileErrorPropertyError = 30011,
-    
-    /*!
-     * @abstract read audio file failed
-     *
-     * @since v4.0.0
-     */
-    QNAudioFileErrorReadFailed = 30021,
-    
-    /*!
-     * @abstract audio file seek failed
-     *
-     * @since v4.0.0
-     */
-    QNAudioFileErrorSeekFailed = 30022,
-    
-    /*!
-     * @abstract audio file not exist
-     *
-     * @since v4.0.0
-     */
-    QNAudioFileErrorFileNotExist = 30031,
-};
-
 #pragma mark - Media Relay Error Code
 
 NS_ERROR_ENUM(QNMediaRelayErrorDomain) {
@@ -330,13 +193,58 @@ NS_ERROR_ENUM(QNMediaRelayErrorDomain) {
     QNMediaRelayErrorTokenError = 24000,
     
     /*!
+     * @abstract relay already started
+     *
+     * @discussion 当前跨房已开始。
+     *
+     * @since v5.0.0
+     */
+    QNMediaRelayErrorAlreadyStart  = 24001,
+    
+    /*!
+     * @abstract relay not started
+     *
+     * @discussion 当前跨房未开始。
+     *
+     * @since v5.0.0
+     */
+    QNMediaRelayErrorNotStart  = 24002,
+    
+    /*!
+     * @abstract destination room not existed
+     *
+     * @discussion 目标房间不存在。
+     *
+     * @since v5.0.0
+     */
+    QNMediaRelayErrorDestinationRoomNotExisted  = 24003,
+    
+    /*!
+     * @abstract player in dest room
+     *
+     * @discussion 已在房间内。
+     *
+     * @since v5.0.0
+     */
+    QNMediaRelayErrorPlayerInDestRoom  = 24004,
+    
+    /*!
+     * @abstract relay start failed
+     *
+     * @discussion 开始失败。
+     *
+     * @since v5.0.0
+     */
+    QNMediaRelayErrorStartFailed  = 24005,
+    
+    /*!
      * @abstract client mode error
      *
      * @discussion 使用场景不符。
      *
      * @since v4.0.1
      */
-    QNRTCErrorInvalidMode  = 24001,
+    QNRTCErrorInvalidMode  = 24006,
     
     /*!
      * @abstract client role error
@@ -345,7 +253,7 @@ NS_ERROR_ENUM(QNMediaRelayErrorDomain) {
      *
      * @since v4.0.1
      */
-    QNRTCErrorInvalidRole = 24002,
+    QNRTCErrorInvalidRole = 24007,
 };
 
 #pragma mark - state define
@@ -355,11 +263,11 @@ NS_ERROR_ENUM(QNMediaRelayErrorDomain) {
  */
 typedef NS_ENUM(NSUInteger, QNConnectionState) {
     /*!
-     * @abstract 空闲状态，初始状态或者退出后都会进入该状态
+     * @abstract 初始状态或者退出后都会进入该状态
      *
-     * @since v4.0.0
+     * @since v5.0.0
      */
-    QNConnectionStateIdle = 0,
+    QNConnectionStateDisconnected = 0,
     
     /*!
      * @abstract 正在加入的状态
@@ -417,74 +325,6 @@ typedef NS_ENUM(NSUInteger, QNAuthorizationStatus) {
     QNAuthorizationStatusAuthorized
 };
 
-/*!
- * @abstract 音频播放状态
- */
-typedef NS_ENUM(NSUInteger, QNAudioPlayState) {
-    /*!
-     * @abstract 初始状态
-     *
-     * @since v4.0.0
-     */
-    QNAudioPlayStateInit = 0,
-    
-    /*!
-     * @abstract 准备播放的状态
-     *
-     * @since v4.0.0
-     */
-    QNAudioPlayStateReady,
-    
-    /*!
-     * @abstract 正在播放的状态
-     *
-     * @since v4.0.0
-     */
-    QNAudioPlayStatePlaying,
-    
-    /*!
-     * @abstract 数据缓冲的状态
-     *
-     * @since v4.0.0
-     */
-    QNAudioPlayStateBuffering,
-    
-    /*!
-     * @abstract 播放暂停的状态
-     *
-     * @since v4.0.0
-     */
-    QNAudioPlayStatePaused,
-    
-    /*!
-     * @abstract 停止播放的状态
-     *
-     * @since v4.0.0
-     */
-    QNAudioPlayStateStoped,
-    
-    /*!
-     * @abstract 播放完成的状态
-     *
-     * @since v4.0.0
-     */
-    QNAudioPlayStateCompleted,
-    
-    /*!
-     * @abstract 播放发生错误的状态
-     *
-     * @since v4.0.0
-     */
-    QNAudioPlayStateError,
-    
-    /*!
-     * @abstract 播放发生未知错误的状态
-     *
-     * @since v4.0.0
-     */
-    QNAudioPlayStateUnknow,
-};
-
 #pragma mark - type define
 
 /*!
@@ -532,33 +372,6 @@ typedef NS_ENUM(NSUInteger, QNAudioDeviceType) {
 };
 
 /*!
- * @abstract Track 的数据源
- *
- * @since v4.0.0
- */
-typedef NS_ENUM(NSUInteger, QNRTCSourceType) {
-    /*!
-     * @abstract 摄像头采集
-     */
-    QNRTCSourceTypeCamera = 0,
-    
-    /*!
-     * @abstract 录屏采集
-     */
-    QNRTCSourceTypeScreenRecorder = 1,
-    
-    /*!
-     * @abstract 外部导入
-     */
-    QNRTCSourceTypeExternalVideo = 2,
-
-    /*!
-     * @abstract 音频
-     */
-    QNRTCSourceTypeAudio = 100,
-};
-
-/*!
  * @abstract 媒体流的连接方式
  *
  * @since v4.0.0
@@ -579,48 +392,6 @@ typedef NS_ENUM(NSUInteger, QNRTCPolicy) {
      */
     QNRTCPolicyPreferUDP,
 };
-
-/*!
- * @abstract 带宽估计的策略
- *
- * @since v4.0.0
- */
-typedef NS_ENUM(NSUInteger, QNRTCBWEPolicy) {
-    /*!
-     * @abstract 使用 TCC
-     */
-    QNRTCBWEPolicyTCC = 0,
-    
-    /*!
-     * @abstract 使用 GCC
-     */
-    QNRTCBWEPolicyGCC = 1,
-};
-
-/*!
- * @abstract 视频填充模式
- */
-typedef enum {
-    /*!
-     @abstract default
-     */
-    QNVideoFillModeNone,
-    
-    /*!
-     @abstract Stretch to fill the full view, which may distort the image outside of its normal aspect ratio
-     */
-    QNVideoFillModeStretch,
-    
-    /*!
-     @abstract Maintains the aspect ratio of the source image, adding bars of the specified background color
-     */
-    QNVideoFillModePreserveAspectRatio,
-    
-    /*!
-     @abstract Maintains the aspect ratio of the source image, zooming in on its center to fill the view
-     */
-    QNVideoFillModePreserveAspectRatioAndFill
-} QNVideoFillModeType;
 
 /*!
  * @abstract 网络质量等级
@@ -750,7 +521,37 @@ typedef NS_ENUM(NSUInteger, QNMediaRelayState) {
      * @since v4.0.1
      */
     QNMediaRelayStatePlayerExisted = 5,
+    /*!
+     * @abstract 未知状态
+     *
+     * @since v5.0.0
+     */
+    QNMediaRelayStateUnknown = 0XFF
 };
+
+//视频填充模式
+typedef enum {
+    
+    /**
+     @brief default
+     */
+    QNVideoFillModeNone,
+    
+    /**
+     @brief Stretch to fill the full view, which may distort the image outside of its normal aspect ratio
+     */
+    QNVideoFillModeStretch,
+    
+    /**
+     @brief Maintains the aspect ratio of the source image, adding bars of the specified background color
+     */
+    QNVideoFillModePreserveAspectRatio,
+    
+    /**
+     @brief Maintains the aspect ratio of the source image, zooming in on its center to fill the view
+     */
+    QNVideoFillModePreserveAspectRatioAndFill
+} QNVideoFillModeType;
 
 
 /*!
@@ -819,58 +620,6 @@ typedef NS_ENUM(NSUInteger, QNConnectionDisconnectedReason) {
     QNConnectionDisconnectedReasonError,
 };
 
-#pragma mark - statistic key define
-
-/*!
- * @abstract 音频码率
- */
-extern NSString *QNStatisticAudioBitrateKey;
-
-/*!
- * @abstract 视频码率
- */
-extern NSString *QNStatisticVideoBitrateKey;
-
-/*!
- * @abstract 本地音频丢包率
- */
-extern NSString *QNStatisticAudioPacketLossRateKey;
-
-/*!
- * @abstract 本地视频丢包率
- */
-extern NSString *QNStatisticVideoPacketLossRateKey;
-
-/*!
- * @abstract 远端音频丢包率
- */
-extern NSString *QNStatisticAudioRemotePacketLossRateKey;
-
-/*!
- * @abstract 远端视频丢包率
- */
-extern NSString *QNStatisticVideoRemotePacketLossRateKey;
-
-/*!
- * @abstract 视频帧率
- */
-extern NSString *QNStatisticVideoFrameRateKey;
-
-/*!
- * @abstract 视频分辨率
- */
-extern NSString *QNStatisticProfileKey;
-
-/*!
- * @abstract 往返延迟
- */
-extern NSString *QNStatisticRttKey;
-
-/*!
- * @abstract 网络等级
- */
-extern NSString *QNStatisticNetworkGrade;
-
 #pragma mark - callback define
 
 /*!
@@ -905,5 +654,3 @@ typedef void (^QNClientRoleResultCallback)(QNClientRole newRole, NSError *error)
  */
 typedef void (^QNMediaRelayResultCallback)(NSDictionary *state, NSError *error);
 #endif
-
-

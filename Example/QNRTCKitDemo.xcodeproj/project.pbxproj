@@ -376,13 +376,11 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-QNRTCKitDemo/Pods-QNRTCKitDemo-frameworks.sh",
 				"${PODS_ROOT}/PLPlayerKit/Pod/Library/PLPlayerKit.framework",
-				"${PODS_ROOT}/../../Pod/iphoneos/HappyDNS.framework",
 				"${PODS_ROOT}/../../Pod/iphoneos/QNRTCKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PLPlayerKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HappyDNS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/QNRTCKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -608,7 +606,7 @@
 					"$(PROJECT_DIR)/../QNRTCKit/**",
 					"$(inherited)",
 				);
-				MARKETING_VERSION = 4.0.4;
+				MARKETING_VERSION = 5.0.0;
 				OTHER_LDFLAGS = (
 					"$(OTHER_LDFLAGS)",
 					"-ObjC",
@@ -648,7 +646,7 @@
 					"$(PROJECT_DIR)/../QNRTCKit/**",
 					"$(inherited)",
 				);
-				MARKETING_VERSION = 4.0.4;
+				MARKETING_VERSION = 5.0.0;
 				OTHER_LDFLAGS = (
 					"$(OTHER_LDFLAGS)",
 					"-ObjC",

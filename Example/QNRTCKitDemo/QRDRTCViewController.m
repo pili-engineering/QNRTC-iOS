@@ -215,14 +215,15 @@ UITextFieldDelegate
     [QNRTC enableFileLogging];
     
     // 1. 初始配置 QNRTC
-    [QNRTC configRTC:[QNRTCConfiguration defaultConfiguration]];
+    [QNRTC initRTC:[QNRTCConfiguration defaultConfiguration]];
     // 1.创建初始化 RTC 核心类 QNRTCClient
     self.client = [QNRTC createRTCClient];
     // 2.设置 QNRTCClientDelegate 状态回调的代理
     self.client.delegate = self;
     
     // 3.创建摄像头 Track
-    QNCameraVideoTrackConfig * cameraConfig = [[QNCameraVideoTrackConfig alloc] initWithSourceTag:cameraTag bitrate:self.bitrate videoEncodeSize:self.videoEncodeSize];
+    QNVideoEncoderConfig *config = [[QNVideoEncoderConfig alloc] initWithBitrate:self.bitrate videoEncodeSize:self.videoEncodeSize];
+    QNCameraVideoTrackConfig * cameraConfig = [[QNCameraVideoTrackConfig alloc] initWithSourceTag:cameraTag config:config];
     self.cameraTrack = [QNRTC createCameraVideoTrackWithConfig:cameraConfig];
     
     // 4.设置相关配置
@@ -230,7 +231,9 @@ UITextFieldDelegate
     self.cameraTrack.videoFrameRate = [_configDic[@"FrameRate"] integerValue];;
     // 打开 sdk 自带的美颜效果
     [self.cameraTrack setBeautifyModeOn:YES];
+    self.cameraTrack.delegate = self;
     // 设置预览
+    self.preview.fillMode = QNVideoFillModePreserveAspectRatioAndFill;
     [self.cameraTrack play:self.preview];
     
     [self.colorView addSubview:self.preview];
@@ -743,7 +746,7 @@ UITextFieldDelegate
             self.videoButton.selected = YES;
             self.microphoneButton.selected = YES;
             [self publish];
-        } else if (QNConnectionStateIdle == state) {
+        } else if (QNConnectionStateDisconnected == state) {
             self.videoButton.enabled = NO;
             self.videoButton.selected = NO;
             switch (info.reason) {
@@ -770,8 +773,8 @@ UITextFieldDelegate
                     [self.view hiddenLoading];
 
                     NSString *errorMessage = info.error.localizedDescription;
-                    if (info.error.code == QNRTCErrorReconnectTokenError) {
-                        errorMessage = @"重新进入房间超时";
+                    if (info.error.code == QNRTCErrorReconnectFailed) {
+                        errorMessage = @"重连失败，请重新加入";
                     }
                     [self showAlertWithMessage:errorMessage title:@"错误" completionHandler:^{
                         [self dismissViewControllerAnimated:YES completion:nil];
@@ -853,7 +856,7 @@ UITextFieldDelegate
     })
 }
 
--(void)RTCClient:(QNRTCClient *)client didStartLiveStreamingWith:(NSString *)streamID {
+-(void)RTCClient:(QNRTCClient *)client didStartLiveStreaming:(NSString *)streamID {
     dispatch_main_async_safe(^{
         if (streamID == self.directConfig.streamID) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -894,6 +897,7 @@ UITextFieldDelegate
     });
 }
 
+
 /**
 * 调用 subscribe 订阅 userId 成功后收到的回调
 */
@@ -918,8 +922,7 @@ UITextFieldDelegate
                 [userView.traks removeObject:tempTrack];
             }
             [userView.traks addObject:track];
-            track.videoDelegate = self;
-            track.remoteDelegate = self;
+            track.delegate = self;
             if ([track.tag isEqualToString:screenTag]) {
                 if (track.muted) {
                     [userView hideScreenView];
@@ -950,8 +953,7 @@ UITextFieldDelegate
             if (tempTrack) {
                 [userView.traks removeObject:tempTrack];
             }
-            track.remoteDelegate = self;
-            track.audioDelegate = self;
+            track.delegate = self;
             [userView.traks addObject:track];
             [userView setMuteViewHidden:NO];
             [userView setAudioMute:track.muted];
@@ -973,7 +975,7 @@ UITextFieldDelegate
     userView.contentMode = UIViewContentModeScaleAspectFit;
     QNTrack *track = [userView trackInfoWithTrackId:videoTrack.trackID];
     
-    QNVideoView * renderView =  [track.tag isEqualToString:screenTag] ? userView.screenView : userView.cameraView;
+    QNVideoGLView * renderView =  [track.tag isEqualToString:screenTag] ? userView.screenView : userView.cameraView;
     [videoTrack play:renderView];
 }
 
@@ -1015,32 +1017,33 @@ UITextFieldDelegate
    });
 }
 
-#pragma mark QNRemoteTrackDelegate
+#pragma mark QNRemoteVideoTrackDelegate
 
-/**
- * 远端用户 Track 状态变更为 muted 的回调
- */
-- (void)remoteTrack:(QNRemoteTrack *)remoteTrack didMutedByRemoteUserID:(NSString *)userID {
-    [super remoteTrack:remoteTrack didMutedByRemoteUserID:userID];
-    if (QNTrackKindVideo == remoteTrack.kind) {
-        QRDUserView *userView = [self userViewWithUserId:userID];
-        QNRemoteTrack *track = [userView trackInfoWithTrackId:remoteTrack.trackID];
-        if ([track.tag isEqualToString:screenTag]) {
-            if (track.muted) {
-                [userView hideScreenView];
-            } else {
-                [userView showScreenView];
-            }
+- (void)remoteVideoTrack:(QNRemoteVideoTrack *)remoteVideoTrack didMuteStateChanged:(BOOL)isMuted {
+    [super remoteVideoTrack:remoteVideoTrack didMuteStateChanged:isMuted];
+    QRDUserView *userView = [self userViewWithUserId:remoteVideoTrack.userID];
+    QNRemoteVideoTrack *track = [userView trackInfoWithTrackId:remoteVideoTrack.trackID];
+    if ([track.tag isEqualToString:screenTag]) {
+        if (track.muted) {
+            [userView hideScreenView];
         } else {
-            if (track.muted) {
-                [userView hideCameraView];
-            } else {
-                [userView showCameraView];
-            }
+            [userView showScreenView];
         }
-    }else {
-        QRDUserView *userView = [self userViewWithUserId:userID];
-        [userView setAudioMute:remoteTrack.muted];
+    } else {
+        if (track.muted) {
+            [userView hideCameraView];
+        } else {
+            [userView showCameraView];
+        }
     }
 }
+
+#pragma mark QNRemoteAudioTrackDelegate
+
+- (void)remoteAudioTrack:(QNRemoteAudioTrack *)remoteAudioTrack didMuteStateChanged:(BOOL)isMuted {
+    [super remoteAudioTrack:remoteAudioTrack didMuteStateChanged:isMuted];
+    QRDUserView *userView = [self userViewWithUserId:remoteAudioTrack.userID];
+    [userView setAudioMute:remoteAudioTrack.muted];
+}
+
 @end

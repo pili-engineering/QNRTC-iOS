@@ -26,7 +26,8 @@
     if (![QNScreenVideoTrack isScreenRecorderAvailable]) {
         [self addLogString:@"该系统版本不支持录屏"];
     } else {
-        QNScreenVideoTrackConfig * screenConfig = [[QNScreenVideoTrackConfig alloc] initWithSourceTag:screenTag bitrate:self.bitrate videoEncodeSize:self.videoEncodeSize];
+        QNVideoEncoderConfig *config = [[QNVideoEncoderConfig alloc] initWithBitrate:self.bitrate videoEncodeSize:self.videoEncodeSize];
+        QNScreenVideoTrackConfig * screenConfig = [[QNScreenVideoTrackConfig alloc] initWithSourceTag:screenTag config:config];
         self.screenTrack = [QNRTC createScreenVideoTrackWithConfig:screenConfig];
     }
 

@@ -17,7 +17,7 @@
 /*!
  * @abstract 当前要操作的 Track 的 id。
  */
-@property (nonatomic, strong) NSString *trackId;
+@property (nonatomic, strong) NSString *trackID;
 
 /*!
  * @abstract 该 Track 在合流画面中的大小和位置，该属性仅对视频 Track 有效。
@@ -27,7 +27,7 @@
 /*!
  * @abstract 该 Track 在合流画面中的层次，0 为最底层。该属性仅对视频 Track 有效。
  */
-@property (nonatomic, assign) NSUInteger zIndex;
+@property (nonatomic, assign) NSUInteger zOrder;
 
 /*!
  * @abstract 图像的填充模式, 默认设置填充模式将继承 QNMergeStreamConfiguration 中数值

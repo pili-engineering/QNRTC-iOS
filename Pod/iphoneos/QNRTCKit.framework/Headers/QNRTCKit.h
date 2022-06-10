@@ -45,6 +45,8 @@ FOUNDATION_EXPORT const unsigned char QNRTCKitVersionString[];
 #import <QNRTCKit/QNRoomMediaRelayConfiguration.h>
 #import <QNRTCKit/QNRoomMediaRelayInfo.h>
 #import <QNRTCKit/QNClientConfig.h>
+#import <QNRTCKit/QNAudioMusicMixer.h>
+#import <QNRTCKit/QNAudioEffectMixer.h>
 
 
 

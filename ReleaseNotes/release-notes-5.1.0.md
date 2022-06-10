@@ -1,4 +1,4 @@
-# QNRTCKit Release Notes for 5.0.0
+# QNRTCKit Release Notes for 5.1.0
 
 ## 内容
 
@@ -14,6 +14,7 @@ QNRTCKit 是七牛推出的一款适用于 iOS 平台的音视频通话 SDK，�
 ## 记录
 - 功能
   - 新增多重混音功能，支持同时混音背景音乐和音效
+  - 修复加房间携带 userData，远端用户收到 userData 信息错误的问题
   
 
 ## 问题反馈

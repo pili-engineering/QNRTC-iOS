@@ -23,7 +23,6 @@
 @class QNNetworkQuality;
 @class QNConnectionDisconnectedInfo;
 @class QNRemoteUser;
-@class QNAudioMixer;
 @class QNClientRoleOptions;
 @class QNRoomMediaRelayInfo;
 @class QNRoomMediaRelayConfiguration;

@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "QNTypeDefines.h"
 #import "QNVideoGLView.h"
+#import "QNAudioMusicMixer.h"
+#import "QNAudioEffectMixer.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -142,6 +144,64 @@ NS_ASSUME_NONNULL_BEGIN
 @interface QNMicrophoneAudioTrack : QNLocalAudioTrack
 
 - (instancetype)init NS_UNAVAILABLE;
+
+/*!
+ * @abstract 创建背景音乐混音对象实例
+ *
+ * @param musicPath 背景音乐路径，支持本地路径及在线文件
+ *
+ * @param musicMixerDelegate 背景音乐混音回调代理
+ *
+ * @return QNAudioMusicMixer 对象实例
+ *
+ * @since v5.1.0
+ */
+- (QNAudioMusicMixer *)createAudioMusicMixer:(NSString *)musicPath musicMixerDelegate:(id<QNAudioMusicMixerDelegate>)musicMixerDelegate;
+
+/*!
+ * @abstract 创建音效混音对象实例
+ *
+ * @param effectMixerDelegate 音效混音回调代理
+ *
+ * @since v5.1.0
+ */
+- (QNAudioEffectMixer *)createAudioEffectMixer:(id<QNAudioEffectMixerDelegate>)effectMixerDelegate;
+
+/*!
+ * @abstract 设置耳返开关
+ *
+ * @param enabled 是否开启
+ *
+ * @since v5.1.0
+ */
+- (void)setEarMonitorEnabled:(BOOL)enabled;
+
+/*!
+ * @abstract 是否开启了耳返
+ *
+ * @return BOOL 是否开启
+ *
+ * @since v5.1.0
+ */
+- (BOOL)getEarMonitorEnabled;
+
+/*!
+ * @abstract 设置混音、返听场景下，本地播放的音量大小
+ *
+ * @param volume 播放音量，范围 0～1.0
+ *
+ * @since v5.1.0
+ */
+- (void)setPlayingVolume:(float)volume;
+
+/*!
+ * @abstract 获取混音、返听场景下，本地播放音量的大小
+ *
+ * @return float 播放音量，范围 0～1.0
+ *
+ * @since v5.1.0
+ */
+- (float)getPlayingVolume;
 
 @end
 

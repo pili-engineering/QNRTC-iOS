@@ -18,6 +18,8 @@ extern NSString *QNRTCErrorDomain;
 
 extern NSString *QNMediaRelayErrorDomain;
 
+extern NSString *QNAudioMixErrorDomain;
+
 #pragma mark - RTC Log Level
 
 /*!
@@ -180,6 +182,46 @@ NS_ERROR_ENUM(QNRTCErrorDomain) {
     QNRTCErrorPushAudioBufferFailed             = 11014,
 };
 
+#pragma mark - Audio Mix Error Code
+
+NS_ERROR_ENUM(QNAudioMixErrorDomain) {
+    /*!
+     * @abstract audio data resample error
+     *
+     * @since v5.0.0
+     */
+    QNAudioMixErrorResampleFailed = 22001,
+    
+    /*!
+     * @abstract audio not found error
+     *
+     * @since v5.0.0
+     */
+    QNAudioMixErrorAudioNotFound = 22002,
+    
+    /*!
+     * @abstract IO exception error
+     *
+     * @since v5.0.0
+     */
+    QNAudioMixErrorIOException = 22003,
+
+
+    /*!
+     * @abstract decode error
+     *
+     * @since v5.0.0
+     */
+    QNAudioMixErrorDecoderException = 22004,
+    
+    /*!
+     * @abstract seek failed
+     *
+     * @since v5.0.0
+     */
+    QNAudioMixErrorSeekFailed  = 22005,
+};
+
 #pragma mark - Media Relay Error Code
 
 NS_ERROR_ENUM(QNMediaRelayErrorDomain) {
@@ -323,6 +365,46 @@ typedef NS_ENUM(NSUInteger, QNAuthorizationStatus) {
      * @abstract 已授权
      */
     QNAuthorizationStatusAuthorized
+};
+
+/*!
+ * @abstract 背景音乐混音状态
+ */
+typedef NS_ENUM(NSUInteger, QNAudioMusicMixerState) {
+    /*!
+     * @abstract 初始状态
+     *
+     * @since v5.0.0
+     */
+    QNAudioMusicMixerStateIdle = 0,
+    
+    /*!
+     * @abstract 正在混音的状态
+     *
+     * @since v5.0.0
+     */
+    QNAudioMusicMixerStateMixing,
+    
+    /*!
+     * @abstract 暂停混音的状态
+     *
+     * @since v5.0.0
+     */
+    QNAudioMusicMixerStatePaused,
+    
+    /*!
+     * @abstract 停止混音的状态
+     *
+     * @since v5.0.0
+     */
+    QNAudioMusicMixerStateStopped,
+    
+    /*!
+     * @abstract 混音完成的状态
+     *
+     * @since v5.0.0
+     */
+    QNAudioMusicMixerStateCompleted
 };
 
 #pragma mark - type define

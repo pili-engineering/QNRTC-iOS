@@ -6,7 +6,7 @@ target 'QNRTCKitDemo' do
   pod 'Fabric', '1.7.2'
   pod 'Crashlytics', '3.9.3'
   pod 'Bugsnag', '5.15.4'
-  pod 'PLPlayerKit', '3.4.1'
+  pod 'PLPlayerKit', '3.4.3'
   pod 'MMMaterialDesignSpinner', '0.2.5'
   pod 'JGProgressHUD', '2.0.3'
   pod 'Masonry', '1.1.0'

@@ -219,7 +219,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 开启文件日志
  *
- * @discussion 为了不错过日志，建议在 App 启动时即开启，日志文件位于 App Container/Library/Caches/Pili/Logs 目录内
+ * @discussion 为了不错过日志，建议在 App 启动时开启，日志文件位于 App Container/Library/Caches/Pili/Logs 目录内
  * 注意：文件日志功能主要用于排查问题，打开文件日志功能会对性能有一定影响，上线前请记得关闭文件日志功能！
  *
  * @since v4.0.0

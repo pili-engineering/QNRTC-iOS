@@ -26,7 +26,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) QNClientMode mode;
 
 /*!
- * @abstract 直播场景中（mode 为 "QNClientModeLive" 时）的用户角色。
+ * @abstract 直播场景中的用户角色。
+ *
+ * @warning 仅在 mode 为 QNClientModeLive 时可用
  *
  * @since v4.0.1
  */
@@ -34,6 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract 用默认参数生成一个对象
+ *
+ * @discussion 默认 QNClientModeRTC 场景
  *
  * @since v4.0.1
  */
@@ -47,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithMode:(QNClientMode)mode;
 
 /*!
- * @abstract 用指定的参数生成一个对象
+ * @abstract 用指定的 mode、role 生成一个对象
  *
  * @since v4.0.1
  */

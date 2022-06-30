@@ -63,6 +63,7 @@ UITextFieldDelegate
     self.serialNum = 0;
     self.videoEncodeSize = CGSizeFromString(_configDic[@"VideoSize"]);
     self.bitrate = [_configDic[@"Bitrate"] integerValue];
+    self.frameRate = [_configDic[@"FrameRate"] integerValue];
     
     // 配置核心类 QNRTCClient
     [self setupClient];
@@ -222,13 +223,15 @@ UITextFieldDelegate
     self.client.delegate = self;
     
     // 3.创建摄像头 Track
-    QNVideoEncoderConfig *config = [[QNVideoEncoderConfig alloc] initWithBitrate:self.bitrate videoEncodeSize:self.videoEncodeSize];
+    QNVideoEncoderConfig *config = [[QNVideoEncoderConfig alloc] initWithBitrate:self.bitrate videoEncodeSize:self.videoEncodeSize videoFrameRate:self.frameRate];
     QNCameraVideoTrackConfig * cameraConfig = [[QNCameraVideoTrackConfig alloc] initWithSourceTag:cameraTag config:config];
     self.cameraTrack = [QNRTC createCameraVideoTrackWithConfig:cameraConfig];
     
-    // 4.设置相关配置
+    // 4.设置摄像头采集相关配置
+    // 视频采集分辨率
+    self.cameraTrack.videoFormat = AVCaptureSessionPreset1280x720;
     // 视频帧率
-    self.cameraTrack.videoFrameRate = [_configDic[@"FrameRate"] integerValue];;
+    self.cameraTrack.videoFrameRate = self.frameRate;
     // 打开 sdk 自带的美颜效果
     [self.cameraTrack setBeautifyModeOn:YES];
     self.cameraTrack.delegate = self;
@@ -689,8 +692,10 @@ UITextFieldDelegate
 
 - (void)publish {
     // 7.发布音频、视频 track
-    self.audioTrack = [QNRTC createMicrophoneAudioTrack];
-    
+    if (!self.audioTrack) {
+        self.audioTrack = [QNRTC createMicrophoneAudioTrack];
+        self.audioTrack.delegate = self;
+    }
     // track 可通过 QNTrack 配置
     [self.client publish:@[self.audioTrack, self.cameraTrack] completeCallback:^(BOOL onPublished, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{

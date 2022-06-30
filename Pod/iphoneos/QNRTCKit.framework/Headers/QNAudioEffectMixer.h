@@ -16,7 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 获取指定音效文件时长
  *
- * @param filePath 文件路径，支持本地路径以及在线文件
+ * @warning 该接口为同步方法，对于在线音频文件，获取时长会存在一定的耗时，需注意调用接口所在的线程
+ *
+ * @param filePath 文件路径，支持本地路径以及在线文件，音频格式支持 aac、mp3、mp4、wav、m4r、caf、ogg、opus、m4a、flac
  *
  * @return int64_t 时长，单位 ms
  *
@@ -25,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (int64_t)getDuration:(NSString *)filePath;
 
 /*!
- * @abstract 获取音效 ID
+ * @abstract 获取音效唯一标识符
  *
  * @return int
  *
@@ -99,7 +101,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param audioEffectMixer 音效混音实例
  *
- * @param effectID 音效 ID
+ * @param effectID 音效唯一标识符
  *
  * @since v5.1.0
  */
@@ -111,9 +113,9 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 创建音效类
  *
- * @param effectID 音效 ID
+ * @param effectID 音效唯一标识符，务必保证唯一
  *
- * @param filePath 文件路径，支持本地路径以及在线文件
+ * @param filePath 文件路径，支持本地路径以及在线文件，音频格式支持 aac、mp3、mp4、wav、m4r、caf、ogg、opus、m4a、flac
  *
  * @return QNAudioEffect 实例
  *
@@ -124,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 开始混音某音效
  *
- * @param effectID 音效 ID
+ * @param effectID 音效唯一标识符
  *
  * @return BOOL 是否成功
  *
@@ -135,7 +137,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 停止混音某音效
  *
- * @param effectID 音效 ID
+ * @param effectID 音效唯一标识符
  *
  * @return BOOL 是否成功
  *
@@ -146,7 +148,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 暂停混音某音效
  *
- * @param effectID 音效 ID
+ * @param effectID 音效唯一标识符
  *
  * @return BOOL 是否成功
  *
@@ -157,7 +159,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 恢复混音某音效
  *
- * @param effectID 音效 ID
+ * @param effectID 音效唯一标识符
  *
  * @return BOOL 是否成功
  *
@@ -168,7 +170,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 获取某音效当前位置
  *
- * @param effectID 音效 ID
+ * @param effectID 音效唯一标识符
  *
  * @return int64_t 单位 ms
  *
@@ -179,7 +181,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 设置某音效音量
  *
- * @param effectID 音效 ID
+ * @param effectID 音效唯一标识符
  *
  * @param volume 音量
  *
@@ -190,7 +192,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 获取某音效音量
  *
- * @param effectID 音效 ID
+ * @param effectID 音效唯一标识符
  *
  * @return double 范围 0～1.0
  *

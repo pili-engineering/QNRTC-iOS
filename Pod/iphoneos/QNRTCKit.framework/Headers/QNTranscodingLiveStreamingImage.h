@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGRect frame;
 
 /*!
- * @abstract 设置图片地址，仅支持 HTTP
+ * @abstract 设置图片地址，仅支持 HTTP、HTTPS
  *
  * @since v4.0.0
  */

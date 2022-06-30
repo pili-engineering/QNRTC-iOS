@@ -549,22 +549,6 @@ typedef NS_ENUM(NSUInteger, QNClientRole) {
     QNClientRoleAudience = 1,
 };
 
-///直播房间中观众端（用户角色为观众的客户端）的延时级别。仅在用户角色设为 QNClientRoleAudience 时才生效。
-typedef NS_ENUM(NSUInteger, QNAudienceLatencyLevelType) {
-    /*!
-     * @abstract 低延时。
-     *
-     * @since v4.0.1
-     */
-    QNAudienceLatencyLevelLowLatency = 0,
-    /*!
-     * @abstract（默认）超低延时。
-     *
-     * @since v4.0.1
-     */
-    QNAudienceLatencyLevelUltraLowLatency = 1,
-};
-
 ///跨房媒体转发状态
 typedef NS_ENUM(NSUInteger, QNMediaRelayState) {
     /*!

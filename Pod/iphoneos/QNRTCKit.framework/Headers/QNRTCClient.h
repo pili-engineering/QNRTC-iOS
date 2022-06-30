@@ -23,7 +23,6 @@
 @class QNNetworkQuality;
 @class QNConnectionDisconnectedInfo;
 @class QNRemoteUser;
-@class QNClientRoleOptions;
 @class QNRoomMediaRelayInfo;
 @class QNRoomMediaRelayConfiguration;
 NS_ASSUME_NONNULL_BEGIN

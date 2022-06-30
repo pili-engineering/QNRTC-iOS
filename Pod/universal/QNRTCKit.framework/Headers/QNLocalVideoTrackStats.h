@@ -14,35 +14,45 @@ NS_ASSUME_NONNULL_BEGIN
 @interface QNLocalVideoTrackStats : NSObject
 
 /*!
- * @abstract 该路 track 的 profile。
+ * @abstract 本地视频 Track 的 profile。
+ *
+ * @discussion 表示当前应用正在上传的视频轨道的 profile
  *
  * @since v4.0.0
  */
 @property (nonatomic, assign, readonly) QNTrackProfile profile;
 
 /*!
- * @abstract 上行视频帧率。
+ * @abstract 本地视频上行帧率。
+ *
+ * @discussion 表示本地用户上传自身视频数据时的帧率
  *
  * @since v4.0.0
  */
 @property (nonatomic, assign, readonly) NSUInteger uplinkFrameRate;
 
 /*!
- * @abstract 上行视频码率。
+ * @abstract 本地视频上行码率，单位 bps。
+ *
+ * @discussion 表示本地用户上传自身视频数据时的码率
  *
  * @since v4.0.0
  */
 @property (nonatomic, assign, readonly) double uplinkBitrate;
 
 /*!
- * @abstract 上行网络 rtt。
+ * @abstract 本地视频上行网络延迟，单位 ms。
+ *
+ * @discussion 表示本地用户上传自身视频数据时的网络延时
  *
  * @since v4.0.0
  */
 @property (nonatomic, assign, readonly) NSUInteger uplinkRTT;
 
 /*!
- * @abstract 上行网络丢包率。
+ * @abstract 本地视频上行网络丢包率，百分比 [0, 100]。
+ *
+ * @discussion 表示本地用户上传自身音频数据时的丢包率
  *
  * @since v4.0.0
  */

@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)defaultConfiguration;
 
 /*!
- * @abstract 用给定的 policy 生成一个对象
+ * @abstract 用指定的 policy 生成一个对象
  *
  * @since v4.0.0
  */

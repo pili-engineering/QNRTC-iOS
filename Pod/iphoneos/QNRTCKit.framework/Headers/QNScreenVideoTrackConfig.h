@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)defaultScreenVideoTrackConfig;
 
 /*!
- * @abstract 初始化指定 tag 参数的 Track。
+ * @abstract 初始化指定 tag 参数的 Track 配置。
  *
  * @discussion 默认码率为 600kbps。
  *
@@ -54,7 +54,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithSourceTag:(nullable NSString *)tag;
 
 /*!
- * @abstract 初始化指定 tag、config 参数的 Track。
+ * @abstract 初始化指定 tag、config 参数的 Track 配置。
+ *
+ * @param tag Track 的标识
+ *
+ * @param config 视频编码配置 QNVideoEncoderConfig 实例
  *
  * @since v5.0.0
  */
@@ -62,7 +66,13 @@ NS_ASSUME_NONNULL_BEGIN
                            config:(QNVideoEncoderConfig *)config;
 
 /*!
- * @abstract 初始化指定 tag、config、multiStreamEnable 参数的 Track。
+ * @abstract 初始化指定 tag、config、multiStreamEnable 参数的 Track 配置。
+ *
+ * @param tag Track 的标识
+ *
+ * @param config 视频编码配置 QNVideoEncoderConfig 实例
+ *
+ * @param multiStreamEnable 是否开启大小流
  *
  * @since v5.0.0
  */

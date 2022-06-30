@@ -58,7 +58,9 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 获取指定音频文件的总时长
  *
- * @param filePath 文件路径，支持本地路径以及在线文件
+ * @warning 该接口为同步方法，对于在线音频文件，获取时长会存在一定的耗时，需注意调用接口所在的线程
+ *
+ * @param filePath 文件路径，支持本地路径以及在线文件，音频格式支持 aac、mp3、mp4、wav、m4r、caf、ogg、opus、m4a、flac
  *
  * @return int64_t 总时长，单位 ms
  *
@@ -131,7 +133,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)start:(int)loopCount;
 
-
 /*!
  * @abstract 停止混音
  *
@@ -160,7 +161,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)resume;
 
 /*!
- * @abstract 跳转
+ * @abstract 跳转到指定的位置混音
  *
  * @param position 跳转的位置，单位 ms
  *

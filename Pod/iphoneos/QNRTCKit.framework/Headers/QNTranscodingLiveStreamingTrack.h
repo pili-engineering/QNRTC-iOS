@@ -30,7 +30,7 @@
 @property (nonatomic, assign) NSUInteger zOrder;
 
 /*!
- * @abstract 图像的填充模式, 默认设置填充模式将继承 QNMergeStreamConfiguration 中数值
+ * @abstract 图像的填充模式, 默认设置填充模式将继承 QNTranscodingLiveStreamingConfig 中数值
  */
 @property (nonatomic, assign) QNVideoFillModeType fillMode;
 

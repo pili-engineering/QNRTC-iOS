@@ -11,24 +11,23 @@
 #import <ReplayKit/ReplayKit.h>
 #import "UIView+Alert.h"
 
-@interface QRDScreenMainViewController ()
+@interface QRDScreenMainViewController ()<QNScreenVideoTrackDelegate>
 
 @end
 
 @implementation QRDScreenMainViewController
 
 - (void)publish {
-    
-    
     self.audioTrack = [QNRTC createMicrophoneAudioTrack];
 
     self.screenTrack = nil;
     if (![QNScreenVideoTrack isScreenRecorderAvailable]) {
         [self addLogString:@"该系统版本不支持录屏"];
     } else {
-        QNVideoEncoderConfig *config = [[QNVideoEncoderConfig alloc] initWithBitrate:self.bitrate videoEncodeSize:self.videoEncodeSize];
+        QNVideoEncoderConfig *config = [[QNVideoEncoderConfig alloc] initWithBitrate:self.bitrate videoEncodeSize:self.videoEncodeSize videoFrameRate:self.frameRate];
         QNScreenVideoTrackConfig * screenConfig = [[QNScreenVideoTrackConfig alloc] initWithSourceTag:screenTag config:config];
         self.screenTrack = [QNRTC createScreenVideoTrackWithConfig:screenConfig];
+        self.screenTrack.screenDelegate = self;
     }
 
     if (self.screenTrack) {
@@ -60,6 +59,13 @@
             }
         } ];
     }
+}
+
+/// QNScreenVideoTrackDelegate
+- (void)screenVideoTrack:(QNScreenVideoTrack *)screenVideoTrack didFailWithError:(NSError *)error {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.view showFailTip:error.description];
+    });
 }
 
 @end

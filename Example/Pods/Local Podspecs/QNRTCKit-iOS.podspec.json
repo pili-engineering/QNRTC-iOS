@@ -1,6 +1,6 @@
 {
   "name": "QNRTCKit-iOS",
-  "version": "5.1.0",
+  "version": "5.1.1",
   "summary": "Qiniu RTC SDK for iOS.",
   "homepage": "https://github.com/pili-engineering/QNRTC-iOS",
   "license": "Apache License, Version 2.0",
@@ -8,7 +8,7 @@
     "pili": "pili-coresdk@qiniu.com"
   },
   "source": {
-    "http": "https://sdk-release.qnsdk.com/QNRTCKit-iphoneos-v5.1.0.zip"
+    "http": "https://sdk-release.qnsdk.com/QNRTCKit-iphoneos-v5.1.1.zip"
   },
   "pod_target_xcconfig": {
     "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64"
@@ -30,6 +30,11 @@
     "VideoToolbox"
   ],
   "default_subspecs": "Core",
+  "libraries": [
+    "z",
+    "bz2",
+    "iconv"
+  ],
   "subspecs": [
     {
       "name": "Core",

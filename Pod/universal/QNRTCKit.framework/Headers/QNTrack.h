@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 标识该路 Track 是音频还是视频。
  *
- * @discussion 发布时由 SDK 根据 sourceType 确定。
+ * @discussion 发布时由 SDK 确定。
  *
  * @see QNTrackKind
  *
@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 销毁本地音/视频 Track。
  *
- * @discussion 在不使用 track 之后，请务必调用此接口。
+ * @warning 在不使用该 Track 之后，请务必调用此接口。
  *
  * @since v5.0.0
  */
@@ -100,6 +100,8 @@ NS_ASSUME_NONNULL_BEGIN
 @optional
 /*!
  * @abstract 音频 Track 数据回调。
+ *
+ * @discussion 需要注意的是这个回调在 AU Remote IO 线程，请不要做过于耗时的操作，否则可能阻塞该线程影响音频输出或其他未知问题。
  *
  * @since v5.0.0
  */
@@ -123,7 +125,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 输入音量
  *
- * @discussion 设置范围为 0~10，默认为 1
+ * @discussion 设置范围为 0 ~ 10，默认为 1
  *
  * @warning 当麦克风输入音量增益调大之后，部分机型会出现噪音
  *
@@ -132,7 +134,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setVolume:(double)volume;
 
 /*!
- * @abstract 用户音量回调，volume 值在 [0, 1] 之间。
+ * @abstract 获取用户音量，范围 0 ～ 10。
  *
  * @since v5.0.0
  */
@@ -235,8 +237,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 导入音频数据
  *
- * @discussion 仅在调用 - (void)setExternalAudioSourceEnabled:(BOOL)enabled; 并传入 YES 后才有效。
- * 支持的音频数据格式为：PCM 格式，48000 采样率，16 位宽，单声道
+ * @discussion 支持的音频数据格式为：PCM 格式，48000 采样率，16 位宽，单声道
  *
  * @since v4.0.0
  */
@@ -245,8 +246,11 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 导入音频数据
  *
- * @discussion 仅在调用 - (void)setExternalAudioSourceEnabled:(BOOL)enabled; 并传入 YES 后才有效。
- * 支持的音频数据格式为：PCM 格式
+ * @discussion 支持的音频数据格式为：PCM 格式
+ *
+ * @warning 音频数据的格式信息，请务必对应实际数据信息传入
+ *
+ * @param asbd PCM 音频数据的具体音频信息，包括采样率、声道数、位宽等
  *
  * @since v4.0.0
  */
@@ -262,6 +266,8 @@ NS_ASSUME_NONNULL_BEGIN
 @optional
 /*!
  * @abstract 视频 Track 数据回调。
+ *
+ * @discussion 需要注意的是这个回调在视频数据的输出线程，请不要做过于耗时的操作，否则可能会导致编码帧率下降。
  *
  * @since v5.0.0
  */
@@ -333,7 +339,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, getter=isTorchOn) BOOL torchOn;
 
 /*!
- * @abstract 连续自动对焦。默认为 YES。
+ * @abstract 是否连续自动对焦，默认为 YES。
  *
  * @since v4.0.0
  */
@@ -391,14 +397,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSUInteger videoFrameRate;
 
 /*!
- * @abstract 前置摄像头预览是否开启镜像，默认为 YES。
+ * @abstract 前置摄像头，预览是否开启镜像，默认为 YES。
  *
  * @since v4.0.0
  */
 @property (nonatomic, assign) BOOL previewMirrorFrontFacing;
 
 /*!
- * @abstract 后置摄像头预览是否开启镜像，默认为 NO。
+ * @abstract 后置摄像头，预览是否开启镜像，默认为 NO。
  *
  * @since v4.0.0
  */
@@ -550,8 +556,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @abstract 导入视频数据。
  *
  * @discussion 调用此接口将把数据导入给所有 QNCustomVideoTrack 的 Track。
- * 支持导入的视频数据格式为：kCVPixelFormatType_420YpCbCr8BiPlanarFullRange
- * 和 kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange。
+ *
+ * @param sampleBuffer 支持导入的视频数据格式为：kCVPixelFormatType_420YpCbCr8BiPlanarFullRange
+ *                     和 kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange。
  *
  * @since v4.0.0
  */
@@ -561,8 +568,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @abstract 导入视频数据。
  *
  * @discussion 调用此接口将把数据导入给所有 QNCustomVideoTrack  的 Track。
- * 支持导入的视频数据格式为：kCVPixelFormatType_420YpCbCr8BiPlanarFullRange
- * 和 kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange。
+ *
+ * @param pixelBuffer 支持导入的视频数据格式为：kCVPixelFormatType_420YpCbCr8BiPlanarFullRange
+ *                    和 kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange。
  *
  * @since v4.0.0
  */
@@ -618,7 +626,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 设置远端音频 Track 播放音量。范围从 0 ~ 10，10 为最大
  *
- * @discussion 需要发布成功后才可以执行 setRemote 操作。本次操作仅对远端音频播放音量做调整，远端音量回调为远端音频数据的原始音量，不会基于本设置做相应调整。
+ * @discussion 需要发布成功后才可以执行。本次操作仅对远端音频播放音量做调整，远端音量回调为远端音频数据的原始音量，不会基于本设置做相应调整。
  *
  * @warning 部分机型调整音量放大会出现低频噪音
  *
@@ -627,7 +635,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setVolume:(double)volume;
 
 /*!
- * @abstract 用户音量回调，volume 值在 [0, 1] 之间。
+ * @abstract 获取用户音量等级，volume 值在 [0, 1] 之间。
  *
  * @since v5.0.0
  */

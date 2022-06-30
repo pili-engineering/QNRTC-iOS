@@ -94,11 +94,11 @@ NSCopying
 @property (nonatomic, assign) NSUInteger maxBitrateBps;
 
 /*!
- * @abstract 是否在 Track 没有数据的情况下在合流画布中保持最后一帧,默认为 NO
+ * @abstract 是否开启纯音频合流任务，默认为 NO
  *
- * @since v4.0.0
+ * @since 5.1.1
  */
-@property (nonatomic, assign) BOOL holdLastFrame;
+@property (nonatomic, assign) BOOL isAudioOnly;
 
 /*!
  * @abstract 创建默认配置的实例

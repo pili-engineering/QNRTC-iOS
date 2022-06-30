@@ -8,12 +8,12 @@
 
 Pod::Spec.new do |s|
     s.name      = 'QNRTCKit-iOS'
-    s.version   = '5.1.0'
+    s.version   = '5.1.1'
     s.summary   = 'Qiniu RTC SDK for iOS.'
     s.homepage  = 'https://github.com/pili-engineering/QNRTC-iOS'
     s.license   = 'Apache License, Version 2.0'
     s.author    = { "pili" => "pili-coresdk@qiniu.com" }
-    s.source    = { :http => "https://sdk-release.qnsdk.com/QNRTCKit-universal-v5.1.0.zip"}
+    s.source    = { :http => "https://sdk-release.qnsdk.com/QNRTCKit-universal-v5.1.1.zip"}
 
 
     s.platform                = :ios
@@ -27,4 +27,7 @@ Pod::Spec.new do |s|
     s.subspec "Core" do |core|
         core.vendored_frameworks = ['Pod/universal/*.framework']
     end
+    
+    s.libraries = "z", "bz2", "iconv"
+    
 end

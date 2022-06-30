@@ -7,8 +7,9 @@
 //
 
 #import "QRDScreenRecorderViewController.h"
+#import "UIView+Alert.h"
 
-@interface QRDScreenRecorderViewController ()
+@interface QRDScreenRecorderViewController ()<QNScreenVideoTrackDelegate>
 
 @property (nonatomic, strong) UIView *colorView;
 
@@ -49,9 +50,10 @@
         [self addLogString:@"该系统版本不支持录屏"];
     } else {
         // 支持，则配置录屏 track（视频 track）
-        QNVideoEncoderConfig *config = [[QNVideoEncoderConfig alloc] initWithBitrate:self.bitrate videoEncodeSize:self.videoEncodeSize];
+        QNVideoEncoderConfig *config = [[QNVideoEncoderConfig alloc] initWithBitrate:self.bitrate videoEncodeSize:self.videoEncodeSize videoFrameRate:self.frameRate];
         QNScreenVideoTrackConfig * screenConfig = [[QNScreenVideoTrackConfig alloc] initWithSourceTag:screenTag config:config];
         self.screenTrack = [QNRTC createScreenVideoTrackWithConfig:screenConfig];
+        self.screenTrack.screenDelegate = self;
     }
     
     // 4.发布音视频 track
@@ -89,6 +91,13 @@
         self.videoButton.enabled = NO;
         self.beautyButton.enabled = NO;
         self.togCameraButton.enabled = NO;
+    });
+}
+
+/// QNScreenVideoTrackDelegate
+- (void)screenVideoTrack:(QNScreenVideoTrack *)screenVideoTrack didFailWithError:(NSError *)error {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.view showFailTip:error.description];
     });
 }
 

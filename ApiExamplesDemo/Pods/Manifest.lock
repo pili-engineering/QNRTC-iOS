@@ -1,0 +1,25 @@
+PODS:
+  - Masonry (1.1.0)
+  - QNRTCKit-iOS (5.1.1):
+    - QNRTCKit-iOS/Core (= 5.1.1)
+  - QNRTCKit-iOS/Core (5.1.1)
+
+DEPENDENCIES:
+  - Masonry (= 1.1.0)
+  - QNRTCKit-iOS (from `../QNRTCKit-iOS.podspec`)
+
+SPEC REPOS:
+  trunk:
+    - Masonry
+
+EXTERNAL SOURCES:
+  QNRTCKit-iOS:
+    :path: "../QNRTCKit-iOS.podspec"
+
+SPEC CHECKSUMS:
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  QNRTCKit-iOS: 08b1dd6140d54a228d49627b408db2001ca535a4
+
+PODFILE CHECKSUM: da90c417b596dac79db70806a291a917cc5c1938
+
+COCOAPODS: 1.11.3

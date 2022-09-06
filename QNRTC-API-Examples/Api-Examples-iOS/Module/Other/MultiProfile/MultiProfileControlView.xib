@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="MultiProfileControlView">
+            <rect key="frame" x="0.0" y="0.0" width="442" height="389"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="当前订阅的 profile：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qf3-Fz-NwZ">
+                    <rect key="frame" x="30" y="64" width="139.5" height="18"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" systemColor="systemGrayColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="设置预期订阅的 profile：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M2F-KN-WpD">
+                    <rect key="frame" x="30" y="102" width="170" height="16"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="16" id="NKG-MV-chh"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" systemColor="systemGrayColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="None" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q8J-9f-hl3">
+                    <rect key="frame" x="189.5" y="62.5" width="100" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="Uir-9d-9Tx"/>
+                        <constraint firstAttribute="width" constant="100" id="mLC-Z0-fjg"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" systemColor="linkColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Scl-n3-cr4" customClass="RadioButton">
+                    <rect key="frame" x="60" y="138" width="44" height="18"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="18" id="3j6-xS-5lo"/>
+                        <constraint firstAttribute="width" constant="44" id="el9-wC-6MC"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title=" Low" image="unselect.png">
+                        <color key="titleColor" systemColor="systemGrayColor"/>
+                    </state>
+                    <state key="selected" image="selected.png">
+                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <outletCollection property="groupButtons" destination="Gbc-AV-kyT" id="wS4-JV-9WY"/>
+                        <outletCollection property="groupButtons" destination="7X2-kn-FiK" id="uqF-fQ-GH5"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7X2-kn-FiK" customClass="RadioButton">
+                    <rect key="frame" x="334" y="139" width="48" height="16"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title=" High" image="unselect.png">
+                        <color key="titleColor" systemColor="systemGrayColor"/>
+                    </state>
+                    <state key="selected" image="selected.png">
+                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gbc-AV-kyT" customClass="RadioButton">
+                    <rect key="frame" x="186.5" y="139" width="69" height="16"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title=" Medium" image="unselect.png">
+                        <color key="titleColor" systemColor="systemGrayColor"/>
+                    </state>
+                    <state key="selected" image="selected.png">
+                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yrD-uF-mbk">
+                    <rect key="frame" x="60" y="186" width="322" height="32"/>
+                    <color key="backgroundColor" systemColor="linkColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="32" id="cvK-RO-AZO"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="切换"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBounds" value="YES"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="5"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="yrD-uF-mbk" firstAttribute="top" secondItem="Scl-n3-cr4" secondAttribute="bottom" constant="30" id="1Ax-eC-6VL"/>
+                <constraint firstItem="yrD-uF-mbk" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="60" id="9pX-CE-wJ6"/>
+                <constraint firstItem="Qf3-Fz-NwZ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="30" id="Aqx-Cb-eSk"/>
+                <constraint firstItem="Gbc-AV-kyT" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="F4s-aM-sig"/>
+                <constraint firstItem="7X2-kn-FiK" firstAttribute="centerY" secondItem="Scl-n3-cr4" secondAttribute="centerY" id="G19-4F-dwb"/>
+                <constraint firstItem="Qf3-Fz-NwZ" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="20" id="On1-HD-OI9"/>
+                <constraint firstItem="Q8J-9f-hl3" firstAttribute="centerY" secondItem="Qf3-Fz-NwZ" secondAttribute="centerY" id="T85-kI-buJ"/>
+                <constraint firstItem="Scl-n3-cr4" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="60" id="aiF-tU-Qoz"/>
+                <constraint firstItem="Gbc-AV-kyT" firstAttribute="centerY" secondItem="Scl-n3-cr4" secondAttribute="centerY" id="fV5-cs-wao"/>
+                <constraint firstItem="Q8J-9f-hl3" firstAttribute="leading" secondItem="Qf3-Fz-NwZ" secondAttribute="trailing" constant="20" id="heJ-fB-yJZ"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="7X2-kn-FiK" secondAttribute="trailing" constant="60" id="prq-te-k67"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="yrD-uF-mbk" secondAttribute="trailing" constant="60" id="tfY-Td-TBj"/>
+                <constraint firstItem="M2F-KN-WpD" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="30" id="u31-JP-pbd"/>
+                <constraint firstItem="Scl-n3-cr4" firstAttribute="top" secondItem="M2F-KN-WpD" secondAttribute="bottom" constant="20" id="zH2-83-Ufq"/>
+                <constraint firstItem="M2F-KN-WpD" firstAttribute="top" secondItem="Qf3-Fz-NwZ" secondAttribute="bottom" constant="20" id="zVX-LK-Tdp"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="currentProfileTF" destination="Q8J-9f-hl3" id="dPh-oH-34A"/>
+                <outlet property="highButton" destination="7X2-kn-FiK" id="rBR-a8-8ik"/>
+                <outlet property="lowButton" destination="Scl-n3-cr4" id="D6L-ms-ZYw"/>
+                <outlet property="mediumButton" destination="Gbc-AV-kyT" id="Zjf-dh-hoT"/>
+                <outlet property="switchProfileButton" destination="yrD-uF-mbk" id="NCQ-jm-YpW"/>
+            </connections>
+            <point key="canvasLocation" x="139.13043478260872" y="-276.22767857142856"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="selected.png" width="16" height="16"/>
+        <image name="unselect.png" width="16" height="16"/>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

@@ -1,0 +1,6 @@
+framework module Pods_Api_Examples_iOS {
+  umbrella header "Pods-Api-Examples-iOS-umbrella.h"
+
+  export *
+  module * { export * }
+}

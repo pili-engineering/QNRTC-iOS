@@ -1,0 +1,3 @@
+${PODS_ROOT}/Target Support Files/Pods-Api-Examples-iOS/Pods-Api-Examples-iOS-frameworks.sh
+${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework
+${PODS_ROOT}/../../Pod/iphoneos/QNRTCKit.framework

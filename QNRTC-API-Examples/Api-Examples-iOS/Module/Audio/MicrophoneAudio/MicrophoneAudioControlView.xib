@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" interfaceStyle="light" id="iN0-l3-epB" customClass="MicrophoneAudioControlView">
+            <rect key="frame" x="0.0" y="0.0" width="350" height="219"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="本地音频采集音量" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kl9-cz-Z9g">
+                    <rect key="frame" x="30" y="30" width="120" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="120" id="8iz-ky-vyV"/>
+                        <constraint firstAttribute="height" constant="20" id="Hdd-cO-hOB"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" systemColor="systemGrayColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="远端音频播放音量" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PWm-MQ-aRY">
+                    <rect key="frame" x="30" y="80" width="120" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="LIN-uR-3nO"/>
+                        <constraint firstAttribute="width" constant="120" id="jp7-wQ-E9g"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" systemColor="systemGrayColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="1zQ-Eb-k5E">
+                    <rect key="frame" x="208" y="30" width="114" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="gHP-hW-ZJo"/>
+                    </constraints>
+                </slider>
+                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="9BQ-b5-caf">
+                    <rect key="frame" x="208" y="80" width="114" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="84H-d8-N5F"/>
+                    </constraints>
+                </slider>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hIw-BS-wgP">
+                    <rect key="frame" x="30" y="130" width="290" height="80"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="80" id="qiE-ta-uAE"/>
+                    </constraints>
+                    <string key="text">注：
+1. 音频的可调节范围是0-10，调节过大可能会影响音质和损坏音频设备。
+2. 获取音频音量的接口为主动调用的接口，需要您根据业务需要指定合适的时间来定时获取。</string>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vXa-UC-1I6"/>
+            <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="1zQ-Eb-k5E" firstAttribute="centerY" secondItem="Kl9-cz-Z9g" secondAttribute="centerY" id="8Sl-iU-KvL"/>
+                <constraint firstItem="Kl9-cz-Z9g" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="30" id="Atz-YJ-eeS"/>
+                <constraint firstAttribute="trailing" secondItem="hIw-BS-wgP" secondAttribute="trailing" constant="30" id="BVX-HJ-M9D"/>
+                <constraint firstItem="hIw-BS-wgP" firstAttribute="top" secondItem="PWm-MQ-aRY" secondAttribute="bottom" constant="30" id="Gbb-Bi-MeF"/>
+                <constraint firstItem="9BQ-b5-caf" firstAttribute="centerY" secondItem="PWm-MQ-aRY" secondAttribute="centerY" id="UcW-uU-j7U"/>
+                <constraint firstItem="9BQ-b5-caf" firstAttribute="leading" secondItem="PWm-MQ-aRY" secondAttribute="trailing" constant="60" id="Zzf-Ex-RIR"/>
+                <constraint firstItem="hIw-BS-wgP" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="30" id="aqZ-nT-hfp"/>
+                <constraint firstItem="vXa-UC-1I6" firstAttribute="trailing" secondItem="9BQ-b5-caf" secondAttribute="trailing" constant="30" id="dgN-HS-zs7"/>
+                <constraint firstItem="PWm-MQ-aRY" firstAttribute="top" secondItem="Kl9-cz-Z9g" secondAttribute="bottom" constant="30" id="f0P-2n-5z3"/>
+                <constraint firstItem="vXa-UC-1I6" firstAttribute="trailing" secondItem="1zQ-Eb-k5E" secondAttribute="trailing" constant="30" id="fui-hM-ZYG"/>
+                <constraint firstItem="PWm-MQ-aRY" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="30" id="n46-EJ-Z9l"/>
+                <constraint firstItem="Kl9-cz-Z9g" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="30" id="nhe-8k-p9P"/>
+                <constraint firstItem="1zQ-Eb-k5E" firstAttribute="leading" secondItem="Kl9-cz-Z9g" secondAttribute="trailing" constant="60" id="yma-Bc-81L"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="localVolumeSlider" destination="1zQ-Eb-k5E" id="lma-kO-VYJ"/>
+                <outlet property="remoteVolumeSlider" destination="9BQ-b5-caf" id="uLQ-Wz-8hi"/>
+            </connections>
+            <point key="canvasLocation" x="5.7971014492753632" y="-516.62946428571422"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

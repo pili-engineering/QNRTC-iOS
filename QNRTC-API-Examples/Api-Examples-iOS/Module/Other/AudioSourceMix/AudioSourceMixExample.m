@@ -1,45 +1,45 @@
 //
-//  AudioEffectMixExample.m
+//  AudioSourceMixExample.m
 //  Api-Examples-iOS
 //
-//  Created by 冯文秀 on 2022/6/13.
+//  Created by 冯文秀 on 2022/10/18.
 //
 
-#import "AudioEffectMixExample.h"
-#import "AudioEffectMixControlView.h"
-#import "AudioEffectTableViewCell.h"
+#import "AudioSourceMixExample.h"
+#import "AudioSourceMixControlView.h"
+#import "AudioSourceTableViewCell.h"
+#import "AudioSourceModel.h"
 
-static NSString *effectCellIdentifer = @"audioEffectCell";
+static NSString *sourceCellIdentifer = @"audioSourceCell";
 
-#define Audio_Effect_Tag 654000
+#define Audio_Source_Tag 987000
 
-@interface AudioEffectMixExample ()
+@interface AudioSourceMixExample ()
 <QNRTCClientDelegate,
-QNAudioEffectMixerDelegate,
+QNAudioSourceMixerDelegate,
 UITableViewDelegate,
-UITableViewDataSource>
+UITableViewDataSource,
+AudioSourceModelDelegate>
 
 @property (nonatomic, strong) QNRTCClient *client;
 @property (nonatomic, strong) QNMicrophoneAudioTrack *microphoneAudioTrack;
 @property (nonatomic, strong) QNRemoteAudioTrack *remoteAudioTrack;
-@property (nonatomic, strong) QNAudioEffectMixer *audioEffectMixer;
+@property (nonatomic, strong) QNAudioSourceMixer *audioSourceMixer;
 @property (nonatomic, assign) float audioMusicDuration;
-@property (nonatomic, strong) AudioEffectMixControlView *controlView;
+@property (nonatomic, strong) AudioSourceMixControlView *controlView;
 @property (nonatomic, copy) NSString *remoteUserID;
-@property (nonatomic, strong) NSArray *effectSourceArray;
-@property (nonatomic, strong) NSMutableArray *audioEffectArray;
-@property (nonatomic, strong) NSMutableArray *selectedEffectArray;
-@property (nonatomic, strong) NSMutableDictionary *effectStateDic;
+@property (nonatomic, strong) NSMutableArray *sourcesArray;
+@property (nonatomic, strong) NSMutableArray *audioSourceArray;
 @end
 
-@implementation AudioEffectMixExample
+@implementation AudioSourceMixExample
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self loadSubviews];
     [self initRTC];
-    [self loadAudioEffectSources];
+    [self loadAudioSources];
 }
 
 /*!
@@ -47,11 +47,10 @@ UITableViewDataSource>
  */
 - (void)clickBackItem {
     [super clickBackItem];
-    
+
     if (self.microphoneAudioTrack) {
-        if (self.audioEffectMixer) {
-            [self.audioEffectMixer stopAll];
-            [self.microphoneAudioTrack destroyAudioEffectMixer];
+        if (self.audioSourceMixer) {
+            [self.microphoneAudioTrack destroyAudioSourceMixer];
         }
         [self.microphoneAudioTrack destroy];
     }
@@ -72,62 +71,52 @@ UITableViewDataSource>
     self.localView.hidden = YES;
     self.remoteView.text = @"远端音频 Track";
     self.remoteView.hidden = YES;
-    self.tips = @"Tips：本示例仅展示一对一场景下的麦克风音频的发布和订阅，以及麦克风音频 Track 的音效混音功能。";
+    self.tips = @"Tips：本示例仅展示一对一场景下的麦克风音频的发布和订阅，以及麦克风音频 Track 的音源混音功能。";
     
-    // 音效混音控制面板
-    self.controlView = [[[NSBundle mainBundle] loadNibNamed:@"AudioEffectMixControlView" owner:nil options:nil] lastObject];
-    [self.controlView.stopAllButton setTitle:@"Stop All" forState:UIControlStateNormal];
-    [self.controlView.pauseAllButton setTitle:@"Pause All" forState:UIControlStateNormal];
-    [self.controlView.pauseAllButton setTitle:@"Resume All" forState:UIControlStateSelected];
-    
-    [self.controlView.stopAllButton addTarget:self action:@selector(stopAllButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.controlView.pauseAllButton addTarget:self action:@selector(resumePauseAllButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    // 音源混音控制面板
+    self.controlView = [[[NSBundle mainBundle] loadNibNamed:@"AudioSourceMixControlView" owner:nil options:nil] lastObject];
     [self.controlView.playbackSwitch addTarget:self action:@selector(playbackSwitchAction:) forControlEvents:UIControlEventValueChanged];
     [self.controlView.microphoneMixVolumeSlider addTarget:self action:@selector(micInputVolumeSliderAction:) forControlEvents:UIControlEventValueChanged];
     [self.controlView.audioPlayVolumeSlider addTarget:self action:@selector(audioPlayVolumeSliderAction:) forControlEvents:UIControlEventValueChanged];
     
-    self.controlView.audioEffectTableView.backgroundColor = [UIColor colorWithRed:242 / 255.0 green:242 / 255.0 blue:247 / 255.0 alpha:1.0];
-    self.controlView.audioEffectTableView.scrollEnabled = NO;
-    self.controlView.audioEffectTableView.delegate = self;
-    self.controlView.audioEffectTableView.dataSource = self;
-    [self.controlView.audioEffectTableView registerNib:[UINib nibWithNibName:@"AudioEffectTableViewCell" bundle:nil] forCellReuseIdentifier:effectCellIdentifer];
-    self.controlView.audioEffectTableView.rowHeight = 60.f;
-    self.controlView.audioEffectTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    self.controlView.audioSourceTableView.backgroundColor = [UIColor colorWithRed:242 / 255.0 green:242 / 255.0 blue:247 / 255.0 alpha:1.0];
+    self.controlView.audioSourceTableView.scrollEnabled = NO;
+    self.controlView.audioSourceTableView.delegate = self;
+    self.controlView.audioSourceTableView.dataSource = self;
+    [self.controlView.audioSourceTableView registerNib:[UINib nibWithNibName:@"AudioSourceTableViewCell" bundle:nil] forCellReuseIdentifier:sourceCellIdentifer];
+    self.controlView.audioSourceTableView.rowHeight = 90.f;
+    self.controlView.audioSourceTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     
     [self.controlScrollView addSubview:self.controlView];
     [self.controlView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.equalTo(self.controlScrollView);
         make.width.mas_equalTo(SCREEN_WIDTH);
-        make.height.mas_equalTo(496);
+        make.height.mas_equalTo(536);
     }];
     [self.controlView layoutIfNeeded];
     self.controlScrollView.contentSize = self.controlView.frame.size;
 }
 
 /*!
- * @abstract 加载音效资源
+ * @abstract 加载音源资源
  */
-- (void)loadAudioEffectSources {
+- (void)loadAudioSources {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        self.audioEffectArray = [NSMutableArray array];
-        self.selectedEffectArray = [NSMutableArray array];
-        self.effectStateDic = [NSMutableDictionary dictionary];
-        // 音频格式支持：aac、mp3、mp4、wav、m4r、caf、ogg、opus、m4a、flac
-        self.effectSourceArray = @[@"mozart-16b-2c-44100hz.mp3",
-                                   @"angle-16b-2c-48000hz.wav",
-                                   @"whist-16b-2c-16000hz.m4a",
-                                   @"ff-16b-2c-44100hz.aac",
-                                   @"gs-16b-1c-8000hz.amr"];
-        for (NSInteger i = 0; i < self.effectSourceArray.count; i++) {
-            NSString *sourceString = self.effectSourceArray[i];
-            int effectID = (int)i + Audio_Effect_Tag;
-            NSArray *strArray = [sourceString componentsSeparatedByString:@"."];
-            NSString *effectString = [[NSBundle mainBundle] pathForResource:strArray[0] ofType:strArray[1]];
-            QNAudioEffect *audioEffect = [self.audioEffectMixer createAudioEffectWithEffectID:effectID filePath:effectString];
-            [audioEffect setLoopCount:1];
-            [self.audioEffectArray addObject:audioEffect];
-            [self.effectStateDic setValue:@0 forKey:sourceString];
+        self.sourcesArray = [NSMutableArray array];
+        NSArray *sourceArray = @[@"mozart-16b-2c-44100hz.mp3",
+                                 @"angle-16b-2c-48000hz.wav",
+                                 @"whist-16b-2c-16000hz.m4a",
+                                 @"ff-16b-2c-44100hz.aac"];
+        for (NSInteger i = 0; i < sourceArray.count; i++) {
+            NSString *sourceString = sourceArray[i];
+            int sourceID = (int)i + Audio_Source_Tag;
+            AudioSourceModel *sourceModel = [[AudioSourceModel alloc] initWithFileName:sourceString sourceID:sourceID];
+            sourceModel.delegate = self;
+            [self.sourcesArray addObject:sourceModel];
         }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.controlView.audioSourceTableView reloadData];
+        });
     });
 }
 
@@ -156,7 +145,7 @@ UITableViewDataSource>
     [self.microphoneAudioTrack setEarMonitorEnabled:NO];
     
     // 设置混音回调代理
-    self.audioEffectMixer = [self.microphoneAudioTrack createAudioEffectMixer:self];
+    self.audioSourceMixer = [self.microphoneAudioTrack createAudioSourceMixer:self];
     
     // 关闭自动订阅（示例仅针对 1v1 场景，所以此处将自动订阅关闭）
     self.client.autoSubscribe = NO;
@@ -169,7 +158,7 @@ UITableViewDataSource>
  * @abstract 发布 Track
  */
 - (void)publish {
-    __weak AudioEffectMixExample *weakSelf = self;
+    __weak AudioSourceMixExample *weakSelf = self;
     [self.client publish:@[self.microphoneAudioTrack] completeCallback:^(BOOL onPublished, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (onPublished) {
@@ -184,45 +173,6 @@ UITableViewDataSource>
 
 #pragma mark - 混音面板控制事件
 
-/**
- * 点击停止所有音效混音
- */
-- (void)stopAllButtonAction:(UIButton *)button {
-    [self.audioEffectMixer stopAll];
-    for (NSInteger i = 0; i < self.effectSourceArray.count; i++) {
-        NSString *sourceString = self.effectSourceArray[i];
-        [self.effectStateDic setValue:@0 forKey:sourceString];
-        [self.controlView.audioEffectTableView reloadData];
-    }
-}
-
-/**
- * 点击暂停/恢复所有音效混音
- */
-- (void)resumePauseAllButtonAction:(UIButton *)button {
-    button.selected = !button.selected;
-    if (button.isSelected) {
-        [self.audioEffectMixer pauseAll];
-        for (NSInteger i = 0; i < self.effectSourceArray.count; i++) {
-            NSString *sourceString = self.effectSourceArray[i];
-            NSInteger state = [[self.effectStateDic objectForKey:sourceString] integerValue];
-            if (state != 0) {
-                [self.effectStateDic setValue:@2 forKey:sourceString];
-                [self.controlView.audioEffectTableView reloadData];
-            }
-        }
-    } else{
-        [self.audioEffectMixer resumeAll];
-        for (NSInteger i = 0; i < self.effectSourceArray.count; i++) {
-            NSString *sourceString = self.effectSourceArray[i];
-            NSInteger state = [[self.effectStateDic objectForKey:sourceString] integerValue];
-            if (state != 0) {
-                [self.effectStateDic setValue:@1 forKey:sourceString];
-                [self.controlView.audioEffectTableView reloadData];
-            }
-        }
-    }
-}
 
 /**
  * 拖拽进度条，设置混音时麦克风的输入音量
@@ -245,25 +195,12 @@ UITableViewDataSource>
     [self.microphoneAudioTrack setPlayingVolume:slider.value];
 }
 
-#pragma mark - QNAudioEffectMixerDelegate
+#pragma mark - QNAudioSourceMixerDelegate
 /**
- * QNAudioEffectMixer 在运行过程中，发生错误的回调
+ * QNAudioSourceMixer 在运行过程中，发生错误的回调
  */
-- (void)audioEffectMixer:(QNAudioEffectMixer *)audioEffectMixer didFailWithError:(NSError *)error {
-    [self showAlertWithTitle:@"音效混音错误" message:error.localizedDescription];
-}
-
-/**
- * QNAudioEffectMixer 在运行过程中，混音完成的回调
- */
-- (void)audioEffectMixer:(QNAudioEffectMixer *)audioEffectMixer didFinished:(int)effectID {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSInteger index = effectID - Audio_Effect_Tag;
-        NSString *sourceString = self.effectSourceArray[index];
-        [self showAlertWithTitle:@"音效混音完成" message:sourceString];
-        [self.effectStateDic setValue:@0 forKey:sourceString];
-        [self.controlView.audioEffectTableView reloadData];
-    });
+- (void)audioSourceMixer:(QNAudioSourceMixer *)audioSourceMixer didFailWithError:(NSError *)error {
+    [self showAlertWithTitle:@"音源混音错误" message:error.localizedDescription];
 }
 
 #pragma mark - QNRTCClientDelegate
@@ -410,61 +347,46 @@ UITableViewDataSource>
 #pragma mark - UITableViewDelegate/UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _audioEffectArray.count;
+    return _sourcesArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    AudioEffectTableViewCell *cell = (AudioEffectTableViewCell *)[tableView dequeueReusableCellWithIdentifier:effectCellIdentifer forIndexPath:indexPath];
-    NSString *sourceString = self.effectSourceArray[indexPath.row];
-    cell.nameLabel.text = sourceString;
+    AudioSourceTableViewCell *cell = (AudioSourceTableViewCell *)[tableView dequeueReusableCellWithIdentifier:sourceCellIdentifer forIndexPath:indexPath];
+    AudioSourceModel *model = self.sourcesArray[indexPath.row];
+    cell.nameLabel.text = model.fileName;
     cell.startButton.tag = 100 + indexPath.row;
-    cell.pauseButton.tag = 200 + indexPath.row;
-    [cell.startButton addTarget:self action:@selector(startStopAudioEffect:) forControlEvents:UIControlEventTouchUpInside];
-    [cell.pauseButton addTarget:self action:@selector(pauseResumeAudioEffect:) forControlEvents:UIControlEventTouchUpInside];
-    NSInteger state = [[self.effectStateDic objectForKey:sourceString] integerValue];
-    if (state == 0) {
-        cell.startButton.selected = NO;
-        cell.pauseButton.selected = NO;
-    } else if (state == 1) {
-        cell.startButton.selected = YES;
-        cell.pauseButton.selected = NO;
-    } else if (state == 2) {
-        cell.startButton.selected = YES;
-        cell.pauseButton.selected = YES;
-    }
+    cell.publishButton.tag = 200 + indexPath.row;
+    [cell.startButton addTarget:self action:@selector(startStopAudioSource:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.publishButton addTarget:self action:@selector(publishEnableAudioSource:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
 }
 
-- (void)startStopAudioEffect:(UIButton *)button {
-    button.selected = !button.selected;
+- (void)startStopAudioSource:(UIButton *)button {
+    button.selected = !button.isSelected;
     NSInteger index = button.tag - 100;
-    NSString *sourceString = self.effectSourceArray[index];
-    QNAudioEffect *audioEffect = self.audioEffectArray[index];
-    int effectID = [audioEffect getID];
+    AudioSourceModel *model = self.sourcesArray[index];
     if (button.isSelected) {
-        [self.audioEffectMixer start:effectID];
-        [self.effectStateDic setValue:@1 forKey:sourceString];
+        QNAudioSource *audioSource = [self.audioSourceMixer createAudioSourceWithSourceID:model.sourceID blockingMode:YES];
+        [model loopRead];
     } else{
-        [self.audioEffectMixer stop:effectID];
-        [self.effectStateDic setValue:@0 forKey:sourceString];
+        [model cancelRead];
+        [self.audioSourceMixer destroyAudioSourceWithSourceID:model.sourceID];
     }
 }
 
-- (void)pauseResumeAudioEffect:(UIButton *)button {
-    button.selected = !button.selected;
+- (void)publishEnableAudioSource:(UIButton *)button {
+    button.selected = !button.isSelected;
     NSInteger index = button.tag - 200;
-    NSString *sourceString = self.effectSourceArray[index];
-    QNAudioEffect *audioEffect = self.audioEffectArray[index];
-    int effectID = [audioEffect getID];
-    if (button.isSelected) {
-        [self.audioEffectMixer pause:effectID];
-        [self.effectStateDic setValue:@2 forKey:sourceString];
-    } else{
-        [self.audioEffectMixer resume:effectID];
-        [self.effectStateDic setValue:@1 forKey:sourceString];
-    }
+    AudioSourceModel *model = self.sourcesArray[index];
+    [self.audioSourceMixer setPublishEnabled:!button.isSelected sourceID:model.sourceID];
 }
-    
+
+#pragma mark - AudioSourceModelDelegate
+
+- (void)audioSourceModel:(AudioSourceModel *)audioSourceModel audioBuffer:(AudioBuffer *)audioeBuffer asbd:(AudioStreamBasicDescription *)asbd {
+    [self.audioSourceMixer pushAudioBuffer:audioeBuffer asbd:asbd sourceID:audioSourceModel.sourceID];
+}
+
 /*
 #pragma mark - Navigation
 

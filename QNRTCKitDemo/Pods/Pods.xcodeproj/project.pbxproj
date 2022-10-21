@@ -391,7 +391,6 @@
 		4B3FCAC1B91492B4C4C165425C30653D /* BugsnagCrashSentry.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BugsnagCrashSentry.h; path = Source/BugsnagCrashSentry.h; sourceTree = "<group>"; };
 		4CF0D7BCA668C177CA4BAC9A519833F8 /* MASConstraint.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MASConstraint.h; path = Masonry/MASConstraint.h; sourceTree = "<group>"; };
 		4D8B989D135A7029F38E64379DA9ADB5 /* MMMaterialDesignSpinner-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MMMaterialDesignSpinner-prefix.pch"; sourceTree = "<group>"; };
-		4DB733D546797019CAAFC4D6AFF816F4 /* QNRTCKit-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "QNRTCKit-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		4DE0026147165B56973706E1868A04FD /* JGProgressHUDPieIndicatorView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = JGProgressHUDPieIndicatorView.m; path = JGProgressHUD/JGProgressHUD/JGProgressHUDPieIndicatorView.m; sourceTree = "<group>"; };
 		4E3B7F9CD38050C880D26B06C418A3B1 /* BugsnagSessionTrackingPayload.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BugsnagSessionTrackingPayload.h; path = Source/BugsnagSessionTrackingPayload.h; sourceTree = "<group>"; };
 		4EBBCC454FD827B86FCF45AE469D44DB /* Crashlytics.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Crashlytics.debug.xcconfig; sourceTree = "<group>"; };
@@ -405,7 +404,6 @@
 		531A2305EB215FB902A7FD29167AE229 /* MMMaterialDesignSpinner.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MMMaterialDesignSpinner.m; path = Pod/Classes/MMMaterialDesignSpinner.m; sourceTree = "<group>"; };
 		568A9B0FCAC94D64BA94F226821E3B19 /* BSG_KSBacktrace.c */ = {isa = PBXFileReference; includeInIndex = 1; name = BSG_KSBacktrace.c; path = Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSBacktrace.c; sourceTree = "<group>"; };
 		5837609682A84B343F9ED91ED2B7903B /* JGProgressHUDFadeZoomAnimation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = JGProgressHUDFadeZoomAnimation.m; path = JGProgressHUD/JGProgressHUD/JGProgressHUDFadeZoomAnimation.m; sourceTree = "<group>"; };
-		58EBFC18B226FEBB9128894C1441E0E8 /* QNRTCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QNRTCKit.framework; path = Pod/iphoneos/QNRTCKit.framework; sourceTree = "<group>"; };
 		59B1F04BDD8655DE9EDA1E292BA041EE /* BugsnagCrashReport.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BugsnagCrashReport.h; path = Source/BugsnagCrashReport.h; sourceTree = "<group>"; };
 		5D8681408B3AE5623F89AFBDF1B9B693 /* BSGSerialization.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = BSGSerialization.m; path = Source/BSGSerialization.m; sourceTree = "<group>"; };
 		5E092E76D4F6ED2F612B4B090A2C0C9E /* BSG_KSMachApple.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BSG_KSMachApple.h; path = Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSMachApple.h; sourceTree = "<group>"; };
@@ -414,10 +412,10 @@
 		618739C9BF172451F711CD4A333EFEBB /* BSG_KSCrashReportVersion.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BSG_KSCrashReportVersion.h; path = Source/KSCrash/Source/KSCrash/Recording/BSG_KSCrashReportVersion.h; sourceTree = "<group>"; };
 		63140B660EBA6960E3D612ECBF27A17A /* BSG_KSCrashDoctor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BSG_KSCrashDoctor.h; path = Source/KSCrash/Source/KSCrash/Recording/BSG_KSCrashDoctor.h; sourceTree = "<group>"; };
 		64297C760295223C1D9D3BDB05DAE043 /* JGProgressHUDRingIndicatorView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = JGProgressHUDRingIndicatorView.m; path = JGProgressHUD/JGProgressHUD/JGProgressHUDRingIndicatorView.m; sourceTree = "<group>"; };
+		65B27838BE34A9D21586E650785373DF /* QNRTCKit-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "QNRTCKit-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		666EE556E6D29CFC78F837770082D316 /* ANSCompatibility.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ANSCompatibility.h; path = iOS/Crashlytics.framework/Headers/ANSCompatibility.h; sourceTree = "<group>"; };
 		67367654A1F390CC72D3730288FBCEC9 /* BugsnagFileStore.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BugsnagFileStore.h; path = Source/BugsnagFileStore.h; sourceTree = "<group>"; };
 		69AEC5485BC875CC9C9951570ABFBA93 /* BSG_KSMach_x86_32.c */ = {isa = PBXFileReference; includeInIndex = 1; name = BSG_KSMach_x86_32.c; path = Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSMach_x86_32.c; sourceTree = "<group>"; };
-		69B3343CAF91FF40B520155EF931D4B1 /* QNRTCKit-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "QNRTCKit-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		6A2932DF815D7AFE608F030D9CEC01A8 /* JGProgressHUDIndeterminateIndicatorView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = JGProgressHUDIndeterminateIndicatorView.m; path = JGProgressHUD/JGProgressHUD/JGProgressHUDIndeterminateIndicatorView.m; sourceTree = "<group>"; };
 		6BB6203DA0D545249D177DCE77BD191A /* BugsnagApiClient.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = BugsnagApiClient.m; path = Source/BugsnagApiClient.m; sourceTree = "<group>"; };
 		6C6005E690833D151C26D45914F91BBC /* BugsnagKeys.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BugsnagKeys.h; path = Source/BugsnagKeys.h; sourceTree = "<group>"; };
@@ -440,6 +438,7 @@
 		7A883842D6A602AFCA7BEFDA9B965F99 /* BSG_KSObjCApple.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BSG_KSObjCApple.h; path = Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSObjCApple.h; sourceTree = "<group>"; };
 		7B21306C84D953847E04CFD44F38AA7C /* BSG_KSLogger.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BSG_KSLogger.h; path = Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSLogger.h; sourceTree = "<group>"; };
 		7CA268C739A0982D0D9A9B5807B7BC1B /* JGProgressHUD-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "JGProgressHUD-prefix.pch"; sourceTree = "<group>"; };
+		7CA3EF4380302E3A79D2A62487BE16D0 /* QNRTCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QNRTCKit.framework; path = Pod/iphoneos/QNRTCKit.framework; sourceTree = "<group>"; };
 		7D0DA4CF4FC0E319A0CCA62ED4551758 /* MASViewAttribute.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MASViewAttribute.h; path = Masonry/MASViewAttribute.h; sourceTree = "<group>"; };
 		7D1EA001A1A380F04F517EA0D4004AC7 /* BSG_KSCrashSentry_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BSG_KSCrashSentry_Private.h; path = Source/KSCrash/Source/KSCrash/Recording/Sentry/BSG_KSCrashSentry_Private.h; sourceTree = "<group>"; };
 		7D582A3C86784319853E92F4CC156BE3 /* NSDictionary+BSG_Merge.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+BSG_Merge.h"; path = "Source/KSCrash/Source/KSCrash/Recording/Tools/NSDictionary+BSG_Merge.h"; sourceTree = "<group>"; };
@@ -450,6 +449,7 @@
 		7F5BDC629637B083C5C30B92C34DB76A /* BSG_KSArchSpecific.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BSG_KSArchSpecific.h; path = Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSArchSpecific.h; sourceTree = "<group>"; };
 		7FBAFAA66E9C7401884F439AE8BC662C /* JGProgressHUD */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = JGProgressHUD; path = libJGProgressHUD.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8077E944B469B3F94DF517D8D4360016 /* JGProgressHUDIndicatorView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = JGProgressHUDIndicatorView.m; path = JGProgressHUD/JGProgressHUD/JGProgressHUDIndicatorView.m; sourceTree = "<group>"; };
+		813A7CAC3A15A18CC54346B1A7C57256 /* QNRTCKit-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "QNRTCKit-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		82CD6BD78F7A0FB8537ADB61F6D06941 /* BugsnagHandledState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BugsnagHandledState.h; path = Source/BugsnagHandledState.h; sourceTree = "<group>"; };
 		83330E9095EF721505CFA2DCD971CB04 /* Bugsnag.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Bugsnag.h; path = Source/Bugsnag.h; sourceTree = "<group>"; };
 		8464832407541EAE3349283314E03FE9 /* BSG_KSZombie.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BSG_KSZombie.h; path = Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSZombie.h; sourceTree = "<group>"; };
@@ -465,7 +465,6 @@
 		8CBD14AAB0FB86D6FB22330737920208 /* BSG_KSCrash.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BSG_KSCrash.h; path = Source/KSCrash/Source/KSCrash/Recording/BSG_KSCrash.h; sourceTree = "<group>"; };
 		8CC26EECB1134B54B26D22289358FAA5 /* BSG_KSJSONCodec.c */ = {isa = PBXFileReference; includeInIndex = 1; name = BSG_KSJSONCodec.c; path = Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSJSONCodec.c; sourceTree = "<group>"; };
 		8D2A6F67FEF0F6B634F4F61E024B1FFF /* BSG_KSCrashReport.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BSG_KSCrashReport.h; path = Source/KSCrash/Source/KSCrash/Recording/BSG_KSCrashReport.h; sourceTree = "<group>"; };
-		8D40BFDDD83292EBAA2D54875D6C7D04 /* QNRTCKit-iOS-copy-dsyms.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "QNRTCKit-iOS-copy-dsyms.sh"; sourceTree = "<group>"; };
 		97FA0E2825E0C6F1C1D5051CF001E9CF /* MASLayoutConstraint.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MASLayoutConstraint.m; path = Masonry/MASLayoutConstraint.m; sourceTree = "<group>"; };
 		988611E3A951A606E4F5DF4409A9FAFF /* BSG_KSCrashSentry_CPPException.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = BSG_KSCrashSentry_CPPException.mm; path = Source/KSCrash/Source/KSCrash/Recording/Sentry/BSG_KSCrashSentry_CPPException.mm; sourceTree = "<group>"; };
 		98A41F7869ADF3A44BAD473F0D3807A8 /* BSG_KSCrashReportFields.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BSG_KSCrashReportFields.h; path = Source/KSCrash/Source/KSCrash/Recording/BSG_KSCrashReportFields.h; sourceTree = "<group>"; };
@@ -505,6 +504,7 @@
 		B81664F5B9825CD796D863B70485AABD /* BSG_KSCrashState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BSG_KSCrashState.h; path = Source/KSCrash/Source/KSCrash/Recording/BSG_KSCrashState.h; sourceTree = "<group>"; };
 		B887DBE44341778A93452FFBC98ADCA6 /* JGProgressHUD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = JGProgressHUD.release.xcconfig; sourceTree = "<group>"; };
 		BA506A5B12C8E593C6526AE70FC25F2C /* BSGConnectivity.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BSGConnectivity.h; path = Source/BSGConnectivity.h; sourceTree = "<group>"; };
+		BC34A07E670CE950BBABC76ABD7CE808 /* QNRTCKit-iOS-copy-dsyms.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "QNRTCKit-iOS-copy-dsyms.sh"; sourceTree = "<group>"; };
 		BD08E14741D1BFE328028D458C24D400 /* JGProgressHUDAnimation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = JGProgressHUDAnimation.m; path = JGProgressHUD/JGProgressHUD/JGProgressHUDAnimation.m; sourceTree = "<group>"; };
 		BF20D2ED9D4DCA01C6B29B1228839960 /* JGProgressHUD.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = JGProgressHUD.h; path = JGProgressHUD/JGProgressHUD/JGProgressHUD.h; sourceTree = "<group>"; };
 		BFE1723D6D1D967A5C786B4991EBD728 /* MASConstraintMaker.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MASConstraintMaker.h; path = Masonry/MASConstraintMaker.h; sourceTree = "<group>"; };
@@ -512,7 +512,6 @@
 		C19BA720DD4BFD00FE0B8FF6D7EEA36C /* NSError+BSG_SimpleConstructor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSError+BSG_SimpleConstructor.h"; path = "Source/KSCrash/Source/KSCrash/Recording/Tools/NSError+BSG_SimpleConstructor.h"; sourceTree = "<group>"; };
 		C23EDA60A7BDC649A690E7D44FA8DD19 /* jg_hud_error.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = jg_hud_error.png; path = JGProgressHUD/Resources/jg_hud_error.png; sourceTree = "<group>"; };
 		C36AB785FDB27EA61EBEBCE2C9EE592A /* jg_hud_success.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = jg_hud_success.png; path = JGProgressHUD/Resources/jg_hud_success.png; sourceTree = "<group>"; };
-		C3E5958300BEEF12813866BDF3F62B6A /* QNRTCKit-iOS.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = "QNRTCKit-iOS.podspec"; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		C808A4F80116A0C9B29C5A6646435A86 /* Pods-QNRTCKitDemo-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-QNRTCKitDemo-acknowledgements.markdown"; sourceTree = "<group>"; };
 		C942E99EC039B9EF913452A68D2F370E /* JGProgressHUDPieIndicatorView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = JGProgressHUDPieIndicatorView.h; path = JGProgressHUD/JGProgressHUD/JGProgressHUDPieIndicatorView.h; sourceTree = "<group>"; };
 		C98B9CF31944007F5AD0F4A1E7F37C8A /* BugsnagNotifier.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = BugsnagNotifier.m; path = Source/BugsnagNotifier.m; sourceTree = "<group>"; };
@@ -526,6 +525,7 @@
 		D2AE0A6F9F0181E19A016162C0A34792 /* CLSReport.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CLSReport.h; path = iOS/Crashlytics.framework/Headers/CLSReport.h; sourceTree = "<group>"; };
 		D644EE3059D96DA5D097960B2DD71A2F /* BSG_KSString.c */ = {isa = PBXFileReference; includeInIndex = 1; name = BSG_KSString.c; path = Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSString.c; sourceTree = "<group>"; };
 		D88CA8A8F66F40B10141334E7FD2E8F3 /* Bugsnag.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = Bugsnag.m; path = Source/Bugsnag.m; sourceTree = "<group>"; };
+		DA57EE0F85968B24AB6CA6623491433D /* QNRTCKit-iOS.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = "QNRTCKit-iOS.podspec"; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		DB09B186CA94F899BB9E4C3E665664F6 /* BugsnagSessionFileStore.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = BugsnagSessionFileStore.m; path = Source/BugsnagSessionFileStore.m; sourceTree = "<group>"; };
 		DB2DE8A0407D775EA838BF6112214655 /* BSG_KSCrashSentry_Deadlock.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BSG_KSCrashSentry_Deadlock.h; path = Source/KSCrash/Source/KSCrash/Recording/Sentry/BSG_KSCrashSentry_Deadlock.h; sourceTree = "<group>"; };
 		DD919F54F8283622F72ED787EF6F92F5 /* MASConstraint+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "MASConstraint+Private.h"; path = "Masonry/MASConstraint+Private.h"; sourceTree = "<group>"; };
@@ -609,6 +609,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		006298C6D5D0F933A88C716BFD8C3724 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7CA3EF4380302E3A79D2A62487BE16D0 /* QNRTCKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		0205786C566C438B925D1DF826719743 /* Pods-QNRTCKitDemo */ = {
 			isa = PBXGroup;
 			children = (
@@ -624,6 +632,17 @@
 			path = "Target Support Files/Pods-QNRTCKitDemo";
 			sourceTree = "<group>";
 		};
+		09A1931F90F629D4318088ED27D67595 /* QNRTCKit-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				7754615660B8DEA74EFF30ECF175ADC4 /* Core */,
+				421EBE53800F458B8E828ED9CFC2623D /* Pod */,
+				1556D978416F75A391D125940639370B /* Support Files */,
+			);
+			name = "QNRTCKit-iOS";
+			path = ../..;
+			sourceTree = "<group>";
+		};
 		0C0D85ED08E7E6E3B28093FF570A165C /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -635,6 +654,17 @@
 				1A8F74C5F6D09233357D8B3F9ACEF6D3 /* Pods-QNRTCKitDemo */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		1556D978416F75A391D125940639370B /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				BC34A07E670CE950BBABC76ABD7CE808 /* QNRTCKit-iOS-copy-dsyms.sh */,
+				65B27838BE34A9D21586E650785373DF /* QNRTCKit-iOS.debug.xcconfig */,
+				813A7CAC3A15A18CC54346B1A7C57256 /* QNRTCKit-iOS.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "QNRTCKitDemo/Pods/Target Support Files/QNRTCKit-iOS";
 			sourceTree = "<group>";
 		};
 		1990382083F9C661C2E447A330F9C953 /* Support Files */ = {
@@ -667,6 +697,14 @@
 				3C0EA78EDAA3C2AE6A60AEFDD5FE23A1 /* PLPlayerKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		421EBE53800F458B8E828ED9CFC2623D /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				DA57EE0F85968B24AB6CA6623491433D /* QNRTCKit-iOS.podspec */,
+			);
+			name = Pod;
 			sourceTree = "<group>";
 		};
 		4DF23E6B1DF08596E544C60A20D1072D /* Frameworks */ = {
@@ -753,6 +791,14 @@
 			path = Fabric;
 			sourceTree = "<group>";
 		};
+		7754615660B8DEA74EFF30ECF175ADC4 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				006298C6D5D0F933A88C716BFD8C3724 /* Frameworks */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
 		7F34C6B595214804D1FF5492ECAFFD17 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -803,25 +849,6 @@
 			name = iphoneos;
 			sourceTree = "<group>";
 		};
-		A264B54B8EA8BCF58197747F815DB6B1 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				B8A1D2895B16D0998622971752A555B1 /* Frameworks */,
-			);
-			name = Core;
-			sourceTree = "<group>";
-		};
-		B11EF47FFBFB36C849B9A78A11E84F0D /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				8D40BFDDD83292EBAA2D54875D6C7D04 /* QNRTCKit-iOS-copy-dsyms.sh */,
-				4DB733D546797019CAAFC4D6AFF816F4 /* QNRTCKit-iOS.debug.xcconfig */,
-				69B3343CAF91FF40B520155EF931D4B1 /* QNRTCKit-iOS.release.xcconfig */,
-			);
-			name = "Support Files";
-			path = "Example/Pods/Target Support Files/QNRTCKit-iOS";
-			sourceTree = "<group>";
-		};
 		B84FED89532699F1683F14E22EF7CD60 /* MMMaterialDesignSpinner */ = {
 			isa = PBXGroup;
 			children = (
@@ -835,18 +862,10 @@
 			path = MMMaterialDesignSpinner;
 			sourceTree = "<group>";
 		};
-		B8A1D2895B16D0998622971752A555B1 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				58EBFC18B226FEBB9128894C1441E0E8 /* QNRTCKit.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		BFAA0B379B518C4FB5D45A37EC916A75 /* Development Pods */ = {
 			isa = PBXGroup;
 			children = (
-				DE6E05500D3E262F289133ECD1DC3A8A /* QNRTCKit-iOS */,
+				09A1931F90F629D4318088ED27D67595 /* QNRTCKit-iOS */,
 			);
 			name = "Development Pods";
 			sourceTree = "<group>";
@@ -863,30 +882,11 @@
 			);
 			sourceTree = "<group>";
 		};
-		D0BDE8C08DD7A831D7A1A2B06E0B999C /* Pod */ = {
-			isa = PBXGroup;
-			children = (
-				C3E5958300BEEF12813866BDF3F62B6A /* QNRTCKit-iOS.podspec */,
-			);
-			name = Pod;
-			sourceTree = "<group>";
-		};
 		D89477F20FB1DE18A04690586D7808C4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		DE6E05500D3E262F289133ECD1DC3A8A /* QNRTCKit-iOS */ = {
-			isa = PBXGroup;
-			children = (
-				A264B54B8EA8BCF58197747F815DB6B1 /* Core */,
-				D0BDE8C08DD7A831D7A1A2B06E0B999C /* Pod */,
-				B11EF47FFBFB36C849B9A78A11E84F0D /* Support Files */,
-			);
-			name = "QNRTCKit-iOS";
-			path = ../..;
 			sourceTree = "<group>";
 		};
 		DF39A52DBB15F39E420ECD3E171548AB /* Masonry */ = {
@@ -1751,7 +1751,7 @@
 		};
 		2D0FD884BD97E3B17A3CEB01833E6642 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 69B3343CAF91FF40B520155EF931D4B1 /* QNRTCKit-iOS.release.xcconfig */;
+			baseConfigurationReference = 813A7CAC3A15A18CC54346B1A7C57256 /* QNRTCKit-iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1808,7 +1808,7 @@
 		};
 		5B92DA013C1D43A98B14BBF233D4BA3D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4DB733D546797019CAAFC4D6AFF816F4 /* QNRTCKit-iOS.debug.xcconfig */;
+			baseConfigurationReference = 65B27838BE34A9D21586E650785373DF /* QNRTCKit-iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

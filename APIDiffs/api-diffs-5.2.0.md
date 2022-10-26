@@ -3,7 +3,7 @@
 ## General Headers
 
 ```
-QNMicrophoneAudioTrack
+QNRTCConfiguration
 ```
 - *Added*  property `@property (nonatomic, assign, readonly) BOOL maintainResolutionEnabled;
 `

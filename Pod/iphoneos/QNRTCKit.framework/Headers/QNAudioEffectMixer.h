@@ -113,6 +113,8 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 创建音效类
  *
+ * @warning 创建已存在的音效唯一标识符，需要先调用 destroyAudioEffectWithEffectID，否则将会返回 nil
+ *
  * @param effectID 音效唯一标识符，务必保证唯一
  *
  * @param filePath 文件路径，支持本地路径以及在线文件，音频格式支持 aac、mp3、mp4、wav、m4r、caf、ogg、opus、m4a、flac
@@ -122,6 +124,37 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v5.1.0
  */
 - (QNAudioEffect *)createAudioEffectWithEffectID:(int)effectID filePath:(NSString *)filePath;
+
+/*!
+ * @abstract 销毁音效类
+ *
+ * @param effectID 音效唯一标识符，务必保证唯一
+ *
+ * @since v5.2.0
+ */
+- (void)destroyAudioEffectWithEffectID:(int)effectID;
+
+/*!
+ * @abstract 设置某音效是否推送到远端
+ *
+ * @param publishEnabled 是否推送到远端
+ *
+ * @param effectID 音效唯一标识符
+ *
+ * @since v5.2.0
+ */
+- (void)setPublishEnabled:(BOOL)publishEnabled effectID:(int)effectID;
+
+/*!
+ * @abstract 获取某音效是否推送到远端
+ *
+ * @param effectID 音效唯一标识符
+ *
+ * @return BOOL 是否推送到远端
+ *
+ * @since v5.2.0
+ */
+- (BOOL)isPublishEnabled:(int)effectID;
 
 /*!
  * @abstract 开始混音某音效
@@ -181,20 +214,33 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 设置某音效音量
  *
+ * @warning setEffectID 已废弃，应调用 setVolume
+ *
  * @param effectID 音效唯一标识符
  *
  * @param volume 音量
  *
  * @since v5.1.0
  */
-- (void)setEffectID:(int)effectID volume:(float)volume;
+- (void)setEffectID:(int)effectID volume:(float)volume __deprecated_msg("Method deprecated in v5.2.0. Use `setVolume:`");
+
+/*!
+ * @abstract 设置某音效音量
+ *
+ * @param volume 音量
+ *
+ * @param effectID 音效唯一标识符
+ *
+ * @since v5.2.0
+ */
+- (void)setVolume:(float)volume effectID:(int)effectID;
 
 /*!
  * @abstract 获取某音效音量
  *
  * @param effectID 音效唯一标识符
  *
- * @return double 范围 0～1.0
+ * @return float 范围 0～1.0
  *
  * @since v5.1.0
  */

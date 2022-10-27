@@ -11,6 +11,7 @@
 #import "QNVideoGLView.h"
 #import "QNAudioMusicMixer.h"
 #import "QNAudioEffectMixer.h"
+#import "QNAudioSourceMixer.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -161,6 +162,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (QNAudioMusicMixer *)createAudioMusicMixer:(NSString *)musicPath musicMixerDelegate:(id<QNAudioMusicMixerDelegate>)musicMixerDelegate;
 
 /*!
+ * @abstract 销毁背景音乐混音对象实例
+ *
+ * @since v5.2.0
+ */
+- (void)destroyAudioMusicMixer;
+
+/*!
  * @abstract 创建音效混音对象实例
  *
  * @param effectMixerDelegate 音效混音回调代理
@@ -169,6 +177,28 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (QNAudioEffectMixer *)createAudioEffectMixer:(id<QNAudioEffectMixerDelegate>)effectMixerDelegate;
 
+/*!
+ * @abstract 销毁音效混音对象实例
+ *
+ * @since v5.2.0
+ */
+- (void)destroyAudioEffectMixer;
+
+/*!
+ * @abstract 创建音源混音对象实例
+ *
+ * @param sourceMixerDelegate 音源混音回调代理
+ *
+ * @since v5.2.0
+ */
+- (QNAudioSourceMixer *)createAudioSourceMixer:(id<QNAudioSourceMixerDelegate>)sourceMixerDelegate;
+
+/*!
+ * @abstract 销毁音源混音对象实例
+ *
+ * @since v5.2.0
+ */
+- (void)destroyAudioSourceMixer;
 /*!
  * @abstract 设置耳返开关
  *
@@ -411,9 +441,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL previewMirrorRearFacing;
 
 /*!
- * @abstract 前置摄像头，对方观看时是否开启镜像，默认 NO。
+ * @abstract 前置摄像头，对方观看时是否开启镜像，默认 YES。
  *
- * @since v4.0.0
+ * @since v5.2.0
  */
 @property (nonatomic, assign) BOOL encodeMirrorFrontFacing;
 

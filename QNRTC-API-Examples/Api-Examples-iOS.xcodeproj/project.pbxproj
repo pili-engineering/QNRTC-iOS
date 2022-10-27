@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		4EA1D1FCFA4C38AFF6534762 /* Pods_Api_Examples_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 704EB291BC136BF810866237 /* Pods_Api_Examples_iOS.framework */; };
+		AA12332828FE825800809FDA /* AudioSourceMixExample.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12332728FE825800809FDA /* AudioSourceMixExample.m */; };
+		AA12333B28FE8BF400809FDA /* AudioSourceMixControlView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA12333928FE8BF400809FDA /* AudioSourceMixControlView.xib */; };
+		AA12333C28FE8BF400809FDA /* AudioSourceMixControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12333A28FE8BF400809FDA /* AudioSourceMixControlView.m */; };
+		AA12334128FE9DCE00809FDA /* AssetAudioReader.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12333F28FE9DCE00809FDA /* AssetAudioReader.m */; };
+		AA12334528FEBEC600809FDA /* AudioSourceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12334328FEBEC600809FDA /* AudioSourceTableViewCell.m */; };
+		AA12334628FEBEC600809FDA /* AudioSourceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA12334428FEBEC600809FDA /* AudioSourceTableViewCell.xib */; };
+		AA12334A28FF9BC800809FDA /* AudioSourceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12334928FF9BC800809FDA /* AudioSourceModel.m */; };
 		AAFE357C28570BEE00596582 /* AudioEffectMixExample.m in Sources */ = {isa = PBXBuildFile; fileRef = AAFE357B28570BEE00596582 /* AudioEffectMixExample.m */; };
 		AAFE357F28570C1100596582 /* AudioEffectMixControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAFE357E28570C1100596582 /* AudioEffectMixControlView.m */; };
 		AAFE358528570CD400596582 /* AudioEffectMixControlView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAFE358428570CD400596582 /* AudioEffectMixControlView.xib */; };
@@ -71,23 +78,22 @@
 		CCDA8391274DFA9400138F05 /* DirectLiveExample.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDA8390274DFA9400138F05 /* DirectLiveExample.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		CC1E93B127F1A3B700D02337 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		350A3BD635EDC5E0EE3EF35A /* Pods-Api-Examples-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Api-Examples-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Api-Examples-iOS/Pods-Api-Examples-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		5BF1220C598D5AE362DD3866 /* Pods-Api-Examples-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Api-Examples-iOS.release.xcconfig"; path = "Target Support Files/Pods-Api-Examples-iOS/Pods-Api-Examples-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		704EB291BC136BF810866237 /* Pods_Api_Examples_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Api_Examples_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA12332628FE825800809FDA /* AudioSourceMixExample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioSourceMixExample.h; sourceTree = "<group>"; };
+		AA12332728FE825800809FDA /* AudioSourceMixExample.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioSourceMixExample.m; sourceTree = "<group>"; };
+		AA12333828FE8BF400809FDA /* AudioSourceMixControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioSourceMixControlView.h; sourceTree = "<group>"; };
+		AA12333928FE8BF400809FDA /* AudioSourceMixControlView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioSourceMixControlView.xib; sourceTree = "<group>"; };
+		AA12333A28FE8BF400809FDA /* AudioSourceMixControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioSourceMixControlView.m; sourceTree = "<group>"; };
+		AA12333F28FE9DCE00809FDA /* AssetAudioReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssetAudioReader.m; sourceTree = "<group>"; };
+		AA12334028FE9DCE00809FDA /* AssetAudioReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssetAudioReader.h; sourceTree = "<group>"; };
+		AA12334228FEBEC600809FDA /* AudioSourceTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioSourceTableViewCell.h; sourceTree = "<group>"; };
+		AA12334328FEBEC600809FDA /* AudioSourceTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioSourceTableViewCell.m; sourceTree = "<group>"; };
+		AA12334428FEBEC600809FDA /* AudioSourceTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AudioSourceTableViewCell.xib; sourceTree = "<group>"; };
+		AA12334828FF9BC800809FDA /* AudioSourceModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioSourceModel.h; sourceTree = "<group>"; };
+		AA12334928FF9BC800809FDA /* AudioSourceModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioSourceModel.m; sourceTree = "<group>"; };
 		AAFE357A28570BEE00596582 /* AudioEffectMixExample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioEffectMixExample.h; sourceTree = "<group>"; };
 		AAFE357B28570BEE00596582 /* AudioEffectMixExample.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioEffectMixExample.m; sourceTree = "<group>"; };
 		AAFE357D28570C1100596582 /* AudioEffectMixControlView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioEffectMixControlView.h; sourceTree = "<group>"; };
@@ -215,6 +221,23 @@
 				704EB291BC136BF810866237 /* Pods_Api_Examples_iOS.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AA12332228FE822C00809FDA /* AudioSourceMix */ = {
+			isa = PBXGroup;
+			children = (
+				AA12332628FE825800809FDA /* AudioSourceMixExample.h */,
+				AA12332728FE825800809FDA /* AudioSourceMixExample.m */,
+				AA12333828FE8BF400809FDA /* AudioSourceMixControlView.h */,
+				AA12333A28FE8BF400809FDA /* AudioSourceMixControlView.m */,
+				AA12333928FE8BF400809FDA /* AudioSourceMixControlView.xib */,
+				AA12334228FEBEC600809FDA /* AudioSourceTableViewCell.h */,
+				AA12334328FEBEC600809FDA /* AudioSourceTableViewCell.m */,
+				AA12334428FEBEC600809FDA /* AudioSourceTableViewCell.xib */,
+				AA12334828FF9BC800809FDA /* AudioSourceModel.h */,
+				AA12334928FF9BC800809FDA /* AudioSourceModel.m */,
+			);
+			path = AudioSourceMix;
 			sourceTree = "<group>";
 		};
 		AAFE357928570BAC00596582 /* AudioEffectMix */ = {
@@ -346,6 +369,8 @@
 				CCB2101D274E3C9A00A699FB /* BaseViewController.m */,
 				CC164915275E282300AABF24 /* RadioButton.h */,
 				CC164916275E282400AABF24 /* RadioButton.m */,
+				AA12334028FE9DCE00809FDA /* AssetAudioReader.h */,
+				AA12333F28FE9DCE00809FDA /* AssetAudioReader.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -439,6 +464,7 @@
 				CCDA8362274DF99C00138F05 /* MultiProfile */,
 				AAFE357928570BAC00596582 /* AudioEffectMix */,
 				CCDA8364274DF99C00138F05 /* AudioMusicMix */,
+				AA12332228FE822C00809FDA /* AudioSourceMix */,
 				CC164928276057C000AABF24 /* ConnectQuality */,
 				CC164907275DFED900AABF24 /* SendMessage */,
 			);
@@ -535,7 +561,6 @@
 				CCDA831D274DE1AE00138F05 /* Frameworks */,
 				CCDA831E274DE1AE00138F05 /* Resources */,
 				86B78368D946B5ED563F5079 /* [CP] Embed Pods Frameworks */,
-				CC1E93B127F1A3B700D02337 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -598,6 +623,8 @@
 				CCDA8330274DE1B200138F05 /* Assets.xcassets in Resources */,
 				CC1649372760A22900AABF24 /* DirectLiveControlView.xib in Resources */,
 				CC1649302760582500AABF24 /* ConnectQualityControlView.xib in Resources */,
+				AA12334628FEBEC600809FDA /* AudioSourceTableViewCell.xib in Resources */,
+				AA12333B28FE8BF400809FDA /* AudioSourceMixControlView.xib in Resources */,
 				CC82B06F275878A900E006EB /* img_01.png in Resources */,
 				AAFE35AA2857460E00596582 /* mozart-16b-2c-44100hz.mp3 in Resources */,
 				CC82B07C2759B13B00E006EB /* Pursue.mp3 in Resources */,
@@ -671,15 +698,19 @@
 				AAFE3589285721F900596582 /* AudioEffectTableViewCell.m in Sources */,
 				CC82B066275875D400E006EB /* ScreenRecordAnimationView.m in Sources */,
 				CCDA8388274DFA6A00138F05 /* AudioMusicMixExample.m in Sources */,
+				AA12334128FE9DCE00809FDA /* AssetAudioReader.m in Sources */,
 				CCA063C627622D8800C881D8 /* TranscodingLiveCustomExample.m in Sources */,
+				AA12332828FE825800809FDA /* AudioSourceMixExample.m in Sources */,
 				CCDA837C274DFA0200138F05 /* SwitchRoomExample.m in Sources */,
 				CCDA8325274DE1AE00138F05 /* AppDelegate.m in Sources */,
 				CCDA8336274DE1B200138F05 /* main.m in Sources */,
 				CC16492E2760580100AABF24 /* ConnectQualityControlView.m in Sources */,
+				AA12334A28FF9BC800809FDA /* AudioSourceModel.m in Sources */,
 				CC16490D275DFF0600AABF24 /* SendMessageControlView.m in Sources */,
 				CCB21034274F663B00A699FB /* MicrophoneAudioControlView.m in Sources */,
 				CCDA8370274DF9B100138F05 /* CustomVideoExample.m in Sources */,
 				AAFE357C28570BEE00596582 /* AudioEffectMixExample.m in Sources */,
+				AA12333C28FE8BF400809FDA /* AudioSourceMixControlView.m in Sources */,
 				CCA063C92762FAC800C881D8 /* TranscodingLiveDefaultControlView.m in Sources */,
 				CCDA837F274DFA0E00138F05 /* MultiRoomsExample.m in Sources */,
 				CC164912275E096E00AABF24 /* MultiProfileControlView.m in Sources */,
@@ -691,6 +722,7 @@
 				CC16492B276057ED00AABF24 /* ConnectQualityExample.m in Sources */,
 				CCA063C327622D1B00C881D8 /* TranscodingLiveDefaultExample.m in Sources */,
 				CCDA836D274DF99C00138F05 /* CameraVideoExample.m in Sources */,
+				AA12334528FEBEC600809FDA /* AudioSourceTableViewCell.m in Sources */,
 				CC82B0782758CAFF00E006EB /* AudioMusicMixControlView.m in Sources */,
 				CCB2102B274E797500A699FB /* CameraVideoControlView.m in Sources */,
 				CC1649332760A20D00AABF24 /* DirectLiveControlView.m in Sources */,

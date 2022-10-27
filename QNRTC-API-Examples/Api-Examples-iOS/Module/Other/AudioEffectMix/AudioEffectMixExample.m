@@ -47,12 +47,12 @@ UITableViewDataSource>
  */
 - (void)clickBackItem {
     [super clickBackItem];
-
-    if (self.audioEffectMixer) {
-        [self.audioEffectMixer stopAll];
-    }
     
     if (self.microphoneAudioTrack) {
+        if (self.audioEffectMixer) {
+            [self.audioEffectMixer stopAll];
+            [self.microphoneAudioTrack destroyAudioEffectMixer];
+        }
         [self.microphoneAudioTrack destroy];
     }
     // 离开房间  释放 client

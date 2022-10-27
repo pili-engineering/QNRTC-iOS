@@ -116,6 +116,10 @@ static NSString *TABLE_VIEW_CELL_IDENTIFIER = @"TABLE_VIEW_CELL_IDENTIFIER";
                 @"class": @"AudioEffectMixExample"
             },
             @{
+                @"desc": @"PCM 音源混音",
+                @"class": @"AudioSourceMixExample"
+            },
+            @{
                 @"desc": @"发送房间消息",
                 @"class": @"SendMessageExample"
             },

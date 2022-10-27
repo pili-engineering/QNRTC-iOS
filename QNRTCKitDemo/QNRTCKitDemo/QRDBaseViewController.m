@@ -49,6 +49,11 @@
     NSLog(@"[dealloc]==> %@", self.description);
 }
 
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self stopGetStatsTimer];
+}
+
 - (NSString *)userId {
     return [[NSUserDefaults standardUserDefaults] stringForKey:QN_USER_ID_KEY];
 }

@@ -34,10 +34,12 @@
  */
 - (void)clickBackItem {
     [super clickBackItem];
-    if (self.audioMusicMixer) {
-        [self.audioMusicMixer stop];
-    }
+    
     if (self.microphoneAudioTrack) {
+        if (self.audioMusicMixer) {
+            [self.audioMusicMixer stop];
+            [self.microphoneAudioTrack destroyAudioMusicMixer];
+        }
         [self.microphoneAudioTrack destroy];
     }
     // 离开房间  释放 client
@@ -111,7 +113,7 @@
     // 设置音乐混音回调代理
     self.audioMusicMixer = [self.microphoneAudioTrack createAudioMusicMixer:self.controlView.musicUrlTF.text musicMixerDelegate:self];
     // 设置音乐混音输入音量
-    [self.audioMusicMixer setMixingVolume:1.0];
+    [self.audioMusicMixer setMusicVolume:1.0];
     // 获取音乐总时长
     self.audioMusicDuration = (float)[QNAudioMusicMixer getDuration:self.controlView.musicUrlTF.text] / 1000.0;
     
@@ -158,7 +160,7 @@
  * 拖拽进度条，设置音乐混音时音频文件的输入音量
  */
 - (void)musicInputVolumeSliderAction:(UISlider *)slider {
-    [self.audioMusicMixer setMixingVolume:slider.value];
+    [self.audioMusicMixer setMusicVolume:slider.value];
 }
 
 /**

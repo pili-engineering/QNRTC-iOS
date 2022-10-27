@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="yC4-4Y-XZx" customClass="AudioSourceMixControlView">
+            <rect key="frame" x="0.0" y="0.0" width="576" height="680"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="XJt-PK-jLp">
+                    <rect key="frame" x="0.0" y="219" width="576" height="360"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="360" id="spV-Lw-LWs"/>
+                    </constraints>
+                    <color key="sectionIndexBackgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </tableView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="返听：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jQD-on-f3t">
+                    <rect key="frame" x="30" y="80" width="40" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="40" id="Fvl-Gl-B5e"/>
+                        <constraint firstAttribute="height" constant="20" id="zuO-qF-Ut5"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" systemColor="systemGrayColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="麦克风混音音量：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xfu-CA-zKc">
+                    <rect key="frame" x="30" y="130" width="107" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="107" id="Mtf-lL-OYv"/>
+                        <constraint firstAttribute="height" constant="20" id="dx3-Fz-aZJ"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" systemColor="systemGrayColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="yov-3M-4np">
+                    <rect key="frame" x="153" y="125.5" width="395" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="29" id="lcw-t6-hhp"/>
+                    </constraints>
+                </slider>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="音乐音频播放音量：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ano-ZX-mgJ">
+                    <rect key="frame" x="30" y="174" width="120" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="bCg-QS-e1o"/>
+                        <constraint firstAttribute="width" constant="120" id="jBx-Qj-JsT"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" systemColor="systemGrayColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Odi-Ah-bLk">
+                    <rect key="frame" x="153" y="169" width="395" height="31"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="fN9-RM-Ppx"/>
+                    </constraints>
+                </slider>
+                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="NTW-CK-66Z">
+                    <rect key="frame" x="78" y="74.5" width="49" height="31"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="47" id="9zu-v3-jlg"/>
+                        <constraint firstAttribute="height" constant="31" id="XVF-Ys-6Ko"/>
+                    </constraints>
+                    <color key="onTintColor" systemColor="systemBlueColor"/>
+                </switch>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="mfe-ch-Ai9"/>
+            <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="mfe-ch-Ai9" firstAttribute="trailing" secondItem="Odi-Ah-bLk" secondAttribute="trailing" constant="30" id="7eU-mH-Dg7"/>
+                <constraint firstItem="xfu-CA-zKc" firstAttribute="leading" secondItem="mfe-ch-Ai9" secondAttribute="leading" constant="30" id="EqN-SL-m8N"/>
+                <constraint firstItem="NTW-CK-66Z" firstAttribute="centerY" secondItem="jQD-on-f3t" secondAttribute="centerY" id="KIn-1o-lfH"/>
+                <constraint firstItem="XJt-PK-jLp" firstAttribute="leading" secondItem="mfe-ch-Ai9" secondAttribute="leading" id="LnC-kn-pep"/>
+                <constraint firstItem="Odi-Ah-bLk" firstAttribute="centerY" secondItem="Ano-ZX-mgJ" secondAttribute="centerY" id="PJ4-5g-I4x"/>
+                <constraint firstItem="mfe-ch-Ai9" firstAttribute="trailing" secondItem="yov-3M-4np" secondAttribute="trailing" constant="30" id="Q9e-8d-cGk"/>
+                <constraint firstItem="yov-3M-4np" firstAttribute="leading" secondItem="xfu-CA-zKc" secondAttribute="trailing" constant="18" id="Rwg-3M-MPa"/>
+                <constraint firstItem="XJt-PK-jLp" firstAttribute="trailing" secondItem="mfe-ch-Ai9" secondAttribute="trailing" id="XSq-eD-LDG"/>
+                <constraint firstItem="NTW-CK-66Z" firstAttribute="leading" secondItem="jQD-on-f3t" secondAttribute="trailing" constant="8" symbolic="YES" id="Zd9-tc-c7H"/>
+                <constraint firstItem="Ano-ZX-mgJ" firstAttribute="top" secondItem="xfu-CA-zKc" secondAttribute="bottom" constant="24" id="jDd-bb-9Qa"/>
+                <constraint firstItem="xfu-CA-zKc" firstAttribute="top" secondItem="NTW-CK-66Z" secondAttribute="bottom" constant="24.5" id="k2B-LW-d5a"/>
+                <constraint firstItem="Ano-ZX-mgJ" firstAttribute="leading" secondItem="mfe-ch-Ai9" secondAttribute="leading" constant="30" id="noB-lO-88p"/>
+                <constraint firstItem="XJt-PK-jLp" firstAttribute="top" secondItem="Odi-Ah-bLk" secondAttribute="bottom" constant="20" id="ppv-4a-qbq"/>
+                <constraint firstItem="yov-3M-4np" firstAttribute="centerY" secondItem="xfu-CA-zKc" secondAttribute="centerY" id="rhf-Vk-FFd"/>
+                <constraint firstItem="jQD-on-f3t" firstAttribute="top" secondItem="mfe-ch-Ai9" secondAttribute="top" constant="36" id="v45-da-yRH"/>
+                <constraint firstItem="Odi-Ah-bLk" firstAttribute="leading" secondItem="Ano-ZX-mgJ" secondAttribute="trailing" constant="5" id="vw0-9y-z8Y"/>
+                <constraint firstItem="jQD-on-f3t" firstAttribute="leading" secondItem="mfe-ch-Ai9" secondAttribute="leading" constant="30" id="xWS-Jt-7dA"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="audioPlayVolumeSlider" destination="Odi-Ah-bLk" id="7iz-u7-8r6"/>
+                <outlet property="audioSourceTableView" destination="XJt-PK-jLp" id="sUc-VE-Vhz"/>
+                <outlet property="microphoneMixVolumeSlider" destination="yov-3M-4np" id="yat-FB-j32"/>
+                <outlet property="playbackSwitch" destination="NTW-CK-66Z" id="W4z-DQ-R7l"/>
+            </connections>
+            <point key="canvasLocation" x="-223.18840579710147" y="270.53571428571428"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

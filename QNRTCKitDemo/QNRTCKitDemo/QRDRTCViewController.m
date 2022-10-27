@@ -235,6 +235,12 @@ UITextFieldDelegate
     // 打开 sdk 自带的美颜效果
     [self.cameraTrack setBeautifyModeOn:YES];
     self.cameraTrack.delegate = self;
+    
+//    self.cameraTrack.previewMirrorFrontFacing = YES;
+//    self.cameraTrack.previewMirrorRearFacing = NO;
+//    self.cameraTrack.encodeMirrorRearFacing = NO;
+//    self.cameraTrack.encodeMirrorFrontFacing = YES;
+    
     // 设置预览
     self.preview.fillMode = QNVideoFillModePreserveAspectRatioAndFill;
     [self.cameraTrack play:self.preview];
@@ -696,20 +702,21 @@ UITextFieldDelegate
         self.audioTrack = [QNRTC createMicrophoneAudioTrack];
         self.audioTrack.delegate = self;
     }
+    
+    __weak typeof(self) weakSelf = self;
     // track 可通过 QNTrack 配置
     [self.client publish:@[self.audioTrack, self.cameraTrack] completeCallback:^(BOOL onPublished, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.view hiddenLoading];
             if (onPublished) {
-                [self.view showSuccessTip:@"发布成功了"];
-                self.microphoneButton.enabled = YES;
-                self.isAudioPublished = YES;
-                self.videoButton.enabled = YES;
-                self.isVideoPublished = YES;
+                [weakSelf.view showSuccessTip:@"发布成功了"];
+                weakSelf.microphoneButton.enabled = YES;
+                weakSelf.isAudioPublished = YES;
+                weakSelf.videoButton.enabled = YES;
+                weakSelf.isVideoPublished = YES;
                 
-                [self.transcodingStreamingSettingView addTranscodingStreamingInfoWithTracks:@[self.audioTrack, self.cameraTrack] userId:self.userId];
-                [self.transcodingStreamingSettingView resetTranscodingStreamingFrame];
-                [self.transcodingStreamingSettingView resetUserList];
+                [weakSelf.transcodingStreamingSettingView addTranscodingStreamingInfoWithTracks:@[weakSelf.audioTrack, weakSelf.cameraTrack] userId:weakSelf.userId];
+                [weakSelf.transcodingStreamingSettingView resetTranscodingStreamingFrame];
+                [weakSelf.transcodingStreamingSettingView resetUserList];
             }
         });
     }];

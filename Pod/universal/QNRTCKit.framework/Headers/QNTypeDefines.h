@@ -220,6 +220,13 @@ NS_ERROR_ENUM(QNAudioMixErrorDomain) {
      * @since v5.0.0
      */
     QNAudioMixErrorSeekFailed  = 22005,
+    
+    /*!
+     * @abstract invalid ID
+     *
+     * @since v5.2.0
+     */
+    QNAudioMixErrorInvalidID  = 22011
 };
 
 #pragma mark - Media Relay Error Code

@@ -26,6 +26,24 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) QNRTCPolicy policy;
 
 /*!
+ * @abstract 固定分辨率，默认为 NO
+ *
+ * @since v5.2.0
+ */
+@property (nonatomic, assign, readonly) BOOL maintainResolutionEnabled;
+
+/*!
+ * @abstract 是否使用通话模式，默认为 YES
+ *
+ * @warning 使用声卡并配戴耳机的情况下，建议关闭该配置，可解决声卡模式不匹配带来的音频异常无效等问题
+ *          关闭该模式将直接关闭硬件回声消除，不佩戴耳机的情况下连麦，可能出现回声
+ *
+ * @since v5.2.0
+ */
+@property (nonatomic, assign, readonly) BOOL communicationModeOn;
+
+
+/*!
  * @abstract 用默认参数生成一个对象
  *
  * @since v4.0.0
@@ -38,6 +56,21 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v4.0.0
  */
 - (instancetype)initWithPolicy:(QNRTCPolicy)policy;
+
+/*!
+ * @abstract 用指定的 policy 、maintainResolutionEnabled 生成一个对象
+ *
+ * @since v5.2.0
+ */
+- (instancetype)initWithPolicy:(QNRTCPolicy)policy maintainResolutionEnabled:(BOOL)maintainResolutionEnabled;
+
+/*!
+ * @abstract 用指定的 policy 、maintainResolutionEnabled、communicationModeOn 生成一个对象
+ *
+ * @since v5.2.0
+ */
+- (instancetype)initWithPolicy:(QNRTCPolicy)policy maintainResolutionEnabled:(BOOL)maintainResolutionEnabled
+           communicationModeOn:(BOOL)communicationModeOn;
 
 @end
 

@@ -47,6 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @abstract 创建音源类，默认关闭阻塞模式
  *
  * @warning 创建已存在的音源唯一标识符，需要先调用 destroyAudioSourceWithSourceID，否则将会返回 nil
+ *          默认小端、非阻塞模式
  *
  * @param sourceID 音源唯一标识符，务必保证唯一
  *
@@ -60,6 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @abstract 创建音源类
  *
  * @warning 创建已存在的音源唯一标识符，需要先调用 destroyAudioSourceWithSourceID，否则将会返回 nil
+ *          默认小端
  *
  * @param sourceID 音源唯一标识符，务必保证唯一
  *
@@ -70,6 +72,23 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v5.2.0
  */
 - (QNAudioSource *)createAudioSourceWithSourceID:(int)sourceID blockingMode:(BOOL)blockingMode;
+
+/*!
+ * @abstract 创建音源类
+ *
+ * @warning 创建已存在的音源唯一标识符，需要先调用 destroyAudioSourceWithSourceID，否则将会返回 nil
+ *
+ * @param sourceID 音源唯一标识符，务必保证唯一
+ *
+ * @param bigEndian 是否是大端，默认为 NO，务必与导入音频数据的 asbd 大小端配置一致
+ *
+ * @param blockingMode 是否使用阻塞模式进行音源混音，设置为 YES 则外部数据可以持续送入 SDK，当 SDK 缓存的待混音数据过多时，会阻塞 push 接口，直到缓存数据被 SDK 混音消费使用；设置为 NO 则外部数据需要按每次送入音频数据的时长间隔依此送入，也可以使用播放器解码后的回调数据来送入 SDK，此时需要注意的是如果送入过快，SDK 将会丢弃多余的数据
+ *
+ * @return QNAudioSource 实例
+ *
+ * @since v5.2.1
+ */
+- (QNAudioSource *)createAudioSourceWithSourceID:(int)sourceID bigEndian:(BOOL)bigEndian blockingMode:(BOOL)blockingMode;
 
 /*!
  * @abstract 销毁音源类

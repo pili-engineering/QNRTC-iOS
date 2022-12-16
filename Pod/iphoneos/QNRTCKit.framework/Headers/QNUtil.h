@@ -21,4 +21,17 @@
  */
 + (UIImage *)convertFrame:(CVPixelBufferRef)pixelBuffer;
 
+/*!
+ * @abstract 开始 dump 音频数据到本地
+ *
+ * @since v5.2.1
+ */
++ (BOOL)startAecDump:(NSString *)path durationMs:(int)durationMs;
+
+/*!
+ * @abstract 停止 dump 音频数据
+ *
+ * @since v5.2.1
+ */
++ (void)stopAecDump;
 @end

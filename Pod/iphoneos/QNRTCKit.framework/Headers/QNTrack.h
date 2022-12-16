@@ -12,6 +12,7 @@
 #import "QNAudioMusicMixer.h"
 #import "QNAudioEffectMixer.h"
 #import "QNAudioSourceMixer.h"
+#import "QNVideoEncoderConfig.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -340,6 +341,15 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v5.0.0
  */
 - (void)play:(QNVideoGLView *)videoView;
+
+/*!
+ * @abstract 动态修改编码配置
+ *
+ * @param config 编码参数配置
+ *
+ * @since v5.2.1
+ */
+- (void)setVideoEncoderConfig:(QNVideoEncoderConfig *)config;
 
 @end
 

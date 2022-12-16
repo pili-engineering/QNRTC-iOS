@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
     s.homepage  = 'https://github.com/pili-engineering/QNRTC-iOS'
     s.license   = 'Apache License, Version 2.0'
     s.author    = { "pili" => "pili-coresdk@qiniu.com" }
-    s.source    = { :http => "https://sdk-release.qnsdk.com/QNRTCKit-universal-v5.2.0.zip"}
+    s.source    = { :http => "https://sdk-release.qnsdk.com/QNRTCKit-universal-v5.2.1.zip"}
 
 
     s.platform                = :ios

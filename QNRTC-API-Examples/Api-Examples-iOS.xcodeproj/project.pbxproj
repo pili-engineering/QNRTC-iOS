@@ -873,7 +873,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = GDFHW66V92;
+				DEVELOPMENT_TEAM = W2TP34G2MM;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 armv7";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -919,7 +919,7 @@
 					"-framework",
 					"\"VideoToolbox\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.qiniu.Api-Examples-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.qiniu.Api-Examples";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -934,7 +934,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = GDFHW66V92;
+				DEVELOPMENT_TEAM = W2TP34G2MM;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 armv7";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -980,7 +980,7 @@
 					"-framework",
 					"\"VideoToolbox\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.qiniu.Api-Examples-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.qiniu.Api-Examples";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";

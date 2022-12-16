@@ -1,8 +1,8 @@
 PODS:
   - Masonry (1.1.0)
-  - QNRTCKit-iOS (5.2.0):
-    - QNRTCKit-iOS/Core (= 5.2.0)
-  - QNRTCKit-iOS/Core (5.2.0)
+  - QNRTCKit-iOS (5.2.1):
+    - QNRTCKit-iOS/Core (= 5.2.1)
+  - QNRTCKit-iOS/Core (5.2.1)
 
 DEPENDENCIES:
   - Masonry (= 1.1.0)
@@ -18,7 +18,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  QNRTCKit-iOS: 874e0d19f1cd0c03e151ce61c41a43715ab317cd
+  QNRTCKit-iOS: e1f7ac2ebbd74427ab9387498d755d9b8b25bfb9
 
 PODFILE CHECKSUM: c720700c5f736c56079e4fdd029795870c4a4043
 

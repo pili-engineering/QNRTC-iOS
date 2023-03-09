@@ -15,6 +15,12 @@
 		AA12334528FEBEC600809FDA /* AudioSourceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12334328FEBEC600809FDA /* AudioSourceTableViewCell.m */; };
 		AA12334628FEBEC600809FDA /* AudioSourceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA12334428FEBEC600809FDA /* AudioSourceTableViewCell.xib */; };
 		AA12334A28FF9BC800809FDA /* AudioSourceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12334928FF9BC800809FDA /* AudioSourceModel.m */; };
+		AABF117229BA2B00003FA14E /* ScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABF116E29BA2AFD003FA14E /* ScanViewController.m */; };
+		AABF117329BA2B00003FA14E /* ScanViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABF116F29BA2AFE003FA14E /* ScanViewController.xib */; };
+		AABF117429BA2B00003FA14E /* NSString+Data.m in Sources */ = {isa = PBXBuildFile; fileRef = AABF117129BA2B00003FA14E /* NSString+Data.m */; };
+		AABF117C29BA2CEF003FA14E /* MediaRelayControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABF117729BA2CEF003FA14E /* MediaRelayControlView.m */; };
+		AABF117D29BA2CEF003FA14E /* MediaRelayControlView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABF117929BA2CEF003FA14E /* MediaRelayControlView.xib */; };
+		AABF117E29BA2CEF003FA14E /* MediaRelayExample.m in Sources */ = {isa = PBXBuildFile; fileRef = AABF117B29BA2CEF003FA14E /* MediaRelayExample.m */; };
 		AAFE357C28570BEE00596582 /* AudioEffectMixExample.m in Sources */ = {isa = PBXBuildFile; fileRef = AAFE357B28570BEE00596582 /* AudioEffectMixExample.m */; };
 		AAFE357F28570C1100596582 /* AudioEffectMixControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAFE357E28570C1100596582 /* AudioEffectMixControlView.m */; };
 		AAFE358528570CD400596582 /* AudioEffectMixControlView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAFE358428570CD400596582 /* AudioEffectMixControlView.xib */; };
@@ -94,6 +100,16 @@
 		AA12334428FEBEC600809FDA /* AudioSourceTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AudioSourceTableViewCell.xib; sourceTree = "<group>"; };
 		AA12334828FF9BC800809FDA /* AudioSourceModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioSourceModel.h; sourceTree = "<group>"; };
 		AA12334928FF9BC800809FDA /* AudioSourceModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioSourceModel.m; sourceTree = "<group>"; };
+		AABF116D29BA2AFC003FA14E /* NSString+Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Data.h"; sourceTree = "<group>"; };
+		AABF116E29BA2AFD003FA14E /* ScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanViewController.m; sourceTree = "<group>"; };
+		AABF116F29BA2AFE003FA14E /* ScanViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScanViewController.xib; sourceTree = "<group>"; };
+		AABF117029BA2AFF003FA14E /* ScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanViewController.h; sourceTree = "<group>"; };
+		AABF117129BA2B00003FA14E /* NSString+Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Data.m"; sourceTree = "<group>"; };
+		AABF117729BA2CEF003FA14E /* MediaRelayControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaRelayControlView.m; sourceTree = "<group>"; };
+		AABF117829BA2CEF003FA14E /* MediaRelayExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaRelayExample.h; sourceTree = "<group>"; };
+		AABF117929BA2CEF003FA14E /* MediaRelayControlView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MediaRelayControlView.xib; sourceTree = "<group>"; };
+		AABF117A29BA2CEF003FA14E /* MediaRelayControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaRelayControlView.h; sourceTree = "<group>"; };
+		AABF117B29BA2CEF003FA14E /* MediaRelayExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaRelayExample.m; sourceTree = "<group>"; };
 		AAFE357A28570BEE00596582 /* AudioEffectMixExample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioEffectMixExample.h; sourceTree = "<group>"; };
 		AAFE357B28570BEE00596582 /* AudioEffectMixExample.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioEffectMixExample.m; sourceTree = "<group>"; };
 		AAFE357D28570C1100596582 /* AudioEffectMixControlView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioEffectMixControlView.h; sourceTree = "<group>"; };
@@ -240,6 +256,18 @@
 			path = AudioSourceMix;
 			sourceTree = "<group>";
 		};
+		AABF117629BA2CEF003FA14E /* MediaRelay */ = {
+			isa = PBXGroup;
+			children = (
+				AABF117729BA2CEF003FA14E /* MediaRelayControlView.m */,
+				AABF117829BA2CEF003FA14E /* MediaRelayExample.h */,
+				AABF117929BA2CEF003FA14E /* MediaRelayControlView.xib */,
+				AABF117A29BA2CEF003FA14E /* MediaRelayControlView.h */,
+				AABF117B29BA2CEF003FA14E /* MediaRelayExample.m */,
+			);
+			path = MediaRelay;
+			sourceTree = "<group>";
+		};
 		AAFE357928570BAC00596582 /* AudioEffectMix */ = {
 			isa = PBXGroup;
 			children = (
@@ -365,6 +393,11 @@
 		CCDA8341274DE77000138F05 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				AABF116D29BA2AFC003FA14E /* NSString+Data.h */,
+				AABF117129BA2B00003FA14E /* NSString+Data.m */,
+				AABF117029BA2AFF003FA14E /* ScanViewController.h */,
+				AABF116E29BA2AFD003FA14E /* ScanViewController.m */,
+				AABF116F29BA2AFE003FA14E /* ScanViewController.xib */,
 				CCB2101C274E3C9A00A699FB /* BaseViewController.h */,
 				CCB2101D274E3C9A00A699FB /* BaseViewController.m */,
 				CC164915275E282300AABF24 /* RadioButton.h */,
@@ -461,6 +494,7 @@
 		CCDA8361274DF99C00138F05 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				AABF117629BA2CEF003FA14E /* MediaRelay */,
 				CCDA8362274DF99C00138F05 /* MultiProfile */,
 				AAFE357928570BAC00596582 /* AudioEffectMix */,
 				CCDA8364274DF99C00138F05 /* AudioMusicMix */,
@@ -635,6 +669,8 @@
 				CC82B073275878A900E006EB /* img_04.png in Resources */,
 				AAFE358A285721F900596582 /* AudioEffectTableViewCell.xib in Resources */,
 				CCDA832E274DE1AE00138F05 /* Main.storyboard in Resources */,
+				AABF117D29BA2CEF003FA14E /* MediaRelayControlView.xib in Resources */,
+				AABF117329BA2B00003FA14E /* ScanViewController.xib in Resources */,
 				AAFE358528570CD400596582 /* AudioEffectMixControlView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -699,6 +735,7 @@
 				CC82B066275875D400E006EB /* ScreenRecordAnimationView.m in Sources */,
 				CCDA8388274DFA6A00138F05 /* AudioMusicMixExample.m in Sources */,
 				AA12334128FE9DCE00809FDA /* AssetAudioReader.m in Sources */,
+				AABF117E29BA2CEF003FA14E /* MediaRelayExample.m in Sources */,
 				CCA063C627622D8800C881D8 /* TranscodingLiveCustomExample.m in Sources */,
 				AA12332828FE825800809FDA /* AudioSourceMixExample.m in Sources */,
 				CCDA837C274DFA0200138F05 /* SwitchRoomExample.m in Sources */,
@@ -725,7 +762,10 @@
 				AA12334528FEBEC600809FDA /* AudioSourceTableViewCell.m in Sources */,
 				CC82B0782758CAFF00E006EB /* AudioMusicMixControlView.m in Sources */,
 				CCB2102B274E797500A699FB /* CameraVideoControlView.m in Sources */,
+				AABF117C29BA2CEF003FA14E /* MediaRelayControlView.m in Sources */,
+				AABF117429BA2B00003FA14E /* NSString+Data.m in Sources */,
 				CC1649332760A20D00AABF24 /* DirectLiveControlView.m in Sources */,
+				AABF117229BA2B00003FA14E /* ScanViewController.m in Sources */,
 				CC164917275E282400AABF24 /* RadioButton.m in Sources */,
 				AAFE357F28570C1100596582 /* AudioEffectMixControlView.m in Sources */,
 			);

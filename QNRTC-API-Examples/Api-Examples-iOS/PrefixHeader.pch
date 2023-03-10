@@ -14,6 +14,8 @@
 #import <Masonry/Masonry.h>
 #import <QNRTCKit/QNRTCKit.h>
 
+#import "NSString+Data.h"
+
 #define SCREEN_WIDTH   [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT   [UIScreen mainScreen].bounds.size.height
 #define IS_FULL_SCREEN_SERIOUS @available(iOS 11.0, *) && UIApplication.sharedApplication.keyWindow.safeAreaInsets.bottom > 0.0

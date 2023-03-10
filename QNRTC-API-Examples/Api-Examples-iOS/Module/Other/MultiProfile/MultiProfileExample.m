@@ -77,6 +77,7 @@
     
     // 初始化远端渲染视图
     self.remoteRenderView = [[QNVideoGLView alloc] init];
+    self.remoteRenderView.fillMode = QNVideoFillModePreserveAspectRatioAndFill;
     [self.remoteView addSubview:self.remoteRenderView];
     self.remoteRenderView.hidden = YES;
     self.remoteRenderView.fillMode = QNVideoFillModePreserveAspectRatioAndFill;

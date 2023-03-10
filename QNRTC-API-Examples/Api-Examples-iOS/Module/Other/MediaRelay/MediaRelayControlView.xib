@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="qBq-eM-Sv8" customClass="MediaRelayControlView">
+            <rect key="frame" x="0.0" y="0.0" width="488" height="289"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="目标房间 Token" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3eC-NW-M9F">
+                    <rect key="frame" x="35" y="18" width="98" height="26"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="26" id="B9x-QE-Ows"/>
+                        <constraint firstAttribute="width" constant="98" id="rh7-Zm-zbw"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" systemColor="systemGrayColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fGb-ZF-Rye">
+                    <rect key="frame" x="35" y="49" width="418" height="36"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="36" id="uXJ-LM-6pn"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DlO-5Q-cax">
+                    <rect key="frame" x="60" y="115" width="368" height="35"/>
+                    <color key="backgroundColor" red="0.100468643" green="0.47720777990000002" blue="0.99859768149999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="35" id="mhZ-f0-BuB"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="开始跨房媒体转发"/>
+                    <state key="selected" title="更新跨房媒体转发"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBounds" value="YES"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="5"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4QX-eT-Uhs">
+                    <rect key="frame" x="60" y="165" width="368" height="35"/>
+                    <color key="backgroundColor" red="0.100468643" green="0.47720777990000002" blue="0.99859768149999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="35" id="jA4-Cg-IJg"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="停止跨房媒体转发"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBounds" value="YES"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="5"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hP8-7A-WF9">
+                    <rect key="frame" x="35" y="90" width="418" height="0.0"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" systemColor="systemGrayColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Oz-FM-g1A">
+                    <rect key="frame" x="133" y="15" width="32" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="32" id="Rez-kP-I8V"/>
+                        <constraint firstAttribute="width" constant="32" id="U4J-wb-axh"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <inset key="imageEdgeInsets" minX="6" minY="6" maxX="6" maxY="6"/>
+                    <state key="normal" image="ic_scan">
+                        <color key="titleColor" systemColor="systemGray2Color"/>
+                    </state>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="S3P-XF-bA6"/>
+            <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="DlO-5Q-cax" firstAttribute="leading" secondItem="S3P-XF-bA6" secondAttribute="leading" constant="60" id="3TT-u2-SRA"/>
+                <constraint firstItem="8Oz-FM-g1A" firstAttribute="centerY" secondItem="3eC-NW-M9F" secondAttribute="centerY" id="7Al-5g-c60"/>
+                <constraint firstItem="3eC-NW-M9F" firstAttribute="leading" secondItem="S3P-XF-bA6" secondAttribute="leading" constant="35" id="7bB-10-aIc"/>
+                <constraint firstItem="S3P-XF-bA6" firstAttribute="trailing" secondItem="fGb-ZF-Rye" secondAttribute="trailing" constant="35" id="D3k-9O-Rgj"/>
+                <constraint firstItem="3eC-NW-M9F" firstAttribute="top" secondItem="qBq-eM-Sv8" secondAttribute="top" constant="18" id="DQ9-qk-kRJ"/>
+                <constraint firstItem="4QX-eT-Uhs" firstAttribute="trailing" secondItem="DlO-5Q-cax" secondAttribute="trailing" id="Ej3-c1-D6G"/>
+                <constraint firstItem="fGb-ZF-Rye" firstAttribute="top" secondItem="3eC-NW-M9F" secondAttribute="bottom" constant="5" id="Qpg-HF-4nl"/>
+                <constraint firstItem="fGb-ZF-Rye" firstAttribute="leading" secondItem="S3P-XF-bA6" secondAttribute="leading" constant="35" id="RsB-jD-UgA"/>
+                <constraint firstItem="4QX-eT-Uhs" firstAttribute="leading" secondItem="DlO-5Q-cax" secondAttribute="leading" id="WsN-J7-38H"/>
+                <constraint firstItem="hP8-7A-WF9" firstAttribute="top" secondItem="fGb-ZF-Rye" secondAttribute="bottom" constant="5" id="Xu7-k3-6iI"/>
+                <constraint firstItem="4QX-eT-Uhs" firstAttribute="top" secondItem="DlO-5Q-cax" secondAttribute="bottom" constant="15" id="Xxl-fK-WJn"/>
+                <constraint firstItem="8Oz-FM-g1A" firstAttribute="leading" secondItem="3eC-NW-M9F" secondAttribute="trailing" id="XzN-8r-Ntn"/>
+                <constraint firstItem="S3P-XF-bA6" firstAttribute="trailing" secondItem="DlO-5Q-cax" secondAttribute="trailing" constant="60" id="aLk-Jg-8tE"/>
+                <constraint firstItem="DlO-5Q-cax" firstAttribute="top" secondItem="hP8-7A-WF9" secondAttribute="bottom" constant="25" id="gHA-iz-qRr"/>
+                <constraint firstItem="hP8-7A-WF9" firstAttribute="trailing" secondItem="fGb-ZF-Rye" secondAttribute="trailing" id="s9b-vZ-OmZ"/>
+                <constraint firstItem="hP8-7A-WF9" firstAttribute="leading" secondItem="fGb-ZF-Rye" secondAttribute="leading" id="z25-Xm-rb1"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="destRoomTokenTextField" destination="fGb-ZF-Rye" id="Uuz-ed-vqe"/>
+                <outlet property="scanButton" destination="8Oz-FM-g1A" id="9HA-5J-eYK"/>
+                <outlet property="startMediaRelayButton" destination="DlO-5Q-cax" id="Y4j-bV-Ltg"/>
+                <outlet property="stopMediaRelayButton" destination="4QX-eT-Uhs" id="S1Z-tl-hmA"/>
+                <outlet property="tokenInfoLabel" destination="hP8-7A-WF9" id="Dbb-nj-yha"/>
+            </connections>
+            <point key="canvasLocation" x="895.6521739130435" y="45.870535714285715"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="ic_scan" width="32" height="32"/>
+        <systemColor name="systemGray2Color">
+            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

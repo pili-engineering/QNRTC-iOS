@@ -52,7 +52,6 @@ static NSString *TABLE_VIEW_CELL_IDENTIFIER = @"TABLE_VIEW_CELL_IDENTIFIER";
     self.moduleList = @[
         @"视频通话相关",
         @"纯音频通话相关",
-//        @"房间相关",
         @"CDN 转推相关",
         @"其他功能"
     ];
@@ -82,16 +81,6 @@ static NSString *TABLE_VIEW_CELL_IDENTIFIER = @"TABLE_VIEW_CELL_IDENTIFIER";
                 @"class": @"CustomAudioExample"
             }
         ],
-//        @[
-//            @{
-//                @"desc": @"快速切换房间",
-//                @"class": @"SwitchRoomExample"
-//            },
-//            @{
-//                @"desc": @"加入多个房间",
-//                @"class": @"MultiRoomsExample"
-//            }
-//        ],
         @[
             @{
                 @"desc": @"CDN 单人转推",
@@ -130,6 +119,10 @@ static NSString *TABLE_VIEW_CELL_IDENTIFIER = @"TABLE_VIEW_CELL_IDENTIFIER";
             @{
                 @"desc": @"通话质量统计",
                 @"class": @"ConnectQualityExample"
+            },
+            @{
+                @"desc": @"跨房媒体转发",
+                @"class": @"MediaRelayExample"
             }
         ]
     ];
@@ -175,6 +168,34 @@ static NSString *TABLE_VIEW_CELL_IDENTIFIER = @"TABLE_VIEW_CELL_IDENTIFIER";
     if (class) {
         [self.navigationController pushViewController:[class new] animated:YES];
     }
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    if (section == self.moduleList.count - 1) {
+        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 90)];
+        NSArray *componentArray = [ROOM_TOKEN componentsSeparatedByString:@":"];
+        NSString *decodeString = [NSString base64DecodingString:componentArray[2]];
+        NSDictionary *dic = [NSString dictionaryWithJSONString:decodeString];
+        NSArray *infoArray = @[[NSString stringWithFormat:@"用户名：%@", dic[@"userId"]],
+                               [NSString stringWithFormat:@"房间号：%@", dic[ @"roomName"]],
+                               [NSString stringWithFormat:@"SDK 版本：%@", [QNRTC versionInfo]]];
+        for (NSInteger i = 0; i < infoArray.count; i++) {
+            UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(18, 15 + i* 20, [UIScreen mainScreen].bounds.size.width - 36, 20)];
+            infoLabel.text = infoArray[i];
+            infoLabel.font = [UIFont systemFontOfSize:12.f];
+            infoLabel.textColor = [UIColor blackColor];
+            [footerView addSubview:infoLabel];
+        }
+        return footerView;
+    }
+    return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (section == self.moduleList.count - 1) {
+        return 90;
+    }
+    return 0;
 }
 
 #pragma mark - Lazy Loading

@@ -20,7 +20,4 @@
 #define SCREEN_HEIGHT   [UIScreen mainScreen].bounds.size.height
 #define IS_FULL_SCREEN_SERIOUS @available(iOS 11.0, *) && UIApplication.sharedApplication.keyWindow.safeAreaInsets.bottom > 0.0
 
-static NSString *ROOM_TOKEN = @"room_token";
-static NSString *PUBLISH_URL = @"publish_url";
-
 #endif /* PrefixHeader_pch */

@@ -213,21 +213,23 @@ UITextFieldDelegate
 }
 
 - (void)setupClient {
-    [QNRTC enableFileLogging];
+    [QNRTC setLogConfig:[QNRTCLogConfiguration defaultRTCLogConfig]];
     
     // 1. 初始配置 QNRTC
     [QNRTC initRTC:[QNRTCConfiguration defaultConfiguration]];
-    // 1.创建初始化 RTC 核心类 QNRTCClient
+    [QNRTC setAudioScene:[_senceValue intValue]];
+    
+    // 2.创建初始化 RTC 核心类 QNRTCClient
     self.client = [QNRTC createRTCClient];
-    // 2.设置 QNRTCClientDelegate 状态回调的代理
+    // 3.设置 QNRTCClientDelegate 状态回调的代理
     self.client.delegate = self;
     
-    // 3.创建摄像头 Track
-    QNVideoEncoderConfig *config = [[QNVideoEncoderConfig alloc] initWithBitrate:self.bitrate videoEncodeSize:self.videoEncodeSize videoFrameRate:self.frameRate];
+    // 4.创建摄像头 Track
+    QNVideoEncoderConfig *config = [[QNVideoEncoderConfig alloc] initWithBitrate:self.bitrate videoEncodeSize:self.videoEncodeSize videoFrameRate:self.frameRate preference:[_preferValue intValue]];
     QNCameraVideoTrackConfig * cameraConfig = [[QNCameraVideoTrackConfig alloc] initWithSourceTag:cameraTag config:config];
     self.cameraTrack = [QNRTC createCameraVideoTrackWithConfig:cameraConfig];
     
-    // 4.设置摄像头采集相关配置
+    // 5.设置摄像头采集相关配置
     // 视频采集分辨率
     self.cameraTrack.videoFormat = AVCaptureSessionPreset1280x720;
     // 视频帧率
@@ -242,13 +244,13 @@ UITextFieldDelegate
 //    self.cameraTrack.encodeMirrorFrontFacing = YES;
     
     // 设置预览
-    self.preview.fillMode = QNVideoFillModePreserveAspectRatioAndFill;
+    self.preview.fillMode = QNVideoFillModePreserveAspectRatio;
     [self.cameraTrack play:self.preview];
     
     [self.colorView addSubview:self.preview];
     [self.renderBackgroundView addSubview:self.colorView];
     
-    // 4.设置摄像头采集的预览视频位置
+    // 6.设置摄像头采集的预览视频位置
     [self.preview mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.colorView);
     }];
@@ -261,7 +263,7 @@ UITextFieldDelegate
         make.edges.equalTo(self.view);
     }];
     
-    // 5.启动摄像头采集
+    // 7.启动摄像头采集
     // 注意：记得在 Info.list 中添加摄像头、麦克风的相关权限
     // NSCameraUsageDescription、NSMicrophoneUsageDescription
     [self.cameraTrack startCapture];
@@ -614,7 +616,11 @@ UITextFieldDelegate
 
 - (void)toggleButtonClick:(UIButton *)button {
     // 切换摄像头（前置/后置）
-    [self.cameraTrack switchCamera];
+    [self.cameraTrack switchCamera:^(BOOL isFrontCamera, NSString *errorMessage) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.view showTip:[NSString stringWithFormat:@"切换到 %@-%@!", isFrontCamera ? @"前置": @"后置", errorMessage ? @"失败": @"成功"]];
+        });
+    }];
 }
 
 - (void)microphoneAction:(UIButton *)microphoneButton {
@@ -988,6 +994,7 @@ UITextFieldDelegate
     QNTrack *track = [userView trackInfoWithTrackId:videoTrack.trackID];
     
     QNVideoGLView * renderView =  [track.tag isEqualToString:screenTag] ? userView.screenView : userView.cameraView;
+    renderView.fillMode = QNVideoFillModePreserveAspectRatio;
     [videoTrack play:renderView];
 }
 

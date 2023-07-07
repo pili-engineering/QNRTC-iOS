@@ -125,7 +125,8 @@
     mergeLabel.text = @"只有 admin 才有合流权限";
     mergeLabel.font = QRD_LIGHT_FONT(10);
     mergeLabel.textAlignment = NSTextAlignmentCenter;
-    [self addSubview:mergeLabel];}
+    [self addSubview:mergeLabel];
+}
 
 /*
 // Only override drawRect: if you perform custom drawing.

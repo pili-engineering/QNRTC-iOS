@@ -7,9 +7,9 @@
 
 #import "TranscodingLiveCustomExample.h"
 #import "TranscodingLiveCustomControlView.h"
+#import "ScanViewController.h"
 
-@interface TranscodingLiveCustomExample () <QNRTCClientDelegate>
-
+@interface TranscodingLiveCustomExample () <QNRTCClientDelegate, ScanViewControllerDelegate>
 
 @property (nonatomic, strong) QNRTCClient *client;
 @property (nonatomic, strong) QNCameraVideoTrack *cameraVideoTrack;
@@ -62,11 +62,13 @@
     
     // 添加转推控制视图
     self.controlView = [[[NSBundle mainBundle] loadNibNamed:@"TranscodingLiveCustomControlView" owner:nil options:nil] lastObject];
-    self.controlView.publishUrlTF.text = PUBLISH_URL;
+    self.controlView.publishUrlTF.text = @"";
     [self.controlView.startStreamingButton addTarget:self action:@selector(startStreamingButtonAction) forControlEvents:UIControlEventTouchUpInside];
     [self.controlView.stopStreamingButton addTarget:self action:@selector(stopStreamingButtonAction) forControlEvents:UIControlEventTouchUpInside];
     [self.controlView.addLayoutButton addTarget:self action:@selector(addLayoutButtonAction) forControlEvents:UIControlEventTouchUpInside];
     [self.controlView.removeLayoutButton addTarget:self action:@selector(removeLayoutButtonAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.controlView.scanButton addTarget:self action:@selector(scanAction:) forControlEvents:UIControlEventTouchUpInside];
+    
     [self.controlScrollView addSubview:self.controlView];
     [self.controlView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.equalTo(self.controlScrollView);
@@ -92,6 +94,19 @@
     [self.remoteRenderView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.remoteView);
     }];
+}
+
+- (void)scanAction:(UIButton *)button {
+    ScanViewController *scanVc = [ScanViewController new];
+    scanVc.delegate = self;
+    scanVc.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentViewController:scanVc animated:YES completion:nil];
+}
+
+- (void)scanQRResult:(NSString *)qrString {
+    if (qrString.length != 0) {
+        self.controlView.publishUrlTF.text = qrString;
+    }
 }
 
 /*!
@@ -131,7 +146,7 @@
     self.client.autoSubscribe = NO;
 
     // 加入房间
-    [self.client join:ROOM_TOKEN];
+    [self.client join:self.roomToken];
 }
 
 /*!

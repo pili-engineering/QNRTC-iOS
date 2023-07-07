@@ -22,8 +22,16 @@
 #define QRD_SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 
 #define QRD_iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
+#define QRD_iPhoneSE ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)
+#define QRD_iPhoneXR_11 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(828, 1792), [[UIScreen mainScreen] currentMode].size) : NO)
+#define QRD_iPhoneMini_12_13 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1080, 2340), [[UIScreen mainScreen] currentMode].size) : NO)
+#define QRD_iPhoneXS_11Pro_MAX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242, 2688), [[UIScreen mainScreen] currentMode].size) : NO)
+#define QRD_iPhone12Pro_13Pro_14 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1170, 2532), [[UIScreen mainScreen] currentMode].size) : NO)
+#define QRD_iPhone14Pro ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1179, 2556), [[UIScreen mainScreen] currentMode].size) : NO)
+#define QRD_iPhone12Pro_13Pro_Max ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1284, 2778), [[UIScreen mainScreen] currentMode].size) : NO)
+#define QRD_iPhone14ProMax ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1290, 2796), [[UIScreen mainScreen] currentMode].size) : NO)
 
-#define QRD_LOGIN_TOP_SPACE (QRD_iPhoneX ? 140: 100)
+#define QRD_LOGIN_TOP_SPACE ((QRD_iPhoneX || QRD_iPhoneXR_11 || QRD_iPhoneMini_12_13 || QRD_iPhoneXS_11Pro_MAX || QRD_iPhone12Pro_13Pro_14 || QRD_iPhone14Pro || QRD_iPhone12Pro_13Pro_Max || QRD_iPhone14ProMax)? 140: 100)
 
 /*********************  颜色  *********************/
 // 颜色RGB 通用
@@ -56,6 +64,9 @@
 #define QN_USER_ID_KEY @"QN_USER_ID"
 #define QN_APP_ID_KEY @"QN_APP_ID"
 #define QN_SET_CONFIG_KEY @"QN_SET_CONFIG"
+#define QN_SET_PREFER_KEY @"QN_SET_PREFER"
+#define QN_SET_SCENE_KEY @"QN_SET_SCENE"
+#define QN_SET_WARE_KEY @"QN_SET_WARE"
 #define QN_ROOM_NAME_KEY @"QN_ROOM_NAME"
 #define QN_RTC_DEMO_APPID @"d8lk7l4ed"
 

@@ -14,6 +14,7 @@
 		AA2A60682704542B00743FC8 /* QRDTranscodingStreamingSettingView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2A60662704542B00743FC8 /* QRDTranscodingStreamingSettingView.m */; };
 		AA2A606D2704544800743FC8 /* UIView+Alert.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2A606B2704544800743FC8 /* UIView+Alert.m */; };
 		AA2A606E2704544800743FC8 /* QRDUserNameView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2A606C2704544800743FC8 /* QRDUserNameView.m */; };
+		AAAE90702A583A56009E8C8A /* QNDCustomDefineView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAE906F2A583A56009E8C8A /* QNDCustomDefineView.m */; };
 		B06DBBD120F6270E009AE9F9 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B06DBBCF20F6270E009AE9F9 /* ReplayKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		B0769C6F1FBA97100051F9C2 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0769C6E1FBA97090051F9C2 /* VideoToolbox.framework */; };
 		B0769C751FBADAFD0051F9C2 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0769C741FBADAF70051F9C2 /* GLKit.framework */; };
@@ -80,6 +81,8 @@
 		AA2A606A2704544800743FC8 /* QRDUserNameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRDUserNameView.h; sourceTree = "<group>"; };
 		AA2A606B2704544800743FC8 /* UIView+Alert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Alert.m"; sourceTree = "<group>"; };
 		AA2A606C2704544800743FC8 /* QRDUserNameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRDUserNameView.m; sourceTree = "<group>"; };
+		AAAE906E2A583A56009E8C8A /* QNDCustomDefineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNDCustomDefineView.h; sourceTree = "<group>"; };
+		AAAE906F2A583A56009E8C8A /* QNDCustomDefineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNDCustomDefineView.m; sourceTree = "<group>"; };
 		B04AF08A1F9652A6009BAFEF /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 		B04AF08C1F9652C7009BAFEF /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		B06DBBCF20F6270E009AE9F9 /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = System/Library/Frameworks/ReplayKit.framework; sourceTree = SDKROOT; };
@@ -251,6 +254,8 @@
 				AA2A606C2704544800743FC8 /* QRDUserNameView.m */,
 				BC0F652821B7708C006C1A0B /* UIView+Alert.h */,
 				BC0F652721B7708C006C1A0B /* UIView+Alert.m */,
+				AAAE906E2A583A56009E8C8A /* QNDCustomDefineView.h */,
+				AAAE906F2A583A56009E8C8A /* QNDCustomDefineView.m */,
 				AA2A60642704542B00743FC8 /* QRDTranscodingStreamingInfo.h */,
 				AA2A60652704542B00743FC8 /* QRDTranscodingStreamingInfo.m */,
 				AA2A60632704542B00743FC8 /* QRDTranscodingStreamingSettingView.h */,
@@ -442,6 +447,7 @@
 				AA2A60682704542B00743FC8 /* QRDTranscodingStreamingSettingView.m in Sources */,
 				B0A335E420D2E39600098E94 /* QRDMicrophoneSource.m in Sources */,
 				BC0F654321B7A371006C1A0B /* QRDUserView.m in Sources */,
+				AAAE90702A583A56009E8C8A /* QNDCustomDefineView.m in Sources */,
 				BC0F653A21B78257006C1A0B /* QRDNetworkUtil.m in Sources */,
 				B0C660591F94F98300999C9F /* AppDelegate.m in Sources */,
 				B0C6606A1F94F98300999C9F /* main.m in Sources */,
@@ -606,7 +612,7 @@
 					"$(PROJECT_DIR)/../QNRTCKit/**",
 					"$(inherited)",
 				);
-				MARKETING_VERSION = 5.2.2;
+				MARKETING_VERSION = 5.2.3;
 				OTHER_LDFLAGS = (
 					"$(OTHER_LDFLAGS)",
 					"-ObjC",
@@ -646,7 +652,7 @@
 					"$(PROJECT_DIR)/../QNRTCKit/**",
 					"$(inherited)",
 				);
-				MARKETING_VERSION = 5.2.2;
+				MARKETING_VERSION = 5.2.3;
 				OTHER_LDFLAGS = (
 					"$(OTHER_LDFLAGS)",
 					"-ObjC",

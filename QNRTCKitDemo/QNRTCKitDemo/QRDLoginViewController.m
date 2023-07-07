@@ -17,8 +17,6 @@
 #import "QRDPureAudioViewController.h"
 #import "QRDPlayerViewController.h"
 
-#define QRD_LOGIN_TOP_SPACE (QRD_iPhoneX ? 140: 100)
-
 @interface QRDLoginViewController ()
 <
 UITextFieldDelegate
@@ -101,7 +99,7 @@ UITextFieldDelegate
     [_joinRoomView.multiTrackButton addTarget:self action:@selector(multiTrackButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
     _setButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _setButton.frame = CGRectMake(QRD_SCREEN_WIDTH - 36, QRD_LOGIN_TOP_SPACE - 68, 24, 24);
+    _setButton.frame = CGRectMake(QRD_SCREEN_WIDTH - 40, QRD_LOGIN_TOP_SPACE - 68, 24, 24);
     [_setButton setImage:[UIImage imageNamed:@"setting"] forState:UIControlStateNormal];
     [_setButton addTarget:self action:@selector(settingAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_setButton];
@@ -125,6 +123,15 @@ UITextFieldDelegate
     logoLabel.font = QRD_LIGHT_FONT(16);
     logoLabel.text = @"牛会议";
     [self.view addSubview:logoLabel];
+    
+    UILabel *versionLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, bottomSpace + 12, QRD_SCREEN_WIDTH - 40, 10)];
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    versionLabel.text = [NSString stringWithFormat:@"版本号：%@  SDK 版本：%@", version, [QNRTC versionInfo]];
+    versionLabel.font = QRD_LIGHT_FONT(10);
+    versionLabel.textColor = [UIColor whiteColor];
+    versionLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:versionLabel];
+    [self.view bringSubviewToFront:versionLabel];
 }
 
 #pragma mark - button action
@@ -175,6 +182,9 @@ UITextFieldDelegate
         configDic = @{@"VideoSize":NSStringFromCGSize(CGSizeMake(480, 640)), @"FrameRate":@15, @"Bitrate":@(400)};
         [[NSUserDefaults standardUserDefaults] setObject:configDic forKey:QN_SET_CONFIG_KEY];
     }
+    NSNumber *preferValue = [[NSUserDefaults standardUserDefaults] objectForKey:QN_SET_PREFER_KEY];
+    NSNumber *senceValue = [[NSUserDefaults standardUserDefaults] objectForKey:QN_SET_SCENE_KEY];
+    NSNumber *wareValue = [[NSUserDefaults standardUserDefaults] objectForKey:QN_SET_WARE_KEY];
 
     [[NSUserDefaults standardUserDefaults] setObject:roomName forKey:QN_ROOM_NAME_KEY];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -187,6 +197,9 @@ UITextFieldDelegate
             // 连麦主入口
             QRDRTCViewController *rtcVC = [[QRDRTCViewController alloc] init];
             rtcVC.configDic = configDic;
+            rtcVC.preferValue = preferValue;
+            rtcVC.senceValue = senceValue;
+            rtcVC.wareValue = wareValue;
             rtcVC.modalPresentationStyle = UIModalPresentationFullScreen;
             [self presentViewController:rtcVC animated:YES completion:nil];
         }
@@ -194,6 +207,9 @@ UITextFieldDelegate
             // 纯音频连麦入口
             QRDPureAudioViewController *rtcVC = [[QRDPureAudioViewController alloc] init];
             rtcVC.configDic = configDic;
+            rtcVC.preferValue = preferValue;
+            rtcVC.senceValue = senceValue;
+            rtcVC.wareValue = wareValue;
             rtcVC.modalPresentationStyle = UIModalPresentationFullScreen;
             [self presentViewController:rtcVC animated:YES completion:nil];
         }
@@ -201,12 +217,18 @@ UITextFieldDelegate
             // 录屏入口
             QRDScreenRecorderViewController *recorderViewController = [[QRDScreenRecorderViewController alloc] init];
             recorderViewController.configDic = configDic;
+            recorderViewController.preferValue = preferValue;
+            recorderViewController.senceValue = senceValue;
+            recorderViewController.wareValue = wareValue;
             recorderViewController.modalPresentationStyle = UIModalPresentationFullScreen;
             [self presentViewController:recorderViewController animated:YES completion:nil];
         } else if (_joinRoomView.multiTrackButton.selected) {
             // 录屏连麦入口
             QRDScreenMainViewController *vc = [[QRDScreenMainViewController alloc] init];
             vc.configDic = configDic;
+            vc.preferValue = preferValue;
+            vc.senceValue = senceValue;
+            vc.wareValue = wareValue;
             vc.modalPresentationStyle = UIModalPresentationFullScreen;
             [self presentViewController:vc animated:YES completion:nil];
         }

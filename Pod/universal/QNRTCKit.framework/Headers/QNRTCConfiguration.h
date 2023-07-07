@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since v5.2.0
  */
-@property (nonatomic, assign, readonly) BOOL maintainResolutionEnabled;
+@property (nonatomic, assign, readonly) BOOL maintainResolutionEnabled __deprecated_msg("Method deprecated in v5.2.3. Use `QNDegradationPreference`");
 
 /*!
  * @abstract 是否使用通话模式，默认为 YES
@@ -40,8 +40,16 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since v5.2.0
  */
-@property (nonatomic, assign, readonly) BOOL communicationModeOn;
+@property (nonatomic, assign, readonly) BOOL communicationModeOn __deprecated_msg("Method deprecated in v5.2.3. Use `initWithPolicy:`");
 
+/*!
+ * @abstract 音频场景，默认为 QNAudioSceneDefault
+ *
+ * @warning 可通过 QNRTC 调用 setAudioScene 动态设置
+ *
+ * @since v5.2.3
+ */
+@property (nonatomic, assign, readonly) QNAudioScene audioScene;
 
 /*!
  * @abstract 用默认参数生成一个对象
@@ -62,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since v5.2.0
  */
-- (instancetype)initWithPolicy:(QNRTCPolicy)policy maintainResolutionEnabled:(BOOL)maintainResolutionEnabled;
+- (instancetype)initWithPolicy:(QNRTCPolicy)policy maintainResolutionEnabled:(BOOL)maintainResolutionEnabled __deprecated_msg("Method deprecated in v5.2.3. Use `initWithPolicy:`");
 
 /*!
  * @abstract 用指定的 policy 、maintainResolutionEnabled、communicationModeOn 生成一个对象
@@ -70,7 +78,14 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v5.2.0
  */
 - (instancetype)initWithPolicy:(QNRTCPolicy)policy maintainResolutionEnabled:(BOOL)maintainResolutionEnabled
-           communicationModeOn:(BOOL)communicationModeOn;
+           communicationModeOn:(BOOL)communicationModeOn __deprecated_msg("Method deprecated in v5.2.3. Use `initWithPolicy:`");
+
+/*!
+ * @abstract 用指定的 policy 、audioScene 生成一个对象
+ *
+ * @since v5.2.3
+ */
+- (instancetype)initWithPolicy:(QNRTCPolicy)policy audioScene:(QNAudioScene)audioScene;
 
 @end
 

@@ -28,7 +28,7 @@
     // Do any additional setup after loading the view.
     [self loadSubviews];
     [self initRTC];
-    self.srcMediaRelayInfo = [[QNRoomMediaRelayInfo alloc] initWithToken:ROOM_TOKEN];
+    self.srcMediaRelayInfo = [[QNRoomMediaRelayInfo alloc] initWithToken:self.roomToken];
 }
 
 /*!
@@ -118,7 +118,7 @@
     self.client.autoSubscribe = NO;
 
     // 加入房间
-    [self.client join:ROOM_TOKEN];
+    [self.client join:self.roomToken];
 }
 
 /*!
@@ -183,9 +183,12 @@
                     });
                 }];
             }
+        } else{
+            [self showAlertWithTitle:@"错误" message:@"目标房间 Token 不规范"];
         }
+    } else {
+        [self showAlertWithTitle:@"错误" message:@"目标房间 Token 不规范"];
     }
-    [self showAlertWithTitle:@"错误" message:@"目标房间 Token 不规范"];
 }
 
 - (void)stopMediaRelayButtonAction:(UIButton *)button {

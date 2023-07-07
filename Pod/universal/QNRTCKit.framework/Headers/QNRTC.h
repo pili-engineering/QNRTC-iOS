@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "QNTypeDefines.h"
 #import "QNTrack.h"
+#import "QNRTCLogConfiguration.h"
 
 @class QNRTC;
 @class QNRTCConfiguration;
@@ -203,6 +204,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (BOOL)speakerphoneMuted;
 
+/*!
+ * @abstract 动态切换音频场景。
+ *
+ * @since v5.2.3
+ */
++ (void)setAudioScene:(QNAudioScene)audioScene;
+
 @end
 
 #pragma mark - Category (Logging)
@@ -223,8 +231,8 @@ NS_ASSUME_NONNULL_BEGIN
  * 注意：文件日志功能主要用于排查问题，打开文件日志功能会对性能有一定影响，上线前请记得关闭文件日志功能！
  *
  * @since v4.0.0
-*/
-+ (void)enableFileLogging;
+ */
++ (void)enableFileLogging __deprecated_msg("Method deprecated in v5.2.3. Use `setLogConfig:`");
 
 /*!
  * @abstract 设置日志等级
@@ -232,9 +240,35 @@ NS_ASSUME_NONNULL_BEGIN
  * @discussion 设置日志级别 默认：QNRTCLogLevelInfo
  *
  * @since v4.0.0
-*/
-+ (void)setLogLevel:(QNRTCLogLevel)level;
+ */
++ (void)setLogLevel:(QNRTCLogLevel)level __deprecated_msg("Method deprecated in v5.2.3. Use `setLogConfig:`");
 
+/*!
+ * @abstract 设置日志文件配置
+ *
+ * @discussion 设置日志文件配置，包括文件存储路径、日志等级、日志文件的大小等
+ *
+ * @since v5.2.3
+ */
++ (void)setLogConfig:(QNRTCLogConfiguration *)configuration;
+
+/*!
+ * @abstract 上传本地文件至七牛服务器
+ *
+ * @discussion 上传回调结果通过实现 QNUploadLogResultCallback 获取
+ *
+ * @since v5.2.3
+ */
++ (void)uploadLog:(nullable QNUploadLogResultCallback)callback;
+
+/*!
+ * @abstract 上传本地文件至指定的七牛云存储空间
+ *
+ * @discussion token 需要您的业务服务器自行签算
+ *
+ * @since v5.2.3
+ */
++ (void)uploadLog:(NSString *)token callback:(nullable QNUploadLogResultCallback)callback;
 @end
 
 #pragma mark - Category (Info)

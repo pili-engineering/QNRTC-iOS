@@ -69,9 +69,9 @@
 
 - (void)parseToken {
     BOOL isValid = NO;
-    NSRange range = [ROOM_TOKEN rangeOfString:@":" options:NSBackwardsSearch];
+    NSRange range = [self.roomToken rangeOfString:@":" options:NSBackwardsSearch];
     if (range.location != NSNotFound) {
-        NSString *encodedRoomAccess = [ROOM_TOKEN substringFromIndex:range.location + 1];
+        NSString *encodedRoomAccess = [self.roomToken substringFromIndex:range.location + 1];
         NSData *data = [[NSData alloc] initWithBase64EncodedString:encodedRoomAccess options:NSDataBase64DecodingIgnoreUnknownCharacters];
         if (data) {
             NSError *error = nil;

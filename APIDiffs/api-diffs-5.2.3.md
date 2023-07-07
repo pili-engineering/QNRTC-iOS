@@ -23,6 +23,16 @@ QNRTC.h
 - *Added*  method `+ (void)uploadLog:(nullable QNUploadLogResultCallback)callback;`
 - *Added*  method `+ (void)uploadLog:(NSString *)token callback:(nullable QNUploadLogResultCallback)callback;`
 
+```
+QNRTCLogConfiguration.h
+```
+- *Added*  property `@property (nonatomic, strong) NSString *dir;`
+- *Added*  property `@property (nonatomic, strong) NSString *tag;`
+- *Added*  property `@property (nonatomic, assign) long maxSizeInBytes;`
+- *Added*  property `@property (nonatomic, assign) QNRTCLogLevel level;`
+- *Added*  method `+ (instancetype)defaultRTCLogConfig;`
+- *Added*  method `- (instancetype)initWithLogLevel:(QNRTCLogLevel)level;`
+
 
 ```
 QNVideoEncoderConfig.h

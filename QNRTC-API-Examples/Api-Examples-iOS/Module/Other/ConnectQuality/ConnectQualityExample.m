@@ -90,6 +90,7 @@ static NSString *video_profile[] = {@"Low", @"Medium", @"High"};
     
     // 初始化远端渲染视图
     self.remoteRenderView = [[QNVideoGLView alloc] init];
+    self.remoteRenderView.fillMode = QNVideoFillModePreserveAspectRatioAndFill;
     [self.remoteView addSubview:self.remoteRenderView];
     self.remoteRenderView.hidden = YES;
     [self.remoteRenderView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -125,7 +126,7 @@ static NSString *video_profile[] = {@"Low", @"Medium", @"High"};
     self.client.autoSubscribe = NO;
 
     // 加入房间
-    [self.client join:ROOM_TOKEN];
+    [self.client join:self.roomToken];
 }
 
 /*!

@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UITextField *layoutZTF;
 @property (weak, nonatomic) IBOutlet UIButton *addLayoutButton;
 @property (weak, nonatomic) IBOutlet UIButton *removeLayoutButton;
-
+@property (weak, nonatomic) IBOutlet UIButton *scanButton;
 @end
 
 NS_ASSUME_NONNULL_END

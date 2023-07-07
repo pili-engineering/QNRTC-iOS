@@ -7,8 +7,9 @@
 
 #import "DirectLiveExample.h"
 #import "DirectLiveControlView.h"
+#import "ScanViewController.h"
 
-@interface DirectLiveExample () <QNRTCClientDelegate>
+@interface DirectLiveExample () <QNRTCClientDelegate, ScanViewControllerDelegate>
 
 @property (nonatomic, strong) QNRTCClient *client;
 @property (nonatomic, strong) QNCameraVideoTrack *cameraVideoTrack;
@@ -56,9 +57,11 @@
     
     // 添加转推控制视图
     self.controlView = [[[NSBundle mainBundle] loadNibNamed:@"DirectLiveControlView" owner:nil options:nil] lastObject];
-    self.controlView.publishUrlTF.text = PUBLISH_URL;
+    self.controlView.publishUrlTF.text = @"";
     [self.controlView.startButton addTarget:self action:@selector(startLiveStreaming) forControlEvents:UIControlEventTouchUpInside];
     [self.controlView.stopButton addTarget:self action:@selector(stopLiveStreaming) forControlEvents:UIControlEventTouchUpInside];
+    [self.controlView.scanButton addTarget:self action:@selector(scanAction:) forControlEvents:UIControlEventTouchUpInside];
+    
     [self.controlScrollView addSubview:self.controlView];
     [self.controlView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.equalTo(self.controlScrollView);
@@ -84,6 +87,19 @@
     [self.remoteRenderView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.remoteView);
     }];
+}
+
+- (void)scanAction:(UIButton *)button {
+    ScanViewController *scanVc = [ScanViewController new];
+    scanVc.delegate = self;
+    scanVc.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentViewController:scanVc animated:YES completion:nil];
+}
+
+- (void)scanQRResult:(NSString *)qrString {
+    if (qrString.length != 0) {
+        self.controlView.publishUrlTF.text = qrString;
+    }
 }
 
 /*!
@@ -123,7 +139,7 @@
     self.client.autoSubscribe = NO;
 
     // 加入房间
-    [self.client join:ROOM_TOKEN];
+    [self.client join:self.roomToken];
 }
 
 /*!

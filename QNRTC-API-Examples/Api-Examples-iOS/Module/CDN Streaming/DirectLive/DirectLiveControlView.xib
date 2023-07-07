@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -15,17 +15,11 @@
             <rect key="frame" x="0.0" y="0.0" width="488" height="381"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="dcE-d8-LR8">
-                    <rect key="frame" x="107" y="96" width="351" height="34"/>
-                    <color key="tintColor" systemColor="tintColor"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WST-hC-nlU">
-                    <rect key="frame" x="60" y="160" width="368" height="32"/>
+                    <rect key="frame" x="60" y="164" width="368" height="32"/>
                     <color key="backgroundColor" systemColor="linkColor"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="32" id="t82-P6-pYd"/>
+                        <constraint firstAttribute="height" constant="32" id="le9-lk-tE1"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -38,10 +32,10 @@
                     </userDefinedRuntimeAttributes>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MaC-Uy-BRo">
-                    <rect key="frame" x="60" y="216" width="368" height="32"/>
+                    <rect key="frame" x="60" y="220" width="368" height="32"/>
                     <color key="backgroundColor" systemColor="linkColor"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="32" id="Gnb-Sf-iAb"/>
+                        <constraint firstAttribute="height" constant="32" id="haB-PM-1WM"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -53,35 +47,59 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="转推地址：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ruw-Uy-jPr">
-                    <rect key="frame" x="30" y="104" width="77" height="18"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="转推地址" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ruw-Uy-jPr">
+                    <rect key="frame" x="60" y="66" width="70" height="18"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="18" id="ilF-Me-lVz"/>
-                        <constraint firstAttribute="width" constant="77" id="mrV-eS-Dq3"/>
+                        <constraint firstAttribute="height" constant="18" id="IgG-kR-FP3"/>
+                        <constraint firstAttribute="width" constant="70" id="cCJ-tC-Pk4"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MCG-FC-McP">
+                    <rect key="frame" x="136" y="59" width="32" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="32" id="ZBL-ag-x27"/>
+                        <constraint firstAttribute="height" constant="32" id="cR8-uu-4MR"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <inset key="imageEdgeInsets" minX="6" minY="6" maxX="6" maxY="6"/>
+                    <state key="normal" image="ic_scan">
+                        <color key="titleColor" systemColor="systemGray2Color"/>
+                    </state>
+                </button>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="dcE-d8-LR8">
+                    <rect key="frame" x="60" y="99" width="368" height="34"/>
+                    <color key="tintColor" systemColor="tintColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="34" id="dld-DE-7nI"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                </textField>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="WST-hC-nlU" firstAttribute="top" secondItem="dcE-d8-LR8" secondAttribute="bottom" constant="30" id="5xa-oO-NqA"/>
-                <constraint firstItem="MaC-Uy-BRo" firstAttribute="trailing" secondItem="WST-hC-nlU" secondAttribute="trailing" id="6L7-mY-YG8"/>
-                <constraint firstItem="MaC-Uy-BRo" firstAttribute="top" secondItem="WST-hC-nlU" secondAttribute="bottom" constant="24" id="9KW-XB-J0b"/>
-                <constraint firstItem="WST-hC-nlU" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="60" id="9Pf-dX-TR0"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="WST-hC-nlU" secondAttribute="trailing" constant="60" id="DXf-oX-fVb"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="dcE-d8-LR8" secondAttribute="trailing" constant="30" id="E2s-3v-JuX"/>
-                <constraint firstItem="MaC-Uy-BRo" firstAttribute="leading" secondItem="WST-hC-nlU" secondAttribute="leading" id="JvY-rU-OiK"/>
-                <constraint firstItem="ruw-Uy-jPr" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="30" id="ULo-0B-eFu"/>
-                <constraint firstItem="dcE-d8-LR8" firstAttribute="centerY" secondItem="ruw-Uy-jPr" secondAttribute="centerY" id="WAf-Q1-dkJ"/>
-                <constraint firstItem="dcE-d8-LR8" firstAttribute="leading" secondItem="ruw-Uy-jPr" secondAttribute="trailing" id="g0v-pQ-Ghz"/>
-                <constraint firstItem="ruw-Uy-jPr" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="60" id="uAx-nK-WZW"/>
+                <constraint firstItem="WST-hC-nlU" firstAttribute="top" secondItem="dcE-d8-LR8" secondAttribute="bottom" constant="31" id="1hZ-uU-Fdi"/>
+                <constraint firstItem="MaC-Uy-BRo" firstAttribute="trailing" secondItem="WST-hC-nlU" secondAttribute="trailing" id="JSL-Ic-86z"/>
+                <constraint firstItem="MaC-Uy-BRo" firstAttribute="top" secondItem="WST-hC-nlU" secondAttribute="bottom" constant="24" id="LzQ-xm-UDv"/>
+                <constraint firstItem="ruw-Uy-jPr" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="18" id="N9X-23-rJk"/>
+                <constraint firstItem="MCG-FC-McP" firstAttribute="leading" secondItem="ruw-Uy-jPr" secondAttribute="trailing" constant="6" id="ZJ3-qh-sKO"/>
+                <constraint firstItem="WST-hC-nlU" firstAttribute="trailing" secondItem="dcE-d8-LR8" secondAttribute="trailing" id="alY-cS-OUp"/>
+                <constraint firstItem="WST-hC-nlU" firstAttribute="leading" secondItem="dcE-d8-LR8" secondAttribute="leading" id="bkJ-De-h2s"/>
+                <constraint firstItem="MCG-FC-McP" firstAttribute="centerY" secondItem="ruw-Uy-jPr" secondAttribute="centerY" id="fSM-DT-IBd"/>
+                <constraint firstItem="dcE-d8-LR8" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="60" id="jIt-80-fFX"/>
+                <constraint firstItem="MaC-Uy-BRo" firstAttribute="leading" secondItem="WST-hC-nlU" secondAttribute="leading" id="lO7-aw-VV3"/>
+                <constraint firstItem="dcE-d8-LR8" firstAttribute="top" secondItem="ruw-Uy-jPr" secondAttribute="bottom" constant="15" id="mqn-dL-Phb"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="dcE-d8-LR8" secondAttribute="trailing" constant="60" id="ujL-OP-WNd"/>
+                <constraint firstItem="ruw-Uy-jPr" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="60" id="wf5-xA-r8J"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="publishUrlTF" destination="dcE-d8-LR8" id="w8e-1i-Y2w"/>
+                <outlet property="scanButton" destination="MCG-FC-McP" id="djW-pf-dxn"/>
                 <outlet property="startButton" destination="WST-hC-nlU" id="3g7-0y-2Fm"/>
                 <outlet property="stopButton" destination="MaC-Uy-BRo" id="kFm-SQ-p6m"/>
             </connections>
@@ -89,8 +107,12 @@
         </view>
     </objects>
     <resources>
+        <image name="ic_scan" width="32" height="32"/>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGray2Color">
+            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tintColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

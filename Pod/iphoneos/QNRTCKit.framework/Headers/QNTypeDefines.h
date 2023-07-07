@@ -180,6 +180,20 @@ NS_ERROR_ENUM(QNRTCErrorDomain) {
      * @discussion 音频重采样失败。
      */
     QNRTCErrorPushAudioBufferFailed             = 11014,
+    
+    /*!
+     * @abstract upload log file with fetch token failed
+     *
+     * @discussion 上传日志获取 token 失败
+     */
+    QNRTCErrorFetchToken                        = 25001,
+    
+    /*!
+     * @abstract upload log file failed
+     *
+     * @discussion 上传日志文件读取失败
+     */
+    QNRTCErrorReadFile                          = 25002,
 };
 
 #pragma mark - Audio Mix Error Code
@@ -693,6 +707,71 @@ typedef NS_ENUM(NSUInteger, QNConnectionDisconnectedReason) {
     QNConnectionDisconnectedReasonError,
 };
 
+/*!
+ * @abstract 视频质量降级模式
+ */
+typedef NS_ENUM(NSUInteger, QNDegradationPreference) {
+    /*!
+     * @abstract 保持帧率
+     *
+     * @since v5.2.3
+     */
+    QNDegradationMaintainFrameRate = 0,
+    
+    /*!
+     * @abstract 保持分辨率
+     *
+     * @since v5.2.3
+     */
+    QNDegradationMaintainResolution,
+    
+    /*!
+     * @abstract 平衡调节分辨率和帧率
+     *
+     * @since v5.2.3
+     */
+    QNDegradationBlanced,
+    
+    /*!
+     * @abstract 保持分辨率和帧率，适当调节码率
+     *
+     * @since v5.2.3
+     */
+    QNDegradationAdaptBitrateOnly,
+};
+
+/*!
+ * @abstract 音频场景
+ */
+typedef NS_ENUM(NSUInteger, QNAudioScene) {
+    /*!
+     * @abstract 默认音频场景
+     *
+     * @warning
+     *
+     * @since v5.2.3
+     */
+    QNAudioSceneDefault = 0,
+    
+    /*!
+     * @abstract 清晰语聊场景
+     *
+     * @warning
+     *
+     * @since v5.2.3
+     */
+    QNAudioSceneVoiceChat,
+    
+    /*!
+     * @abstract 音质均衡场景
+     *
+     * @warning
+     *
+     * @since v5.2.3
+     */
+    QNAudioSceneSoundEqualize,
+};
+
 #pragma mark - callback define
 
 /*!
@@ -713,7 +792,6 @@ typedef void (^QNPublishResultCallback)(BOOL onPublished, NSError *error);
  */
 typedef void (^QNClientRoleResultCallback)(QNClientRole newRole, NSError *error);
 
-
 /*!
  * @typedef QNMediaRelayResultCallback
  *
@@ -726,4 +804,33 @@ typedef void (^QNClientRoleResultCallback)(QNClientRole newRole, NSError *error)
  * @param error 操作失败的错误信息
  */
 typedef void (^QNMediaRelayResultCallback)(NSDictionary *state, NSError *error);
+
+/*!
+ * @typedef QNUploadLogResultCallback
+ *
+ * @abstract 日志文件上传的回调
+ *
+ * @warning 此接口的回调在调用 setLogConfig 设置日志文件配置之后才会有效
+ *
+ * @param fileName 文件名
+ *
+ * @param code 错误码
+ *
+ * @param remaining 剩余文件个数
+ */
+typedef void (^QNUploadLogResultCallback)(NSString *fileName, int code, int remaining);
+
+/*!
+ * @typedef QNCameraSwitchResultCallback
+ *
+ * @abstract 切换摄像头的结果回调
+ *
+ * @warning 此接口的回调在调用 switchCamera 配置之后返回
+ *
+ * @param isFrontCamera 是否是前置
+ *
+ * @param errorMessage 错误信息
+ */
+typedef void (^QNCameraSwitchResultCallback)(BOOL isFrontCamera, NSString *errorMessage);
+
 #endif

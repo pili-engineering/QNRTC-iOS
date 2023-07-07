@@ -333,10 +333,29 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)sendSEI:(NSString *)videoSEI
            uuid:(NSString *)uuid
-   repeatNmuber:(NSNumber *)repeatNumber;
+   repeatNmuber:(NSNumber *)repeatNumber __deprecated_msg("Method deprecated in v5.2.3. Use `sendSEI:`");
+
+/*!
+ * @abstract 本地视频 Track 添加 SEI
+ *
+ * @param SEIData SEI 内容，不超过 4096 个字节
+ *
+ * @param uuid  自定义设置 uuid
+ *
+ * @param repeatCount SEI 重复发送次数，-1 为永久发送
+ *
+ * @discussion 需要停止发送 SEI，可以设置 videoSEI 为 nil，repeatNumber 为 0 即可
+ *
+ * @since v5.2.3
+ */
+- (void)sendSEIWithData:(NSData *)SEIData
+                   uuid:(NSData *)uuid
+            repeatCount:(NSNumber *)repeatCount;
 
 /*!
  * @abstract 视频 Track 渲染。
+ *
+ * @discussion videoView 会被内部引用，外部销毁时需主动传 nil
  *
  * @since v5.0.0
  */
@@ -355,7 +374,29 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 #pragma mark -- QNCameraVideoTrack
+
+@class QNCameraVideoTrack;
+@protocol QNCameraVideoTrackDelegate <NSObject>
+
+@optional
+
+/*!
+ * @abstract 摄像头采集运行过程中发生错误会通过该方法回调。
+ *
+ * @since v5.2.3
+ */
+- (void)cameraVideoTrack:(QNCameraVideoTrack *)cameraVideoTrack didFailWithError:(NSError *)error;
+
+@end
+
 @interface QNCameraVideoTrack : QNLocalVideoTrack
+
+/*!
+ * @abstract 摄像头 Track 回调代理。
+ *
+ * @since v5.2.3
+ */
+@property (nonatomic, weak) id<QNCameraVideoTrackDelegate> cameraDelegate;
 
 /*!
  * @abstract 摄像头的位置，默认为 AVCaptureDevicePositionFront。需在 config 中设置
@@ -471,7 +512,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since v4.0.0
  */
-- (void)switchCamera;
+- (void)switchCamera __deprecated_msg("Method deprecated in v5.2.3. Use `switchCamera:`");
+
+/*!
+ * @abstract 切换前后摄像头。
+ *
+ * @since v5.2.3
+ */
+- (void)switchCamera:(nullable QNCameraSwitchResultCallback)callback;
 
 /*!
  * @abstract 是否开启美颜。
@@ -745,6 +793,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract 视频 Track 渲染。
+ *
+ * @discussion videoView 会被内部引用，外部销毁时需主动传 nil
  *
  * @since v5.0.0
  */

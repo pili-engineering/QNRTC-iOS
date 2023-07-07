@@ -21,13 +21,15 @@
 #import "SendMessageExample.h"
 #import "MultiProfileExample.h"
 #import "ConnectQualityExample.h"
+#import "ScanViewController.h"
 
 static NSString *TABLE_VIEW_CELL_IDENTIFIER = @"TABLE_VIEW_CELL_IDENTIFIER";
 
-@interface ViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface ViewController () <UITableViewDelegate, UITableViewDataSource, ScanViewControllerDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *exampleList;
 @property (nonatomic, strong) NSArray *moduleList;
+@property (nonatomic, copy) NSString *roomToken;
 @end
 
 @implementation ViewController
@@ -42,9 +44,60 @@ static NSString *TABLE_VIEW_CELL_IDENTIFIER = @"TABLE_VIEW_CELL_IDENTIFIER";
 }
 
 - (void)loadSubviews {
+    UIButton *scanButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 35, 35)];
+    [scanButton setImageEdgeInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
+    [scanButton setImage:[UIImage imageNamed:@"ic_scan"] forState:UIControlStateNormal];
+    [scanButton addTarget:self action:@selector(scanAction:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:scanButton];
+
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
+}
+
+- (void)scanAction:(UIButton *)button {
+    ScanViewController *scanVc = [ScanViewController new];
+    scanVc.delegate = self;
+    scanVc.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentViewController:scanVc animated:YES completion:nil];
+}
+
+- (void)scanQRResult:(NSString *)qrString {
+    if (qrString.length != 0) {
+        NSDictionary *dic = [self getDic:qrString];
+        if (dic) {
+            [self showAlertWithTitle:@"提示" message:@"Token 合法，扫描成功！"];
+            self.roomToken = qrString;
+            [self.tableView reloadData];
+        }
+    }
+}
+
+- (NSDictionary *)getDic:(NSString *)destRoomTokenString {
+    NSArray *componentArray = [destRoomTokenString componentsSeparatedByString:@":"];
+    if (componentArray && componentArray.count >= 3) {
+        NSString *decodeString = [NSString base64DecodingString:componentArray[2]];
+        if (decodeString.length != 0) {
+            return [NSString dictionaryWithJSONString:decodeString];
+        } else {
+            [self showAlertWithTitle:@"错误" message:@"Token 不合法，请重新扫描！"];
+            return nil;
+        }
+    } else {
+        [self showAlertWithTitle:@"错误" message:@"Token 不合法，请重新扫描！"];
+        return nil;
+    }
+}
+
+- (void)showAlertWithTitle:(NSString *)title message:(NSString *)message {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+        [self.navigationController presentViewController:alertController animated:YES completion:^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [alertController dismissViewControllerAnimated:NO completion:nil];
+            });
+        }];
+    });
 }
 
 - (void)setupDataSource {
@@ -163,22 +216,31 @@ static NSString *TABLE_VIEW_CELL_IDENTIFIER = @"TABLE_VIEW_CELL_IDENTIFIER";
 
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.roomToken.length == 0) {
+        [self showAlertWithTitle:@"提示" message:@"请点击右上方扫描按钮添加 roomToken！"];
+        return;
+    }
     NSString *classStr = self.exampleList[indexPath.section][indexPath.row][@"class"];
     Class class = NSClassFromString(classStr);
     if (class) {
-        [self.navigationController pushViewController:[class new] animated:YES];
+        BaseViewController *viewController = [class new];
+        viewController.roomToken = self.roomToken;
+        [self.navigationController pushViewController:viewController animated:YES];
     }
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     if (section == self.moduleList.count - 1) {
         UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 90)];
-        NSArray *componentArray = [ROOM_TOKEN componentsSeparatedByString:@":"];
-        NSString *decodeString = [NSString base64DecodingString:componentArray[2]];
-        NSDictionary *dic = [NSString dictionaryWithJSONString:decodeString];
-        NSArray *infoArray = @[[NSString stringWithFormat:@"用户名：%@", dic[@"userId"]],
-                               [NSString stringWithFormat:@"房间号：%@", dic[ @"roomName"]],
-                               [NSString stringWithFormat:@"SDK 版本：%@", [QNRTC versionInfo]]];
+        NSArray *infoArray = @[[NSString stringWithFormat:@"SDK 版本：%@", [QNRTC versionInfo]]];
+        if (self.roomToken.length != 0) {
+            NSArray *componentArray = [self.roomToken componentsSeparatedByString:@":"];
+            NSString *decodeString = [NSString base64DecodingString:componentArray[2]];
+            NSDictionary *dic = [NSString dictionaryWithJSONString:decodeString];
+            infoArray = @[[NSString stringWithFormat:@"用户名：%@", dic[@"userId"]],
+                                   [NSString stringWithFormat:@"房间号：%@", dic[ @"roomName"]],
+                                   [NSString stringWithFormat:@"SDK 版本：%@", [QNRTC versionInfo]]];
+        }
         for (NSInteger i = 0; i < infoArray.count; i++) {
             UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(18, 15 + i* 20, [UIScreen mainScreen].bounds.size.width - 36, 20)];
             infoLabel.text = infoArray[i];

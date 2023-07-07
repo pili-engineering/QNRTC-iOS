@@ -14,6 +14,9 @@ static NSString *screenTag = @"screen";
 @interface QRDRTCViewController : QRDBaseViewController
 
 @property (nonatomic, strong) NSDictionary *configDic;
+@property (nonatomic, strong) NSNumber *preferValue;
+@property (nonatomic, strong) NSNumber *senceValue;
+@property (nonatomic, strong) NSNumber *wareValue;
 
 @property (nonatomic, strong) NSString *token;
 

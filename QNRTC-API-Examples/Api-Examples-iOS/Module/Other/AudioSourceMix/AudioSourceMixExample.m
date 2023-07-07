@@ -151,7 +151,7 @@ AudioSourceModelDelegate>
     self.client.autoSubscribe = NO;
     
     // 加入房间
-    [self.client join:ROOM_TOKEN];
+    [self.client join:self.roomToken];
 }
 
 /*!

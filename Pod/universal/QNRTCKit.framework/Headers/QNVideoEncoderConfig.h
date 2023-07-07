@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "QNTypeDefines.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -37,6 +38,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v5.0.0
  */
 @property (nonatomic, assign, readonly) NSUInteger videoFrameRate;
+
+/*!
+ * @abstract 视频质量降级模式，默认是 QNDegradationMaintainFrameRate
+ *
+ * @since v5.2.3
+ */
+@property (nonatomic, assign, readonly) QNDegradationPreference preference;
 
 /*!
  * @abstract 初始化默认编码配置。
@@ -80,12 +88,30 @@ NS_ASSUME_NONNULL_BEGIN
  * @param videoEncodeSize 编码分辨率
  *
  * @param videoFrameRate 编码帧率
-
+ *
  * @since v5.0.0
  */
 - (instancetype)initWithBitrate:(NSUInteger)bitrate
                 videoEncodeSize:(CGSize)videoEncodeSize
                  videoFrameRate:(NSUInteger)videoFrameRate;
+
+/*!
+ * @abstract 初始化指定 bitrate (单位 kbps) 、videoEncodeSize、videoFrameRate 参数的配置。
+ *
+ * @param bitrate 编码码率，单位 kbps
+ *
+ * @param videoEncodeSize 编码分辨率
+ *
+ * @param videoFrameRate 编码帧率
+ *
+ * @param preference 视频质量降级模式
+ *
+ * @since v5.2.3
+ */
+- (instancetype)initWithBitrate:(NSUInteger)bitrate
+                videoEncodeSize:(CGSize)videoEncodeSize
+                 videoFrameRate:(NSUInteger)videoFrameRate
+                     preference:(QNDegradationPreference)preference;
 
 @end
 

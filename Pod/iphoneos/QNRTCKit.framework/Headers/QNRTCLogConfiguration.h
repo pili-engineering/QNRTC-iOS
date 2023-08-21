@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 文件最大 size
  *
- * @discussion 默认为 3MB，传 0 则代表不需要写日志
+ * @discussion 默认为 3MB，传 0 则代表不需要写日志，自定义文件大小范围为 256kb ~ 10MB
  */
 @property (nonatomic, assign) long maxSizeInBytes;
 

@@ -247,16 +247,16 @@ UITableViewDataSource>
 
 #pragma mark - QNAudioEffectMixerDelegate
 /**
- * QNAudioEffectMixer 在运行过程中，发生错误的回调
+ * QNAudioEffectMixer 在运行过程中，某音效发生错误的回调
  */
-- (void)audioEffectMixer:(QNAudioEffectMixer *)audioEffectMixer didFailWithError:(NSError *)error {
-    [self showAlertWithTitle:@"音效混音错误" message:error.localizedDescription];
+- (void)audioEffect:(QNAudioEffect *)audioEffect didFailed:(int)effectID error:(NSError *)error {
+    [self showAlertWithTitle:[NSString stringWithFormat:@"音效 %d 混音错误", effectID] message:error.localizedDescription];
 }
 
 /**
- * QNAudioEffectMixer 在运行过程中，混音完成的回调
+ * QNAudioEffectMixer 在运行过程中，某音效混音完成的回调
  */
-- (void)audioEffectMixer:(QNAudioEffectMixer *)audioEffectMixer didFinished:(int)effectID {
+- (void)audioEffect:(QNAudioEffect *)audioEffect didFinished:(int)effectID {
     dispatch_async(dispatch_get_main_queue(), ^{
         NSInteger index = effectID - Audio_Effect_Tag;
         NSString *sourceString = self.effectSourceArray[index];

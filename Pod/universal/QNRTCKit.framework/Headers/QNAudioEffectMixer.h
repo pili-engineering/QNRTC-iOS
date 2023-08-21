@@ -94,18 +94,31 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since v5.1.0
  */
-- (void)audioEffectMixer:(QNAudioEffectMixer *)audioEffectMixer didFailWithError:(NSError *)error;
+- (void)audioEffectMixer:(QNAudioEffectMixer *)audioEffectMixer didFailWithError:(NSError *)error __deprecated_msg("Method deprecated in v5.2.4. Use `- (void)audioEffect:(QNAudioEffect *)audioEffect didFailed:(int)effectID error:(NSError *)error`");
+
+/*!
+ * @abstract 某音效混音发生错误的回调
+ *
+ * @param audioEffect 音效实例
+ *
+ * @param effectID 音效唯一标识符
+ *
+ * @param error 错误
+ *
+ * @since v5.2.4
+ */
+- (void)audioEffect:(QNAudioEffect *)audioEffect didFailed:(int)effectID error:(NSError *)error;
 
 /*!
  * @abstract 音效混音某音效播放完成的回调
  *
- * @param audioEffectMixer 音效混音实例
+ * @param audioEffect 音效实例
  *
  * @param effectID 音效唯一标识符
  *
- * @since v5.1.0
+ * @since v5.2.4
  */
-- (void)audioEffectMixer:(QNAudioEffectMixer *)audioEffectMixer didFinished:(int)effectID;
+- (void)audioEffect:(QNAudioEffect *)audioEffect didFinished:(int)effectID;
 @end
 
 @interface QNAudioEffectMixer : NSObject

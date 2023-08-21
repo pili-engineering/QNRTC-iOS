@@ -23,7 +23,9 @@
 }
 
 - (void)setupClient {
-    [QNRTC initRTC:[QNRTCConfiguration defaultConfiguration]];
+
+    QNRTCConfiguration *config = [[QNRTCConfiguration alloc] initWithPolicy:QNRTCPolicyForceUDP audioScene:QNAudioSceneDefault reconnectionTimeout:30000 encoderType:[self.wareValue intValue]];
+    [QNRTC initRTC:config];
     // 1.创建初始化 RTC 核心类 QNRTCClient
     self.client = [QNRTC createRTCClient];
     self.client.delegate = self;

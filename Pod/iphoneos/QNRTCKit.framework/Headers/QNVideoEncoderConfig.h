@@ -40,11 +40,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) NSUInteger videoFrameRate;
 
 /*!
- * @abstract 视频质量降级模式，默认是 QNDegradationMaintainFrameRate
+ * @abstract 视频质量降级模式，默认是 QNDegradationDefault
  *
  * @since v5.2.3
  */
 @property (nonatomic, assign, readonly) QNDegradationPreference preference;
+
+/*!
+ * @abstract 视频编码预设
+ *
+ * @since v5.2.4
+ */
+@property (nonatomic, assign, readonly) QNVideoFormatPreset formatPreset;
 
 /*!
  * @abstract 初始化默认编码配置。
@@ -113,6 +120,17 @@ NS_ASSUME_NONNULL_BEGIN
                  videoFrameRate:(NSUInteger)videoFrameRate
                      preference:(QNDegradationPreference)preference;
 
+/*!
+ * @abstract 初始化指定 preference、formatPreset 参数的编码配置。
+ *
+ * @param preference 视频质量降级模式
+ *
+ * @param formatPreset 视频编码预设
+ *
+ * @since v5.2.4
+ */
+- (instancetype)initWithPreference:(QNDegradationPreference)preference
+                      formatPreset:(QNVideoFormatPreset)formatPreset;
 @end
 
 NS_ASSUME_NONNULL_END

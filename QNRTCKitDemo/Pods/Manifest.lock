@@ -9,9 +9,9 @@ PODS:
   - PLPlayerKit (3.4.3):
     - PLPlayerKit/iphoneos (= 3.4.3)
   - PLPlayerKit/iphoneos (3.4.3)
-  - QNRTCKit-iOS (5.2.3):
-    - QNRTCKit-iOS/Core (= 5.2.3)
-  - QNRTCKit-iOS/Core (5.2.3)
+  - QNRTCKit-iOS (5.2.4):
+    - QNRTCKit-iOS/Core (= 5.2.4)
+  - QNRTCKit-iOS/Core (5.2.4)
 
 DEPENDENCIES:
   - Bugsnag (= 5.15.4)
@@ -45,8 +45,8 @@ SPEC CHECKSUMS:
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MMMaterialDesignSpinner: a548042720c2e5f04212048483085d7942ac3e81
   PLPlayerKit: a44734dc78c1f8f9fb22c537fa1916612fa46b06
-  QNRTCKit-iOS: 450ed4829b37111f98117ae99ce0e23d990e269b
+  QNRTCKit-iOS: be2ab4512f3711564bdf429a9ed13acaaa10d41d
 
 PODFILE CHECKSUM: 81926db758f9a76f13f711e339cfab0126025066
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.1

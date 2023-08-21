@@ -67,6 +67,24 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign, readonly) double uplinkLostRate;
 
+/*!
+ * @abstract 远端视频上行视频帧宽度
+ *
+ * @discussion 远端用户编码输出的视频宽度
+ *
+ * @since v5.2.4
+ */
+@property (nonatomic, assign, readonly) NSUInteger uplinkFrameWidth;
+
+/*!
+ * @abstract 远端视频上行视频帧高度
+ *
+ * @discussion 远端用户编码输出的视频高度
+ *
+ * @since v5.2.4
+ */
+@property (nonatomic, assign, readonly) NSUInteger uplinkFrameHeight;
+
 @end
 
 NS_ASSUME_NONNULL_END

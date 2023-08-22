@@ -93,11 +93,12 @@ QRDSettingViewDelegate
         configSelectedIndex = 1;
     }
     
-    _preferValueArray = @[@0, @1, @2, @3];
+    _preferValueArray = @[@0, @1, @2, @3, @4];
     _preferArray = @[@"保持帧率，降低分辨率和适当码率",
                      @"保持分辨率，降低帧率和适当码率",
                      @"平衡模式，降低帧率，分辨率和适当码率",
-                     @"控制码率，保持帧率和分辨率"];
+                     @"控制码率，保持帧率和分辨率",
+                     @"RTC 平衡模式，Live 保持分辨率"];
     _preferValue = [self getValueForKey:QN_SET_PREFER_KEY];
     _sceneValue = [self getValueForKey:QN_SET_SCENE_KEY] ;
     _wareValue = [self getValueForKey:QN_SET_WARE_KEY];

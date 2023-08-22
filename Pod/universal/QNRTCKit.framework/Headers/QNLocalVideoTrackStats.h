@@ -58,6 +58,78 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign, readonly) double uplinkLostRate;
 
+/*!
+ * @abstract 本地视频上行视频帧宽度
+ *
+ * @discussion 本地编码输出的视频宽度
+ *
+ * @since v5.2.4
+ */
+@property (nonatomic, assign, readonly) NSUInteger uplinkFrameWidth;
+
+/*!
+ * @abstract 本地视频上行视频帧高度
+ *
+ * @discussion 本地编码输出的视频高度
+ *
+ * @since v5.2.4
+ */
+@property (nonatomic, assign, readonly) NSUInteger uplinkFrameHeight;
+
+/*!
+ * @abstract 采集视频帧率
+ *
+ * @discussion 本地实际采集到的视频帧率
+ *
+ * @since v5.2.4
+ */
+@property (nonatomic, assign, readonly) NSUInteger captureFrameRate;
+
+/*!
+ * @abstract 采集视频帧宽度
+ *
+ * @discussion 本地采集视频帧宽度
+ *
+ * @since v5.2.4
+ */
+@property (nonatomic, assign, readonly) NSUInteger captureFrameWidth;
+
+/*!
+ * @abstract 采集视频帧宽高度
+ *
+ * @discussion 本地采集视频帧宽高度
+ *
+ * @since v5.2.4
+ */
+@property (nonatomic, assign, readonly) NSUInteger captureFrameHeight;
+
+/*!
+ * @abstract 目标视频帧率
+ *
+ * @discussion 期望的视频帧率
+ *
+ * @since v5.2.4
+ */
+@property (nonatomic, assign, readonly) NSUInteger targetFrameRate;
+
+/*!
+ * @abstract 目标视频帧宽度
+ *
+ * @discussion 期望的视频帧宽度
+ *
+ * @since v5.2.4
+ */
+@property (nonatomic, assign, readonly) NSUInteger targetFrameWidth;
+
+/*!
+ * @abstract 目标视频帧高度
+ *
+ * @discussion 期望的视频帧高度
+ *
+ * @since v5.2.4
+ */
+@property (nonatomic, assign, readonly) NSUInteger targetFrameHeight;
+
 @end
 
 NS_ASSUME_NONNULL_END

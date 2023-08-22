@@ -168,6 +168,34 @@ NS_ERROR_ENUM(QNRTCErrorDomain) {
     QNRTCErrorFatalError                        = 21005,
     
     /*!
+     * @abstract CDN stream not exist
+     *
+     * @discussion 流不存在
+     */
+    QNRTCErrorStreamNotExistError               = 21006,
+    
+    /*!
+     * @abstract Server unavailable
+     *
+     * @discussion 服务不可用
+     */
+    QNRTCErrorServerUnavailable                 = 21007,
+    
+    /*!
+     * @abstract Operation Timeout
+     *
+     * @discussion 操作超时
+     */
+    QNRTCErrorOperationTimeoutError             = 21008,
+    
+    /*!
+     * @abstract live streaming closed by server
+     *
+     * @discussion 流被服务端关闭
+     */
+    QNRTCErrorLiveStreamingClosedError          = 21009,
+    
+    /*!
      * @abstract update timeout
      *
      * @discussion 信令超时。
@@ -746,6 +774,15 @@ typedef NS_ENUM(NSUInteger, QNDegradationPreference) {
      * @since v5.2.3
      */
     QNDegradationAdaptBitrateOnly,
+    
+    /*!
+     * @abstract 默认值
+     *
+     * @discussion RTC 模式下使用 QNDegradationBlanced，Live 模式下使用 QNDegradationMaintainResolution
+     *
+     * @since v5.2.4
+     */
+    QNDegradationDefault,
 };
 
 /*!
@@ -778,6 +815,123 @@ typedef NS_ENUM(NSUInteger, QNAudioScene) {
      * @since v5.2.3
      */
     QNAudioSceneSoundEqualize,
+};
+
+/*!
+ * @typedef QNVideoEncoderType
+ *
+ * @abstract 定义视频编码类型
+ */
+typedef NS_ENUM(NSUInteger, QNVideoEncoderType) {
+    /*!
+     * @abstract videoToolbox 编码器
+     *
+     * @since v5.2.4
+     */
+    QNVideoEncoderToolboxH264 = 0,
+    
+    /*!
+     * @abstract 七牛自定义 openh264
+     *
+     * @since v5.2.4
+     */
+    QNVideoEncoderOpenH264 = 1,
+};
+
+/*!
+ * @abstract 视频编码预设
+ */
+typedef NS_ENUM(NSUInteger, QNVideoFormatPreset) {
+    /*!
+     * @abstract 分辨率 320x180, 15fps, 400kbps(RTC), 500kbps(Live)
+     *
+     * @since v5.2.4
+     */
+    QNVideoFormatPreset320x180_15 = 0,
+    
+    /*!
+     * @abstract 分辨率 320x240, 15fps, 500kbps(RTC), 600kbps(Live)
+     *
+     * @since v5.2.4
+     */
+    QNVideoFormatPreset320x240_15,
+    
+    /*!
+     * @abstract 分辨率 640x360, 15fps, 700kbps(RTC), 800kbps(Live)
+     *
+     * @since v5.2.4
+     */
+    QNVideoFormatPreset640x360_15,
+    
+    /*!
+     * @abstract 分辨率 640x360, 30fps, 850kbps(RTC), 1050kbps(Live)
+     *
+     * @since v5.2.4
+     */
+    QNVideoFormatPreset640x360_30,
+    
+    /*!
+     * @abstract 分辨率 640x480, 15fps, 800kbps(RTC), 1100kbps(Live)
+     *
+     * @since v5.2.4
+     */
+    QNVideoFormatPreset640x480_15,
+    
+    /*!
+     * @abstract 分辨率 640x480, 30fps, 1100kbps(RTC), 1400kbps(Live)
+     *
+     * @since v5.2.4
+     */
+    QNVideoFormatPreset640x480_30,
+    
+    /*!
+     * @abstract 分辨率 960x540, 15fps, 1000kbps(RTC), 1300kbps(Live)
+     *
+     * @since v5.2.4
+     */
+    QNVideoFormatPreset960x540_15,
+    
+    /*!
+     * @abstract 分辨率 960x540, 30fps, 1400kbps(RTC), 1700kbps(Live)
+     *
+     * @since v5.2.4
+     */
+    QNVideoFormatPreset960x540_30,
+    
+    /*!
+     * @abstract 分辨率 960x720, 30fps, 1300kbps(RTC), 1700kbps(Live)
+     *
+     * @since v5.2.4
+     */
+    QNVideoFormatPreset960x720_15,
+    
+    /*!
+     * @abstract 分辨率 960x720, 30fps, 1700kbps(RTC), 2400kbps(Live)
+     *
+     * @since v5.2.4
+     */
+    QNVideoFormatPreset960x720_30,
+    
+    /*!
+     * @abstract 分辨率 1280x720, 15fps, 1600kbps(RTC), 2000kbps(Live)
+     *
+     * @since v5.2.4
+     */
+    QNVideoFormatPreset1280x720_15,
+    
+    /*!
+     * @abstract 分辨率 1280x720, 30fps, 2200kbps(RTC), 2900kbps(Live)
+     *
+     * @since v5.2.4
+     */
+    QNVideoFormatPreset1280x720_30,
+    
+    /*!
+     * @abstract 无编码预设
+     *
+     * @since v5.2.4
+     */
+    QNVideoFormatPresetNone = 0XFF,
 };
 
 #pragma mark - callback define

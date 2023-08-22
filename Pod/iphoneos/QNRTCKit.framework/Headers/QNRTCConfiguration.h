@@ -52,6 +52,22 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) QNAudioScene audioScene;
 
 /*!
+ * @abstract SDK 与七牛服务器由于网络原因断开后，内部尝试重连的超时时间，单位： ms，默认 30s
+ *
+ * @warning 建议在重连超时收到 QNRTCErrorNetworkTimeout 后做新的业务处理
+ *
+ * @since v5.2.4
+ */
+@property (nonatomic, assign, readonly) int reconnectionTimeout;
+/*!
+ * @abstract 设置编码器类型，默认使用 QNVideoEncoderToolboxH264
+ *
+ *
+ * @since v5.2.4
+ */
+@property (nonatomic, assign, readonly) QNVideoEncoderType encoderType;
+
+/*!
  * @abstract 用默认参数生成一个对象
  *
  * @since v4.0.0
@@ -86,6 +102,29 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v5.2.3
  */
 - (instancetype)initWithPolicy:(QNRTCPolicy)policy audioScene:(QNAudioScene)audioScene;
+
+
+/*!
+ * @abstract 用指定的 policy 、audioScene 、reconnectionTimeout 生成一个对象
+ *
+ * @param policy 用指定的连接方式
+ * @param audioScene 场景
+ * @param reconnectionTimeout 重连超时间单位（ms）
+ * @since v5.2.4
+ */
+- (instancetype)initWithPolicy:(QNRTCPolicy)policy audioScene:(QNAudioScene)audioScene reconnectionTimeout:(int)reconnectionTimeout;
+
+/*!
+ * @abstract 用指定的 policy 、audioScene 、reconnectionTimeout 、encoderType生成一个对象
+ *
+ * @param policy 用指定的连接方式
+ * @param audioScene 场景
+ * @param reconnectionTimeout 重连超时间单位（ms）
+ * @param encoderType 视频编码类型
+ * @since v5.2.4
+ */
+- (instancetype)initWithPolicy:(QNRTCPolicy)policy audioScene:(QNAudioScene)audioScene reconnectionTimeout:(int)reconnectionTimeout encoderType:(QNVideoEncoderType)encoderType;
+
 
 @end
 

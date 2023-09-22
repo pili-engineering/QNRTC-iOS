@@ -222,6 +222,21 @@ NS_ERROR_ENUM(QNRTCErrorDomain) {
      * @discussion 上传日志文件读取失败
      */
     QNRTCErrorReadFile                          = 25002,
+    
+    /*!
+     * @abstract invalid dir
+     *
+     * @discussion 上传日志路径无效
+     */
+    QNRTCErrorInvalidDir                        = 25003,
+    
+    /*!
+     * @abstract image parser failed
+     *
+     * @discussion 推图片图片解析失败
+     */
+    QNRTCErrorImageParserFailed                 = 25004,
+    
 };
 
 #pragma mark - Audio Mix Error Code

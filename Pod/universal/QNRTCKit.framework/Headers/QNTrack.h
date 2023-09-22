@@ -387,6 +387,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)cameraVideoTrack:(QNCameraVideoTrack *)cameraVideoTrack didFailWithError:(NSError *)error;
 
+/*！
+ * @abstract 图片推流运行过程中发生错误会通过该方法回调。
+ *
+ * @since v5.2.5
+ */
+- (void)cameraVideoTrack:(QNCameraVideoTrack *)cameraVideoTrack didPushImageWithError:(NSError *)error;
+
 @end
 
 @interface QNCameraVideoTrack : QNLocalVideoTrack
@@ -575,11 +582,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @param image 推流的图片
  *
  * @discussion 由于某些特殊原因不想使用摄像头采集的数据作为发送视频数据时，可以使用该接口设置一张图片来替代。传入 nil 则关闭该功能。
- * @warning    请确保传入的 image 的宽和高是 16 的整数倍。请勿在 applicationState 为 UIApplicationStateBackground 时调用该接口，否则将出错。
+ * @warning    请确保传入的 image 的宽和高是 16 的整数倍。请对应错误码确保传入参数源可用
  *
- * @since v5.0.0
+ * @return 返回 0 代表接口调用成功，调用失败将直接返回错误码
+ *
+ * @since v5.2.5
  */
-- (void)pushImage:(nullable UIImage *)image;
+- (int)pushImage:(nullable UIImage *)image;
 
 /*!
  * @abstract 开启摄像头采集。

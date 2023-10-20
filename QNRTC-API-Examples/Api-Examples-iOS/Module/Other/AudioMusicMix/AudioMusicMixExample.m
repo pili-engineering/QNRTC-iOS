@@ -34,18 +34,20 @@
  */
 - (void)clickBackItem {
     [super clickBackItem];
-    
-    if (self.microphoneAudioTrack) {
-        if (self.audioMusicMixer) {
-            [self.audioMusicMixer stop];
-            [self.microphoneAudioTrack destroyAudioMusicMixer];
-        }
-        [self.microphoneAudioTrack destroy];
-    }
+  
     // 离开房间  释放 client
     [self.client leave];
     self.client.delegate = nil;
     self.client = nil;
+    
+    if (self.audioMusicMixer) {
+        [self.audioMusicMixer stop];
+        [self.microphoneAudioTrack removeAudioFilter:self.audioMusicMixer];
+        [QNRTC destroyAudioMusicMixer:self.audioMusicMixer];
+    }
+    if (self.microphoneAudioTrack) {
+        [self.microphoneAudioTrack destroy];
+    }
     
     // 清理配置
     [QNRTC deinit];
@@ -111,7 +113,11 @@
     [self.microphoneAudioTrack setEarMonitorEnabled:NO];
     
     // 设置音乐混音回调代理
-    self.audioMusicMixer = [self.microphoneAudioTrack createAudioMusicMixer:self.controlView.musicUrlTF.text musicMixerDelegate:self];
+    self.audioMusicMixer = [QNRTC createAudioMusicMixer:self.controlView.musicUrlTF.text musicMixerDelegate:self];
+  
+    // 添加 musicMixer 到 audioTrack 中播放
+    [self.microphoneAudioTrack addAudioFilter:self.audioMusicMixer];
+  
     // 设置音乐混音输入音量
     [self.audioMusicMixer setMusicVolume:1.0];
     // 获取音乐总时长

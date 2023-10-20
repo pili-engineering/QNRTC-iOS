@@ -142,64 +142,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (float)getVolumeLevel;
 
-@end
-
-#pragma mark -- QNMicrophoneAudioTrack
-@interface QNMicrophoneAudioTrack : QNLocalAudioTrack
-
-- (instancetype)init NS_UNAVAILABLE;
-
-/*!
- * @abstract 创建背景音乐混音对象实例
- *
- * @param musicPath 背景音乐路径，支持本地路径及在线文件
- *
- * @param musicMixerDelegate 背景音乐混音回调代理
- *
- * @return QNAudioMusicMixer 对象实例
- *
- * @since v5.1.0
- */
-- (QNAudioMusicMixer *)createAudioMusicMixer:(NSString *)musicPath musicMixerDelegate:(id<QNAudioMusicMixerDelegate>)musicMixerDelegate;
-
-/*!
- * @abstract 销毁背景音乐混音对象实例
- *
- * @since v5.2.0
- */
-- (void)destroyAudioMusicMixer;
-
-/*!
- * @abstract 创建音效混音对象实例
- *
- * @param effectMixerDelegate 音效混音回调代理
- *
- * @since v5.1.0
- */
-- (QNAudioEffectMixer *)createAudioEffectMixer:(id<QNAudioEffectMixerDelegate>)effectMixerDelegate;
-
-/*!
- * @abstract 销毁音效混音对象实例
- *
- * @since v5.2.0
- */
-- (void)destroyAudioEffectMixer;
-
-/*!
- * @abstract 创建音源混音对象实例
- *
- * @param sourceMixerDelegate 音源混音回调代理
- *
- * @since v5.2.0
- */
-- (QNAudioSourceMixer *)createAudioSourceMixer:(id<QNAudioSourceMixerDelegate>)sourceMixerDelegate;
-
-/*!
- * @abstract 销毁音源混音对象实例
- *
- * @since v5.2.0
- */
-- (void)destroyAudioSourceMixer;
 /*!
  * @abstract 设置耳返开关
  *
@@ -235,6 +177,31 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v5.1.0
  */
 - (float)getPlayingVolume;
+
+/*!
+ * @abstract 增加 filter 模块
+ *
+ * @discussion 支持设置 QNAudioMusicMixer、QNAudioEffectMixer、QNAudioSourceMixer  等内置 Filter
+ *
+ * @since v5.2.6
+ */
+- (BOOL)addAudioFilter:(id<QNAudioFilterProtocol>)filter;
+
+/*!
+ * @abstract 移除 filter 模块
+ *
+ * @discussion 移除已经添加的 filter 模块
+ *
+ * @since v5.2.6
+ */
+- (BOOL)removeAudioFilter:(id<QNAudioFilterProtocol>)filter;
+
+@end
+
+#pragma mark -- QNMicrophoneAudioTrack
+@interface QNMicrophoneAudioTrack : QNLocalAudioTrack
+
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 

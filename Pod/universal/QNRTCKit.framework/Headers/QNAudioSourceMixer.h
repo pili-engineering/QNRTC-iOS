@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "QNTypeDefines.h"
+#import "QNAudioFilterProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -41,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface QNAudioSourceMixer : NSObject
+@interface QNAudioSourceMixer : NSObject <QNAudioFilterProtocol>
 
 /*!
  * @abstract 创建音源类，默认关闭阻塞模式

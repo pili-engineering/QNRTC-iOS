@@ -47,18 +47,20 @@ UITableViewDataSource>
  */
 - (void)clickBackItem {
     [super clickBackItem];
-    
-    if (self.microphoneAudioTrack) {
-        if (self.audioEffectMixer) {
-            [self.audioEffectMixer stopAll];
-            [self.microphoneAudioTrack destroyAudioEffectMixer];
-        }
-        [self.microphoneAudioTrack destroy];
-    }
+  
     // 离开房间  释放 client
     [self.client leave];
     self.client.delegate = nil;
     self.client = nil;
+    
+    if (self.audioEffectMixer) {
+        [self.audioEffectMixer stopAll];
+        [self.microphoneAudioTrack removeAudioFilter:self.audioEffectMixer];
+        [QNRTC destroyAudioEffectMixer:self.audioEffectMixer];
+    }
+    if (self.microphoneAudioTrack) {
+        [self.microphoneAudioTrack destroy];
+    }
     
     // 清理配置
     [QNRTC deinit];
@@ -156,7 +158,10 @@ UITableViewDataSource>
     [self.microphoneAudioTrack setEarMonitorEnabled:NO];
     
     // 设置混音回调代理
-    self.audioEffectMixer = [self.microphoneAudioTrack createAudioEffectMixer:self];
+    self.audioEffectMixer = [QNRTC createAudioEffectMixer:self];
+  
+    // 添加 effectMixer 到 audioTrack 中播放
+    [self.microphoneAudioTrack addAudioFilter:self.audioEffectMixer];
     
     // 关闭自动订阅（示例仅针对 1v1 场景，所以此处将自动订阅关闭）
     self.client.autoSubscribe = NO;

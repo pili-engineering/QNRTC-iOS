@@ -1,4 +1,4 @@
-# QNRTCKit Release Notes for 5.2.5
+# QNRTCKit Release Notes for 5.2.6
 
 ## 内容
 

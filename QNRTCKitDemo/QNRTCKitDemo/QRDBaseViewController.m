@@ -718,7 +718,7 @@ static const int cLabelTag = 10;
 - (void)remoteAudioTrack:(QNRemoteAudioTrack *)remoteAudioTrack didGetAudioBuffer:(AudioBuffer *)audioBuffer bitsPerSample:(NSUInteger)bitsPerSample sampleRate:(NSUInteger)sampleRate {
     static int i = 0;
     if (i % 500 == 0) {
-        NSString *str = [NSString stringWithFormat:@"远端用户音频数据的回调:\ntrackID: %@\NbufferCount: %d\nbitsPerSample:%lu\nsampleRate:%lu,dataLen = %u",remoteAudioTrack.trackID, i, (unsigned long)bitsPerSample, (unsigned long)sampleRate, (unsigned int)audioBuffer->mDataByteSize];
+        NSString *str = [NSString stringWithFormat:@"远端用户音频数据的回调:\ntrackID: %@\n bufferCount: %d\nbitsPerSample:%lu\nsampleRate:%lu,dataLen = %u",remoteAudioTrack.trackID, i, (unsigned long)bitsPerSample, (unsigned long)sampleRate, (unsigned int)audioBuffer->mDataByteSize];
 //                [self addLogString:str];
     }
     i ++;

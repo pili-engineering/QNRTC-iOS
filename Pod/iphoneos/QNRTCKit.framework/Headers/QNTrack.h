@@ -198,10 +198,49 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@class QNMicrophoneAudioTrack;
+@protocol QNMicrophoneAudioTrackDelegate <NSObject>
+
+@optional
+
+/*!
+ * @abstract 麦克风采集运行过程中发生错误会通过该方法回调。
+ *
+ * @since v5.2.7
+ */
+- (void)microphoneAudioTrack:(QNMicrophoneAudioTrack *)microphoneAudioTrack didFailWithError:(NSError *)error;
+
+@end
+
 #pragma mark -- QNMicrophoneAudioTrack
 @interface QNMicrophoneAudioTrack : QNLocalAudioTrack
 
+/*!
+ * @abstract 麦克风 Track 回调代理。
+ *
+ * @since v5.2.7
+ */
+@property (nonatomic, weak) id<QNMicrophoneAudioTrackDelegate> microphoneDelegate;
+
 - (instancetype)init NS_UNAVAILABLE;
+
+/*!
+ * @abstract 开始麦克风采集
+ *
+ * @return 是否调用成功
+ *
+ * @since v5.2.7
+ */
+- (BOOL)startRecording;
+
+/*!
+ * @abstract 停止麦克风采集
+ *
+ * @return 是否调用成功
+ *
+ * @since v5.2.7
+ */
+- (BOOL)stopRecording;
 
 @end
 
@@ -254,7 +293,28 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)pushAudioBuffer:(AudioBuffer *)audioBuffer asbd:(AudioStreamBasicDescription *)asbd;
 
-
+/*!
+ * @abstract 导入音频数据
+ *
+ * @discussion 支持的音频数据格式为：PCM 格式
+ *
+ * @warning 音频数据的格式信息，请务必对应实际数据信息传入
+ *
+ * @param data PCM 裸数据
+ *
+ * @param bitsPerSample 位宽
+ *
+ * @param sampleRate 采样率
+ *
+ * @param channels 声道数
+ *
+ * @param bigEndian 是否是大端，默认是小端
+ *
+ * @param planar 是否是平面结构，双声道模式下，默认是 packed
+ *
+ * @since v5.2.7
+ */
+- (void)pushAudioFrame:(const uint8_t*)data dataSize:(uint32_t)dataSize bitsPerSample:(uint32_t)bitsPerSample sampleRate:(uint32_t)sampleRate channels:(uint32_t)channels bigEndian:(bool)bigEndian planar:(bool)planar;
 @end
 
 #pragma mark -- QNLocalVideoTrackDelegate

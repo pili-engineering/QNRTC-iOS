@@ -47,11 +47,6 @@ UITableViewDataSource>
  */
 - (void)clickBackItem {
     [super clickBackItem];
-  
-    // 离开房间  释放 client
-    [self.client leave];
-    self.client.delegate = nil;
-    self.client = nil;
     
     if (self.audioEffectMixer) {
         [self.audioEffectMixer stopAll];
@@ -61,6 +56,10 @@ UITableViewDataSource>
     if (self.microphoneAudioTrack) {
         [self.microphoneAudioTrack destroy];
     }
+    // 离开房间  释放 client
+    [self.client leave];
+    self.client.delegate = nil;
+    self.client = nil;
     
     // 清理配置
     [QNRTC deinit];

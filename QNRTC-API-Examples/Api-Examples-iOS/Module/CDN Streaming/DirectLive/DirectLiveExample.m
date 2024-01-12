@@ -31,6 +31,7 @@
     self.isStreaming = NO;
     [self loadSubviews];
     [self initRTC];
+    self.title = @"单路转推";
 }
 
 /*!

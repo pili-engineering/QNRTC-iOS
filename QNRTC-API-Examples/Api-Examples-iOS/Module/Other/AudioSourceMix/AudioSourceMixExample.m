@@ -47,11 +47,6 @@ AudioSourceModelDelegate>
  */
 - (void)clickBackItem {
     [super clickBackItem];
-  
-    // 离开房间  释放 client
-    [self.client leave];
-    self.client.delegate = nil;
-    self.client = nil;
 
     if (self.audioSourceMixer) {
         [self.microphoneAudioTrack removeAudioFilter:self.audioSourceMixer];
@@ -60,6 +55,10 @@ AudioSourceModelDelegate>
     if (self.microphoneAudioTrack) {
         [self.microphoneAudioTrack destroy];
     }
+    // 离开房间  释放 client
+    [self.client leave];
+    self.client.delegate = nil;
+    self.client = nil;
     
     // 清理配置
     [QNRTC deinit];
@@ -148,6 +147,9 @@ AudioSourceModelDelegate>
     
     // 设置混音回调代理
     self.audioSourceMixer = [QNRTC createAudioSourceMixer:self];
+  
+    // 添加 sourceMixer 到 audioTrack 中播放
+    [self.microphoneAudioTrack addAudioFilter:self.audioSourceMixer];
     
     // 关闭自动订阅（示例仅针对 1v1 场景，所以此处将自动订阅关闭）
     self.client.autoSubscribe = NO;

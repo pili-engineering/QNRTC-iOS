@@ -16,6 +16,8 @@ extern NSString *QNCameraAuthorizationStatusDidGetNotificaiton;
 
 extern NSString *QNRTCErrorDomain;
 
+extern NSString *QNErrorCode;
+
 extern NSString *QNMediaRelayErrorDomain;
 
 extern NSString *QNAudioMixErrorDomain;
@@ -56,7 +58,32 @@ typedef NS_ENUM(NSUInteger, QNRTCLogLevel) {
     QNRTCLogLevelNone,
 };
 
-#pragma mark - RTC Error Code
+#pragma mark - Error Code
+
+/**
+ * 该错误码主要用于返回值定义和回调中通用的错误码定义
+ */
+NS_ERROR_ENUM(QNErrorCode) {
+    QNErrorCodeOK                        = 0,
+    /*!
+     * @abstract not initialized
+     *
+     * @discussion 没有初始化，用于 SDK 或者对象没有初始化的情况下，调用了 API。
+     */
+    QNErrorCodeNotInitialized             = 30001,
+    /*!
+     * @abstract unauthorized domain
+     *
+     * @discussion 未授权的域名，推流地址的域名，未通过后台审核。
+     */
+    QNErrorCodeUnauthorizedDomain         = 30002,
+    /*!
+     * @abstract duplicated operation
+     *
+     * @discussion 重复调用 API，可能会触发下面错误。
+     */
+    QNErrorCodeDuplicatedOperation        = 30003
+};
 
 NS_ERROR_ENUM(QNRTCErrorDomain) {
     /*!

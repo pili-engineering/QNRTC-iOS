@@ -34,11 +34,6 @@
  */
 - (void)clickBackItem {
     [super clickBackItem];
-  
-    // 离开房间  释放 client
-    [self.client leave];
-    self.client.delegate = nil;
-    self.client = nil;
     
     if (self.audioMusicMixer) {
         [self.audioMusicMixer stop];
@@ -48,6 +43,10 @@
     if (self.microphoneAudioTrack) {
         [self.microphoneAudioTrack destroy];
     }
+    // 离开房间  释放 client
+    [self.client leave];
+    self.client.delegate = nil;
+    self.client = nil;
     
     // 清理配置
     [QNRTC deinit];

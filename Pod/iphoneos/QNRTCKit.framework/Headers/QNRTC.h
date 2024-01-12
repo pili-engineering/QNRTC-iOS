@@ -11,6 +11,7 @@
 #import "QNTypeDefines.h"
 #import "QNTrack.h"
 #import "QNRTCLogConfiguration.h"
+#import "QNCDNStreamingClient.h"
 
 @class QNRTC;
 @class QNRTCConfiguration;
@@ -75,6 +76,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v4.0.0
  */
 + (QNRTCClient *)createRTCClient:(QNClientConfig *)clientConfig;
+
+/*!
+ * @abstract 创建 QNCDNStreamingClient。
+ * *
+ * @since v6.0.0
+ */
++ (QNCDNStreamingClient *)createCDNStreamingClient;
 
 /*!
  * @abstract 创建一路以麦克风采集为数据源的音频 track，默认码率为 64kbps

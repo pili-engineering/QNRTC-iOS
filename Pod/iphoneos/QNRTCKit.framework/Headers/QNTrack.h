@@ -111,6 +111,40 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@protocol QNAudioEncryptDelegate <NSObject>
+ 
+@optional
+ 
+/**
+ * 添加音频自定义数据回调
+ *
+ * @param extraData 用户自定义数据
+ * @param maxSize 可以放到 extraData 的最大字节数
+ * @return 返回添加的 extra_data 大小，没有则返回 0
+ */
+- (int)localAudioTrack:(QNLocalAudioTrack *)localAudioTrack onPutExtraData:(uint8_t *)extraData maxSize:(int)maxSize;
+ 
+/**
+ * 设置加密后的最大字节数
+ * 注意配合 onEncrypt 使用，不超过 1000 字节
+ *
+ * @param frameSize 用户可添加的最大字节数
+ * @return 返回 frameSize 添加 extraData 后的大小，没有则返回 0
+ */
+- (int)localAudioTrack:(QNLocalAudioTrack *)localAudioTrack onSetMaxEncryptSize:(int)frameSize;
+ 
+/**
+ * 加密回调接口
+ *
+ * @param frame 加密前的数据
+ * @param frameSize 加密前的数据大小
+ * @param encryptedFrame 加密后的数据大小
+ * @return 返回加密后的数据大小
+ */
+- (int)localAudioTrack:(QNLocalAudioTrack *)localAudioTrack onEncrypt:(uint8_t *)frame frameSize:(int)frameSize encryptedFrame:(uint8_t *)encryptedFrame;
+ 
+@end
+
 
 #pragma mark -- QNLocalAudioTrack
 @interface QNLocalAudioTrack : QNLocalTrack
@@ -121,6 +155,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v5.0.0
  */
 @property (nonatomic, weak) id<QNLocalAudioTrackDelegate> delegate;
+
+/*!
+ * @abstract 本地音频扩展数据回调代理。
+ *
+ * @since v5.2.7
+ */
+@property (nonatomic, weak) id<QNAudioEncryptDelegate> encryptDelegate;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -735,6 +776,38 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@protocol QNAudioDecryptDelegate <NSObject>
+ 
+@optional
+/**
+ * 音频自定义数据回调
+ *
+ * @param extraData 接收的用户自定义数据
+ * @param dataSize 自定义数据大小
+ */
+- (void)remoteAudioTrack:(QNRemoteAudioTrack *)remoteAudioTrack onGetExtraData:(uint8_t *)extraData dataSize:(int)dataSize;
+ 
+/**
+ * 设置解密后的最大字节数
+ * 注意配合 onDecrypt 使用
+ *
+ * @param frameSize 加密后数据的大小
+ * @return 返回 frameSize，没有则返回 0
+ */
+- (int)remoteAudioTrack:(QNRemoteAudioTrack *)remoteAudioTrack onSetMaxDecryptSize:(int)frameSize;
+ 
+/**
+ * 解密回调接口
+ *
+ * @param frame 解密前的数据
+ * @param frameSize 解密前的数据大小
+ * @param decryptedFrame 解密后的数据大小
+ * @return 返回解密后的数据大小
+ */
+- (int)remoteAudioTrack:(QNRemoteAudioTrack *)remoteAudioTrack onDecrypt:(uint8_t *)frame frameSize:(int)frameSize decryptedFrame:(uint8_t *)decryptedFrame;
+ 
+@end
+
 #pragma mark -- QNRemoteAudioTrack
 @interface QNRemoteAudioTrack : QNRemoteTrack
 
@@ -744,6 +817,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v5.0.0
  */
 @property (nonatomic, weak) id<QNRemoteAudioTrackDelegate> delegate;
+
+/*!
+ * @abstract 远端音频 Track 扩展数据回调代理。
+ *
+ * @since v5.2.7
+ */
+@property (nonatomic, weak) id<QNAudioDecryptDelegate> decryptDelegate;
 
 - (instancetype)init NS_UNAVAILABLE;
 

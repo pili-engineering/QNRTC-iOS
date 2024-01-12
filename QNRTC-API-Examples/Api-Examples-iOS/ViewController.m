@@ -22,6 +22,7 @@
 #import "MultiProfileExample.h"
 #import "ConnectQualityExample.h"
 #import "ScanViewController.h"
+#import "CDNStreamingLiveExample.h"
 
 static NSString *TABLE_VIEW_CELL_IDENTIFIER = @"TABLE_VIEW_CELL_IDENTIFIER";
 
@@ -146,6 +147,10 @@ static NSString *TABLE_VIEW_CELL_IDENTIFIER = @"TABLE_VIEW_CELL_IDENTIFIER";
             @{
                 @"desc": @"CDN 合流转推（自定义合流任务）",
                 @"class": @"TranscodingLiveCustomExample"
+            },
+            @{
+                @"desc": @"CDN Streaming直接推流（SDK 直推）",
+                @"class": @"CDNStreamingLiveExample"
             }
         ],
         @[
@@ -216,11 +221,11 @@ static NSString *TABLE_VIEW_CELL_IDENTIFIER = @"TABLE_VIEW_CELL_IDENTIFIER";
 
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.roomToken.length == 0) {
+    NSString *classStr = self.exampleList[indexPath.section][indexPath.row][@"class"];
+    if (self.roomToken.length == 0 && ![classStr isEqualToString:@"CDNStreamingLiveExample"]) {
         [self showAlertWithTitle:@"提示" message:@"请点击右上方扫描按钮添加 roomToken！"];
         return;
     }
-    NSString *classStr = self.exampleList[indexPath.section][indexPath.row][@"class"];
     Class class = NSClassFromString(classStr);
     if (class) {
         BaseViewController *viewController = [class new];

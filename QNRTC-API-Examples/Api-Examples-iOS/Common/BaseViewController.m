@@ -68,6 +68,7 @@
 }
 
 - (void)parseToken {
+    if (!self.roomToken) return;
     BOOL isValid = NO;
     NSRange range = [self.roomToken rangeOfString:@":" options:NSBackwardsSearch];
     if (range.location != NSNotFound) {

@@ -15,12 +15,12 @@
 		AA12334528FEBEC600809FDA /* AudioSourceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12334328FEBEC600809FDA /* AudioSourceTableViewCell.m */; };
 		AA12334628FEBEC600809FDA /* AudioSourceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA12334428FEBEC600809FDA /* AudioSourceTableViewCell.xib */; };
 		AA12334A28FF9BC800809FDA /* AudioSourceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12334928FF9BC800809FDA /* AudioSourceModel.m */; };
-		AABF117229BA2B00003FA14E /* ScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABF116E29BA2AFD003FA14E /* ScanViewController.m */; };
-		AABF117329BA2B00003FA14E /* ScanViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABF116F29BA2AFE003FA14E /* ScanViewController.xib */; };
-		AABF117429BA2B00003FA14E /* NSString+Data.m in Sources */ = {isa = PBXBuildFile; fileRef = AABF117129BA2B00003FA14E /* NSString+Data.m */; };
-		AABF117C29BA2CEF003FA14E /* MediaRelayControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABF117729BA2CEF003FA14E /* MediaRelayControlView.m */; };
-		AABF117D29BA2CEF003FA14E /* MediaRelayControlView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABF117929BA2CEF003FA14E /* MediaRelayControlView.xib */; };
-		AABF117E29BA2CEF003FA14E /* MediaRelayExample.m in Sources */ = {isa = PBXBuildFile; fileRef = AABF117B29BA2CEF003FA14E /* MediaRelayExample.m */; };
+		AA492A522907DBE400DAC9C5 /* MediaRelayExample.m in Sources */ = {isa = PBXBuildFile; fileRef = AA492A512907DBE400DAC9C5 /* MediaRelayExample.m */; };
+		AA492A612908D26900DAC9C5 /* MediaRelayControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA492A602908D26900DAC9C5 /* MediaRelayControlView.m */; };
+		AA492A632908D2B700DAC9C5 /* MediaRelayControlView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA492A622908D2B700DAC9C5 /* MediaRelayControlView.xib */; };
+		AA492A6729091C6400DAC9C5 /* NSString+Data.m in Sources */ = {isa = PBXBuildFile; fileRef = AA492A6629091C6400DAC9C5 /* NSString+Data.m */; };
+		AA492A7629091FED00DAC9C5 /* ScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA492A7429091FED00DAC9C5 /* ScanViewController.m */; };
+		AA492A7729091FED00DAC9C5 /* ScanViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA492A7529091FED00DAC9C5 /* ScanViewController.xib */; };
 		AAFE357C28570BEE00596582 /* AudioEffectMixExample.m in Sources */ = {isa = PBXBuildFile; fileRef = AAFE357B28570BEE00596582 /* AudioEffectMixExample.m */; };
 		AAFE357F28570C1100596582 /* AudioEffectMixControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAFE357E28570C1100596582 /* AudioEffectMixControlView.m */; };
 		AAFE358528570CD400596582 /* AudioEffectMixControlView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAFE358428570CD400596582 /* AudioEffectMixControlView.xib */; };
@@ -31,6 +31,7 @@
 		AAFE35A6285744AC00596582 /* angle-16b-2c-48000hz.wav in Resources */ = {isa = PBXBuildFile; fileRef = AAFE35A5285744AC00596582 /* angle-16b-2c-48000hz.wav */; };
 		AAFE35A82857456100596582 /* whist-16b-2c-16000hz.m4a in Resources */ = {isa = PBXBuildFile; fileRef = AAFE35A72857456000596582 /* whist-16b-2c-16000hz.m4a */; };
 		AAFE35AA2857460E00596582 /* mozart-16b-2c-44100hz.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AAFE35A92857460E00596582 /* mozart-16b-2c-44100hz.mp3 */; };
+		C9CCFC162B4F8C71004D5849 /* CDNStreamingLiveExample.m in Sources */ = {isa = PBXBuildFile; fileRef = C9CCFC112B4F8C71004D5849 /* CDNStreamingLiveExample.m */; };
 		CC16490A275DFEF200AABF24 /* SendMessageExample.m in Sources */ = {isa = PBXBuildFile; fileRef = CC164909275DFEF200AABF24 /* SendMessageExample.m */; };
 		CC16490D275DFF0600AABF24 /* SendMessageControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC16490C275DFF0600AABF24 /* SendMessageControlView.m */; };
 		CC16490F275DFF1700AABF24 /* SendMessageControlView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CC16490E275DFF1700AABF24 /* SendMessageControlView.xib */; };
@@ -44,6 +45,8 @@
 		CC1649302760582500AABF24 /* ConnectQualityControlView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CC16492F2760582500AABF24 /* ConnectQualityControlView.xib */; };
 		CC1649332760A20D00AABF24 /* DirectLiveControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC1649322760A20D00AABF24 /* DirectLiveControlView.m */; };
 		CC1649372760A22900AABF24 /* DirectLiveControlView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CC1649362760A22900AABF24 /* DirectLiveControlView.xib */; };
+		CC1E93C427F1A63400D02337 /* QNRTCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1E93C127F1A61500D02337 /* QNRTCKit.framework */; };
+		CC1E93C527F1A63400D02337 /* QNRTCKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CC1E93C127F1A61500D02337 /* QNRTCKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CC74AA6C2755FA7D006E0467 /* CustomAudioSource.m in Sources */ = {isa = PBXBuildFile; fileRef = CC74AA6B2755FA7D006E0467 /* CustomAudioSource.m */; };
 		CC82B066275875D400E006EB /* ScreenRecordAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC82B065275875D400E006EB /* ScreenRecordAnimationView.m */; };
 		CC82B06F275878A900E006EB /* img_01.png in Resources */ = {isa = PBXBuildFile; fileRef = CC82B06A275878A800E006EB /* img_01.png */; };
@@ -84,6 +87,37 @@
 		CCDA8391274DFA9400138F05 /* DirectLiveExample.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDA8390274DFA9400138F05 /* DirectLiveExample.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		CC1E93C027F1A61500D02337 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CC1E93BA27F1A61500D02337 /* QNRTCKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B0C6607C1F94FE9F00999C9F;
+			remoteInfo = QNRTCKit;
+		};
+		CC1E93C227F1A61500D02337 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CC1E93BA27F1A61500D02337 /* QNRTCKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B01906DD2265C6C700CA6342;
+			remoteInfo = "QNRTCKit-bitcode";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CC1E93B127F1A3B700D02337 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				CC1E93C527F1A63400D02337 /* QNRTCKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		350A3BD635EDC5E0EE3EF35A /* Pods-Api-Examples-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Api-Examples-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Api-Examples-iOS/Pods-Api-Examples-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		5BF1220C598D5AE362DD3866 /* Pods-Api-Examples-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Api-Examples-iOS.release.xcconfig"; path = "Target Support Files/Pods-Api-Examples-iOS/Pods-Api-Examples-iOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -100,16 +134,16 @@
 		AA12334428FEBEC600809FDA /* AudioSourceTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AudioSourceTableViewCell.xib; sourceTree = "<group>"; };
 		AA12334828FF9BC800809FDA /* AudioSourceModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioSourceModel.h; sourceTree = "<group>"; };
 		AA12334928FF9BC800809FDA /* AudioSourceModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioSourceModel.m; sourceTree = "<group>"; };
-		AABF116D29BA2AFC003FA14E /* NSString+Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Data.h"; sourceTree = "<group>"; };
-		AABF116E29BA2AFD003FA14E /* ScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanViewController.m; sourceTree = "<group>"; };
-		AABF116F29BA2AFE003FA14E /* ScanViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScanViewController.xib; sourceTree = "<group>"; };
-		AABF117029BA2AFF003FA14E /* ScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanViewController.h; sourceTree = "<group>"; };
-		AABF117129BA2B00003FA14E /* NSString+Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Data.m"; sourceTree = "<group>"; };
-		AABF117729BA2CEF003FA14E /* MediaRelayControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaRelayControlView.m; sourceTree = "<group>"; };
-		AABF117829BA2CEF003FA14E /* MediaRelayExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaRelayExample.h; sourceTree = "<group>"; };
-		AABF117929BA2CEF003FA14E /* MediaRelayControlView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MediaRelayControlView.xib; sourceTree = "<group>"; };
-		AABF117A29BA2CEF003FA14E /* MediaRelayControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaRelayControlView.h; sourceTree = "<group>"; };
-		AABF117B29BA2CEF003FA14E /* MediaRelayExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaRelayExample.m; sourceTree = "<group>"; };
+		AA492A502907DBE400DAC9C5 /* MediaRelayExample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MediaRelayExample.h; sourceTree = "<group>"; };
+		AA492A512907DBE400DAC9C5 /* MediaRelayExample.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MediaRelayExample.m; sourceTree = "<group>"; };
+		AA492A5F2908D26900DAC9C5 /* MediaRelayControlView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MediaRelayControlView.h; sourceTree = "<group>"; };
+		AA492A602908D26900DAC9C5 /* MediaRelayControlView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MediaRelayControlView.m; sourceTree = "<group>"; };
+		AA492A622908D2B700DAC9C5 /* MediaRelayControlView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MediaRelayControlView.xib; sourceTree = "<group>"; };
+		AA492A6529091C6400DAC9C5 /* NSString+Data.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Data.h"; sourceTree = "<group>"; };
+		AA492A6629091C6400DAC9C5 /* NSString+Data.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Data.m"; sourceTree = "<group>"; };
+		AA492A7329091FED00DAC9C5 /* ScanViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScanViewController.h; sourceTree = "<group>"; };
+		AA492A7429091FED00DAC9C5 /* ScanViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScanViewController.m; sourceTree = "<group>"; };
+		AA492A7529091FED00DAC9C5 /* ScanViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ScanViewController.xib; sourceTree = "<group>"; };
 		AAFE357A28570BEE00596582 /* AudioEffectMixExample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioEffectMixExample.h; sourceTree = "<group>"; };
 		AAFE357B28570BEE00596582 /* AudioEffectMixExample.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioEffectMixExample.m; sourceTree = "<group>"; };
 		AAFE357D28570C1100596582 /* AudioEffectMixControlView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioEffectMixControlView.h; sourceTree = "<group>"; };
@@ -123,6 +157,8 @@
 		AAFE35A5285744AC00596582 /* angle-16b-2c-48000hz.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "angle-16b-2c-48000hz.wav"; sourceTree = "<group>"; };
 		AAFE35A72857456000596582 /* whist-16b-2c-16000hz.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "whist-16b-2c-16000hz.m4a"; sourceTree = "<group>"; };
 		AAFE35A92857460E00596582 /* mozart-16b-2c-44100hz.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "mozart-16b-2c-44100hz.mp3"; sourceTree = "<group>"; };
+		C9CCFC112B4F8C71004D5849 /* CDNStreamingLiveExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDNStreamingLiveExample.m; sourceTree = "<group>"; };
+		C9CCFC122B4F8C71004D5849 /* CDNStreamingLiveExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDNStreamingLiveExample.h; sourceTree = "<group>"; };
 		CC164908275DFEF200AABF24 /* SendMessageExample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SendMessageExample.h; sourceTree = "<group>"; };
 		CC164909275DFEF200AABF24 /* SendMessageExample.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SendMessageExample.m; sourceTree = "<group>"; };
 		CC16490B275DFF0600AABF24 /* SendMessageControlView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SendMessageControlView.h; sourceTree = "<group>"; };
@@ -143,6 +179,7 @@
 		CC1649312760A20D00AABF24 /* DirectLiveControlView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DirectLiveControlView.h; sourceTree = "<group>"; };
 		CC1649322760A20D00AABF24 /* DirectLiveControlView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DirectLiveControlView.m; sourceTree = "<group>"; };
 		CC1649362760A22900AABF24 /* DirectLiveControlView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DirectLiveControlView.xib; sourceTree = "<group>"; };
+		CC1E93BA27F1A61500D02337 /* QNRTCKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = QNRTCKit.xcodeproj; path = ../QNRTCKit/QNRTCKit.xcodeproj; sourceTree = "<group>"; };
 		CC74AA6A2755FA7D006E0467 /* CustomAudioSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomAudioSource.h; sourceTree = "<group>"; };
 		CC74AA6B2755FA7D006E0467 /* CustomAudioSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomAudioSource.m; sourceTree = "<group>"; };
 		CC82B064275875D400E006EB /* ScreenRecordAnimationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScreenRecordAnimationView.h; sourceTree = "<group>"; };
@@ -216,6 +253,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4EA1D1FCFA4C38AFF6534762 /* Pods_Api_Examples_iOS.framework in Frameworks */,
+				CC1E93C427F1A63400D02337 /* QNRTCKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,14 +294,14 @@
 			path = AudioSourceMix;
 			sourceTree = "<group>";
 		};
-		AABF117629BA2CEF003FA14E /* MediaRelay */ = {
+		AA492A4C2907DB9800DAC9C5 /* MediaRelay */ = {
 			isa = PBXGroup;
 			children = (
-				AABF117729BA2CEF003FA14E /* MediaRelayControlView.m */,
-				AABF117829BA2CEF003FA14E /* MediaRelayExample.h */,
-				AABF117929BA2CEF003FA14E /* MediaRelayControlView.xib */,
-				AABF117A29BA2CEF003FA14E /* MediaRelayControlView.h */,
-				AABF117B29BA2CEF003FA14E /* MediaRelayExample.m */,
+				AA492A502907DBE400DAC9C5 /* MediaRelayExample.h */,
+				AA492A512907DBE400DAC9C5 /* MediaRelayExample.m */,
+				AA492A5F2908D26900DAC9C5 /* MediaRelayControlView.h */,
+				AA492A602908D26900DAC9C5 /* MediaRelayControlView.m */,
+				AA492A622908D2B700DAC9C5 /* MediaRelayControlView.xib */,
 			);
 			path = MediaRelay;
 			sourceTree = "<group>";
@@ -281,6 +319,15 @@
 				AAFE3588285721F900596582 /* AudioEffectTableViewCell.xib */,
 			);
 			path = AudioEffectMix;
+			sourceTree = "<group>";
+		};
+		C9CCFC102B4F8C71004D5849 /* CDNStreamingLive */ = {
+			isa = PBXGroup;
+			children = (
+				C9CCFC112B4F8C71004D5849 /* CDNStreamingLiveExample.m */,
+				C9CCFC122B4F8C71004D5849 /* CDNStreamingLiveExample.h */,
+			);
+			path = CDNStreamingLive;
 			sourceTree = "<group>";
 		};
 		CC164907275DFED900AABF24 /* SendMessage */ = {
@@ -305,6 +352,15 @@
 				CC16492F2760582500AABF24 /* ConnectQualityControlView.xib */,
 			);
 			path = ConnectQuality;
+			sourceTree = "<group>";
+		};
+		CC1E93BB27F1A61500D02337 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CC1E93C127F1A61500D02337 /* QNRTCKit.framework */,
+				CC1E93C327F1A61500D02337 /* QNRTCKit.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		CC82B0692758789C00E006EB /* Resource */ = {
@@ -353,6 +409,7 @@
 		CCDA8317274DE1AE00138F05 = {
 			isa = PBXGroup;
 			children = (
+				CC1E93BA27F1A61500D02337 /* QNRTCKit.xcodeproj */,
 				CCDA8322274DE1AE00138F05 /* Api-Examples-iOS */,
 				CCDA8321274DE1AE00138F05 /* Products */,
 				66015AA021617EF0B139E1A2 /* Pods */,
@@ -393,17 +450,17 @@
 		CCDA8341274DE77000138F05 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				AABF116D29BA2AFC003FA14E /* NSString+Data.h */,
-				AABF117129BA2B00003FA14E /* NSString+Data.m */,
-				AABF117029BA2AFF003FA14E /* ScanViewController.h */,
-				AABF116E29BA2AFD003FA14E /* ScanViewController.m */,
-				AABF116F29BA2AFE003FA14E /* ScanViewController.xib */,
 				CCB2101C274E3C9A00A699FB /* BaseViewController.h */,
 				CCB2101D274E3C9A00A699FB /* BaseViewController.m */,
 				CC164915275E282300AABF24 /* RadioButton.h */,
 				CC164916275E282400AABF24 /* RadioButton.m */,
 				AA12334028FE9DCE00809FDA /* AssetAudioReader.h */,
 				AA12333F28FE9DCE00809FDA /* AssetAudioReader.m */,
+				AA492A6529091C6400DAC9C5 /* NSString+Data.h */,
+				AA492A6629091C6400DAC9C5 /* NSString+Data.m */,
+				AA492A7329091FED00DAC9C5 /* ScanViewController.h */,
+				AA492A7429091FED00DAC9C5 /* ScanViewController.m */,
+				AA492A7529091FED00DAC9C5 /* ScanViewController.xib */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -494,7 +551,7 @@
 		CCDA8361274DF99C00138F05 /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				AABF117629BA2CEF003FA14E /* MediaRelay */,
+				AA492A4C2907DB9800DAC9C5 /* MediaRelay */,
 				CCDA8362274DF99C00138F05 /* MultiProfile */,
 				AAFE357928570BAC00596582 /* AudioEffectMix */,
 				CCDA8364274DF99C00138F05 /* AudioMusicMix */,
@@ -567,6 +624,7 @@
 				CCDA836B274DF99C00138F05 /* DirectLive */,
 				CCA063BF27622C6A00C881D8 /* TranscodingLiveDefault */,
 				CCA063C027622C6B00C881D8 /* TranscodingLiveCustom */,
+				C9CCFC102B4F8C71004D5849 /* CDNStreamingLive */,
 			);
 			path = "CDN Streaming";
 			sourceTree = "<group>";
@@ -594,7 +652,8 @@
 				CCDA831C274DE1AE00138F05 /* Sources */,
 				CCDA831D274DE1AE00138F05 /* Frameworks */,
 				CCDA831E274DE1AE00138F05 /* Resources */,
-				86B78368D946B5ED563F5079 /* [CP] Embed Pods Frameworks */,
+				CC1E93B127F1A3B700D02337 /* Embed Frameworks */,
+				D18448D0CAB46C3754EE1AEF /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -630,12 +689,35 @@
 			mainGroup = CCDA8317274DE1AE00138F05;
 			productRefGroup = CCDA8321274DE1AE00138F05 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = CC1E93BB27F1A61500D02337 /* Products */;
+					ProjectRef = CC1E93BA27F1A61500D02337 /* QNRTCKit.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				CCDA831F274DE1AE00138F05 /* Api-Examples-iOS */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		CC1E93C127F1A61500D02337 /* QNRTCKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = QNRTCKit.framework;
+			remoteRef = CC1E93C027F1A61500D02337 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CC1E93C327F1A61500D02337 /* QNRTCKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = QNRTCKit.framework;
+			remoteRef = CC1E93C227F1A61500D02337 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		CCDA831E274DE1AE00138F05 /* Resources */ = {
@@ -645,9 +727,11 @@
 				AAFE359428572CA500596582 /* ff-16b-2c-44100hz.aac in Resources */,
 				CC82B07A2758CB0A00E006EB /* AudioMusicMixControlView.xib in Resources */,
 				CCB21025274E6E9400A699FB /* CameraVideoControlView.xib in Resources */,
+				AA492A7729091FED00DAC9C5 /* ScanViewController.xib in Resources */,
 				CC82B070275878A900E006EB /* img_03.png in Resources */,
 				AAFE35A6285744AC00596582 /* angle-16b-2c-48000hz.wav in Resources */,
 				CCA063D027630BBF00C881D8 /* TranscodingLiveCustomControlView.xib in Resources */,
+				AA492A632908D2B700DAC9C5 /* MediaRelayControlView.xib in Resources */,
 				CCB21036274F664900A699FB /* MicrophoneAudioControlView.xib in Resources */,
 				CC16491A275E29C400AABF24 /* selected.png in Resources */,
 				AAFE359E28572DE800596582 /* gs-16b-1c-8000hz.amr in Resources */,
@@ -669,8 +753,6 @@
 				CC82B073275878A900E006EB /* img_04.png in Resources */,
 				AAFE358A285721F900596582 /* AudioEffectTableViewCell.xib in Resources */,
 				CCDA832E274DE1AE00138F05 /* Main.storyboard in Resources */,
-				AABF117D29BA2CEF003FA14E /* MediaRelayControlView.xib in Resources */,
-				AABF117329BA2B00003FA14E /* ScanViewController.xib in Resources */,
 				AAFE358528570CD400596582 /* AudioEffectMixControlView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -700,7 +782,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		86B78368D946B5ED563F5079 /* [CP] Embed Pods Frameworks */ = {
+		D18448D0CAB46C3754EE1AEF /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -732,13 +814,15 @@
 				CCDA8373274DF9C300138F05 /* ScreenRecordExample.m in Sources */,
 				CCDA8379274DF9EB00138F05 /* CustomAudioExample.m in Sources */,
 				AAFE3589285721F900596582 /* AudioEffectTableViewCell.m in Sources */,
+				C9CCFC162B4F8C71004D5849 /* CDNStreamingLiveExample.m in Sources */,
+				AA492A522907DBE400DAC9C5 /* MediaRelayExample.m in Sources */,
 				CC82B066275875D400E006EB /* ScreenRecordAnimationView.m in Sources */,
 				CCDA8388274DFA6A00138F05 /* AudioMusicMixExample.m in Sources */,
 				AA12334128FE9DCE00809FDA /* AssetAudioReader.m in Sources */,
-				AABF117E29BA2CEF003FA14E /* MediaRelayExample.m in Sources */,
 				CCA063C627622D8800C881D8 /* TranscodingLiveCustomExample.m in Sources */,
 				AA12332828FE825800809FDA /* AudioSourceMixExample.m in Sources */,
 				CCDA837C274DFA0200138F05 /* SwitchRoomExample.m in Sources */,
+				AA492A612908D26900DAC9C5 /* MediaRelayControlView.m in Sources */,
 				CCDA8325274DE1AE00138F05 /* AppDelegate.m in Sources */,
 				CCDA8336274DE1B200138F05 /* main.m in Sources */,
 				CC16492E2760580100AABF24 /* ConnectQualityControlView.m in Sources */,
@@ -750,6 +834,8 @@
 				AA12333C28FE8BF400809FDA /* AudioSourceMixControlView.m in Sources */,
 				CCA063C92762FAC800C881D8 /* TranscodingLiveDefaultControlView.m in Sources */,
 				CCDA837F274DFA0E00138F05 /* MultiRoomsExample.m in Sources */,
+				AA492A7629091FED00DAC9C5 /* ScanViewController.m in Sources */,
+				AA492A6729091C6400DAC9C5 /* NSString+Data.m in Sources */,
 				CC164912275E096E00AABF24 /* MultiProfileControlView.m in Sources */,
 				CCDA8382274DFA5700138F05 /* MultiProfileExample.m in Sources */,
 				CCDA8391274DFA9400138F05 /* DirectLiveExample.m in Sources */,
@@ -762,10 +848,7 @@
 				AA12334528FEBEC600809FDA /* AudioSourceTableViewCell.m in Sources */,
 				CC82B0782758CAFF00E006EB /* AudioMusicMixControlView.m in Sources */,
 				CCB2102B274E797500A699FB /* CameraVideoControlView.m in Sources */,
-				AABF117C29BA2CEF003FA14E /* MediaRelayControlView.m in Sources */,
-				AABF117429BA2B00003FA14E /* NSString+Data.m in Sources */,
 				CC1649332760A20D00AABF24 /* DirectLiveControlView.m in Sources */,
-				AABF117229BA2B00003FA14E /* ScanViewController.m in Sources */,
 				CC164917275E282400AABF24 /* RadioButton.m in Sources */,
 				AAFE357F28570C1100596582 /* AudioEffectMixControlView.m in Sources */,
 			);
@@ -844,7 +927,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -897,7 +980,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -911,6 +994,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = W2TP34G2MM;
@@ -930,7 +1014,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -961,6 +1045,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.qiniu.Api-Examples";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -972,6 +1057,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = W2TP34G2MM;
@@ -991,7 +1077,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1022,6 +1108,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.qiniu.Api-Examples";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

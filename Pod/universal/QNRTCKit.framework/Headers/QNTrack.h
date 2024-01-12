@@ -142,6 +142,64 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (float)getVolumeLevel;
 
+@end
+
+#pragma mark -- QNMicrophoneAudioTrack
+@interface QNMicrophoneAudioTrack : QNLocalAudioTrack
+
+- (instancetype)init NS_UNAVAILABLE;
+
+/*!
+ * @abstract 创建背景音乐混音对象实例
+ *
+ * @param musicPath 背景音乐路径，支持本地路径及在线文件
+ *
+ * @param musicMixerDelegate 背景音乐混音回调代理
+ *
+ * @return QNAudioMusicMixer 对象实例
+ *
+ * @since v5.1.0
+ */
+- (QNAudioMusicMixer *)createAudioMusicMixer:(NSString *)musicPath musicMixerDelegate:(id<QNAudioMusicMixerDelegate>)musicMixerDelegate;
+
+/*!
+ * @abstract 销毁背景音乐混音对象实例
+ *
+ * @since v5.2.0
+ */
+- (void)destroyAudioMusicMixer;
+
+/*!
+ * @abstract 创建音效混音对象实例
+ *
+ * @param effectMixerDelegate 音效混音回调代理
+ *
+ * @since v5.1.0
+ */
+- (QNAudioEffectMixer *)createAudioEffectMixer:(id<QNAudioEffectMixerDelegate>)effectMixerDelegate;
+
+/*!
+ * @abstract 销毁音效混音对象实例
+ *
+ * @since v5.2.0
+ */
+- (void)destroyAudioEffectMixer;
+
+/*!
+ * @abstract 创建音源混音对象实例
+ *
+ * @param sourceMixerDelegate 音源混音回调代理
+ *
+ * @since v5.2.0
+ */
+- (QNAudioSourceMixer *)createAudioSourceMixer:(id<QNAudioSourceMixerDelegate>)sourceMixerDelegate;
+
+/*!
+ * @abstract 销毁音源混音对象实例
+ *
+ * @since v5.2.0
+ */
+- (void)destroyAudioSourceMixer;
 /*!
  * @abstract 设置耳返开关
  *
@@ -177,70 +235,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v5.1.0
  */
 - (float)getPlayingVolume;
-
-/*!
- * @abstract 增加 filter 模块
- *
- * @discussion 支持设置 QNAudioMusicMixer、QNAudioEffectMixer、QNAudioSourceMixer  等内置 Filter
- *
- * @since v5.2.6
- */
-- (BOOL)addAudioFilter:(id<QNAudioFilterProtocol>)filter;
-
-/*!
- * @abstract 移除 filter 模块
- *
- * @discussion 移除已经添加的 filter 模块
- *
- * @since v5.2.6
- */
-- (BOOL)removeAudioFilter:(id<QNAudioFilterProtocol>)filter;
-
-@end
-
-@class QNMicrophoneAudioTrack;
-@protocol QNMicrophoneAudioTrackDelegate <NSObject>
-
-@optional
-
-/*!
- * @abstract 麦克风采集运行过程中发生错误会通过该方法回调。
- *
- * @since v5.2.7
- */
-- (void)microphoneAudioTrack:(QNMicrophoneAudioTrack *)microphoneAudioTrack didFailWithError:(NSError *)error;
-
-@end
-
-#pragma mark -- QNMicrophoneAudioTrack
-@interface QNMicrophoneAudioTrack : QNLocalAudioTrack
-
-/*!
- * @abstract 麦克风 Track 回调代理。
- *
- * @since v5.2.7
- */
-@property (nonatomic, weak) id<QNMicrophoneAudioTrackDelegate> microphoneDelegate;
-
-- (instancetype)init NS_UNAVAILABLE;
-
-/*!
- * @abstract 开始麦克风采集
- *
- * @return 是否调用成功
- *
- * @since v5.2.7
- */
-- (BOOL)startRecording;
-
-/*!
- * @abstract 停止麦克风采集
- *
- * @return 是否调用成功
- *
- * @since v5.2.7
- */
-- (BOOL)stopRecording;
 
 @end
 
@@ -293,28 +287,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)pushAudioBuffer:(AudioBuffer *)audioBuffer asbd:(AudioStreamBasicDescription *)asbd;
 
-/*!
- * @abstract 导入音频数据
- *
- * @discussion 支持的音频数据格式为：PCM 格式
- *
- * @warning 音频数据的格式信息，请务必对应实际数据信息传入
- *
- * @param data PCM 裸数据
- *
- * @param bitsPerSample 位宽
- *
- * @param sampleRate 采样率
- *
- * @param channels 声道数
- *
- * @param bigEndian 是否是大端，默认是小端
- *
- * @param planar 是否是平面结构，双声道模式下，默认是 packed
- *
- * @since v5.2.7
- */
-- (void)pushAudioFrame:(const uint8_t*)data dataSize:(uint32_t)dataSize bitsPerSample:(uint32_t)bitsPerSample sampleRate:(uint32_t)sampleRate channels:(uint32_t)channels bigEndian:(bool)bigEndian planar:(bool)planar;
+
 @end
 
 #pragma mark -- QNLocalVideoTrackDelegate

@@ -215,10 +215,9 @@ UITextFieldDelegate
 - (void)setupClient {
     [QNRTC setLogConfig:[QNRTCLogConfiguration defaultRTCLogConfig]];
     
-    QNRTCConfiguration *rtcConfig = [[QNRTCConfiguration alloc] initWithPolicy:QNRTCPolicyForceUDP audioScene:QNAudioSceneDefault reconnectionTimeout:30000 encoderType:[self.wareValue intValue]];
+    QNRTCConfiguration *rtcConfig = [[QNRTCConfiguration alloc] initWithPolicy:QNRTCPolicyForceUDP audioScene:[_senceValue intValue] reconnectionTimeout:30000 encoderType:[self.wareValue intValue]];
     // 1. 初始配置 QNRTC
     [QNRTC initRTC:rtcConfig];
-    [QNRTC setAudioScene:[_senceValue intValue]];
     
     // 2.创建初始化 RTC 核心类 QNRTCClient
     self.client = [QNRTC createRTCClient];

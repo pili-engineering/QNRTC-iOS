@@ -106,7 +106,7 @@
 		</data>
 		<key>Headers/QNRTCKit.h</key>
 		<data>
-		4ucrGPnojLlGRgzAjCSEQf8Igwc=
+		9p6yJJdR/I0hR9Svfq3IXg7+NCI=
 		</data>
 		<key>Headers/QNRTCLogConfiguration.h</key>
 		<data>
@@ -138,7 +138,7 @@
 		</data>
 		<key>Headers/QNTrack.h</key>
 		<data>
-		M4N+HItszuclWsiglKHNHrsHEVI=
+		83ODbziho0RU0yOVTTBQBzFGdv0=
 		</data>
 		<key>Headers/QNTranscodingLiveStreamingConfig.h</key>
 		<data>
@@ -170,11 +170,11 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		ccbcvcE3XLUVPsi5wyKuGBL16dQ=
+		EgDiCIM1aW0/Bw1iFwhYHl7zhj0=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
-		V62wBJhk826ZdAg9jEeR4cmaBaY=
+		4+rT97wuksacNvWOLVCxzcKtyqA=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -358,7 +358,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			S+5BrgvlQio6LJkgoGh1QzEJfGba1OWB9BIvzinuUEU=
+			wBleqdbZMMxGgnGYwbtUN/P2UK9lxXWNRJoiqMDY3zw=
 			</data>
 		</dict>
 		<key>Headers/QNRTCLogConfiguration.h</key>
@@ -414,7 +414,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			BJoxK3Hd/h8DdieuDe4VNtMCiCbKjKt4uZk8wxUkvI4=
+			J+WaHCoRV0yuDXyM3MkJeSTm1vDjowoR146w+v3l7j4=
 			</data>
 		</dict>
 		<key>Headers/QNTranscodingLiveStreamingConfig.h</key>
@@ -470,7 +470,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			/A+zB24lc7qlH1vJi67+CkjESZL9rqmpl37uC6CipxI=
+			umVaKnEqxfwX3rdebNhkhAkf4dpERz7wIIzHcd6CAKM=
 			</data>
 		</dict>
 	</dict>

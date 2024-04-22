@@ -159,7 +159,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 本地音频扩展数据回调代理。
  *
- * @since v5.2.7
+ * @since v6.0.0
  */
 @property (nonatomic, weak) id<QNAudioEncryptDelegate> encryptDelegate;
 
@@ -821,7 +821,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 远端音频 Track 扩展数据回调代理。
  *
- * @since v5.2.7
+ * @since v6.0.0
  */
 @property (nonatomic, weak) id<QNAudioDecryptDelegate> decryptDelegate;
 

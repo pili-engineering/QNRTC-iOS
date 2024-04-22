@@ -11,6 +11,7 @@
 #import "QNTypeDefines.h"
 #import "QNTrack.h"
 #import "QNRTCLogConfiguration.h"
+#import "QNCDNStreamingClient.h"
 
 @class QNRTC;
 @class QNRTCConfiguration;
@@ -75,6 +76,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v4.0.0
  */
 + (QNRTCClient *)createRTCClient:(QNClientConfig *)clientConfig;
+
+/*!
+ * @abstract 创建 QNCDNStreamingClient。
+ * *
+ * @since v6.0.0
+ */
++ (QNCDNStreamingClient *)createCDNStreamingClient;
 
 /*!
  * @abstract 创建一路以麦克风采集为数据源的音频 track，默认码率为 64kbps
@@ -155,6 +163,58 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v4.0.0
  */
 + (QNCustomVideoTrack *)createCustomVideoTrackWithConfig:(QNCustomVideoTrackConfig *)configuration;
+
+/*!
+ * @abstract 创建背景音乐混音对象实例
+ *
+ * @param musicPath 背景音乐路径，支持本地路径及在线文件
+ *
+ * @param musicMixerDelegate 背景音乐混音回调代理
+ *
+ * @return QNAudioMusicMixer 对象实例
+ *
+ * @since v5.2.6
+ */
++ (QNAudioMusicMixer *)createAudioMusicMixer:(NSString *)musicPath musicMixerDelegate:(id<QNAudioMusicMixerDelegate>)musicMixerDelegate;
+
+/*!
+ * @abstract 销毁背景音乐混音对象实例
+ *
+ * @since v5.2.6
+ */
++ (void)destroyAudioMusicMixer:(QNAudioMusicMixer*)mixer;
+
+/*!
+ * @abstract 创建音效混音对象实例
+ *
+ * @param effectMixerDelegate 音效混音回调代理
+ *
+ * @since v5.2.6
+ */
++ (QNAudioEffectMixer *)createAudioEffectMixer:(id<QNAudioEffectMixerDelegate>)effectMixerDelegate;
+
+/*!
+ * @abstract 销毁音效混音对象实例
+ *
+ * @since v5.2.6
+ */
++ (void)destroyAudioEffectMixer:(QNAudioEffectMixer*)mixer;
+
+/*!
+ * @abstract 创建音源混音对象实例
+ *
+ * @param sourceMixerDelegate 音源混音回调代理
+ *
+ * @since v5.2.6
+ */
++ (QNAudioSourceMixer *)createAudioSourceMixer:(id<QNAudioSourceMixerDelegate>)sourceMixerDelegate;
+
+/*!
+ * @abstract 销毁音源混音对象实例
+ *
+ * @since v5.2.6
+ */
++ (void)destroyAudioSourceMixer:(QNAudioSourceMixer*)mixer;
 
 @end
 

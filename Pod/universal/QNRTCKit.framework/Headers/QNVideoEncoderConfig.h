@@ -121,6 +121,28 @@ NS_ASSUME_NONNULL_BEGIN
                      preference:(QNDegradationPreference)preference;
 
 /*!
+ * @abstract 初始化指定 bitrate (单位 kbps) 、videoEncodeSize、videoFrameRate、 preference、formatPreset 参数的配置。
+ *
+ * @param bitrate 编码码率，单位 kbps
+ *
+ * @param videoEncodeSize 编码分辨率
+ *
+ * @param videoFrameRate 编码帧率
+ *
+ * @param preference 视频质量降级模式
+ *
+ * @param formatPreset 视频编码预设
+ *
+ * @since v5.2.3
+ */
+- (instancetype)initWithBitrate:(NSUInteger)bitrate
+                videoEncodeSize:(CGSize)videoEncodeSize
+                 videoFrameRate:(NSUInteger)videoFrameRate
+                     preference:(QNDegradationPreference)preference
+                   formatPreset:(QNVideoFormatPreset)formatPreset;
+
+
+/*!
  * @abstract 初始化指定 preference、formatPreset 参数的编码配置。
  *
  * @param preference 视频质量降级模式

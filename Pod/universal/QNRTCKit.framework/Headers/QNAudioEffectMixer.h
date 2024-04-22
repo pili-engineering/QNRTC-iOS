@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "QNTypeDefines.h"
+#import "QNAudioFilterProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -121,7 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)audioEffect:(QNAudioEffect *)audioEffect didFinished:(int)effectID;
 @end
 
-@interface QNAudioEffectMixer : NSObject
+@interface QNAudioEffectMixer : NSObject <QNAudioFilterProtocol>
 
 /*!
  * @abstract 创建音效类

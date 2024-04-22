@@ -11,6 +11,7 @@
 #import "QNTrack.h"
 #import "QNMessageInfo.h"
 #import "QNTypeDefines.h"
+#import "QNAudioVolumeInfo.h"
 
 @class QNRTCClient;
 @class QNRemoteTrack;
@@ -170,6 +171,15 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v5.0.0
  */
 - (void)RTCClient:(QNRTCClient *)client didNetworkQualityNotified:(QNNetworkQuality *)quality;
+
+/*!
+ * @abstract 用户音量提示回调，本地远端一起回调，本地 user id 为空。
+ *
+ * @param userVolumeList 用户音量信息，按音量由高到低排序
+ *
+ * @since v5.2.6
+ */
+- (void)RTCClient:(QNRTCClient *)client didUserVolumeIndication:(NSArray<QNAudioVolumeInfo *>*)userVolumeList;
 
 @end
 
@@ -421,6 +431,15 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v4.0.0
  */
 - (NSDictionary *)getLocalAudioTrackStats;
+
+/**
+ * 开启语音音量监测
+ *
+ * @param interval 指定音量提示的时间间隔，≤ 0: 禁用音量提示功能，> 0: 音量提示的间隔，单位为毫秒，最小取值为 100。
+ *
+ * @since v5.2.6
+ */
+- (void)enableAudioVolumeIndication:(int)interval;
 
 @end
 

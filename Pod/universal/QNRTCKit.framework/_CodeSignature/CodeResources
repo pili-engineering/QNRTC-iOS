@@ -6,11 +6,19 @@
 	<dict>
 		<key>Headers/QNAudioEffectMixer.h</key>
 		<data>
-		9+fGmzdD3huCnYjSjUo33pGBPis=
+		PzV36GhbvoRxhhakxAvx3CR0JEc=
+		</data>
+		<key>Headers/QNAudioFilterProtocol.h</key>
+		<data>
+		PnYXq+ih5QJ8fiZiZa1J3yhHQyM=
+		</data>
+		<key>Headers/QNAudioFrame.h</key>
+		<data>
+		gj+DdbvxcRs9LWhCM/YZA7w23eY=
 		</data>
 		<key>Headers/QNAudioMusicMixer.h</key>
 		<data>
-		0G6JfZNM/zwx8zd0MjkWOH/XETs=
+		OcWKXqni2ybr8Kj8ZNRC6D5FwMU=
 		</data>
 		<key>Headers/QNAudioQuality.h</key>
 		<data>
@@ -18,7 +26,23 @@
 		</data>
 		<key>Headers/QNAudioSourceMixer.h</key>
 		<data>
-		BQTKcSsYjnRcRv/yq5xxYeIHa48=
+		sxe6qnHdbl0bGnL9wKPLq4aI2Eg=
+		</data>
+		<key>Headers/QNAudioVolumeInfo.h</key>
+		<data>
+		yQ87QU08qGWHBn6MQ7Xr3VLb8DQ=
+		</data>
+		<key>Headers/QNCDNStreamingClient.h</key>
+		<data>
+		eh29Td76IzmRxsJSzVyJ8Gm8uBs=
+		</data>
+		<key>Headers/QNCDNStreamingConfig.h</key>
+		<data>
+		69gT5AkLMsx/5teci4iWD4b7ZB8=
+		</data>
+		<key>Headers/QNCDNStreamingStats.h</key>
+		<data>
+		bcapZlH17vwo0RzvcYIbfe9HJE8=
 		</data>
 		<key>Headers/QNCameraVideoTrackConfig.h</key>
 		<data>
@@ -70,11 +94,11 @@
 		</data>
 		<key>Headers/QNRTC.h</key>
 		<data>
-		O4Hq8qOPVAnWXBnDWUI5pP8s2cI=
+		daXGlchD3I9K/t8tb5sheKdQb6s=
 		</data>
 		<key>Headers/QNRTCClient.h</key>
 		<data>
-		fZOO8eFUX0IQet+c7L4LSB75w34=
+		tBhrs0PNg7CTr3gFeQZ+eM23LXo=
 		</data>
 		<key>Headers/QNRTCConfiguration.h</key>
 		<data>
@@ -82,7 +106,7 @@
 		</data>
 		<key>Headers/QNRTCKit.h</key>
 		<data>
-		3z/4eHw5pTZde0Pe2v+2WKsnXIs=
+		9p6yJJdR/I0hR9Svfq3IXg7+NCI=
 		</data>
 		<key>Headers/QNRTCLogConfiguration.h</key>
 		<data>
@@ -114,7 +138,7 @@
 		</data>
 		<key>Headers/QNTrack.h</key>
 		<data>
-		possZlt+uR7+eylX11XPP4g+BSg=
+		83ODbziho0RU0yOVTTBQBzFGdv0=
 		</data>
 		<key>Headers/QNTranscodingLiveStreamingConfig.h</key>
 		<data>
@@ -130,7 +154,7 @@
 		</data>
 		<key>Headers/QNTypeDefines.h</key>
 		<data>
-		nwHwlHk+2gpnY2wj/LBGX8s5pQU=
+		4sapI95jrYbKBmgHp83svLTqHpE=
 		</data>
 		<key>Headers/QNUtil.h</key>
 		<data>
@@ -138,7 +162,7 @@
 		</data>
 		<key>Headers/QNVideoEncoderConfig.h</key>
 		<data>
-		tIYRswotgEPXmdBX6aTMMr0yIUk=
+		jLch0fiLD0qloHvRymqiHGNNIS4=
 		</data>
 		<key>Headers/QNVideoGLView.h</key>
 		<data>
@@ -146,43 +170,45 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		42uexbSZ9IR1QEaleVFCPOmFnq8=
+		EgDiCIM1aW0/Bw1iFwhYHl7zhj0=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
-		V62wBJhk826ZdAg9jEeR4cmaBaY=
+		4+rT97wuksacNvWOLVCxzcKtyqA=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
 		<key>Headers/QNAudioEffectMixer.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			9+fGmzdD3huCnYjSjUo33pGBPis=
-			</data>
 			<key>hash2</key>
 			<data>
-			o1PWm7IgWu+V3oe9V2tStheIyqfbpzZeDWQnRx6VPxA=
+			Q2Q+XZvAM00cniOsCOgbwkdb8MsO9YqhO94w+rnhUn8=
+			</data>
+		</dict>
+		<key>Headers/QNAudioFilterProtocol.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			aPQgK7a8mV1Zxvw027AsdBxMe0X+U9h4Sri69u1VnoE=
+			</data>
+		</dict>
+		<key>Headers/QNAudioFrame.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			W0i3+Rq3sZD6RsDX6o9XIM806fZQhL5/GbH19qdiPtY=
 			</data>
 		</dict>
 		<key>Headers/QNAudioMusicMixer.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			0G6JfZNM/zwx8zd0MjkWOH/XETs=
-			</data>
 			<key>hash2</key>
 			<data>
-			nvKiSnk7dSUaWiO1S9hgh0hryqgpaaND0LrPruYjQL0=
+			fWmItX/Dwl9twPcQQwmmqpulpD8teJ0Pl/STILgVE48=
 			</data>
 		</dict>
 		<key>Headers/QNAudioQuality.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			3aMzi4yAwn2nKECKrAD84b2gjRw=
-			</data>
 			<key>hash2</key>
 			<data>
 			L1tAhLnwND5nZMAJ47gxlfqP01FShD3IqhCUzB+MmaE=
@@ -190,21 +216,41 @@
 		</dict>
 		<key>Headers/QNAudioSourceMixer.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			BQTKcSsYjnRcRv/yq5xxYeIHa48=
-			</data>
 			<key>hash2</key>
 			<data>
-			HlsIZME7TLUjo7EBrpWljTNQFcSLquwo8mp3QMYTNTw=
+			aXM9aY5JoiGRw+ru36+YjWvYfqcwOoiw6inFqlwG4TE=
+			</data>
+		</dict>
+		<key>Headers/QNAudioVolumeInfo.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Kk+9leUeSJW0+saEIDAWdwEf3Qzb8wSMqO/4nMScuJQ=
+			</data>
+		</dict>
+		<key>Headers/QNCDNStreamingClient.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			FPKZbtZbnnkwvCPgy9nrOD7OGUY9+pOqu7Llkkx3Cpo=
+			</data>
+		</dict>
+		<key>Headers/QNCDNStreamingConfig.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			jIEscoY9ymebjMnt3I+aYwzLsqQz3GuX+ys/4aauJh4=
+			</data>
+		</dict>
+		<key>Headers/QNCDNStreamingStats.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			QaihdA/SNf5QQYzzfjrIDovMF346IszLLa5Ld/W/U28=
 			</data>
 		</dict>
 		<key>Headers/QNCameraVideoTrackConfig.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			/wpun+c1zFK1XYTZdH4EdV8fKrk=
-			</data>
 			<key>hash2</key>
 			<data>
 			N/rVmvis+CZPO5sI2iVD1zcOfet4EfQ0EJ47rpsi88M=
@@ -212,10 +258,6 @@
 		</dict>
 		<key>Headers/QNClientConfig.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			4ZbDtj1n7VClggurqgP75Tk+LW4=
-			</data>
 			<key>hash2</key>
 			<data>
 			iosAgpO+Lmo29KVaOb7u7n7PM/gLJ2IHXFAJyISLDwg=
@@ -223,10 +265,6 @@
 		</dict>
 		<key>Headers/QNConnectionDisconnectedInfo.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			VnxqUcDwAosjTNy8PXBJB7hU+Tw=
-			</data>
 			<key>hash2</key>
 			<data>
 			9uTKjkw7O11UnCIgLU4VYIu6HR0okJQYnbMdwZOr384=
@@ -234,10 +272,6 @@
 		</dict>
 		<key>Headers/QNCustomAudioTrackConfig.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			+qrjx71nMcR1BBQnW4OjaYBYzVw=
-			</data>
 			<key>hash2</key>
 			<data>
 			c3mWqfKNQ7cK8vwlwqQNZnhCI0pehhmRtjisrV0i0NE=
@@ -245,10 +279,6 @@
 		</dict>
 		<key>Headers/QNCustomVideoTrackConfig.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			47v8v2aKgUd+zzb5zNHAQdkbO/o=
-			</data>
 			<key>hash2</key>
 			<data>
 			CcNtBTq14gWgB/rkq+ssk48UQtTSVYr+xe/vnhu9GY4=
@@ -256,10 +286,6 @@
 		</dict>
 		<key>Headers/QNDirectLiveStreamingConfig.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			zcxI9/kB/dx6yfy3kWQMAXzXINM=
-			</data>
 			<key>hash2</key>
 			<data>
 			mqCzZ6AKFUE/Z4Xd/cpBLnDszrNuFr1J4u0t7EGBGD0=
@@ -267,10 +293,6 @@
 		</dict>
 		<key>Headers/QNLiveStreamingErrorInfo.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			EDbqrBOvs6TXYp7762ATzxcONF0=
-			</data>
 			<key>hash2</key>
 			<data>
 			y6JIFt8DCEUpaSQss2JvFu8mjrf/p8sKxeVUfwH7wC4=
@@ -278,10 +300,6 @@
 		</dict>
 		<key>Headers/QNLocalAudioTrackStats.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			3OwYzGQylLQbGPV8oEd0q95LKvc=
-			</data>
 			<key>hash2</key>
 			<data>
 			ivqPXRzrnKleDBqmcoczC65Mz4v8NwdelOiyMT/7dEY=
@@ -289,10 +307,6 @@
 		</dict>
 		<key>Headers/QNLocalVideoTrackStats.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			UryrRLGmJcxTQ9yckAsNRUPWWlU=
-			</data>
 			<key>hash2</key>
 			<data>
 			vlkEFwjgBUdPyX1USEcE/C0mCe4mgP7tgOSWAzCJAQA=
@@ -300,10 +314,6 @@
 		</dict>
 		<key>Headers/QNMessageInfo.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			1hGmLil/90HbDKupiUQ6wIJbUSk=
-			</data>
 			<key>hash2</key>
 			<data>
 			CjNhThoZHORwnKqaktUAaI7VWn2V1uZQbTs/mwtpNeU=
@@ -311,10 +321,6 @@
 		</dict>
 		<key>Headers/QNMicrophoneAudioTrackConfig.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			j8xmqzKD7VPit9iZPw8RUx6HEdk=
-			</data>
 			<key>hash2</key>
 			<data>
 			10fNCBGDgYBroQXWC8d9bMKFAscDl70V47jgLlTmzao=
@@ -322,10 +328,6 @@
 		</dict>
 		<key>Headers/QNNetworkQuality.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			FhcduSdAQsGJGeX/E7nRh20Msoc=
-			</data>
 			<key>hash2</key>
 			<data>
 			CH2mQAsGCdoELAm8CfAjiZidZw2T1CATuJRssUfF7P0=
@@ -333,32 +335,20 @@
 		</dict>
 		<key>Headers/QNRTC.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			O4Hq8qOPVAnWXBnDWUI5pP8s2cI=
-			</data>
 			<key>hash2</key>
 			<data>
-			L1ks2+i+2qQkK8xb12MoYUtEP8KNAcWisikpflYSdc4=
+			uusPdEYVfVan0IYUTmb7+QkS+rN6NQolcnHdaWYSBD0=
 			</data>
 		</dict>
 		<key>Headers/QNRTCClient.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			fZOO8eFUX0IQet+c7L4LSB75w34=
-			</data>
 			<key>hash2</key>
 			<data>
-			3s8Vk+5sYcGNCIAOtz2mDVdb547g/emN2dut1U1o8d8=
+			MZxrjHfkmWpiblQAG2mmKI/JsCiO6PFvvBuA1re01WA=
 			</data>
 		</dict>
 		<key>Headers/QNRTCConfiguration.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			60A6hZ3ygIwVi+W+vHT7hBzGU0I=
-			</data>
 			<key>hash2</key>
 			<data>
 			nun4TNfJHk675cAudnjvqYWDdgiXj7IeWvOZv6iCr/E=
@@ -366,21 +356,13 @@
 		</dict>
 		<key>Headers/QNRTCKit.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			3z/4eHw5pTZde0Pe2v+2WKsnXIs=
-			</data>
 			<key>hash2</key>
 			<data>
-			CQw3RnqNcqgSZO5h7QHbnUw63qE8KRl9aJFnTeARcY8=
+			wBleqdbZMMxGgnGYwbtUN/P2UK9lxXWNRJoiqMDY3zw=
 			</data>
 		</dict>
 		<key>Headers/QNRTCLogConfiguration.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			USbIsa3vyfX230DY2lxvLRmXhg0=
-			</data>
 			<key>hash2</key>
 			<data>
 			zTml69SSDEhdjakEaXVJUBfcBiIunRxS2k1A709Rwg4=
@@ -388,10 +370,6 @@
 		</dict>
 		<key>Headers/QNRemoteAudioTrackStats.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			8DgCBnDhy2htsBqO7c5RWw7CV2A=
-			</data>
 			<key>hash2</key>
 			<data>
 			ANNthCptrnSQLuGsK3dWANRYtsaW1qP0B3zRQpIELfw=
@@ -399,10 +377,6 @@
 		</dict>
 		<key>Headers/QNRemoteUser.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			LnHQjZnNnDlOGgp+KRv0V7Y59rs=
-			</data>
 			<key>hash2</key>
 			<data>
 			DDtYxM2kwt43JAEtAOuC+xuhBenI8489DMwHPmVEZWw=
@@ -410,10 +384,6 @@
 		</dict>
 		<key>Headers/QNRemoteVideoTrackStats.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			rX7GUUKM98Ev15/FCE49U5wnFm0=
-			</data>
 			<key>hash2</key>
 			<data>
 			3iR2Ezwxkh0KmlmxqryeRAoqXa1X7LymOfEOIBBimiU=
@@ -421,10 +391,6 @@
 		</dict>
 		<key>Headers/QNRoomMediaRelayConfiguration.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			xA0ey7u7odpljQWEfKU2U62g1Aw=
-			</data>
 			<key>hash2</key>
 			<data>
 			gVtcCXZkvQ/FI35dFe2WCW4Y6kCFd9xwePGPg0ho8Ss=
@@ -432,10 +398,6 @@
 		</dict>
 		<key>Headers/QNRoomMediaRelayInfo.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			lJGcabIaeLxDRW4LPOLzbKezLPs=
-			</data>
 			<key>hash2</key>
 			<data>
 			8eoz3mehDWGnkNrGaVWVgC7mGcvc0MLc6PsAv8OoBnE=
@@ -443,10 +405,6 @@
 		</dict>
 		<key>Headers/QNScreenVideoTrackConfig.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			/Fn/j+eISkpVv6fXWwR5xaLRNNI=
-			</data>
 			<key>hash2</key>
 			<data>
 			VNPjk+Gm5TmshQ5Z2iFyQi7bhsq7n9Gacpdluj0v/ms=
@@ -454,21 +412,13 @@
 		</dict>
 		<key>Headers/QNTrack.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			possZlt+uR7+eylX11XPP4g+BSg=
-			</data>
 			<key>hash2</key>
 			<data>
-			Ip0o37cgXa9FRmBxxyO9VfDIxwylA0hCZk40UeZ7or8=
+			J+WaHCoRV0yuDXyM3MkJeSTm1vDjowoR146w+v3l7j4=
 			</data>
 		</dict>
 		<key>Headers/QNTranscodingLiveStreamingConfig.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			kaSQE/Vl3MnmN60XWb2l5VqrMv8=
-			</data>
 			<key>hash2</key>
 			<data>
 			SEdLVZM9Q36yd4Ice7WWrKvkPXYFrjuDcRnhZ9oRMXQ=
@@ -476,10 +426,6 @@
 		</dict>
 		<key>Headers/QNTranscodingLiveStreamingImage.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			WWpj5BxCF+Elg9DCzmXTX+JKcVw=
-			</data>
 			<key>hash2</key>
 			<data>
 			XTwpJWYnL+g9YkfadgktHp5amcoqM8VUTtH8H+ZfTIY=
@@ -487,10 +433,6 @@
 		</dict>
 		<key>Headers/QNTranscodingLiveStreamingTrack.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			8FDh/WtzwRfzgskwZeRzK5nSRgY=
-			</data>
 			<key>hash2</key>
 			<data>
 			t9SyqSAGPahCjW427YirEJA0gfXlrNB0LqknUTkosV4=
@@ -498,21 +440,13 @@
 		</dict>
 		<key>Headers/QNTypeDefines.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			nwHwlHk+2gpnY2wj/LBGX8s5pQU=
-			</data>
 			<key>hash2</key>
 			<data>
-			oczzN6Rtr77/XfebpChMp+4Mmb981tNLzegkH4MsdGw=
+			qUuXwQXkmwdahzA+K8oIVr/IoyIl9RhpGKLaXFBzv+g=
 			</data>
 		</dict>
 		<key>Headers/QNUtil.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			20sEog8qbHsmD6+umqORIpLazKE=
-			</data>
 			<key>hash2</key>
 			<data>
 			zIC7QRbc9CNkQKSpOT3tyLGObOdW17F4dy9knAuzu0A=
@@ -520,21 +454,13 @@
 		</dict>
 		<key>Headers/QNVideoEncoderConfig.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			tIYRswotgEPXmdBX6aTMMr0yIUk=
-			</data>
 			<key>hash2</key>
 			<data>
-			lignLJpq7eNcAiuxTpn2m/laqdevT3GYMKGPv9Hd/58=
+			2/L0mJkMc9qVQNmGsijxoZ2Spb63xdgcqELrVp98rYY=
 			</data>
 		</dict>
 		<key>Headers/QNVideoGLView.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			qe50d0+66365NphlSs/IOUgH7MA=
-			</data>
 			<key>hash2</key>
 			<data>
 			sqdLS6Hin7ifjD3AkPYgjevnVlo274A091dFTdO4P1M=
@@ -542,13 +468,9 @@
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			V62wBJhk826ZdAg9jEeR4cmaBaY=
-			</data>
 			<key>hash2</key>
 			<data>
-			/A+zB24lc7qlH1vJi67+CkjESZL9rqmpl37uC6CipxI=
+			umVaKnEqxfwX3rdebNhkhAkf4dpERz7wIIzHcd6CAKM=
 			</data>
 		</dict>
 	</dict>

@@ -50,6 +50,10 @@ FOUNDATION_EXPORT const unsigned char QNRTCKitVersionString[];
 #import <QNRTCKit/QNAudioSourceMixer.h>
 #import <QNRTCKit/QNAudioVolumeInfo.h>
 #import <QNRTCKit/QNCDNStreamingClient.h>
+#import <QNRTCKit/QNMediaRecorder.h>
+#import <QNRTCKit/QNMediaRecordInfo.h>
+#import <QNRTCKit/QNMediaRecorderConfig.h>
+
 
 
 

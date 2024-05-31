@@ -23,6 +23,9 @@
 #import "ConnectQualityExample.h"
 #import "ScanViewController.h"
 #import "CDNStreamingLiveExample.h"
+#import "AudioSourceMixExample.h"
+#import "MediaRelayExample.h"
+#import "MediaRecordExample.h"
 
 static NSString *TABLE_VIEW_CELL_IDENTIFIER = @"TABLE_VIEW_CELL_IDENTIFIER";
 
@@ -181,6 +184,10 @@ static NSString *TABLE_VIEW_CELL_IDENTIFIER = @"TABLE_VIEW_CELL_IDENTIFIER";
             @{
                 @"desc": @"跨房媒体转发",
                 @"class": @"MediaRelayExample"
+            },
+            @{
+                @"desc": @"音视频本地录制",
+                @"class": @"MediaRecordExample"
             }
         ]
     ];

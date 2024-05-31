@@ -22,6 +22,8 @@ extern NSString *QNMediaRelayErrorDomain;
 
 extern NSString *QNAudioMixErrorDomain;
 
+extern NSString *QNMediaRecorderErrorDomain;
+
 #pragma mark - RTC Log Level
 
 /*!
@@ -974,6 +976,75 @@ typedef NS_ENUM(NSUInteger, QNVideoFormatPreset) {
      * @since v5.2.4
      */
     QNVideoFormatPresetNone = 0XFF,
+};
+
+/*!
+ * @abstract 音视频录制状态
+ */
+typedef NS_ENUM(NSUInteger, QNMediaRecorderState) {
+    /*!
+     * @abstract 停止录制
+     */
+    QNMediaRecorderStateStopped = 0,
+    
+    /*!
+     * @abstract 录制中
+     */
+    QNMediaRecorderStateRecording,
+    
+    
+    /*!
+     * @abstract 发生错误
+     */
+    QNMediaRecorderStateError,
+};
+
+#pragma mark - Media Recorder Error Code
+typedef NS_ENUM(NSInteger, QNMediaRecorderReasonCode) {
+    /*!
+     * @abstract No error 一切正常
+     */
+    QNMediaRecorderReasonCodeNoError = 0,
+    
+    /*!
+     * @abstract Format failed 封装格式操作失败
+     */
+    QNMediaRecorderReasonCodeFormatFailed  = 40001,
+    
+    /*!
+     * @abstract Stream failed 流信息操作失败
+     */
+    QNMediaRecorderReasonCodeStreamFailed  = 40002,
+    
+    /*!
+     * @abstract Write failed 录制过程中写入失败
+     */
+    QNMediaRecorderReasonCodeWriteFailed  = 40003,
+    
+    /*!
+     * @abstract Resample failed 录制过程中重采样操作失败
+     */
+    QNMediaRecorderReasonCodeResampleFailed  = 40004,
+    
+    /*!
+     * @abstract No track 没有可录制的流（采集中断或远端取消发布中断超过 5s）
+     */
+    QNMediaRecorderReasonCodeNoTrack  = 40005,
+    
+    /*!
+     * @abstract Config changed 录制源配置被改变
+     */
+    QNMediaRecorderReasonCodeConfigChanged  = 40006,
+    
+    /*!
+     * @abstract Out of memory 存储空间不足
+     */
+    QNMediaRecorderReasonCodeOutOfMemory  = 40007,
+    
+    /*!
+     * @abstract Scale failed 录制过程中缩放操作失败
+     */
+    QNMediaRecorderReasonCodeScaleFailed  = 40008,
 };
 
 #pragma mark - callback define

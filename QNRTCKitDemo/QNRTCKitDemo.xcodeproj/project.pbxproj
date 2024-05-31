@@ -606,13 +606,13 @@
 					"\"${PODS_ROOT}/Headers/Public/Fabric\"",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/QNRTCKitDemo/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../QNRTCKit/**",
 					"$(inherited)",
 				);
-				MARKETING_VERSION = 6.1.0;
+				MARKETING_VERSION = 6.2.0;
 				OTHER_LDFLAGS = (
 					"$(OTHER_LDFLAGS)",
 					"-ObjC",
@@ -646,13 +646,13 @@
 					"\"${PODS_ROOT}/Headers/Public/Fabric\"",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/QNRTCKitDemo/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../QNRTCKit/**",
 					"$(inherited)",
 				);
-				MARKETING_VERSION = 6.1.0;
+				MARKETING_VERSION = 6.2.0;
 				OTHER_LDFLAGS = (
 					"$(OTHER_LDFLAGS)",
 					"-ObjC",

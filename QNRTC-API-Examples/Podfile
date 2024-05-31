@@ -6,6 +6,7 @@ target 'Api-Examples-iOS' do
   use_frameworks!
 
 pod 'Masonry', '1.1.0'
+pod 'QNRTCKit-iOS', :path =>'../QNRTCKit-iOS.podspec'
 
   # Pods for Api-Examples-iOS
 

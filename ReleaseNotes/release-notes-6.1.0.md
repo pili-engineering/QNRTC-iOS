@@ -1,4 +1,4 @@
-# QNRTCKit Release Notes for 6.0.0
+# QNRTCKit Release Notes for 6.1.0
 
 ## 内容
 

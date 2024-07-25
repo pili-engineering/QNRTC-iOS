@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @warning 自定义传入的路径，请确保路径完整精确到文件名和类型，存在有效且可读可写
  *          传空则默认存储在 App Container/Library/Caches/Pili/RecordFile
  *
- * @discussion 支持 aac、wav、h264、mp4
+ * @discussion 支持 aac、wav、mp4
  *
  * @since v6.2.0
  */

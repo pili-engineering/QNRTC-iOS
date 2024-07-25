@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  * @abstract 录制文件的存储路径
  *
- * @discussion 支持 wav、aac、h264、mp4 格式
+ * @discussion 支持 wav、aac、mp4 格式
  *
  * @since v6.2.0
  */

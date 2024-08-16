@@ -999,6 +999,27 @@ typedef NS_ENUM(NSUInteger, QNMediaRecorderState) {
     QNMediaRecorderStateError,
 };
 
+/*!
+ * @abstract 播放器状态
+ */
+typedef NS_ENUM(NSUInteger, QNPlayerState) {
+    QNPlayerStateIdle = 0,  // kStoped，初始化，停止播放，播放失败等状态
+    QNPlayerStatePrepare,   // 启播过程中状态
+    QNPlayerStatePlaying,   // 播放状态
+    QNPlayerStatePause      // 暂停状态
+};
+
+/*!
+ * @abstract 播放器事件
+ */
+typedef NS_ENUM(NSUInteger, QNPlayerEvent) {
+    QNPlayerEventNone = 0,
+    QNPlayerEventFirstRender, // 首帧视频渲染
+    QNPlayerEventOpenFileFailed, // 打开文件或者直播流失败
+    QNPlayerEventDecoderFailed // 初始化解码失败或者解码过程中失败
+};
+
+
 #pragma mark - Media Recorder Error Code
 typedef NS_ENUM(NSInteger, QNMediaRecorderReasonCode) {
     /*!
@@ -1045,6 +1066,26 @@ typedef NS_ENUM(NSInteger, QNMediaRecorderReasonCode) {
      * @abstract Scale failed 录制过程中缩放操作失败
      */
     QNMediaRecorderReasonCodeScaleFailed  = 40008,
+};
+
+#pragma mark - Media Player Error Code
+typedef NS_ENUM(NSInteger, QNMediaPlayerReasonCode) {
+    /*!
+     * @abstract 打开文件失败
+     */
+    QNMediaPlayerOpenFileFailed = 50001,
+    /*!
+     * @abstract 解码失败
+     */
+    QNMediaPlayerDecoderFailed = 50002,
+    /*!
+     * @abstract seek 失败
+     */
+    QNMediaPlayerSeekFailed = 50003,
+    /*!
+     * @abstract 无效的播放状态
+     */
+    QNMediaPlayerInvalidState = 50004
 };
 
 #pragma mark - callback define

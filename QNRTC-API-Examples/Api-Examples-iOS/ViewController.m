@@ -26,6 +26,7 @@
 #import "AudioSourceMixExample.h"
 #import "MediaRelayExample.h"
 #import "MediaRecordExample.h"
+#import "MediaPlayerExample.h"
 
 static NSString *TABLE_VIEW_CELL_IDENTIFIER = @"TABLE_VIEW_CELL_IDENTIFIER";
 
@@ -188,6 +189,10 @@ static NSString *TABLE_VIEW_CELL_IDENTIFIER = @"TABLE_VIEW_CELL_IDENTIFIER";
             @{
                 @"desc": @"音视频本地录制",
                 @"class": @"MediaRecordExample"
+            },
+            @{
+                @"desc": @"内置媒体播放器",
+                @"class": @"MediaPlayerExample"
             }
         ]
     ];

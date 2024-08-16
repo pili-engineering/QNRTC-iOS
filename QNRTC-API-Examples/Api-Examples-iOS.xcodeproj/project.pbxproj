@@ -86,6 +86,7 @@
 		CCDA8382274DFA5700138F05 /* MultiProfileExample.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDA8381274DFA5600138F05 /* MultiProfileExample.m */; };
 		CCDA8388274DFA6A00138F05 /* AudioMusicMixExample.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDA8387274DFA6A00138F05 /* AudioMusicMixExample.m */; };
 		CCDA8391274DFA9400138F05 /* DirectLiveExample.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDA8390274DFA9400138F05 /* DirectLiveExample.m */; };
+		EACFCFC22C6F4CD70090AF03 /* MediaPlayerExample.m in Sources */ = {isa = PBXBuildFile; fileRef = EACFCFC12C6F4CD70090AF03 /* MediaPlayerExample.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -232,6 +233,8 @@
 		CCDA838F274DFA9400138F05 /* DirectLiveExample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DirectLiveExample.h; sourceTree = "<group>"; };
 		CCDA8390274DFA9400138F05 /* DirectLiveExample.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DirectLiveExample.m; sourceTree = "<group>"; };
 		CCDA8395274DFABA00138F05 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		EACFCFC02C6F4CD70090AF03 /* MediaPlayerExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaPlayerExample.h; sourceTree = "<group>"; };
+		EACFCFC12C6F4CD70090AF03 /* MediaPlayerExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaPlayerExample.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -539,6 +542,7 @@
 		CCDA8361274DF99C00138F05 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				EACFCFBF2C6F4CD70090AF03 /* MediaPlayer */,
 				AAD3B1602BFD904D001D4DAC /* MediaRecord */,
 				AA492A4C2907DB9800DAC9C5 /* MediaRelay */,
 				CCDA8362274DF99C00138F05 /* MultiProfile */,
@@ -628,6 +632,15 @@
 				CC1649362760A22900AABF24 /* DirectLiveControlView.xib */,
 			);
 			path = DirectLive;
+			sourceTree = "<group>";
+		};
+		EACFCFBF2C6F4CD70090AF03 /* MediaPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				EACFCFC02C6F4CD70090AF03 /* MediaPlayerExample.h */,
+				EACFCFC12C6F4CD70090AF03 /* MediaPlayerExample.m */,
+			);
+			path = MediaPlayer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -781,6 +794,7 @@
 				CCDA8373274DF9C300138F05 /* ScreenRecordExample.m in Sources */,
 				CCDA8379274DF9EB00138F05 /* CustomAudioExample.m in Sources */,
 				AAFE3589285721F900596582 /* AudioEffectTableViewCell.m in Sources */,
+				EACFCFC22C6F4CD70090AF03 /* MediaPlayerExample.m in Sources */,
 				C9CCFC162B4F8C71004D5849 /* CDNStreamingLiveExample.m in Sources */,
 				AA492A522907DBE400DAC9C5 /* MediaRelayExample.m in Sources */,
 				CC82B066275875D400E006EB /* ScreenRecordAnimationView.m in Sources */,

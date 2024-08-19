@@ -8,17 +8,17 @@
 
 Pod::Spec.new do |s|
     s.name      = 'QNRTCKit-iOS'
-    s.version   = '6.3.0'
+    s.version   = '6.4.0'
     s.summary   = 'Qiniu RTC SDK for iOS.'
     s.homepage  = 'https://github.com/pili-engineering/QNRTC-iOS'
     s.license   = 'Apache License, Version 2.0'
     s.author    = { "pili" => "pili-coresdk@qiniu.com" }
-    s.source    = { :http => "https://sdk-release.qnsdk.com/QNRTCKit-iphoneos-v6.3.0.zip"}
+    s.source    = { :http => "https://sdk-release.qnsdk.com/QNRTCKit-iphoneos-v6.4.0.zip"}
     s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
     s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
 
     s.platform                = :ios
-    s.ios.deployment_target   = '9.0'
+    s.ios.deployment_target   = '12.0'
     s.requires_arc            = true
 
     s.frameworks = ['UIKit', 'AVFoundation', 'CoreGraphics', 'CFNetwork', 'AudioToolbox', 'CoreMedia', 'VideoToolbox']

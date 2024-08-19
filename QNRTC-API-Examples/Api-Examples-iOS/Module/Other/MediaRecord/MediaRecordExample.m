@@ -154,9 +154,6 @@
                     mediaConfig = [[QNMediaRecorderConfig alloc] initWithFilePath:[filePath stringByAppendingString:@".aac"] localAudioTrack:self.microphoneAudioTrack localVideoTrack:NULL];
                     break;
                 case 2:
-                    mediaConfig = [[QNMediaRecorderConfig alloc] initWithFilePath:[filePath stringByAppendingString:@".h264"] localAudioTrack:NULL localVideoTrack:self.cameraVideoTrack];
-                    break;
-                case 3:
                     mediaConfig = [[QNMediaRecorderConfig alloc] initWithFilePath:[filePath stringByAppendingString:@".mp4"] localAudioTrack:self.microphoneAudioTrack localVideoTrack:self.cameraVideoTrack];
                     break;
                 default:

@@ -13,6 +13,7 @@
 #import "QNRTCLogConfiguration.h"
 #import "QNCDNStreamingClient.h"
 #import "QNMediaRecorder.h"
+#import "QNMediaPlayer.h"
 
 @class QNRTC;
 @class QNRTCConfiguration;
@@ -171,6 +172,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @since v6.2.0
  */
 + (QNMediaRecorder *)createMediaRecorder;
+
+/*!
+ * @abstract 创建媒体播放器
+ *
+ * @since v6.4.0
+ */
++ (QNMediaPlayer *)createMediaPlayer;
 
 /*!
  * @abstract 创建背景音乐混音对象实例

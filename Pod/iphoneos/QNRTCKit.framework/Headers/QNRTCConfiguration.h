@@ -67,15 +67,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign, readonly) QNVideoEncoderType encoderType;
 
-/*!
- * @abstract 预设登录服务器域名
- *
- * @warning 当设置 mcuDomain 自定义域名，默认优先访问自定义域名，自定义域名访问异常时，内部会自动会切到默认域名进行访问
- *
- * @since v5.2.5
- */
-@property (nonatomic, strong) NSArray* mcuDomains;
-
 
 /*!
  * @abstract 用默认参数生成一个对象
